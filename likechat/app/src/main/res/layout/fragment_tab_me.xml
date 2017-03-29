@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        style="@style/title_style">
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="@string/title_me"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/user_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="30dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                android:src="@mipmap/ic_user"/>
+
+            <TextView
+                android:id="@+id/txt_me_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:clickable="true"
+                android:text="@string/txt_me_login"
+                android:textColor="@color/text_white_selector"
+                android:textSize="@dimen/txt_size_16_dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_me_account_balance"
+            style="@style/me_item_style"
+            android:drawableLeft="@mipmap/ic_me_account_balance"
+            android:text="@string/txt_me_account_balance"/>
+
+        <TextView
+            android:id="@+id/txt_me_friend"
+            style="@style/me_item_style"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@mipmap/ic_me_friend"
+            android:text="@string/txt_me_friend"/>
+
+        <TextView
+            android:id="@+id/txt_me_zone"
+            style="@style/me_item_style"
+            android:layout_marginTop="1px"
+            android:drawableLeft="@mipmap/ic_me_zone"
+            android:text="@string/txt_me_zone"/>
+
+        <TextView
+            android:id="@+id/txt_me_vip"
+            style="@style/me_item_style"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@mipmap/ic_me_vip"
+            android:text="@string/txt_me_vip"/>
+
+        <TextView
+            android:id="@+id/txt_me_settings"
+            style="@style/me_item_style"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@mipmap/ic_me_settings"
+            android:text="@string/txt_me_settings"/>
+    </LinearLayout>
+
+</LinearLayout>

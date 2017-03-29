@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/title_style"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rdo_all"
+                style="@style/tab_main_radio_style"
+                android:checked="true"
+                android:text="@string/rdo_main_all"/>
+            <RadioButton
+                android:id="@+id/rdo_charm"
+                style="@style/tab_main_radio_style"
+                android:text="@string/rdo_main_charm"/>
+            <RadioButton
+                android:id="@+id/rdo_sexy"
+                style="@style/tab_main_radio_style"
+                android:text="@string/rdo_main_sexy"/>
+            <RadioButton
+                android:id="@+id/rdo_hot"
+                style="@style/tab_main_radio_style"
+                android:text="@string/rdo_main_hot"/>
+            <RadioButton
+                android:id="@+id/rdo_gentle"
+                style="@style/tab_main_radio_style"
+                android:text="@string/rdo_main_gentle"/>
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/img_customer_service"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height"
+            android:src="@mipmap/ic_customer_service"
+            android:scaleType="center"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+</LinearLayout>

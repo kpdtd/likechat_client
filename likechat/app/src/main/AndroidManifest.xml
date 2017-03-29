@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.likechat.likechat" >
+
+    <!-- 使用网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 使用相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:name=".theApp"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <activity android:name=".activity.SplashActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.AccountBalanceActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.ChatTextActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.ChatVoiceCallInActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.ChatVoiceCallOutActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.EditUserInfoActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.HelpActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.ImageBrowseActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.LoginActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.MainActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.MemberCenterActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.SettingsActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.UpdateActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.UserFriendActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.UserInfoActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.UserZoneActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+    </application>
+
+</manifest>

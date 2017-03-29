@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.likechat.likechat.widget.NoScrollViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </com.likechat.likechat.widget.NoScrollViewPager>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px1"
+        android:background="@color/gray"/>
+
+    <RadioGroup
+        android:id="@+id/lay_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_tab_height"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rdo_main"
+            style="@style/main_radio_style"
+            android:checked="true"
+            android:text="@string/rdo_main"
+            android:drawableTop="@drawable/radio_main_selector"/>
+
+        <RadioButton
+            android:id="@+id/rdo_find"
+            style="@style/main_radio_style"
+            android:text="@string/rdo_find"
+            android:drawableTop="@drawable/radio_find_selector"/>
+
+        <RadioButton
+            android:id="@+id/rdo_message"
+            style="@style/main_radio_style"
+            android:text="@string/rdo_message"
+            android:drawableTop="@drawable/radio_message_selector"/>
+
+        <RadioButton
+            android:id="@+id/rdo_me"
+            style="@style/main_radio_style"
+            android:text="@string/rdo_me"
+            android:drawableTop="@drawable/radio_me_selector"/>
+    </RadioGroup>
+
+</LinearLayout>

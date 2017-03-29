@@ -1,0 +1,15 @@
+<resources>
+
+    <drawable name="transparent">#00000000</drawable>
+    <drawable name="half_transparent">#4C000000</drawable>
+    <drawable name="activity_bg">#e8e8e8</drawable>
+
+    <!-- 列表的点击效果 -->
+    <drawable name="list_item_bg_p">#33F7F7F7</drawable>
+    <drawable name="list_item_bg">#ffffff</drawable>
+    
+    <!-- 20%的白 -->
+    <drawable name="white_20">#33FFFFFF</drawable>
+    <drawable name="white">#FFFFFF</drawable>
+
+</resources>

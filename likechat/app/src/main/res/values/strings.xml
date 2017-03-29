@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">觅聊</string>
+
+    <string name="rdo_main">嗨聊</string>
+    <string name="rdo_find">发现</string>
+    <string name="rdo_message">消息</string>
+    <string name="rdo_me">我的</string>
+    <string name="rdo_main_all">全部</string>
+    <string name="rdo_main_charm">妩媚</string>
+    <string name="rdo_main_sexy">性感</string>
+    <string name="rdo_main_hot">劲爆</string>
+    <string name="rdo_main_gentle">温柔</string>
+    <string name="rdo_find_latest">最新</string>
+    <string name="rdo_find_hot">热门</string>
+    <string name="rdo_find_follow">关注</string>
+    <string name="rdo_msg_news">消息</string>
+    <string name="rdo_msg_record">通话记录</string>
+
+    <string name="title_me">我的信息</string>
+    <string name="title_account_balance">账户余额</string>
+
+    <string name="txt_me_login">点击登录</string>
+    <string name="txt_me_account_balance">账户余额</string>
+    <string name="txt_me_friend">我的好友</string>
+    <string name="txt_me_zone">我的动态</string>
+    <string name="txt_me_vip">VIP会员</string>
+    <string name="txt_me_settings">软件设置</string>
+    <string name="txt_account_balance_unit">币</string>
+    <string name="txt_pay_weixin">微信支付</string>
+    <string name="txt_pay_alipay">支付宝支付</string>
+</resources>
