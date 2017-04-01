@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/shape_gradient_title_bg">
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="@string/title_settings"/>
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@drawable/btn_back_selector"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txt_settings_clear_cache"
+        style="@style/settings_item_style"
+        android:layout_marginBottom="10dp"
+        android:text="@string/txt_settings_clear_cache"/>
+
+    <TextView
+        android:id="@+id/txt_settings_help"
+        style="@style/settings_item_style"
+        android:layout_marginBottom="1px"
+        android:text="@string/txt_settings_help"/>
+
+    <TextView
+        android:id="@+id/txt_settings_update"
+        style="@style/settings_item_style"
+        android:layout_marginBottom="10dp"
+        android:text="@string/txt_settings_update"/>
+
+    <LinearLayout
+        style="@style/edit_user_info_item_layout_style">
+
+        <TextView
+            android:id="@+id/txt_settings_contact_us"
+            style="@style/edit_user_info_item_text_style"
+            android:text="@string/txt_settings_contact_us"/>
+
+        <TextView
+            android:id="@+id/txt_settings_q_group"
+            style="@style/edit_user_info_item_text_style"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical|right"
+            android:text="@string/txt_settings_q_group"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/shape_round_corner_qq_login"
+        android:gravity="center"
+        android:text="@string/txt_settings_switch_account"
+        android:textColor="@color/text_white_selector"
+        android:clickable="true"
+        android:textSize="@dimen/txt_size_16_dp"/>
+</LinearLayout>

@@ -66,16 +66,19 @@
         <CheckBox
             android:id="@+id/chk_10"
             style="@style/account_balance_item_style"
+            android:text="@string/txt_pay_10"
             android:checked="true"/>
 
         <CheckBox
-            android:id="@+id/chk_58"
+            android:id="@+id/chk_50"
             style="@style/account_balance_item_style"
+            android:text="@string/txt_pay_50"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
 
         <CheckBox
             android:id="@+id/chk_98"
+            android:text="@string/txt_pay_98"
             style="@style/account_balance_item_style"/>
     </LinearLayout>
 
@@ -90,16 +93,19 @@
 
         <CheckBox
             android:id="@+id/chk_598"
+            android:text="@string/txt_pay_598"
             style="@style/account_balance_item_style"/>
 
         <CheckBox
             android:id="@+id/chk_1598"
             style="@style/account_balance_item_style"
+            android:text="@string/txt_pay_1598"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
 
         <CheckBox
             android:id="@+id/chk_input"
+            android:text="@string/txt_pay_input"
             style="@style/account_balance_item_style"/>
     </LinearLayout>
 
@@ -115,18 +121,10 @@
             android:background="@color/gray"/>
 
         <RadioButton
+            style="@style/pay_radio_button_style"
             android:id="@+id/rdo_alipay"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:button="@null"
-            android:checked="true"
             android:drawableLeft="@mipmap/ic_alipay"
-            android:drawableRight="@drawable/radio_pay_selector"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/txt_pay_alipay"
-            android:textColor="@color/text_black_selector"
-            android:textSize="@dimen/txt_size_16_dp"/>
+            android:text="@string/txt_pay_alipay"/>
 
         <View
             android:layout_width="match_parent"
@@ -134,22 +132,36 @@
             android:background="@color/gray"/>
 
         <RadioButton
+            style="@style/pay_radio_button_style"
             android:id="@+id/rdo_weixin"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:button="@null"
             android:drawableLeft="@mipmap/ic_weixin"
-            android:drawableRight="@drawable/radio_pay_selector"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/txt_pay_weixin"
-            android:textColor="@color/text_black_selector"
-            android:textSize="@dimen/txt_size_16_dp"/>
+            android:text="@string/txt_pay_weixin"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/gray"/>
     </RadioGroup>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="@string/txt_pay_ok"
+            android:textSize="@dimen/txt_size_16_dp"
+            android:textColor="@color/text_white_selector"
+            android:background="#059bfa"
+            android:clickable="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="40dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"/>
+    </RelativeLayout>
+
 
 </LinearLayout>

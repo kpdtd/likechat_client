@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="225dp"
+        android:layout_height="165dp"
+        android:background="#fefefe"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:gravity="center"
+            android:text="@string/txt_customer_service_title"
+            android:textColor="@color/half_more_black"
+            android:textSize="@dimen/txt_size_15_dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#0893f4"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/txt_customer_service_q_group"
+            android:textSize="@dimen/txt_size_12_dp"
+            android:textColor="#666666"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="@string/txt_customer_service_ok"
+            android:textSize="@dimen/txt_size_16_dp"
+            android:textColor="@color/text_white_selector"
+            android:gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/shape_round_corner_qq_login"
+            android:clickable="true"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

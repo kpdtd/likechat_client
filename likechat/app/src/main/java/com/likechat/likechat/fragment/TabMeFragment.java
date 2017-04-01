@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.likechat.likechat.R;
 import com.likechat.likechat.activity.AccountBalanceActivity;
+import com.likechat.likechat.activity.LoginActivity;
 import com.likechat.likechat.activity.SettingsActivity;
 import com.likechat.likechat.activity.UserFriendActivity;
 import com.likechat.likechat.activity.UserZoneActivity;
@@ -47,6 +48,10 @@ public class TabMeFragment extends BaseFragment
                     {
                         switch (v.getId())
                         {
+                        case R.id.lay_avatar:
+                            Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
+                            startActivity(intentLogin);
+                            break;
                         case R.id.txt_me_account_balance:
                             Intent intentAccountBalance = new Intent(getActivity(), AccountBalanceActivity.class);
                             startActivity(intentAccountBalance);
@@ -76,6 +81,7 @@ public class TabMeFragment extends BaseFragment
                 }
             };
 
+            root.findViewById(R.id.lay_avatar).setOnClickListener(clickListener);
             root.findViewById(R.id.txt_me_account_balance).setOnClickListener(clickListener);
             root.findViewById(R.id.txt_me_friend).setOnClickListener(clickListener);
             root.findViewById(R.id.txt_me_zone).setOnClickListener(clickListener);

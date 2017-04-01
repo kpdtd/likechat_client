@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/shape_gradient_title_bg">
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="@string/title_vip_center"/>
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@drawable/btn_back_selector"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/vip_bg"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/txt_vip_member_level"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_size_14_dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/txt_vip_remain_time"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_size_14_dp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                style="@style/vip_charge_layout_style">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/vip_member_level_silver"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/vip_charge_text1_style"
+                        android:text="@string/txt_vip_member_level_silver"/>
+
+                    <TextView
+                        style="@style/vip_charge_text2_style"
+                        android:text="@string/txt_vip_member_level_silver_give"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/vip_member_level_silver"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/vip_charge_layout_style"
+                android:layout_marginTop="1px">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/vip_member_level_gold"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/vip_charge_text1_style"
+                        android:text="@string/txt_vip_member_level_gold"/>
+
+                    <TextView
+                        style="@style/vip_charge_text2_style"
+                        android:text="@string/txt_vip_member_level_gold_give"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/vip_member_level_gold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/vip_charge_layout_style"
+                android:layout_marginTop="1px">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/vip_member_level_diamond"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/vip_charge_text1_style"
+                        android:text="@string/txt_vip_member_level_diamond"/>
+
+                    <TextView
+                        style="@style/vip_charge_text2_style"
+                        android:text="@string/txt_vip_member_level_diamond_give"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/vip_member_level_diamond"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/vip_charge_layout_style"
+                android:layout_marginTop="1px">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/vip_member_level_extreme"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/vip_charge_text1_style"
+                        android:text="@string/txt_vip_member_level_extreme"/>
+
+                    <TextView
+                        style="@style/vip_charge_text2_style"
+                        android:text="@string/txt_vip_member_level_extreme_give"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/vip_member_level_extreme"/>
+            </LinearLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rdo_alipay"
+                    style="@style/pay_radio_button_style"
+                    android:drawableLeft="@mipmap/ic_alipay"
+                    android:text="@string/txt_pay_alipay"/>
+
+                <RadioButton
+                    android:id="@+id/rdo_weixin"
+                    style="@style/pay_radio_button_style"
+                    android:drawableLeft="@mipmap/ic_weixin"
+                    android:text="@string/txt_pay_weixin"/>
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="#fefefe"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="60dp"
+                    android:background="@drawable/shape_round_corner_qq_login"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="@string/txt_vip_pay"
+                    android:textColor="@color/text_white_selector"
+                    android:textSize="@dimen/txt_size_16_dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#fefefe"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/txt_vip_member_interest"
+                    android:textColor="@color/half_more_black"
+                    android:textSize="@dimen/txt_size_16_dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <TextView
+                        style="@style/vip_interest_text_style"
+                        android:drawableTop="@mipmap/vip_interest1"
+                        android:text="@string/txt_vip_get_gold"/>
+
+                    <TextView
+                        style="@style/vip_interest_text_style"
+                        android:drawableTop="@mipmap/vip_interest2"
+                        android:text="@string/txt_vip_direct_message"/>
+
+                    <TextView
+                        style="@style/vip_interest_text_style"
+                        android:drawableTop="@mipmap/vip_interest3"
+                        android:text="@string/txt_vip_discount"/>
+
+                    <TextView
+                        style="@style/vip_interest_text_style"
+                        android:drawableTop="@mipmap/vip_interest4"
+                        android:text="@string/txt_vip_honorable"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

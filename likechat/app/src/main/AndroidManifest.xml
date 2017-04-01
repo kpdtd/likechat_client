@@ -45,6 +45,12 @@
                   android:launchMode="singleTop"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".activity.CustomerServiceActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:theme="@style/activity_transparent_style"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".activity.EditUserInfoActivity"
                   android:configChanges="orientation|keyboardHidden"
                   android:launchMode="singleTop"
@@ -70,11 +76,6 @@
                   android:launchMode="singleTop"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.MemberCenterActivity"
-                  android:configChanges="orientation|keyboardHidden"
-                  android:launchMode="singleTop"
-                  android:screenOrientation="portrait">
-        </activity>
         <activity android:name=".activity.SettingsActivity"
                   android:configChanges="orientation|keyboardHidden"
                   android:launchMode="singleTop"
@@ -83,6 +84,7 @@
         <activity android:name=".activity.UpdateActivity"
                   android:configChanges="orientation|keyboardHidden"
                   android:launchMode="singleTop"
+                  android:theme="@style/activity_transparent_style"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activity.UserFriendActivity"
@@ -96,6 +98,11 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activity.UserZoneActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.VipActivity"
                   android:configChanges="orientation|keyboardHidden"
                   android:launchMode="singleTop"
                   android:screenOrientation="portrait">

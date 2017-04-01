@@ -46,7 +46,19 @@
             android:layout_height="@dimen/title_bar_height"
             android:src="@mipmap/ic_customer_service"
             android:scaleType="center"
+            android:clickable="true"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
+
+    <GridView
+        android:id="@+id/grid"
+        android:numColumns="2"
+        android:background="@color/transparent"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </GridView>
 
 </LinearLayout>
