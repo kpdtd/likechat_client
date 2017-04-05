@@ -10,10 +10,11 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 /**
- * 文字聊天的消息
+ * 聊天的消息<br/>
+ * 可以根据发送者来确认消息的类型
  */
 
-public class TextChatMessage implements Serializable
+public class ChatMessage implements Serializable
 {
     /** 消息id */
     public String id;
@@ -23,6 +24,8 @@ public class TextChatMessage implements Serializable
     public User from;
     /** 消息接收者 */
     public User to;
+    /** 时间 */
+    public long date;
 
     public JSONObject toJson()
     {
@@ -62,11 +65,11 @@ public class TextChatMessage implements Serializable
         return null;
     }
 
-    public static TextChatMessage fromJson(JSONObject jsonObject)
+    public static ChatMessage fromJson(JSONObject jsonObject)
     {
         try
         {
-            TextChatMessage chat = new TextChatMessage();
+            ChatMessage chat = new ChatMessage();
             chat.id = jsonObject.optString("id");
             chat.text = jsonObject.optString("text");
             chat.from = User.fromJson(jsonObject.optJSONObject("from"));
@@ -82,11 +85,11 @@ public class TextChatMessage implements Serializable
         return null;
     }
 
-    public static TextChatMessage fromCursor(Cursor cursor)
+    public static ChatMessage fromCursor(Cursor cursor)
     {
         try
         {
-            TextChatMessage chat = new TextChatMessage();
+            ChatMessage chat = new ChatMessage();
             chat.id = DbFieldUtil.getString(cursor, "chatId");
             chat.text = DbFieldUtil.getString(cursor, "chatText");
             String strFrom = DbFieldUtil.getString(cursor, "chatFrom");

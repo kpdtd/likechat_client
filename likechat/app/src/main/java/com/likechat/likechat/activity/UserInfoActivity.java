@@ -24,7 +24,7 @@ public class UserInfoActivity extends BaseActivity
         setContentView(R.layout.activity_user_info);
         try
         {
-            m_user = (User) getIntent().getSerializableExtra("anchor");
+            m_user = (User) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -51,13 +51,13 @@ public class UserInfoActivity extends BaseActivity
                         // 嗨聊
                         case R.id.lay_voice_chat:
                             Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
-                            intentVoice.putExtra("anchor", m_user);
+                            intentVoice.putExtra("user", m_user);
                             startActivity(intentVoice);
                             break;
                         // 文字聊天
                         case R.id.lay_text_chat:
                             Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
-                            intentText.putExtra("anchor", m_user);
+                            intentText.putExtra("user", m_user);
                             startActivity(intentText);
                             break;
                         // 关注

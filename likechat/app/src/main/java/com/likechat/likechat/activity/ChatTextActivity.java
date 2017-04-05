@@ -1,13 +1,14 @@
 package com.likechat.likechat.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.likechat.likechat.R;
-import com.likechat.likechat.adapter.TextChatAdapter;
-import com.likechat.likechat.entity.TextChatMessage;
+import com.likechat.likechat.adapter.ChatAdapter;
+import com.likechat.likechat.entity.ChatMessage;
 import com.likechat.likechat.entity.User;
 import com.likechat.likechat.util.DebugUtil;
 
@@ -20,7 +21,7 @@ public class ChatTextActivity extends BaseActivity
 {
     private User m_user;
     private ListView m_list;
-    private TextChatAdapter m_adapter;
+    private ChatAdapter m_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,7 +30,7 @@ public class ChatTextActivity extends BaseActivity
         setContentView(R.layout.activity_chat_text);
         try
         {
-            m_user = (User) getIntent().getSerializableExtra("anchor");
+            m_user = (User) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -59,8 +60,14 @@ public class ChatTextActivity extends BaseActivity
                             finish();
                             break;
                         case R.id.img_user_info:
+                            Intent intentUserInfo = new Intent(ChatTextActivity.this, UserInfoActivity.class);
+                            intentUserInfo.putExtra("user", m_user);
+                            startActivity(intentUserInfo);
                             break;
                         case R.id.img_phone:
+                            Intent intentCallout = new Intent(ChatTextActivity.this, ChatVoiceCallOutActivity.class);
+                            intentCallout.putExtra("user", m_user);
+                            startActivity(intentCallout);
                             break;
                         }
                     }
@@ -93,10 +100,10 @@ public class ChatTextActivity extends BaseActivity
             TextView txtTitle = (TextView) findViewById(R.id.txt_title);
             txtTitle.setText(m_user.name);
 
-            List<TextChatMessage> chatMessages = DebugUtil.getChatMessage();
+            List<ChatMessage> chatMessages = DebugUtil.getChatMessage();
             if (m_adapter == null)
             {
-                m_adapter = new TextChatAdapter(this, chatMessages);
+                m_adapter = new ChatAdapter(this, chatMessages);
                 m_list.setAdapter(m_adapter);
             }
             else

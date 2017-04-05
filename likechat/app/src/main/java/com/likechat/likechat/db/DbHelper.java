@@ -12,7 +12,7 @@ public class DbHelper extends SQLiteOpenHelper
 	// -----------------------------------------------------------------------------------------------
 
 	// anchor 主表。
-	public static final String TABLE_USER_NAME = "Anchor";
+	public static final String TABLE_USER_NAME = "User";
 	private static final String CREATE_TABLE_USER = "CREATE TABLE " + TABLE_USER_NAME
 			+ " (" + "[_id] INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "[userId] TEXT," //

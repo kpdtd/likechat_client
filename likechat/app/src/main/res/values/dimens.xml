@@ -8,6 +8,7 @@
     <dimen name="px1">1px</dimen>
     
     <dimen name="txt_size_8_dp">8dp</dimen>
+    <dimen name="txt_size_9_dp">9dp</dimen>
     <dimen name="txt_size_10_dp">10dp</dimen>
     <dimen name="txt_size_11_dp">11dp</dimen>
     <dimen name="txt_size_12_dp">12dp</dimen>

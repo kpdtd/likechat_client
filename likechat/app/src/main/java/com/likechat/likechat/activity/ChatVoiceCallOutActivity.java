@@ -23,7 +23,7 @@ public class ChatVoiceCallOutActivity extends BaseActivity
         setContentView(R.layout.activity_chat_voice_call_out);
         try
         {
-            m_user = (User) getIntent().getSerializableExtra("anchor");
+            m_user = (User) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();

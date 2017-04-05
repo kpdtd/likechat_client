@@ -2,10 +2,11 @@ package com.likechat.likechat.util;
 
 import com.likechat.likechat.R;
 import com.likechat.likechat.entity.AppData;
-import com.likechat.likechat.entity.TextChatMessage;
+import com.likechat.likechat.entity.ChatMessage;
 import com.likechat.likechat.entity.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,20 +64,27 @@ public class DebugUtil
         return null;
     }
 
-    public static List<TextChatMessage> getChatMessage()
+    public static List<ChatMessage> getChatMessage()
     {
         try
         {
+            Date dateOneDay = StringUtil.getDate("2017-02-06");
             String[] strTexts = new String[]{"测试文字消息", "测试文字消息，测试文字消息", "测试文字消息，测试文字消息，测试文字消息，测试文字消息"};
-            List<TextChatMessage> chatMessages = new ArrayList<>();
+            List<ChatMessage> chatMessages = new ArrayList<>();
             for (int i = 0; i < 20; i++)
             {
-                TextChatMessage chatMessage = new TextChatMessage();
+                ChatMessage chatMessage = new ChatMessage();
                 chatMessage.text = strTexts[i % 3] + i;
                 if (i % 2 == 0)
                 {
                     chatMessage.from = AppData.getCurUser();
+                    chatMessage.date = System.currentTimeMillis();
                 }
+                else
+                {
+                    chatMessage.date = dateOneDay.getTime();
+                }
+
 
                 chatMessages.add(chatMessage);
             }

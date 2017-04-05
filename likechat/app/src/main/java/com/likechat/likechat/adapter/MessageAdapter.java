@@ -4,23 +4,24 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.likechat.likechat.R;
-import com.likechat.likechat.entity.AppData;
 import com.likechat.likechat.entity.ChatMessage;
+import com.likechat.likechat.util.StringUtil;
 
 import java.util.List;
 
 /**
- * 聊天消息列表
+ * 消息列表
  */
-public class ChatAdapter extends BaseAdapter
+public class MessageAdapter extends BaseAdapter
 {
     private Activity m_parent;
     private List<ChatMessage> m_listTextChatMessages;
 
-    public ChatAdapter(Activity activity, List<ChatMessage> listTextChatMessages)
+    public MessageAdapter(Activity activity, List<ChatMessage> listTextChatMessages)
     {
         m_parent = activity;
         m_listTextChatMessages = listTextChatMessages;
@@ -80,7 +81,7 @@ public class ChatAdapter extends BaseAdapter
             else
             {
                 // 加载列表项
-                convertView = View.inflate(m_parent, R.layout.item_text_chat, null);
+                convertView = View.inflate(m_parent, R.layout.item_message, null);
 
                 // 支持器
                 holder = new ViewHolder(convertView);
@@ -101,20 +102,14 @@ public class ChatAdapter extends BaseAdapter
     {
         try
         {
-            ChatMessage textChatMessage = (ChatMessage) getItem(nPosition);
-            if (textChatMessage != null)
+            ChatMessage message = (ChatMessage) getItem(nPosition);
+            if (message != null)
             {
-                if (AppData.isCurUser(textChatMessage.from))
+                holder.textDate.setText(StringUtil.formatDate(message.date));
+                holder.textSummary.setText(message.text);
+                if (message.from != null)
                 {
-                    holder.layMe.setVisibility(View.VISIBLE);
-                    holder.layOthers.setVisibility(View.GONE);
-                    holder.textMe.setText(String.valueOf(textChatMessage.text));
-                }
-                else
-                {
-                    holder.layMe.setVisibility(View.GONE);
-                    holder.layOthers.setVisibility(View.VISIBLE);
-                    holder.textOthers.setText(String.valueOf(textChatMessage.text));
+                    holder.textName.setText(message.from.name);
                 }
             }
         }
@@ -130,10 +125,11 @@ public class ChatAdapter extends BaseAdapter
         {
             try
             {
-                textMe = (TextView) root.findViewById(R.id.txt_text_me);
-                textOthers = (TextView) root.findViewById(R.id.txt_text_others);
-                layMe = root.findViewById(R.id.lay_me);
-                layOthers = root.findViewById(R.id.lay_others);
+                imgAvatar = (ImageView) root.findViewById(R.id.img_avatar);
+                textName = (TextView) root.findViewById(R.id.txt_name);
+                textDate = (TextView) root.findViewById(R.id.txt_date);
+                textSummary = (TextView) root.findViewById(R.id.txt_message_summary);
+                viewUnread = root.findViewById(R.id.txt_unread);
 
                 // 设置列表项
                 root.setTag(this);
@@ -144,14 +140,15 @@ public class ChatAdapter extends BaseAdapter
             }
         }
 
-        /** 我发送的聊天内容 */
-        public TextView textMe;
-
-        /** 别人发送的聊天内容 */
-        public TextView textOthers;
-        /** 我发送的聊天内容的Container */
-        public View layMe;
-        /** 我发送的聊天内容的Container */
-        public View layOthers;
+        /** 头像 */
+        public ImageView imgAvatar;
+        /** 名字 */
+        public TextView textName;
+        /** 时间 */
+        public TextView textDate;
+        /** 消息摘要 */
+        public TextView textSummary;
+        /** 已读未读 */
+        public View viewUnread;
     }
 }

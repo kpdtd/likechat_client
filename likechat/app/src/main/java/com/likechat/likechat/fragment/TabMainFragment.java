@@ -56,7 +56,7 @@ public class TabMainFragment extends BaseFragment
                     {
                         Intent intentUserInfo = new Intent(getActivity(), UserInfoActivity.class);
                         User user = (User) m_adapter.getItem(position);
-                        intentUserInfo.putExtra("anchor", user);
+                        intentUserInfo.putExtra("user", user);
                         startActivity(intentUserInfo);
                     }
                     catch (Exception e)
