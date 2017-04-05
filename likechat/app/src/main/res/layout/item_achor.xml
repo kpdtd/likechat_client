@@ -13,7 +13,7 @@
         android:orientation="vertical">
         <ImageView
             android:id="@+id/img_avatar"
-            android:scaleType="fitXY"
+            style="@style/center_crop"
             android:layout_width="178dp"
             android:layout_height="178dp"/>
         <LinearLayout

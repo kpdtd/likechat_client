@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.likechat.likechat.R;
-import com.likechat.likechat.entity.User;
-import com.likechat.likechat.util.EntityUtil;
+import com.likechat.likechat.entity.AppData;
+import com.likechat.likechat.entity.TextChatMessage;
 
 import java.util.List;
 
@@ -17,20 +16,20 @@ import java.util.List;
  * 主播列表
  */
 
-public class AnchorAdapter extends BaseAdapter
+public class TextChatAdapter extends BaseAdapter
 {
     private Activity m_parent;
-    private List<User> m_listUsers;
+    private List<TextChatMessage> m_listTextChatMessages;
 
-    public AnchorAdapter(Activity activity, List<User> listUsers)
+    public TextChatAdapter(Activity activity, List<TextChatMessage> listTextChatMessages)
     {
         m_parent = activity;
-        m_listUsers = listUsers;
+        m_listTextChatMessages = listTextChatMessages;
     }
 
-    public void updateData(List<User> listUsers)
+    public void updateData(List<TextChatMessage> listTextChatMessages)
     {
-        m_listUsers = listUsers;
+        m_listTextChatMessages = listTextChatMessages;
     }
 
     @Override
@@ -38,7 +37,7 @@ public class AnchorAdapter extends BaseAdapter
     {
         try
         {
-            return m_listUsers.size();
+            return m_listTextChatMessages.size();
         }
         catch (Exception e)
         {
@@ -52,7 +51,7 @@ public class AnchorAdapter extends BaseAdapter
     {
         try
         {
-            return m_listUsers.get(position);
+            return m_listTextChatMessages.get(position);
         }
         catch (Exception e)
         {
@@ -82,7 +81,7 @@ public class AnchorAdapter extends BaseAdapter
             else
             {
                 // 加载列表项
-                convertView = View.inflate(m_parent, R.layout.item_achor, null);
+                convertView = View.inflate(m_parent, R.layout.item_text_chat, null);
 
                 // 支持器
                 holder = new ViewHolder(convertView);
@@ -103,21 +102,21 @@ public class AnchorAdapter extends BaseAdapter
     {
         try
         {
-            User user = (User) getItem(nPosition);
-            if (user != null)
+            TextChatMessage textChatMessage = (TextChatMessage) getItem(nPosition);
+            if (textChatMessage != null)
             {
-                holder.name.setText(user.name);
-                holder.intro.setText(user.intro);
-                holder.gender.setText(String.valueOf(user.age));
-                holder.avatar.setImageResource(user.avatar_res);
-//                if (anchor.gender == Anchor.GENDER_FEMALE)
-//                {
-//                    Drawable female = m_parent.getResources().getDrawable(R.drawable.ic_female_normal);
-//                    int width = UIUtil.dip2px(m_parent, 15);
-//                    UIUtil.setCompoundDrawables(holder.gender, female, 0, 0, 0, width, width);
-//                }
-
-                EntityUtil.setAnchorGenderDrawable(holder.gender, user, false);
+                if (AppData.isCurUser(textChatMessage.from))
+                {
+                    holder.layMe.setVisibility(View.VISIBLE);
+                    holder.layOthers.setVisibility(View.GONE);
+                    holder.textMe.setText(String.valueOf(textChatMessage.text));
+                }
+                else
+                {
+                    holder.layMe.setVisibility(View.GONE);
+                    holder.layOthers.setVisibility(View.VISIBLE);
+                    holder.textOthers.setText(String.valueOf(textChatMessage.text));
+                }
             }
         }
         catch (Exception e)
@@ -132,10 +131,10 @@ public class AnchorAdapter extends BaseAdapter
         {
             try
             {
-                avatar = (ImageView) root.findViewById(R.id.img_avatar);
-                gender = (TextView) root.findViewById(R.id.txt_gender);
-                name = (TextView) root.findViewById(R.id.txt_name);
-                intro = (TextView) root.findViewById(R.id.txt_intro);
+                textMe = (TextView) root.findViewById(R.id.txt_text_me);
+                textOthers = (TextView) root.findViewById(R.id.txt_text_others);
+                layMe = root.findViewById(R.id.lay_me);
+                layOthers = root.findViewById(R.id.lay_others);
 
                 // 设置列表项
                 root.setTag(this);
@@ -146,13 +145,14 @@ public class AnchorAdapter extends BaseAdapter
             }
         }
 
-        /** 头像 */
-        public ImageView avatar;
-        /** 性别 */
-        public TextView gender;
-        /** 名字 */
-        public TextView name;
-        /** 介绍 */
-        public TextView intro;
+        /** 我发送的聊天内容 */
+        public TextView textMe;
+
+        /** 别人发送的聊天内容 */
+        public TextView textOthers;
+        /** 我发送的聊天内容的Container */
+        public View layMe;
+        /** 我发送的聊天内容的Container */
+        public View layOthers;
     }
 }

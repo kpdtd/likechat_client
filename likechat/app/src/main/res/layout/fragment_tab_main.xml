@@ -54,7 +54,7 @@
         android:id="@+id/grid"
         android:numColumns="2"
         android:background="@color/transparent"
-        android:horizontalSpacing="10dp"
+        android:horizontalSpacing="5dp"
         android:verticalSpacing="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

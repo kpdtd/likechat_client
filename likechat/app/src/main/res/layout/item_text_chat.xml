@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/lay_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/txt_text_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_text_chat_me_bg"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_size_14_dp"/>
+
+        <com.likechat.likechat.widget.CircleImageView
+            android:id="@+id/img_me_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_user"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_others"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <com.likechat.likechat.widget.CircleImageView
+            android:id="@+id/img_other_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_user"/>
+
+        <TextView
+            android:id="@+id/txt_text_others"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/ic_text_chat_others_bg"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_size_14_dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

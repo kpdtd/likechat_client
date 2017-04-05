@@ -105,6 +105,22 @@ public class UIUtil
 		return !isListEmpty(list);
 	}
 
+
+	/**
+	 * 设置组合图标（适用于宽高一样的图片）
+	 * <p>
+	 * 一般只需要设置上下左右中的一个
+	 *
+	 * @param textView 文本视图
+	 * @param drawable 图片
+	 * @param nWhich 0: 左, 1: 上, 2: 右, 3: 下
+	 * @param nWidth 宽高
+	 */
+	public static void setCompoundDrawables(TextView textView, Drawable drawable, final int nWhich, final int nWidth)
+	{
+		setCompoundDrawables(textView, drawable, nWhich, 0, 0, nWidth, nWidth);
+	}
+
 	/**
 	 * 设置组合图标
 	 * <p>

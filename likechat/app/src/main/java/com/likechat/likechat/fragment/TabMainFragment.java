@@ -13,14 +13,16 @@ import com.likechat.likechat.R;
 import com.likechat.likechat.activity.CustomerServiceActivity;
 import com.likechat.likechat.activity.UserInfoActivity;
 import com.likechat.likechat.adapter.AnchorAdapter;
-import com.likechat.likechat.entity.Anchor;
+import com.likechat.likechat.entity.User;
+import com.likechat.likechat.util.DebugUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TabMainFragment extends BaseFragment
 {
-    /** 界面中的root view */
+    /**
+     * 界面中的root view
+     */
     private View m_root;
     private GridView m_gridView;
     private AnchorAdapter m_adapter;
@@ -53,8 +55,8 @@ public class TabMainFragment extends BaseFragment
                     try
                     {
                         Intent intentUserInfo = new Intent(getActivity(), UserInfoActivity.class);
-                        Anchor anchor = (Anchor) m_adapter.getItem(position);
-                        intentUserInfo.putExtra("anchor", anchor);
+                        User user = (User) m_adapter.getItem(position);
+                        intentUserInfo.putExtra("anchor", user);
                         startActivity(intentUserInfo);
                     }
                     catch (Exception e)
@@ -98,31 +100,16 @@ public class TabMainFragment extends BaseFragment
     {
         try
         {
-            int[] avatars = new int[]{
-                    R.mipmap.avatar1,
-                    R.mipmap.avatar2,
-                    R.mipmap.avatar3
-                };
-            List<Anchor> anchorList = new ArrayList<>();
-            for (int i = 0; i < 20; i++)
-            {
-                Anchor anchor = new Anchor();
-                anchor.name = "我是直播主播" + (i + 1);
-                anchor.age = 20;
-                anchor.gender = "female";
-                anchor.intro = "介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍";
-                anchor.avatar_res = avatars[i % 3];
-                anchorList.add(anchor);
-            }
+            List<User> userList = DebugUtil.getUserList();
 
             if (m_adapter == null)
             {
-                m_adapter = new AnchorAdapter(getActivity(), anchorList);
+                m_adapter = new AnchorAdapter(getActivity(), userList);
                 m_gridView.setAdapter(m_adapter);
             }
             else
             {
-                m_adapter.updateData(anchorList);
+                m_adapter.updateData(userList);
                 m_adapter.notifyDataSetChanged();
             }
         }

@@ -3,6 +3,9 @@ package com.likechat.likechat;
 import android.app.Application;
 import android.content.Context;
 
+import com.likechat.likechat.entity.AppData;
+import com.likechat.likechat.entity.User;
+
 public class theApp extends Application
 {
     public static Context CONTEXT = null;
@@ -15,6 +18,10 @@ public class theApp extends Application
         try
         {
             CONTEXT = this;
+
+            User user = new User();
+            user.id = "12345678";
+            AppData.saveCurUser(user);
         }
         catch (Exception e)
         {

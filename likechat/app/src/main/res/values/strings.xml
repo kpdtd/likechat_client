@@ -23,10 +23,12 @@
     <string name="title_user_zone">我的动态</string>
     <string name="title_user_friend">我的好友</string>
     <string name="title_edit_user_info">个人信息</string>
+    <string name="title_user_info">她的主页</string>
     <string name="title_login">用户登录</string>
     <string name="title_system_message">系统消息</string>
     <string name="title_call_in">觅聊</string>
     <string name="title_help">新手帮助</string>
+    <string name="title_call_out">和她嗨聊</string>
 
     <string name="txt_me_login">点击登录</string>
     <string name="txt_me_account_balance">账户余额</string>
@@ -92,10 +94,16 @@
     <string name="txt_customer_service_title">客服</string>
     <string name="txt_customer_service_q_group">QQ群：534566550</string>
     <string name="txt_customer_service_ok">确定</string>
-
     <string name="txt_user_info_voice_chat">嗨聊</string>
     <string name="txt_user_info_text_chat">聊天</string>
     <string name="txt_user_info_follow">关注</string>
+    <string name="txt_user_info_like_chat_id">觅聊号：</string>
+    <string name="txt_user_info_fans_count">粉丝：</string>
+    <string name="txt_user_info_follow_count">关注：</string>
+    <string name="txt_user_info_latest_news">最新动态</string>
+    <string name="txt_user_info_self_intro">自我介绍</string>
+    <string name="txt_user_info_call_rate">通话资费</string>
+    <string name="txt_user_info_talk_time">已经通话</string>
 
     <string name="edt_hint_edit_user_info_name">请输入昵称</string>
     <string name="edt_hint_edit_user_info_gender">请选择性别</string>

@@ -21,6 +21,11 @@
         <!-- <item name="android:windowAnimationStyle">@+android:style/Animation.Translucent</item> -->
     </style>
 
+    <!--设置imageview的scaleType为centerCrop-->
+    <style name="center_crop">
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
     <style name="title_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/title_bar_height</item>
@@ -252,5 +257,21 @@
         <item name="android:layout_centerInParent">true</item>
         <item name="android:gravity">center</item>
         <item name="android:drawablePadding">5dp</item>
+    </style>
+
+    <!-- 用户主页上方介绍信息的 样式 -->
+    <style name="user_info_info_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/txt_size_14_dp</item>
+    </style>
+
+    <!-- 用户主页上方介绍信息的 样式 -->
+    <style name="user_info_pic_thumb_style">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:src">@mipmap/pic_thumb</item>
+        <item name="android:layout_margin">5dp</item>
     </style>
 </resources>
