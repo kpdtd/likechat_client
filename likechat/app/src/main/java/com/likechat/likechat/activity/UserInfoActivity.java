@@ -5,10 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.likechat.likechat.R;
 import com.likechat.likechat.entity.User;
+import com.likechat.likechat.util.DebugUtil;
 import com.likechat.likechat.util.EntityUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * 用户信息
@@ -28,6 +34,8 @@ public class UserInfoActivity extends BaseActivity
 
             initUI();
             updateData();
+            updatePhoto();
+            updateAnchor();
         }
         catch (Exception e)
         {
@@ -48,6 +56,13 @@ public class UserInfoActivity extends BaseActivity
                     {
                         switch (v.getId())
                         {
+                         // 最新动态
+                        case R.id.txt_latest_news:
+                            Intent intentZone = new Intent(UserInfoActivity.this, UserZoneActivity.class);
+                            intentZone.putExtra("user", m_user);
+                            startActivity(intentZone);
+                            break;
+
                         // 嗨聊
                         case R.id.lay_voice_chat:
                             Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
@@ -76,13 +91,28 @@ public class UserInfoActivity extends BaseActivity
                 }
             };
 
+            findViewById(R.id.txt_latest_news).setOnClickListener(clickListener);
             findViewById(R.id.img_back).setOnClickListener(clickListener);
             findViewById(R.id.lay_voice_chat).setOnClickListener(clickListener);
             findViewById(R.id.lay_text_chat).setOnClickListener(clickListener);
             findViewById(R.id.lay_follow).setOnClickListener(clickListener);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
+    private void updatePhoto()
+    {
+        try
+        {
+            if (m_user == null)
+            {
+                return;
+            }
 
-            View.OnClickListener imgPicClickListener = new View.OnClickListener()
+            View.OnClickListener clickListener = new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v)
@@ -106,14 +136,14 @@ public class UserInfoActivity extends BaseActivity
             };
 
             // 动态设置点击事件, 即有图片的才设置点击事件
-            findViewById(R.id.img_pic1).setOnClickListener(imgPicClickListener);
-            findViewById(R.id.img_pic2).setOnClickListener(imgPicClickListener);
-            findViewById(R.id.img_pic3).setOnClickListener(imgPicClickListener);
-            findViewById(R.id.img_pic4).setOnClickListener(imgPicClickListener);
-            findViewById(R.id.img_pic5).setOnClickListener(imgPicClickListener);
-            findViewById(R.id.img_pic6).setOnClickListener(imgPicClickListener);
-            findViewById(R.id.img_pic7).setOnClickListener(imgPicClickListener);
-            findViewById(R.id.img_pic8).setOnClickListener(imgPicClickListener);
+            findViewById(R.id.img_pic1).setOnClickListener(clickListener);
+            findViewById(R.id.img_pic2).setOnClickListener(clickListener);
+            findViewById(R.id.img_pic3).setOnClickListener(clickListener);
+            findViewById(R.id.img_pic4).setOnClickListener(clickListener);
+            findViewById(R.id.img_pic5).setOnClickListener(clickListener);
+            findViewById(R.id.img_pic6).setOnClickListener(clickListener);
+            findViewById(R.id.img_pic7).setOnClickListener(clickListener);
+            findViewById(R.id.img_pic8).setOnClickListener(clickListener);
 
             findViewById(R.id.img_pic1).setTag(1);
             findViewById(R.id.img_pic2).setTag(2);
@@ -123,6 +153,107 @@ public class UserInfoActivity extends BaseActivity
             findViewById(R.id.img_pic6).setTag(6);
             findViewById(R.id.img_pic7).setTag(7);
             findViewById(R.id.img_pic8).setTag(8);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateAnchor()
+    {
+        try
+        {
+            if (m_user == null)
+            {
+                return;
+            }
+
+            View.OnClickListener clickListener = new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    try
+                    {
+                        // 主播界面
+                        if (null != v.getTag())
+                        {
+                            // 关闭当前页
+                            finish();
+
+                            User user = (User)v.getTag();
+                            Intent intentUserInfo = new Intent(UserInfoActivity.this, UserInfoActivity.class);
+                            intentUserInfo.putExtra("user", user);
+                            startActivity(intentUserInfo);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            List<User> userList = DebugUtil.getUserList();
+
+            // 去掉当前用户
+            for(int i = 0; i < userList.size(); i++)
+            {
+                if (userList.get(i).name.equals(m_user.name))
+                {
+                    userList.remove(i);
+                    break;
+                }
+            }
+
+            List<View> viewList = new ArrayList<>();
+            viewList.add(findViewById(R.id.lay_anchor1));
+            viewList.add(findViewById(R.id.lay_anchor2));
+            viewList.add(findViewById(R.id.lay_anchor3));
+            viewList.add(findViewById(R.id.lay_anchor4));
+            viewList.add(findViewById(R.id.lay_anchor5));
+            viewList.add(findViewById(R.id.lay_anchor6));
+            viewList.add(findViewById(R.id.lay_anchor7));
+            viewList.add(findViewById(R.id.lay_anchor8));
+
+            // 这是生成的随机数
+            Random rand = new Random(System.currentTimeMillis());
+            LinearLayout layAnchor = null;
+            int nSize = userList.size() < 8 ? userList.size() : 8;
+            User user = null;
+
+            // 椭机数产生主播
+            for(int i = 0, nIndex = 0; i < 8; i++)
+            {
+                user = null;
+                layAnchor = (LinearLayout)viewList.get(i);
+                if (i < nSize)
+                {
+                    nIndex = rand.nextInt(userList.size());
+                    user = userList.get(nIndex);
+                    layAnchor.setTag(user);
+                    layAnchor.setOnClickListener(clickListener);
+                }else
+                {
+                    layAnchor.setTag(null);
+                    layAnchor.setOnClickListener(null);
+                }
+
+                int chSize = layAnchor.getChildCount();
+                for(int j = 0; j < chSize; j++)
+                {
+                    View vChile = layAnchor.getChildAt(j);
+                    if (vChile instanceof ImageView)
+                    {
+                        ((ImageView)vChile).setImageResource(null == user ? 0 : user.avatar_res);
+                    }
+                    else if (vChile instanceof TextView)
+                    {
+                        ((TextView)vChile).setText(null == user ? "" : user.name);
+                    }
+                }
+            }
         }
         catch (Exception e)
         {

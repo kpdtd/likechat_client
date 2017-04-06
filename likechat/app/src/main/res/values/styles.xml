@@ -274,4 +274,29 @@
         <item name="android:src">@mipmap/avatar2</item>
         <item name="android:layout_margin">5dp</item>
     </style>
+
+    <!-- 用户主页上方其他主播头像 样式 -->
+    <style name="user_info_anchor_avatar_style">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:src">@mipmap/anchor1</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
+
+    <!-- 用户主页上方其他主播名称 样式 -->
+    <style name="user_info_anchor_name_style">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/txt_size_12_dp</item>
+    </style>
 </resources>
