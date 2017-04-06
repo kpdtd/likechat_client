@@ -271,7 +271,7 @@
     <style name="user_info_pic_thumb_style">
         <item name="android:layout_width">60dp</item>
         <item name="android:layout_height">60dp</item>
-        <item name="android:src">@mipmap/pic_thumb</item>
+        <item name="android:src">@mipmap/avatar2</item>
         <item name="android:layout_margin">5dp</item>
     </style>
 </resources>

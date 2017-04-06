@@ -80,6 +80,49 @@ public class UserInfoActivity extends BaseActivity
             findViewById(R.id.lay_voice_chat).setOnClickListener(clickListener);
             findViewById(R.id.lay_text_chat).setOnClickListener(clickListener);
             findViewById(R.id.lay_follow).setOnClickListener(clickListener);
+
+
+            View.OnClickListener imgPicClickListener = new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    try
+                    {
+                        // 弹出大图浏览界面
+                        if (null != v.getTag())
+                        {
+                            int nIndex = (int)v.getTag();
+                            Intent intentText = new Intent(UserInfoActivity.this, ImageBrowseActivity.class);
+                            intentText.putExtra("index", nIndex);
+                            startActivity(intentText);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            // 动态设置点击事件, 即有图片的才设置点击事件
+            findViewById(R.id.img_pic1).setOnClickListener(imgPicClickListener);
+            findViewById(R.id.img_pic2).setOnClickListener(imgPicClickListener);
+            findViewById(R.id.img_pic3).setOnClickListener(imgPicClickListener);
+            findViewById(R.id.img_pic4).setOnClickListener(imgPicClickListener);
+            findViewById(R.id.img_pic5).setOnClickListener(imgPicClickListener);
+            findViewById(R.id.img_pic6).setOnClickListener(imgPicClickListener);
+            findViewById(R.id.img_pic7).setOnClickListener(imgPicClickListener);
+            findViewById(R.id.img_pic8).setOnClickListener(imgPicClickListener);
+
+            findViewById(R.id.img_pic1).setTag(1);
+            findViewById(R.id.img_pic2).setTag(2);
+            findViewById(R.id.img_pic3).setTag(3);
+            findViewById(R.id.img_pic4).setTag(4);
+            findViewById(R.id.img_pic5).setTag(5);
+            findViewById(R.id.img_pic6).setTag(6);
+            findViewById(R.id.img_pic7).setTag(7);
+            findViewById(R.id.img_pic8).setTag(8);
         }
         catch (Exception e)
         {
