@@ -96,11 +96,8 @@ public class AnchorAdapter extends BaseAdapter
                 holder = new ViewHolder(convertView);
             }
 
-            if (!m_bIsScrolling)
-            {
-                // 设置项信息
-                setItemInfo(position, holder);
-            }
+            // 设置项信息
+            setItemInfo(position, holder);
         }
         catch (Exception e)
         {
@@ -121,7 +118,10 @@ public class AnchorAdapter extends BaseAdapter
                 holder.intro.setText(user.intro);
                 holder.gender.setText(String.valueOf(user.age));
                 //holder.avatar.setImageResource(user.avatar_res);
-                ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, user.avatar);
+                if (!m_bIsScrolling)
+                {
+                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, user.avatar);
+                }
                 EntityUtil.setAnchorGenderDrawable(holder.gender, user, false);
             }
         }

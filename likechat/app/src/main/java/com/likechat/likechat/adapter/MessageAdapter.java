@@ -95,11 +95,8 @@ public class MessageAdapter extends BaseAdapter
                 holder = new ViewHolder(convertView);
             }
 
-            if (!m_bIsScrolling)
-            {
-                // 设置项信息
-                setItemInfo(position, holder);
-            }
+            // 设置项信息
+            setItemInfo(position, holder);
         }
         catch (Exception e)
         {
@@ -122,12 +119,20 @@ public class MessageAdapter extends BaseAdapter
                 if (message.from != null)
                 {
                     holder.textName.setText(message.from.name);
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, message.from.avatar);
+
+                    if (!m_bIsScrolling)
+                    {
+                        ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, message.from.avatar);
+                    }
                 }
                 else
                 {
                     holder.textName.setText("");
-                    holder.imgAvatar.setImageResource(R.mipmap.ic_system_message);
+
+                    if (!m_bIsScrolling)
+                    {
+                        holder.imgAvatar.setImageResource(R.mipmap.ic_system_message);
+                    }
                 }
             }
         }

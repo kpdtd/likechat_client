@@ -96,11 +96,8 @@ public class CallHistoryAdapter extends BaseAdapter
                 holder = new ViewHolder(convertView);
             }
 
-            if (!m_bIsScrolling)
-            {
-                // 设置项信息
-                setItemInfo(position, holder);
-            }
+            // 设置项信息
+            setItemInfo(position, holder);
         }
         catch (Exception e)
         {
@@ -135,7 +132,11 @@ public class CallHistoryAdapter extends BaseAdapter
                     holder.textState.setText(strTalkTime);
                     holder.textName.setText(callHistory.to.name);
                     //holder.imgAvatar.setImageResource(callHistory.to.avatar_res);
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, callHistory.to.avatar);
+
+                    if (!m_bIsScrolling)
+                    {
+                        ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, callHistory.to.avatar);
+                    }
                 }
                 else
                 {
@@ -153,7 +154,11 @@ public class CallHistoryAdapter extends BaseAdapter
                     holder.textState.setText(strTalkTime);
                     holder.textName.setText(callHistory.from.name);
                     //holder.imgAvatar.setImageResource(callHistory.from.avatar_res);
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, callHistory.from.avatar);
+
+                    if (!m_bIsScrolling)
+                    {
+                        ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, callHistory.from.avatar);
+                    }
                 }
             }
         }

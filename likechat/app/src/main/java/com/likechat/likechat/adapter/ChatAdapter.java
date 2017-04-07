@@ -93,7 +93,7 @@ public class ChatAdapter extends BaseAdapter
                 holder = new ViewHolder(convertView);
             }
 
-            if (!m_bIsScrolling)
+            ///if (!m_bIsScrolling)
             {
                 // 设置项信息
                 setItemInfo(position, holder);
