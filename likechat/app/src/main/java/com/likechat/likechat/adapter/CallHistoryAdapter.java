@@ -126,7 +126,8 @@ public class CallHistoryAdapter extends BaseAdapter
                     }
                     else
                     {
-                        strTalkTime = StringUtil.formatTime(callHistory.talkTime);
+                        strTalkTime = m_parent.getString(R.string.txt_call_history_call_out)
+                                + " " + StringUtil.formatTime(callHistory.talkTime);
                     }
 
                     holder.textState.setText(strTalkTime);
@@ -144,11 +145,12 @@ public class CallHistoryAdapter extends BaseAdapter
                     String strTalkTime = "";
                     if (callHistory.talkTime == 0)
                     {
-                        strTalkTime = "未接来电";
+                        strTalkTime = m_parent.getString(R.string.txt_call_history_miss);
                     }
                     else
                     {
-                        strTalkTime = StringUtil.formatTime(callHistory.talkTime);
+                        strTalkTime = m_parent.getString(R.string.txt_call_history_call_in)
+                                + " " + StringUtil.formatTime(callHistory.talkTime);
                     }
 
                     holder.textState.setText(strTalkTime);

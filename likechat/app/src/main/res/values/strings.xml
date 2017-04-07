@@ -104,6 +104,9 @@
     <string name="txt_user_info_self_intro">自我介绍</string>
     <string name="txt_user_info_call_rate">通话资费</string>
     <string name="txt_user_info_talk_time">已经通话</string>
+    <string name="txt_call_history_call_in">呼入</string>
+    <string name="txt_call_history_call_out">呼出</string>
+    <string name="txt_call_history_miss">未接来电</string>
 
     <string name="edt_hint_edit_user_info_name">请输入昵称</string>
     <string name="edt_hint_edit_user_info_gender">请选择性别</string>
