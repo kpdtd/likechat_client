@@ -66,7 +66,30 @@ public class DebugUtil
                             "可爱婷",
                             "文静傻呆"
                     };
-            String[] describes = new String[]
+            String[] signs = new String[]
+                    {
+                            "何苦让不快乐，尾随自己",
+                            "何处是归宿，何时停脚步",
+                            "不属于我的，我从来不要",
+                            "寫一首傷感的詞，譜一曲留戀的歌",
+                            "永远不是一种距离，而是一种决定",
+                            "寂寞，让我变的那么脆弱",
+                            "念念念你情不忘，想想想你情不亡",
+                            "默然相爱，寂静喜欢",
+                            "ㄣ过去被翻阅，瞬间才明白，原来，记忆已搁浅",
+                            "无人的巷口，谁又为谁停留",
+                            "不再沉默中变坏就在沉默就变态",
+                            "过好自己 别人的故事里不需要你",
+                            "爱我所爱 千夫所指我不改",
+                            "愿姑娘们以后都是嫁给爱情",
+                            "为什么我爱的人都有爱人",
+                            "我有风里雨里的暴脾气，但最心疼的只有你",
+                            "没有结果 感谢你曾来过",
+                            "我假装不在乎你，但痛的是我自己",
+                            "遇见是缘分 不遇见也是",
+                            "其实很多人的爱情我们都看不懂"
+                    };
+            String[] intros = new String[]
                     {
                             "喜欢又不是爱，你的出现让我十分想念。",
                             "谁若用真心对我，我便拿命去珍惜。—这句话永远不会过期。",
@@ -115,7 +138,8 @@ public class DebugUtil
                 user.id = String.valueOf(10000 + i + 1);
                 user.city = citys[index];
                 user.gender = User.GENDER_FEMALE;
-                user.intro = describes[avatar]; // "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
+                user.sign = signs[avatar];
+                user.intro = intros[avatar]; // "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
                 user.avatar_res = avatars[avatar];
                 user.avatar = strAvatars[index];
                 user.fans = fanses[index];

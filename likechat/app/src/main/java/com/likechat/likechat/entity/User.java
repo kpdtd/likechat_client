@@ -31,6 +31,8 @@ public class User implements Serializable
     public int gender;
     /** 年龄 */
     public int age;
+    /** 个性签名 */
+    public String sign;
     /** 介绍 */
     public String intro;
     /** 在哪个城市 */
@@ -67,6 +69,7 @@ public class User implements Serializable
             jsonObject.put("avatar", avatar);
             jsonObject.put("gender", gender);
             jsonObject.put("age", age);
+            jsonObject.put("sign", sign);
             jsonObject.put("intro", intro);
             jsonObject.put("city", city);
             jsonObject.put("fans", fans);
@@ -90,6 +93,7 @@ public class User implements Serializable
             values.put("anchorAvatar", avatar);
             values.put("anchorGender", gender);
             values.put("anchorAge", age);
+            values.put("anchorSign", sign);
             values.put("anchorIntro", intro);
             values.put("anchorCity", city);
             values.put("anchorFans", fans);
@@ -115,6 +119,7 @@ public class User implements Serializable
             user.avatar = jsonObject.optString("anchorAvatar");
             user.gender = jsonObject.optInt("anchorGender");
             user.age = jsonObject.optInt("anchorAge");
+            user.sign = jsonObject.optString("anchorSign");
             user.intro = jsonObject.optString("anchorIntro");
             user.city = jsonObject.optString("anchorCity");
             user.fans = jsonObject.optInt("anchorFans");
@@ -137,6 +142,7 @@ public class User implements Serializable
             User user = new User();
             user.id = DbFieldUtil.getString(cursor, "anchorId");
             user.name = DbFieldUtil.getString(cursor, "anchorName");
+            user.sign = DbFieldUtil.getString(cursor, "anchorSign");
 
             return user;
         }
