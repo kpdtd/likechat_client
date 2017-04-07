@@ -103,6 +103,7 @@ public class MessageAdapter extends BaseAdapter
         try
         {
             ChatMessage message = (ChatMessage) getItem(nPosition);
+            holder.imgAvatar.setImageResource(R.mipmap.avatar1);
             if (message != null)
             {
                 holder.textDate.setText(StringUtil.formatDate(message.date));
@@ -110,6 +111,10 @@ public class MessageAdapter extends BaseAdapter
                 if (message.from != null)
                 {
                     holder.textName.setText(message.from.name);
+                }
+                else
+                {
+                    holder.textName.setText("");
                 }
             }
         }

@@ -273,8 +273,7 @@
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/img_anchor1"
-                        style="@style/user_info_anchor_avatar_style"
-                        android:src="@mipmap/anchor1"/>
+                        style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor1"
                         style="@style/user_info_anchor_name_style"
@@ -288,8 +287,7 @@
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/img_anchor2"
-                        style="@style/user_info_anchor_avatar_style"
-                        android:src="@mipmap/anchor2"/>
+                        style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor2"
                         style="@style/user_info_anchor_name_style"
@@ -303,8 +301,7 @@
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/img_anchor3"
-                        style="@style/user_info_anchor_avatar_style"
-                        android:src="@mipmap/anchor3"/>
+                        style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor3"
                         style="@style/user_info_anchor_name_style"
@@ -318,8 +315,7 @@
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/img_anchor4"
-                        style="@style/user_info_anchor_avatar_style"
-                        android:src="@mipmap/anchor4"/>
+                        style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor4"
                         style="@style/user_info_anchor_name_style"
@@ -333,8 +329,7 @@
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/img_anchor5"
-                        style="@style/user_info_anchor_avatar_style"
-                        android:src="@mipmap/anchor5"/>
+                        style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor5"
                         style="@style/user_info_anchor_name_style"
@@ -348,8 +343,7 @@
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/img_anchor6"
-                        style="@style/user_info_anchor_avatar_style"
-                        android:src="@mipmap/anchor6"/>
+                        style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor6"
                         style="@style/user_info_anchor_name_style"
@@ -363,8 +357,7 @@
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/img_anchor7"
-                        style="@style/user_info_anchor_avatar_style"
-                        android:src="@mipmap/anchor7"/>
+                        style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor7"
                         style="@style/user_info_anchor_name_style"
@@ -378,8 +371,7 @@
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/img_anchor8"
-                        style="@style/user_info_anchor_avatar_style"
-                        android:src="@mipmap/anchor8"/>
+                        style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor8"
                         style="@style/user_info_anchor_name_style"

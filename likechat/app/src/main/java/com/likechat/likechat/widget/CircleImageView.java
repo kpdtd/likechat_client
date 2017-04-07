@@ -18,10 +18,13 @@ import android.util.AttributeSet;
  */
 public class CircleImageView extends android.support.v7.widget.AppCompatImageView
 {
-//    private Path path;
+    //    private Path path;
 //    private PaintFlagsDrawFilter mPaintFlagsDrawFilter;// 毛边过滤
     private Paint m_paint;
     private Rect m_rectSrc, m_rectDest;
+    private Rect m_rectCircle;
+    /** 临时的画布 */
+    private Canvas m_canvasTemp;
 
     public CircleImageView(Context context)
     {
@@ -47,6 +50,10 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
 
         m_rectSrc = new Rect();
         m_rectDest = new Rect();
+
+        m_rectCircle = new Rect();
+
+        m_canvasTemp = new Canvas();
     }
 
     @Override
@@ -62,7 +69,8 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
             m_paint.reset();
             cns.drawBitmap(b, m_rectSrc, m_rectDest, m_paint);
             b.recycle();
-        } else
+        }
+        else
         {
             super.onDraw(cns);
         }
@@ -70,31 +78,26 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
 
     private Bitmap circleDraw(Bitmap bitmap)
     {
-        int r = 0;
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
-        //Rect rectSource = null;
-        if (width > height)
-        {
-            r = height;
-        }
-        else
-        {
-            r = width;
-        }
+        int r = (width > height ? height : width);
+
         //创建一个图片对象
         Bitmap output = Bitmap.createBitmap(r, r, Bitmap.Config.ARGB_8888);
         //创建一个图片游标
-        Canvas canvas = new Canvas(output);
-        final Rect rect = new Rect(0, 0, r, r);
+        //Canvas canvas = new Canvas(output);
+        m_canvasTemp.setBitmap(output);
+        //final Rect rect = new Rect(0, 0, r, r);
+        m_rectCircle.set(0, 0, r, r);
         /* 设置取消锯齿效果 */
         m_paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
+        m_canvasTemp.drawARGB(0, 0, 0, 0);
         m_paint.setColor(Color.WHITE);
         /* 绘画一个圆图形 */
-        canvas.drawCircle(r / 2, r / 2, r / 2, m_paint);
+        m_canvasTemp.drawCircle(r / 2, r / 2, r / 2, m_paint);
         m_paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, m_paint);
+        m_canvasTemp.drawBitmap(bitmap, m_rectCircle, m_rectCircle, m_paint);
+
         return output;
     }
 }
