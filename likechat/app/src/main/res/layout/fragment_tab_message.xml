@@ -28,20 +28,18 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"/>
             <RadioButton
-                android:id="@+id/rdo_msg_record"
+                android:id="@+id/rdo_call_history"
                 style="@style/tab_find_radio_style"
-                android:text="@string/rdo_msg_record"/>
+                android:text="@string/rdo_call_history"/>
 
         </RadioGroup>
 
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/list"
+    <com.likechat.likechat.widget.NoScrollViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparent">
-
-    </ListView>
+        android:layout_height="match_parent">
+    </com.likechat.likechat.widget.NoScrollViewPager>
 
 </LinearLayout>

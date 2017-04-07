@@ -1,13 +1,11 @@
 package com.likechat.likechat.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.likechat.likechat.R;
+import com.likechat.likechat.adapter.CustomFragmentPageAdapter;
 import com.likechat.likechat.fragment.BaseFragment;
 import com.likechat.likechat.fragment.TabFindFragment;
 import com.likechat.likechat.fragment.TabMainFragment;
@@ -119,55 +117,5 @@ public class MainActivity extends BaseActivity
         {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 自定义 FragmentPagerAdapter
-     */
-    class CustomFragmentPageAdapter extends FragmentPagerAdapter
-    {
-        private List<BaseFragment> m_listFragment;
-
-        public CustomFragmentPageAdapter(FragmentManager fm, List<BaseFragment> listFragment)
-        {
-            super(fm);
-
-            m_listFragment = listFragment;
-        }
-
-        @Override
-        public Fragment getItem(int position)
-        {
-            try
-            {
-                if (m_listFragment != null)
-                {
-                    return m_listFragment.get(position);
-                }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount()
-        {
-            try
-            {
-                if (m_listFragment != null)
-                {
-                    return m_listFragment.size();
-                }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            return 0;
-        }
-
     }
 }

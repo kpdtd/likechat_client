@@ -1,29 +1,28 @@
 package com.likechat.likechat.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.likechat.likechat.R;
-import com.likechat.likechat.activity.ChatTextActivity;
-import com.likechat.likechat.adapter.MessageAdapter;
-import com.likechat.likechat.entity.ChatMessage;
-import com.likechat.likechat.entity.User;
-import com.likechat.likechat.util.DebugUtil;
+import com.likechat.likechat.adapter.CustomFragmentPageAdapter;
+import com.likechat.likechat.widget.NoScrollViewPager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TabMessageFragment extends BaseFragment
 {
     /** 界面中的root view */
     private View m_root;
-    private ListView m_list;
-    private MessageAdapter m_adapter;
+
+    /** Fragment 列表 */
+    private List<BaseFragment> m_listFragment;
+    /** 切换各个界面 */
+    private ViewPager m_pager;
 
     @Nullable
     @Override
@@ -44,26 +43,56 @@ public class TabMessageFragment extends BaseFragment
     {
         try
         {
-            m_list = (ListView) root.findViewById(R.id.list);
+            m_pager = (NoScrollViewPager) root.findViewById(R.id.view_pager);
 
-            m_list.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            initPager();
+
+            View.OnClickListener clickListener = new View.OnClickListener()
             {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                public void onClick(View v)
                 {
                     try
                     {
-                        Intent intentChat = new Intent(getActivity(), ChatTextActivity.class);
-                        User user = (m_adapter.getItem(position) == null ? null : ((ChatMessage) m_adapter.getItem(position)).from);
-                        intentChat.putExtra("user", user);
-                        startActivity(intentChat);
+                        switch (v.getId())
+                        {
+                        case R.id.rdo_msg_news:
+                            m_pager.setCurrentItem(0, false);
+                            break;
+                        case R.id.rdo_call_history:
+                            m_pager.setCurrentItem(1, false);
+                            break;
+                        }
                     }
                     catch (Exception e)
                     {
                         e.printStackTrace();
                     }
                 }
-            });
+            };
+
+            root.findViewById(R.id.rdo_msg_news).setOnClickListener(clickListener);
+            root.findViewById(R.id.rdo_call_history).setOnClickListener(clickListener);
+
+            root.findViewById(R.id.rdo_msg_news).performClick();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 初始化ViewPager
+     */
+    private void initPager()
+    {
+        try
+        {
+            m_listFragment = new ArrayList<>();
+            m_listFragment.add(new MessageListFragment());
+            m_listFragment.add(new CallHistoryListFragment());
+            m_pager.setAdapter(new CustomFragmentPageAdapter(getChildFragmentManager(), m_listFragment));
         }
         catch (Exception e)
         {
@@ -75,17 +104,6 @@ public class TabMessageFragment extends BaseFragment
     {
         try
         {
-            List<ChatMessage> chatMessages = DebugUtil.getChatMessage();
-            if (m_adapter == null)
-            {
-                m_adapter = new MessageAdapter(getActivity(), chatMessages);
-                m_list.setAdapter(m_adapter);
-            }
-            else
-            {
-                m_adapter.updateData(chatMessages);
-                m_adapter.notifyDataSetChanged();
-            }
         }
         catch (Exception e)
         {

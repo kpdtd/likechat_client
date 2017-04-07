@@ -111,6 +111,10 @@ public class CallHistoryAdapter extends BaseAdapter
                 {
                     holder.textName.setText(message.from.name);
                 }
+                else
+                {
+                    holder.textName.setText("");
+                }
             }
         }
         catch (Exception e)

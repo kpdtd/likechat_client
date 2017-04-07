@@ -14,7 +14,7 @@
     <string name="rdo_find_hot">热门</string>
     <string name="rdo_find_follow">关注</string>
     <string name="rdo_msg_news">消息</string>
-    <string name="rdo_msg_record">通话记录</string>
+    <string name="rdo_call_history">通话记录</string>
 
     <string name="title_me">我的信息</string>
     <string name="title_account_balance">账户余额</string>
