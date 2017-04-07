@@ -22,6 +22,8 @@ public class CallHistoryAdapter extends BaseAdapter
 {
     private Activity m_parent;
     private List<CallHistory> m_listCallHistories;
+    /** 列表是否处于滑动状态 */
+    private boolean m_bIsScrolling = false;
 
     public CallHistoryAdapter(Activity activity, List<CallHistory> callHistories)
     {
@@ -32,6 +34,11 @@ public class CallHistoryAdapter extends BaseAdapter
     public void updateData(List<CallHistory> callHistories)
     {
         m_listCallHistories = callHistories;
+    }
+
+    public void setScrolling(boolean bIsScrolling)
+    {
+        m_bIsScrolling = bIsScrolling;
     }
 
     @Override
@@ -89,8 +96,11 @@ public class CallHistoryAdapter extends BaseAdapter
                 holder = new ViewHolder(convertView);
             }
 
-            // 设置项信息
-            setItemInfo(position, holder);
+            if (!m_bIsScrolling)
+            {
+                // 设置项信息
+                setItemInfo(position, holder);
+            }
         }
         catch (Exception e)
         {

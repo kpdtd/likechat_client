@@ -19,6 +19,8 @@ public class ChatAdapter extends BaseAdapter
 {
     private Activity m_parent;
     private List<ChatMessage> m_listTextChatMessages;
+    /** 列表是否处于滑动状态 */
+    private boolean m_bIsScrolling = false;
 
     public ChatAdapter(Activity activity, List<ChatMessage> listTextChatMessages)
     {
@@ -29,6 +31,11 @@ public class ChatAdapter extends BaseAdapter
     public void updateData(List<ChatMessage> listTextChatMessages)
     {
         m_listTextChatMessages = listTextChatMessages;
+    }
+
+    public void setScrolling(boolean bIsScrolling)
+    {
+        m_bIsScrolling = bIsScrolling;
     }
 
     @Override
@@ -86,8 +93,11 @@ public class ChatAdapter extends BaseAdapter
                 holder = new ViewHolder(convertView);
             }
 
-            // 设置项信息
-            setItemInfo(position, holder);
+            if (!m_bIsScrolling)
+            {
+                // 设置项信息
+                setItemInfo(position, holder);
+            }
         }
         catch (Exception e)
         {

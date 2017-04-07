@@ -22,6 +22,8 @@ public class AnchorAdapter extends BaseAdapter
 {
     private Activity m_parent;
     private List<User> m_listUsers;
+    /** 列表是否处于滑动状态 */
+    private boolean m_bIsScrolling = false;
 
     public AnchorAdapter(Activity activity, List<User> listUsers)
     {
@@ -32,6 +34,11 @@ public class AnchorAdapter extends BaseAdapter
     public void updateData(List<User> listUsers)
     {
         m_listUsers = listUsers;
+    }
+
+    public void setScrolling(boolean bIsScrolling)
+    {
+        m_bIsScrolling = bIsScrolling;
     }
 
     @Override
@@ -89,8 +96,11 @@ public class AnchorAdapter extends BaseAdapter
                 holder = new ViewHolder(convertView);
             }
 
-            // 设置项信息
-            setItemInfo(position, holder);
+            if (!m_bIsScrolling)
+            {
+                // 设置项信息
+                setItemInfo(position, holder);
+            }
         }
         catch (Exception e)
         {
