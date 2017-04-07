@@ -270,6 +270,43 @@ public class StringUtil
     }
 
     /**
+     * 格式化时长（00:00:00）
+     * @param time 时长（秒）
+     * @return
+     */
+    public static String formatTime(int time)
+    {
+        try
+        {
+            int nHour, nMinute, nSecond;
+            nHour = time / 3600;
+            nMinute = (time - 3600 * nHour) / 60;
+            nSecond = (time - 60 * nMinute) % 60;
+
+            String strTalkTime = "";
+            if (nHour > 0)
+            {
+                String strHour = String.format("%02d:", nHour);
+                strTalkTime += strHour;
+            }
+
+            String strMinute = String.format("%02d:", nMinute);
+            strTalkTime += strMinute;
+
+            String strSecond = String.format("%02d", nSecond);
+            strTalkTime += strSecond;
+
+            return strTalkTime;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    /**
      * 分割字符串
      *
      * @param str          字符串

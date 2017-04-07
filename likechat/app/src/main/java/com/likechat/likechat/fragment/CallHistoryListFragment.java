@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.likechat.likechat.R;
 import com.likechat.likechat.activity.ChatVoiceCallOutActivity;
 import com.likechat.likechat.adapter.CallHistoryAdapter;
+import com.likechat.likechat.entity.CallHistory;
 import com.likechat.likechat.entity.ChatMessage;
 import com.likechat.likechat.entity.User;
 import com.likechat.likechat.util.DebugUtil;
@@ -76,15 +77,15 @@ public class CallHistoryListFragment extends BaseFragment
     {
         try
         {
-            List<ChatMessage> chatMessages = DebugUtil.getChatMessage();
+            List<CallHistory> callHistories = DebugUtil.getCallHistory();
             if (m_adapter == null)
             {
-                m_adapter = new CallHistoryAdapter(getActivity(), chatMessages);
+                m_adapter = new CallHistoryAdapter(getActivity(), callHistories);
                 m_list.setAdapter(m_adapter);
             }
             else
             {
-                m_adapter.updateData(chatMessages);
+                m_adapter.updateData(callHistories);
                 m_adapter.notifyDataSetChanged();
             }
         }

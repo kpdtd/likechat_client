@@ -8,7 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.likechat.likechat.R;
-import com.likechat.likechat.entity.ChatMessage;
+import com.likechat.likechat.entity.AppData;
+import com.likechat.likechat.entity.CallHistory;
 import com.likechat.likechat.util.StringUtil;
 
 import java.util.List;
@@ -19,17 +20,17 @@ import java.util.List;
 public class CallHistoryAdapter extends BaseAdapter
 {
     private Activity m_parent;
-    private List<ChatMessage> m_listTextChatMessages;
+    private List<CallHistory> m_listCallHistories;
 
-    public CallHistoryAdapter(Activity activity, List<ChatMessage> listTextChatMessages)
+    public CallHistoryAdapter(Activity activity, List<CallHistory> callHistories)
     {
         m_parent = activity;
-        m_listTextChatMessages = listTextChatMessages;
+        m_listCallHistories = callHistories;
     }
 
-    public void updateData(List<ChatMessage> listTextChatMessages)
+    public void updateData(List<CallHistory> callHistories)
     {
-        m_listTextChatMessages = listTextChatMessages;
+        m_listCallHistories = callHistories;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class CallHistoryAdapter extends BaseAdapter
     {
         try
         {
-            return m_listTextChatMessages.size();
+            return m_listCallHistories.size();
         }
         catch (Exception e)
         {
@@ -51,7 +52,7 @@ public class CallHistoryAdapter extends BaseAdapter
     {
         try
         {
-            return m_listTextChatMessages.get(position);
+            return m_listCallHistories.get(position);
         }
         catch (Exception e)
         {
@@ -102,18 +103,44 @@ public class CallHistoryAdapter extends BaseAdapter
     {
         try
         {
-            ChatMessage message = (ChatMessage) getItem(nPosition);
-            if (message != null)
+            CallHistory callHistory = (CallHistory) getItem(nPosition);
+            if (callHistory != null)
             {
-                holder.textDate.setText(StringUtil.formatDate(message.date));
-                holder.textState.setText(message.text);
-                if (message.from != null)
+                holder.textStart.setText(StringUtil.formatDate(callHistory.startTime));
+
+                if (AppData.isCurUser(callHistory.from))
                 {
-                    holder.textName.setText(message.from.name);
+                    // 呼出
+                    String strTalkTime = "";
+                    if (callHistory.talkTime == 0)
+                    {
+                        strTalkTime = "00:00";
+                    }
+                    else
+                    {
+                        strTalkTime = StringUtil.formatTime(callHistory.talkTime);
+                    }
+
+                    holder.textState.setText(strTalkTime);
+                    holder.textName.setText(callHistory.to.name);
+                    holder.imgAvatar.setImageResource(callHistory.to.avatar_res);
                 }
                 else
                 {
-                    holder.textName.setText("");
+                    // 呼入
+                    String strTalkTime = "";
+                    if (callHistory.talkTime == 0)
+                    {
+                        strTalkTime = "未接来电";
+                    }
+                    else
+                    {
+                        strTalkTime = StringUtil.formatTime(callHistory.talkTime);
+                    }
+
+                    holder.textState.setText(strTalkTime);
+                    holder.textName.setText(callHistory.from.name);
+                    holder.imgAvatar.setImageResource(callHistory.from.avatar_res);
                 }
             }
         }
@@ -131,7 +158,7 @@ public class CallHistoryAdapter extends BaseAdapter
             {
                 imgAvatar = (ImageView) root.findViewById(R.id.img_avatar);
                 textName = (TextView) root.findViewById(R.id.txt_name);
-                textDate = (TextView) root.findViewById(R.id.txt_date);
+                textStart = (TextView) root.findViewById(R.id.txt_start);
                 textState = (TextView) root.findViewById(R.id.txt_call_state);
 
                 // 设置列表项
@@ -148,7 +175,7 @@ public class CallHistoryAdapter extends BaseAdapter
         /** 名字 */
         public TextView textName;
         /** 时间 */
-        public TextView textDate;
+        public TextView textStart;
         /** 通话状态（呼入、呼出、未接来电） */
         public TextView textState;
     }

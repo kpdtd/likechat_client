@@ -2,6 +2,7 @@ package com.likechat.likechat.util;
 
 import com.likechat.likechat.R;
 import com.likechat.likechat.entity.AppData;
+import com.likechat.likechat.entity.CallHistory;
 import com.likechat.likechat.entity.ChatMessage;
 import com.likechat.likechat.entity.User;
 
@@ -97,5 +98,58 @@ public class DebugUtil
         }
 
         return null;
+    }
+
+    public static List<CallHistory> getCallHistory()
+    {
+        List<CallHistory> callHistories = new ArrayList<>();
+        try
+        {
+            Date dateOneDay = StringUtil.getDate("2017-02-06");
+            User user1 = new User();
+            user1.name = "美丽可儿";
+            user1.avatar_res = R.mipmap.avatar1;
+            User user2 = new User();
+            user2.name = "寂寞美人";
+            user2.avatar_res = R.mipmap.avatar2;
+            User user3 = new User();
+            user3.name = "足球宝贝";
+            user3.avatar_res = R.mipmap.avatar3;
+            User users1[] = new User[]{user1, user2, user3, AppData.getCurUser()};
+            User users2[] = new User[]{user1, user2, user3};
+            int talkTimes[] = new int[]{0, 59, 61, 3599, 3601, 123456};
+            for (int i = 0; i < 20; i++)
+            {
+                CallHistory callHistory = new CallHistory();
+                callHistory.from = users1[i % 4];
+                if (callHistory.from.equals(AppData.getCurUser()))
+                {
+                    callHistory.to = users2[i % 3];
+                }
+                else
+                {
+                    callHistory.to = AppData.getCurUser();
+                }
+
+                if (i % 2 == 0)
+                {
+                    callHistory.startTime = dateOneDay.getTime();
+                }
+                else
+                {
+                    callHistory.startTime = System.currentTimeMillis();
+                }
+
+                callHistory.talkTime = talkTimes[i % talkTimes.length];
+
+                callHistories.add(callHistory);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return callHistories;
     }
 }

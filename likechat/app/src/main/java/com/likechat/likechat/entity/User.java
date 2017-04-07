@@ -40,6 +40,23 @@ public class User implements Serializable
     /** 关注数量 */
     public int follow;
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o == null)
+        {
+            return false;
+        }
+
+        if (o instanceof User)
+        {
+            User user = (User) o;
+            return user.id.equals(id);
+        }
+
+        return false;
+    }
+
     public JSONObject toJson()
     {
         JSONObject jsonObject = new JSONObject();
