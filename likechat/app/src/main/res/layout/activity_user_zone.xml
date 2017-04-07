@@ -11,6 +11,7 @@
         android:background="@drawable/shape_gradient_title_bg">
 
         <TextView
+            android:id="@+id/txt_title"
             style="@style/title_text_style"
             android:text="@string/title_user_zone"/>
 

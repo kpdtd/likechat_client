@@ -56,32 +56,32 @@ public class UserInfoActivity extends BaseActivity
                     {
                         switch (v.getId())
                         {
-                         // 最新动态
-                        case R.id.txt_latest_news:
-                            Intent intentZone = new Intent(UserInfoActivity.this, UserZoneActivity.class);
-                            intentZone.putExtra("user", m_user);
-                            startActivity(intentZone);
-                            break;
+                            // 最新动态
+                            case R.id.txt_latest_news:
+                                Intent intentZone = new Intent(UserInfoActivity.this, UserZoneActivity.class);
+                                intentZone.putExtra("user", m_user);
+                                startActivity(intentZone);
+                                break;
 
-                        // 嗨聊
-                        case R.id.lay_voice_chat:
-                            Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
-                            intentVoice.putExtra("user", m_user);
-                            startActivity(intentVoice);
-                            break;
-                        // 文字聊天
-                        case R.id.lay_text_chat:
-                            Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
-                            intentText.putExtra("user", m_user);
-                            startActivity(intentText);
-                            break;
-                        // 关注
-                        case R.id.lay_follow:
-                            break;
-                        // 关注
-                        case R.id.img_back:
-                            finish();
-                            break;
+                            // 嗨聊
+                            case R.id.lay_voice_chat:
+                                Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
+                                intentVoice.putExtra("user", m_user);
+                                startActivity(intentVoice);
+                                break;
+                            // 文字聊天
+                            case R.id.lay_text_chat:
+                                Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
+                                intentText.putExtra("user", m_user);
+                                startActivity(intentText);
+                                break;
+                            // 关注
+                            case R.id.lay_follow:
+                                break;
+                            // 关注
+                            case R.id.img_back:
+                                finish();
+                                break;
                         }
                     }
                     catch (Exception e)
@@ -123,8 +123,10 @@ public class UserInfoActivity extends BaseActivity
                         if (null != v.getTag())
                         {
                             int nIndex = (int)v.getTag();
+                            int nCount = 8;
                             Intent intentText = new Intent(UserInfoActivity.this, ImageBrowseActivity.class);
-                            intentText.putExtra("index", nIndex);
+                            intentText.putExtra("pos", nIndex);
+                            intentText.putExtra("count", nCount);
                             startActivity(intentText);
                         }
                     }
@@ -135,24 +137,40 @@ public class UserInfoActivity extends BaseActivity
                 }
             };
 
-            // 动态设置点击事件, 即有图片的才设置点击事件
-            findViewById(R.id.img_pic1).setOnClickListener(clickListener);
-            findViewById(R.id.img_pic2).setOnClickListener(clickListener);
-            findViewById(R.id.img_pic3).setOnClickListener(clickListener);
-            findViewById(R.id.img_pic4).setOnClickListener(clickListener);
-            findViewById(R.id.img_pic5).setOnClickListener(clickListener);
-            findViewById(R.id.img_pic6).setOnClickListener(clickListener);
-            findViewById(R.id.img_pic7).setOnClickListener(clickListener);
-            findViewById(R.id.img_pic8).setOnClickListener(clickListener);
+            List<View> viewList = new ArrayList<>();
+            viewList.add(findViewById(R.id.img_pic1));
+            viewList.add(findViewById(R.id.img_pic2));
+            viewList.add(findViewById(R.id.img_pic3));
+            viewList.add(findViewById(R.id.img_pic4));
+            viewList.add(findViewById(R.id.img_pic5));
+            viewList.add(findViewById(R.id.img_pic6));
+            viewList.add(findViewById(R.id.img_pic7));
+            viewList.add(findViewById(R.id.img_pic8));
 
-            findViewById(R.id.img_pic1).setTag(1);
-            findViewById(R.id.img_pic2).setTag(2);
-            findViewById(R.id.img_pic3).setTag(3);
-            findViewById(R.id.img_pic4).setTag(4);
-            findViewById(R.id.img_pic5).setTag(5);
-            findViewById(R.id.img_pic6).setTag(6);
-            findViewById(R.id.img_pic7).setTag(7);
-            findViewById(R.id.img_pic8).setTag(8);
+            List<User> userList = DebugUtil.getUserList();
+
+            // 这是生成的随机数
+            Random rand = new Random(System.currentTimeMillis());
+            java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
+            ImageView ivPhoto = null;
+            User user = null;
+
+            // 椭机数产生主播
+            for(int i = 0; i < 8; i++)
+            {
+                int nIndex = -1;
+                while(nIndex == -1 || setExist.contains(nIndex))
+                {
+                    nIndex = rand.nextInt(userList.size());
+                }
+
+                setExist.add(nIndex);
+                ivPhoto = (ImageView)viewList.get(i);
+                user = userList.get(nIndex);
+                ivPhoto.setTag(nIndex);
+                ivPhoto.setOnClickListener(clickListener);
+                ivPhoto.setImageResource(null == user ? 0 : user.avatar_res);
+            }
         }
         catch (Exception e)
         {
@@ -219,18 +237,25 @@ public class UserInfoActivity extends BaseActivity
 
             // 这是生成的随机数
             Random rand = new Random(System.currentTimeMillis());
+            java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
             LinearLayout layAnchor = null;
             int nSize = userList.size() < 8 ? userList.size() : 8;
             User user = null;
 
             // 椭机数产生主播
-            for(int i = 0, nIndex = 0; i < 8; i++)
+            for(int i = 0; i < 8; i++)
             {
                 user = null;
                 layAnchor = (LinearLayout)viewList.get(i);
                 if (i < nSize)
                 {
-                    nIndex = rand.nextInt(userList.size());
+                    int nIndex = -1;
+                    while(nIndex == -1 || setExist.contains(nIndex))
+                    {
+                        nIndex = rand.nextInt(userList.size());
+                    }
+
+                    setExist.add(nIndex);
                     user = userList.get(nIndex);
                     layAnchor.setTag(user);
                     layAnchor.setOnClickListener(clickListener);

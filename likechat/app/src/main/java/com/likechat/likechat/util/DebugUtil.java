@@ -24,8 +24,71 @@ public class DebugUtil
             int[] avatars = new int[]{
                     R.mipmap.avatar1,
                     R.mipmap.avatar2,
-                    R.mipmap.avatar3
+                    R.mipmap.avatar3,
+                    R.mipmap.avatar4,
+                    R.mipmap.avatar5,
+                    R.mipmap.avatar6,
+                    R.mipmap.avatar7,
+                    R.mipmap.avatar8,
+                    R.mipmap.avatar9,
+                    R.mipmap.avatar10,
+                    R.mipmap.avatar11,
+                    R.mipmap.avatar12,
+                    R.mipmap.avatar13,
+                    R.mipmap.avatar14,
+                    R.mipmap.avatar15,
+                    R.mipmap.avatar16,
+                    R.mipmap.avatar17,
+                    R.mipmap.avatar18,
+                    R.mipmap.avatar19,
+                    R.mipmap.avatar20
             };
+            String[] titles = new String[]
+                    {
+                            "安安心",
+                            "国少小腰",
+                            "无天双昊",
+                            "过季颜色",
+                            "冰雪飞花",
+                            "小茜茜",
+                            "安可儿",
+                            "小虾米",
+                            "安然然",
+                            "欣宝宝",
+                            "予馨",
+                            "木槿",
+                            "娜妹",
+                            "村姑歌唱",
+                            "依依守护",
+                            "莲花林馨",
+                            "紫色玫瑰",
+                            "淡妆玉莹",
+                            "可爱婷",
+                            "文静傻呆"
+                    };
+            String[] describes = new String[]
+                    {
+                            "喜欢又不是爱，你的出现让我十分想念。",
+                            "谁若用真心对我，我便拿命去珍惜。—这句话永远不会过期。",
+                            "让我们继续同生命的繁华与慷慨相爱，即使岁月以刻薄与荒芜相欺。",
+                            "感谢你的到来，有时唱歌没有欢迎到你们希望不要介意。",
+                            "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的。",
+                            "纵剑飞舞，绣衣如雪，身周寒烟淡淡，有如轻纱笼体。",
+                            "枝子低着头，看不清她的长相，只觉得她整个人都笼罩在一片安静、纯明、柔美的气氛之中。",
+                            "双颊嫣红，比花还艳，目光迷蒙，那抹嫣红浸染玉颈，益发显得肌肤嫩如脂玉。",
+                            "妇人素衣裹体，妍丽妖娆，举手投足，无不流露媚态。",
+                            "心下得意，不由得笑魇如花，明艳不可方物。",
+                            "美女卷珠帘，深坐蹙蛾眉，但见泪痕湿，不知心恨谁。",
+                            "手如柔荑，肤如凝脂，领如蝤蛴，齿如瓠犀，螓首蛾眉，巧笑倩兮，美目眇兮。",
+                            "懒懒一笑，拢了拢一头青丝，嘴角含着丝丝笑意。",
+                            "明珠生晕、美玉莹光，眉目间隐然有一股书卷的清气。",
+                            "一袭水色裙装包裹盈盈纤腰，三千青丝桃簪轻巧挽了个玲珑发髻。",
+                            "妩媚一笑，梨涡轻陷。",
+                            "略展了昳丽容颜，华色精妙唇线绽蔓嫣然笑意。",
+                            "美女卷珠帘,深坐蹙蛾眉,但见泪痕湿,不知心恨谁。",
+                            "一身翠绿衣衫,皮肤雪白,一张脸蛋清秀可爱。",
+                            "折纤腰以微步，呈皓腕于轻纱。眸含春水清波流盼，头上倭堕髻斜插碧玉龙凤钗。香娇玉嫩秀靥艳比花娇，指如削葱根口如含朱丹，一颦一笑动人心魂。"
+                    };
             String[] strAvatars = new String[]{"avatar1.jpg", "avatar2.jpg", "avatar3.jpg"};
             String[] citys = new String[]
                     {
@@ -44,15 +107,16 @@ public class DebugUtil
             List<User> userList = new ArrayList<>();
             for (int i = 0; i < 20; i++)
             {
+                int avatar = i % 20;
                 int index = i % 3;
                 User user = new User();
-                user.name = "我是直播主播" + (i + 1);
+                user.name = titles[avatar]; // "直播主播" + (i + 1);
                 user.age = 20;
                 user.id = String.valueOf(10000 + i + 1);
                 user.city = citys[index];
                 user.gender = User.GENDER_FEMALE;
-                user.intro = "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
-                user.avatar_res = avatars[index];
+                user.intro = describes[avatar]; // "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
+                user.avatar_res = avatars[avatar];
                 user.avatar = strAvatars[index];
                 user.fans = fanses[index];
                 user.follow = follows[index];

@@ -276,8 +276,7 @@
                         style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor1"
-                        style="@style/user_info_anchor_name_style"
-                        android:text="主播1"/>
+                        style="@style/user_info_anchor_name_style"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/lay_anchor2"
@@ -290,8 +289,7 @@
                         style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor2"
-                        style="@style/user_info_anchor_name_style"
-                        android:text="主播2"/>
+                        style="@style/user_info_anchor_name_style"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/lay_anchor3"
@@ -304,8 +302,7 @@
                         style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor3"
-                        style="@style/user_info_anchor_name_style"
-                        android:text="主播3"/>
+                        style="@style/user_info_anchor_name_style"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/lay_anchor4"
@@ -318,8 +315,7 @@
                         style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor4"
-                        style="@style/user_info_anchor_name_style"
-                        android:text="主播4"/>
+                        style="@style/user_info_anchor_name_style"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/lay_anchor5"
@@ -332,8 +328,7 @@
                         style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor5"
-                        style="@style/user_info_anchor_name_style"
-                        android:text="主播5"/>
+                        style="@style/user_info_anchor_name_style"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/lay_anchor6"
@@ -346,8 +341,7 @@
                         style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor6"
-                        style="@style/user_info_anchor_name_style"
-                        android:text="主播6"/>
+                        style="@style/user_info_anchor_name_style"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/lay_anchor7"
@@ -360,8 +354,7 @@
                         style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor7"
-                        style="@style/user_info_anchor_name_style"
-                        android:text="主播7"/>
+                        style="@style/user_info_anchor_name_style"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/lay_anchor8"
@@ -374,8 +367,7 @@
                         style="@style/user_info_anchor_avatar_style"/>
                     <TextView
                         android:id="@+id/txt_anchor8"
-                        style="@style/user_info_anchor_name_style"
-                        android:text="主播8"/>
+                        style="@style/user_info_anchor_name_style"/>
                 </LinearLayout>
             </GridLayout>
         </LinearLayout>
