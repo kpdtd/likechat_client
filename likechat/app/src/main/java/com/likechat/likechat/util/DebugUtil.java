@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.likechat.likechat.R.mipmap.avatar1;
+
 /**
  * 生成调试数据
  */
@@ -24,6 +26,7 @@ public class DebugUtil
                     R.mipmap.avatar2,
                     R.mipmap.avatar3
             };
+            String[] strAvatars = new String[]{"avatar1.jpg", "avatar2.jpg", "avatar3.jpg"};
             String[] citys = new String[]
                     {
                             "四川 成都",
@@ -50,6 +53,7 @@ public class DebugUtil
                 user.gender = User.GENDER_FEMALE;
                 user.intro = "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
                 user.avatar_res = avatars[index];
+                user.avatar = strAvatars[index];
                 user.fans = fanses[index];
                 user.follow = follows[index];
                 userList.add(user);
@@ -108,13 +112,16 @@ public class DebugUtil
             Date dateOneDay = StringUtil.getDate("2017-02-06");
             User user1 = new User();
             user1.name = "美丽可儿";
-            user1.avatar_res = R.mipmap.avatar1;
+            user1.avatar_res = avatar1;
+            user1.avatar = "avatar1.jpg";
             User user2 = new User();
             user2.name = "寂寞美人";
             user2.avatar_res = R.mipmap.avatar2;
+            user2.avatar = "avatar2.jpg";
             User user3 = new User();
             user3.name = "足球宝贝";
             user3.avatar_res = R.mipmap.avatar3;
+            user3.avatar = "avatar3.jpg";
             User users1[] = new User[]{user1, user2, user3, AppData.getCurUser()};
             User users2[] = new User[]{user1, user2, user3};
             int talkTimes[] = new int[]{0, 59, 61, 3599, 3601, 123456};

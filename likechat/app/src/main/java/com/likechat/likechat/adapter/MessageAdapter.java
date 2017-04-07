@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.likechat.likechat.R;
 import com.likechat.likechat.entity.ChatMessage;
+import com.likechat.likechat.util.ImageLoaderUtil;
 import com.likechat.likechat.util.StringUtil;
 
 import java.util.List;
@@ -103,7 +104,7 @@ public class MessageAdapter extends BaseAdapter
         try
         {
             ChatMessage message = (ChatMessage) getItem(nPosition);
-            holder.imgAvatar.setImageResource(R.mipmap.avatar1);
+            //holder.imgAvatar.setImageResource(R.mipmap.avatar1);
             if (message != null)
             {
                 holder.textDate.setText(StringUtil.formatDate(message.date));
@@ -111,10 +112,12 @@ public class MessageAdapter extends BaseAdapter
                 if (message.from != null)
                 {
                     holder.textName.setText(message.from.name);
+                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, message.from.avatar);
                 }
                 else
                 {
                     holder.textName.setText("");
+                    holder.imgAvatar.setImageResource(R.mipmap.ic_system_message);
                 }
             }
         }

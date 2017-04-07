@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.likechat.likechat.R;
 import com.likechat.likechat.entity.AppData;
 import com.likechat.likechat.entity.CallHistory;
+import com.likechat.likechat.util.ImageLoaderUtil;
 import com.likechat.likechat.util.StringUtil;
 
 import java.util.List;
@@ -123,7 +124,8 @@ public class CallHistoryAdapter extends BaseAdapter
 
                     holder.textState.setText(strTalkTime);
                     holder.textName.setText(callHistory.to.name);
-                    holder.imgAvatar.setImageResource(callHistory.to.avatar_res);
+                    //holder.imgAvatar.setImageResource(callHistory.to.avatar_res);
+                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, callHistory.to.avatar);
                 }
                 else
                 {
@@ -140,7 +142,8 @@ public class CallHistoryAdapter extends BaseAdapter
 
                     holder.textState.setText(strTalkTime);
                     holder.textName.setText(callHistory.from.name);
-                    holder.imgAvatar.setImageResource(callHistory.from.avatar_res);
+                    //holder.imgAvatar.setImageResource(callHistory.from.avatar_res);
+                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, callHistory.from.avatar);
                 }
             }
         }

@@ -22,6 +22,7 @@ public class theApp extends Application
             User user = new User();
             user.id = "12345678";
             user.name = "我是大管家";
+            user.avatar = "avatar1.jpg";
             AppData.saveCurUser(user);
         }
         catch (Exception e)

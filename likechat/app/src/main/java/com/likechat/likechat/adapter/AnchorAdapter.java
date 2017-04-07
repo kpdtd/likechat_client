@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.likechat.likechat.R;
 import com.likechat.likechat.entity.User;
 import com.likechat.likechat.util.EntityUtil;
+import com.likechat.likechat.util.ImageLoaderUtil;
 
 import java.util.List;
 
@@ -109,14 +110,8 @@ public class AnchorAdapter extends BaseAdapter
                 holder.name.setText(user.name);
                 holder.intro.setText(user.intro);
                 holder.gender.setText(String.valueOf(user.age));
-                holder.avatar.setImageResource(user.avatar_res);
-//                if (anchor.gender == Anchor.GENDER_FEMALE)
-//                {
-//                    Drawable female = m_parent.getResources().getDrawable(R.drawable.ic_female_normal);
-//                    int width = UIUtil.dip2px(m_parent, 15);
-//                    UIUtil.setCompoundDrawables(holder.gender, female, 0, 0, 0, width, width);
-//                }
-
+                //holder.avatar.setImageResource(user.avatar_res);
+                ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, user.avatar);
                 EntityUtil.setAnchorGenderDrawable(holder.gender, user, false);
             }
         }

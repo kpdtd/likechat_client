@@ -14,8 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-import com.likechat.likechat.util.UIUtil;
-
 /**
  * 圆角矩形 Imageview
  */
@@ -74,7 +72,7 @@ public class RoundCornerImageView extends android.support.v7.widget.AppCompatIma
         if (null != drawable)
         {
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-            Bitmap b = roundBitmap(bitmap, UIUtil.dip2px(getContext(), 14));
+            Bitmap b = roundBitmap(bitmap, 14);
             m_rectSrc.set(0, 0, b.getWidth(), b.getHeight());
             m_rectDest.set(0, 0, getWidth(), getHeight());
             m_paint.reset();
