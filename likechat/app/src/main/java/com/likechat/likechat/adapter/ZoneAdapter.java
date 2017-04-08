@@ -13,9 +13,11 @@ import com.likechat.likechat.R;
 import com.likechat.likechat.entity.Zone;
 import com.likechat.likechat.util.ImageLoaderUtil;
 import com.likechat.likechat.util.StringUtil;
+import com.likechat.likechat.util.UIUtil;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +30,8 @@ public class ZoneAdapter extends BaseAdapter
     private List<Zone> m_listZones;
     /** 列表是否处于滑动状态 */
     private boolean m_bIsScrolling = false;
+    /** 动态内容的宽度（宽度、高度都与屏幕宽度一致） */
+    private int m_nContentWidth = 0;
 
     public ZoneAdapter(Activity activity, List<Zone> listZones)
     {
@@ -127,14 +131,17 @@ public class ZoneAdapter extends BaseAdapter
                 holder.date.setText(StringUtil.formatDate(zone.date));
                 holder.sign.setText(zone.anchorSign);
                 holder.text.setText(zone.text);
-                holder.watch.setText(zone.watch + m_parent.getString(R.string.txt_zone_watch));
+                String strWatch = zone.watch + m_parent.getString(R.string.txt_zone_watch);
+                holder.watch.setText(strWatch);
                 ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, zone.anchorAvatar);
                 JSONArray jsonArray = new JSONArray(zone.photosUrl);
                 setViewHeightEquWidth(holder.content);
+                List<ImageView> visiableViews = setZoneContentVisibility(jsonArray.length(), holder);
                 for (int i = 0; i < jsonArray.length(); i++)
                 {
                     String strPhotoUrl = jsonArray.getString(i);
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.content, strPhotoUrl);
+                    ImageView imageView = visiableViews.get(i);
+                    ImageLoaderUtil.displayListAvatarImageFromAsset(imageView, strPhotoUrl);
                 }
             }
         }
@@ -151,14 +158,123 @@ public class ZoneAdapter extends BaseAdapter
     {
         try
         {
-            DisplayMetrics metric = new DisplayMetrics();
-            m_parent.getWindowManager().getDefaultDisplay().getMetrics(metric);
-            int width = metric.widthPixels;     // 屏幕宽度（像素）
-            int height = metric.heightPixels;   // 屏幕高度（像素）
+            if (m_nContentWidth == 0)
+            {
+                DisplayMetrics metric = new DisplayMetrics();
+                m_parent.getWindowManager().getDefaultDisplay().getMetrics(metric);
+                int width = metric.widthPixels;     // 屏幕宽度（像素）
+                //int height = metric.heightPixels;   // 屏幕高度（像素）
 
+                m_nContentWidth = width;
+            }
+
+            setViewSize(view, m_nContentWidth, m_nContentWidth);
+//            //获取按钮的布局
+//            LinearLayout.LayoutParams para = (LinearLayout.LayoutParams) view.getLayoutParams();
+//            para.height = m_nContentWidth;
+//            para.width  = m_nContentWidth;
+//            view.setLayoutParams(para);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 设置图片内容控件的可见性
+     * @param visiableCount 几项可见
+     */
+    private List<ImageView> setZoneContentVisibility(int visiableCount, ViewHolder holder)
+    {
+        List<ImageView> visiableView = new ArrayList<>();
+        try
+        {
+            List<ImageView> allContentView = new ArrayList<>();
+            allContentView.add(holder.imgContent1);
+            allContentView.add(holder.imgContent2);
+            allContentView.add(holder.imgContent3);
+            allContentView.add(holder.imgContent4);
+            allContentView.add(holder.imgContent5);
+            allContentView.add(holder.imgContent6);
+            allContentView.add(holder.imgContent7);
+            allContentView.add(holder.imgContent8);
+            allContentView.add(holder.imgContent9);
+
+            // 中间第二张图片与第一第三张图片的边距
+            int width = 0;
+            if (visiableCount == 1)
+            {
+                width = m_nContentWidth;
+            }
+            else
+            {
+                int margin = UIUtil.dip2px(m_parent, 5) * 2;
+                width = (m_nContentWidth - margin) / 3;
+            }
+
+            for (int i = 0; i < allContentView.size(); i++)
+            {
+                View view = allContentView.get(i);
+                view.setVisibility(View.INVISIBLE);
+                setViewSize(view, width, width);
+            }
+
+            if (visiableCount <= 0)
+            {
+                return visiableView;
+            }
+
+            int[] visibleIndex = null;
+            if (visiableCount == 1)
+            {
+                visibleIndex = new int[]{0};
+            }
+            else if (visiableCount <= 3)
+            {
+                visibleIndex = new int[]{0, 1, 2};
+            }
+            else if (visiableCount == 4)
+            {
+                visibleIndex = new int[]{0, 1, 3, 4};
+            }
+            else if (visiableCount <= 6)
+            {
+                visibleIndex = new int[]{0, 1, 2, 3, 4, 5};
+            }
+            else if (visiableCount <= 9)
+            {
+                visibleIndex = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
+            }
+
+            for (int index : visibleIndex)
+            {
+                ImageView view = allContentView.get(index);
+                view.setVisibility(View.VISIBLE);
+                visiableView.add(view);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return visiableView;
+    }
+
+    /**
+     * 设置控件大小
+     * @param view
+     * @param width
+     * @param height
+     */
+    private void setViewSize(View view, int width, int height)
+    {
+        try
+        {
             //获取按钮的布局
             LinearLayout.LayoutParams para = (LinearLayout.LayoutParams) view.getLayoutParams();
-            para.height = width;
+            para.height = height;
             para.width  = width;
             view.setLayoutParams(para);
         }
@@ -168,14 +284,26 @@ public class ZoneAdapter extends BaseAdapter
         }
     }
 
-    public class ViewHolder
+    private class ViewHolder
     {
-        public ViewHolder(View root)
+        ViewHolder(View root)
         {
             try
             {
                 avatar = (ImageView) root.findViewById(R.id.img_avatar);
-                content = (ImageView) root.findViewById(R.id.img_content);
+                content = (ViewGroup) root.findViewById(R.id.lay_content);
+                content1 = (ViewGroup) root.findViewById(R.id.lay_content1);
+                content2 = (ViewGroup) root.findViewById(R.id.lay_content2);
+                content3 = (ViewGroup) root.findViewById(R.id.lay_content3);
+                imgContent1 = (ImageView) root.findViewById(R.id.img_content1);
+                imgContent2 = (ImageView) root.findViewById(R.id.img_content2);
+                imgContent3 = (ImageView) root.findViewById(R.id.img_content3);
+                imgContent4 = (ImageView) root.findViewById(R.id.img_content4);
+                imgContent5 = (ImageView) root.findViewById(R.id.img_content5);
+                imgContent6 = (ImageView) root.findViewById(R.id.img_content6);
+                imgContent7 = (ImageView) root.findViewById(R.id.img_content7);
+                imgContent8 = (ImageView) root.findViewById(R.id.img_content8);
+                imgContent9 = (ImageView) root.findViewById(R.id.img_content9);
                 name = (TextView) root.findViewById(R.id.txt_name);
                 sign = (TextView) root.findViewById(R.id.txt_sign);
                 date = (TextView) root.findViewById(R.id.txt_date);
@@ -187,23 +315,47 @@ public class ZoneAdapter extends BaseAdapter
             }
             catch (Exception e)
             {
-                e.printStackTrace();;
+                e.printStackTrace();
             }
         }
 
         /** 头像 */
-        public ImageView avatar;
+        ImageView avatar;
         /** 图片内容 */
-        public ImageView content;
+        ViewGroup content;
+        /** 图片内容1 */
+        ViewGroup content1;
+        /** 图片内容2 */
+        ViewGroup content2;
+        /** 图片内容3 */
+        ViewGroup content3;
+        /** 图片内容1 */
+        ImageView imgContent1;
+        /** 图片内容2 */
+        ImageView imgContent2;
+        /** 图片内容3 */
+        ImageView imgContent3;
+        /** 图片内容4 */
+        ImageView imgContent4;
+        /** 图片内容5 */
+        ImageView imgContent5;
+        /** 图片内容6 */
+        ImageView imgContent6;
+        /** 图片内容7 */
+        ImageView imgContent7;
+        /** 图片内容8 */
+        ImageView imgContent8;
+        /** 图片内容9 */
+        ImageView imgContent9;
         /** 名字 */
-        public TextView name;
+        TextView name;
         /** 个性签名 */
-        public TextView sign;
+        TextView sign;
         /** 时间 */
-        public TextView date;
+        TextView date;
         /** 文本 */
-        public TextView text;
+        TextView text;
         /** 观看人数 */
-        public TextView watch;
+        TextView watch;
     }
 }

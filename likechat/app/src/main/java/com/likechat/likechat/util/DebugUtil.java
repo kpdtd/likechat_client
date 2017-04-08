@@ -259,6 +259,16 @@ public class DebugUtil
         {
             List<User> userList = getUserList();
             List<Date> dateList = getDates(20);
+            List<String> photoUrlList = new ArrayList<>();
+            photoUrlList.add("avatar1.jpg");
+            photoUrlList.add("avatar2.jpg");
+            photoUrlList.add("avatar3.jpg");
+            photoUrlList.add("avatar4.jpg");
+            photoUrlList.add("avatar5.jpg");
+            photoUrlList.add("avatar6.jpg");
+            photoUrlList.add("avatar7.jpg");
+            photoUrlList.add("avatar8.jpg");
+            photoUrlList.add("avatar9.jpg");
             for (int i = 0; i < 20; i++)
             {
                 int nUserIndex = i % userList.size();
@@ -267,7 +277,7 @@ public class DebugUtil
                 Zone zone = new Zone();
                 zone.id = String.valueOf(i);
                 zone.text = user.intro;
-                zone.photosUrl = toJsonArray(user.avatar);
+                zone.photosUrl = toJsonArray(photoUrlList.subList(0, (i + 1) % 10));
                 zone.date = dateList.get(i).getTime();
                 zone.watch = random();
                 zone.anchorId = user.id;
@@ -311,7 +321,7 @@ public class DebugUtil
      * @param strIn
      * @return
      */
-    private static String toJsonArray(String... strIn)
+    private static String toJsonArray(List<String> strIn)
     {
         JSONArray jsonArray = new JSONArray();
         try
