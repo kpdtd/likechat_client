@@ -5,6 +5,9 @@ import com.likechat.likechat.entity.AppData;
 import com.likechat.likechat.entity.CallHistory;
 import com.likechat.likechat.entity.ChatMessage;
 import com.likechat.likechat.entity.User;
+import com.likechat.likechat.entity.Zone;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -246,5 +249,86 @@ public class DebugUtil
         }
 
         return callHistories;
+    }
+
+    public static List<Zone> getZoneList()
+    {
+        List<Zone> zoneList = new ArrayList<>();
+        try
+        {
+            List<User> userList = getUserList();
+            List<Date> dateList = getDates(20);
+            for (int i = 0; i < 20; i++)
+            {
+                int nUserIndex = i % userList.size();
+                User user = userList.get(nUserIndex);
+
+                Zone zone = new Zone();
+                zone.id = String.valueOf(i);
+                zone.text = user.intro;
+                zone.photosUrl = toJsonArray(user.avatar);
+                zone.date = dateList.get(i).getTime();
+
+                zone.anchorId = user.id;
+                zone.anchorAvatar = user.avatar;
+                zone.anchorName = user.name;
+                zone.anchorSign = user.sign;
+
+                zoneList.add(zone);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return zoneList;
+    }
+
+    /**
+     * 输入字符串数组，输出jsonarray格式的字符串
+     * @param strIn
+     * @return
+     */
+    private static String toJsonArray(String... strIn)
+    {
+        JSONArray jsonArray = new JSONArray();
+        try
+        {
+            for (String in : strIn)
+            {
+                jsonArray.put(in);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return jsonArray.toString();
+    }
+
+    private static List<Date> getDates(int count)
+    {
+        List<Date> dateList = new ArrayList<>();
+        try
+        {
+            String[] dates = new String[]{
+                    "2017-02-06", "2017-02-07", "2017-02-08",
+                    "2017-03-06", "2017-03-07", "2017-03-08",
+                    "2017-04-06", "2017-04-07", "2017-04-08"};
+            for (int i = 0; i < count; i++)
+            {
+                String strDate = dates[i % dates.length];
+                Date dateOneDay = StringUtil.getDate(strDate);
+                dateList.add(dateOneDay);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return dateList;
     }
 }

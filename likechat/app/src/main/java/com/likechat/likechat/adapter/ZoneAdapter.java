@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import com.likechat.likechat.R;
 import com.likechat.likechat.entity.Zone;
-import com.likechat.likechat.util.EntityUtil;
 import com.likechat.likechat.util.ImageLoaderUtil;
+import com.likechat.likechat.util.StringUtil;
+
+import org.json.JSONArray;
 
 import java.util.List;
 
@@ -90,7 +92,7 @@ public class ZoneAdapter extends BaseAdapter
             else
             {
                 // 加载列表项
-                convertView = View.inflate(m_parent, R.layout.item_achor, null);
+                convertView = View.inflate(m_parent, R.layout.item_zone, null);
 
                 // 支持器
                 holder = new ViewHolder(convertView);
@@ -114,14 +116,17 @@ public class ZoneAdapter extends BaseAdapter
             Zone zone = (Zone) getItem(nPosition);
             if (zone != null)
             {
-                /*holder.name.setText(zone.anchorName);
-                holder.intro.setText(zone.anchorSign);
-                //holder.avatar.setImageResource(user.avatar_res);
-                if (!m_bIsScrolling)
+                holder.name.setText(zone.anchorName);
+                holder.date.setText(StringUtil.formatDate(zone.date));
+                holder.sign.setText(zone.anchorSign);
+                holder.text.setText(zone.text);
+                ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, zone.anchorAvatar);
+                JSONArray jsonArray = new JSONArray(zone.photosUrl);
+                for (int i = 0; i < jsonArray.length(); i++)
                 {
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, user.avatar);
+                    String strPhotoUrl = jsonArray.getString(i);
+                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.content, strPhotoUrl);
                 }
-                EntityUtil.setAnchorGenderDrawable(holder.gender, user, false);*/
             }
         }
         catch (Exception e)
@@ -136,10 +141,13 @@ public class ZoneAdapter extends BaseAdapter
         {
             try
             {
-                /*avatar = (ImageView) root.findViewById(R.id.img_avatar);
-                gender = (TextView) root.findViewById(R.id.txt_gender);
+                avatar = (ImageView) root.findViewById(R.id.img_avatar);
+                content = (ImageView) root.findViewById(R.id.img_content);
                 name = (TextView) root.findViewById(R.id.txt_name);
-                intro = (TextView) root.findViewById(R.id.txt_intro);*/
+                sign = (TextView) root.findViewById(R.id.txt_sign);
+                date = (TextView) root.findViewById(R.id.txt_date);
+                watch = (TextView) root.findViewById(R.id.txt_watch);
+                text = (TextView) root.findViewById(R.id.txt_text);
 
                 // 设置列表项
                 root.setTag(this);
@@ -152,6 +160,8 @@ public class ZoneAdapter extends BaseAdapter
 
         /** 头像 */
         public ImageView avatar;
+        /** 图片内容 */
+        public ImageView content;
         /** 名字 */
         public TextView name;
         /** 个性签名 */
@@ -160,5 +170,7 @@ public class ZoneAdapter extends BaseAdapter
         public TextView date;
         /** 文本 */
         public TextView text;
+        /** 观看人数 */
+        public TextView watch;
     }
 }
