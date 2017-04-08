@@ -108,6 +108,7 @@
     <string name="txt_call_history_call_in">呼入</string>
     <string name="txt_call_history_call_out">呼出</string>
     <string name="txt_call_history_miss">未接来电</string>
+    <string name="txt_zone_watch">人观看</string>
 
     <string name="edt_hint_edit_user_info_name">请输入昵称</string>
     <string name="edt_hint_edit_user_info_gender">请选择性别</string>

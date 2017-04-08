@@ -1,10 +1,12 @@
 package com.likechat.likechat.adapter;
 
 import android.app.Activity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.likechat.likechat.R;
@@ -120,14 +122,40 @@ public class ZoneAdapter extends BaseAdapter
                 holder.date.setText(StringUtil.formatDate(zone.date));
                 holder.sign.setText(zone.anchorSign);
                 holder.text.setText(zone.text);
+                holder.watch.setText(zone.viewCount + m_parent.getString(R.string.txt_zone_watch));
                 ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, zone.anchorAvatar);
                 JSONArray jsonArray = new JSONArray(zone.photosUrl);
+                setViewHeightEquWidth(holder.content);
                 for (int i = 0; i < jsonArray.length(); i++)
                 {
                     String strPhotoUrl = jsonArray.getString(i);
                     ImageLoaderUtil.displayListAvatarImageFromAsset(holder.content, strPhotoUrl);
                 }
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 设置动态的图片内容的高度与宽度相等
+     */
+    private void setViewHeightEquWidth(View view)
+    {
+        try
+        {
+            DisplayMetrics metric = new DisplayMetrics();
+            m_parent.getWindowManager().getDefaultDisplay().getMetrics(metric);
+            int width = metric.widthPixels;     // 屏幕宽度（像素）
+            int height = metric.heightPixels;   // 屏幕高度（像素）
+
+            //获取按钮的布局
+            LinearLayout.LayoutParams para = (LinearLayout.LayoutParams) view.getLayoutParams();
+            para.height = width;
+            para.width  = width;
+            view.setLayoutParams(para);
         }
         catch (Exception e)
         {
