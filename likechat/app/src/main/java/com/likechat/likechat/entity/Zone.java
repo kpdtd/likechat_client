@@ -32,7 +32,7 @@ public class Zone implements Serializable
     /** 时间 */
     public long date;
     /** 观看数量 */
-    public int viewCount;
+    public int watch;
 
     /** 媒体类型 */
     public int mediaType;
@@ -78,7 +78,7 @@ public class Zone implements Serializable
             jsonObject.put("zoneId", id);
             jsonObject.put("zoneText", text);
             jsonObject.put("zoneDate", date);
-            jsonObject.put("zoneViewCount", viewCount);
+            jsonObject.put("zoneWatch", watch);
 
             jsonObject.put("zoneMediaType", mediaType);
             jsonObject.put("zonePhotosUrl", photosUrl);
@@ -108,7 +108,7 @@ public class Zone implements Serializable
             values.put("zoneId", id);
             values.put("zoneText", text);
             values.put("zoneDate", date);
-            values.put("zoneViewCount", viewCount);
+            values.put("zoneWatch", watch);
 
             values.put("zoneMediaType", mediaType);
             values.put("zonePhotosUrl", photosUrl);
@@ -139,7 +139,7 @@ public class Zone implements Serializable
             zone.id = jsonObject.optString("zoneId");
             zone.text = jsonObject.optString("zoneText");
             zone.date = jsonObject.optLong("zoneDate");
-            zone.viewCount = jsonObject.optInt("zoneViewCount");
+            zone.watch = jsonObject.optInt("zoneWatch");
 
             zone.mediaType = jsonObject.getInt("zoneMediaType");
             zone.photosUrl = jsonObject.optString("zonePhotosUrl");
@@ -170,7 +170,7 @@ public class Zone implements Serializable
             zone.id = DbFieldUtil.getString(cursor, "id");
             zone.text = DbFieldUtil.getString(cursor, "text");
             zone.date = DbFieldUtil.getLong(cursor, "date");
-            zone.viewCount = DbFieldUtil.getInt(cursor, "zoneViewCount");
+            zone.watch = DbFieldUtil.getInt(cursor, "zoneWatch");
 
             zone.mediaType = DbFieldUtil.getInt(cursor, "mediaType");
             zone.photosUrl = DbFieldUtil.getString(cursor, "photosUrl");

@@ -13,6 +13,9 @@ import android.widget.ListView;
 import com.likechat.likechat.R;
 import com.likechat.likechat.activity.ChatTextActivity;
 import com.likechat.likechat.adapter.ZoneAdapter;
+import com.likechat.likechat.algorithm.SortByDate;
+import com.likechat.likechat.algorithm.SortByFollow;
+import com.likechat.likechat.algorithm.SortByWatch;
 import com.likechat.likechat.entity.ChatMessage;
 import com.likechat.likechat.entity.User;
 import com.likechat.likechat.entity.Zone;
@@ -26,6 +29,12 @@ public class TabFindFragment extends BaseFragment
     private View m_root;
     private ListView m_list;
     private ZoneAdapter m_adapter;
+    /** 最新 */
+    private SortByDate m_sortByDate = new SortByDate();
+    /** 热门 */
+    private SortByWatch m_sortByWatch = new SortByWatch();
+    /** 关注 */
+    private SortByFollow m_sortByFollow = new SortByFollow();
 
     @Nullable
     @Override
@@ -103,6 +112,43 @@ public class TabFindFragment extends BaseFragment
 
                 }
             });
+
+            View.OnClickListener clickListener = new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    try
+                    {
+                        switch (v.getId())
+                        {
+                        // 最新
+                        case R.id.rdo_find_latest:
+                            m_adapter.updateData(m_sortByDate.sort(m_adapter.getZones()));
+                            m_adapter.notifyDataSetChanged();
+                            break;
+                        // 热门
+                        case R.id.rdo_find_hot:
+                            m_adapter.updateData(m_sortByWatch.sort(m_adapter.getZones()));
+                            m_adapter.notifyDataSetChanged();
+                            break;
+                        // 关注
+                        case R.id.rdo_find_follow:
+                            m_adapter.updateData(m_sortByFollow.sort(m_adapter.getZones()));
+                            m_adapter.notifyDataSetChanged();
+                            break;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            root.findViewById(R.id.rdo_find_latest).setOnClickListener(clickListener);
+            root.findViewById(R.id.rdo_find_hot).setOnClickListener(clickListener);
+            root.findViewById(R.id.rdo_find_follow).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
@@ -125,6 +171,37 @@ public class TabFindFragment extends BaseFragment
                 m_adapter.updateData(zoneList);
                 m_adapter.notifyDataSetChanged();
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 热门（按观看人数排序）
+     */
+    private void sortByWatch()
+    {
+        try
+        {
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    /**
+     * 按照用户关注的主播发的动态，最新的放最上面
+     */
+    private void sortByFollow()
+    {
+        try
+        {
+
         }
         catch (Exception e)
         {

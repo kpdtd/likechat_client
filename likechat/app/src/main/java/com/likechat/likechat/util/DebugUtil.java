@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import static com.likechat.likechat.R.mipmap.avatar1;
 
@@ -268,7 +269,7 @@ public class DebugUtil
                 zone.text = user.intro;
                 zone.photosUrl = toJsonArray(user.avatar);
                 zone.date = dateList.get(i).getTime();
-
+                zone.watch = random();
                 zone.anchorId = user.id;
                 zone.anchorAvatar = user.avatar;
                 zone.anchorName = user.name;
@@ -283,6 +284,26 @@ public class DebugUtil
         }
 
         return zoneList;
+    }
+
+    private static Random sm_rand;
+    private static int random()
+    {
+        try
+        {
+            if (sm_rand == null)
+            {
+                sm_rand = new Random(System.currentTimeMillis());
+            }
+
+            return Math.abs(sm_rand.nextInt());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return 100;
     }
 
     /**

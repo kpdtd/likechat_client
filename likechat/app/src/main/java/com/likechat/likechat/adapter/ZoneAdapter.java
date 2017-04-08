@@ -45,6 +45,11 @@ public class ZoneAdapter extends BaseAdapter
         m_bIsScrolling = bIsScrolling;
     }
 
+    public List<Zone> getZones()
+    {
+        return m_listZones;
+    }
+
     @Override
     public int getCount()
     {
@@ -122,7 +127,7 @@ public class ZoneAdapter extends BaseAdapter
                 holder.date.setText(StringUtil.formatDate(zone.date));
                 holder.sign.setText(zone.anchorSign);
                 holder.text.setText(zone.text);
-                holder.watch.setText(zone.viewCount + m_parent.getString(R.string.txt_zone_watch));
+                holder.watch.setText(zone.watch + m_parent.getString(R.string.txt_zone_watch));
                 ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, zone.anchorAvatar);
                 JSONArray jsonArray = new JSONArray(zone.photosUrl);
                 setViewHeightEquWidth(holder.content);
@@ -140,7 +145,7 @@ public class ZoneAdapter extends BaseAdapter
     }
 
     /**
-     * 设置动态的图片内容的高度与宽度相等
+     * 设置动态的图片内容的高度与宽度都与屏幕宽度相等
      */
     private void setViewHeightEquWidth(View view)
     {
