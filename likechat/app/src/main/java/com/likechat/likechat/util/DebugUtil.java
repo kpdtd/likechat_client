@@ -252,23 +252,98 @@ public class DebugUtil
         return callHistories;
     }
 
-    public static List<Zone> getZoneList()
+    public static List<Zone> getZonesByAnchor(User user)
+    {
+        try
+        {
+            // 这是生成的随机数
+            Random rand = new Random(System.currentTimeMillis());
+            java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
+            JSONArray jArrThumb = new JSONArray();
+            JSONArray jArrPhoto = new JSONArray();
+
+            Date dateOneDay = StringUtil.getDate("2017-02-06");
+            String strText = "测试文字说说";
+            List<Zone> listZone = new ArrayList<>();
+            for (int i = 0; i < 20; i++)
+            {
+                Zone zone = new Zone();
+                zone.id = java.util.UUID.randomUUID().toString();
+                zone.text = strText + rand.nextInt(20);
+                zone.watch = rand.nextInt(1000000);
+
+                // 随机数, 1~9
+                int pics = rand.nextInt(9) + 1;
+                setExist.clear();
+                jArrThumb = new JSONArray();
+                jArrPhoto = new JSONArray();
+
+                for(int j = 0; j < pics; j++)
+                {
+                    int nIndex = -1;
+                    while(nIndex == -1 || setExist.contains(nIndex))
+                    {
+                        nIndex = rand.nextInt(20) + 1;
+                    }
+
+                    setExist.add(nIndex);
+
+                    jArrThumb.put("thumb" + nIndex + ".jpg");
+                    jArrPhoto.put("avatar" + nIndex + ".jpg");
+                }
+
+                zone.mediaType = Zone.MEDIA_PHOTO;
+                zone.thumbsUrl = jArrThumb.toString();
+                zone.photosUrl = jArrPhoto.toString();
+                zone.voiceUrl = "";
+                zone.videoUrl = "";
+
+                zone.anchorId = user.id;
+                zone.anchorName = user.name;
+                zone.anchorAvatar = user.avatar;
+                zone.anchorRes = user.avatar_res;
+                zone.anchorSign = user.sign;
+
+                if (i % 2 == 0)
+                {
+                    zone.date = System.currentTimeMillis();
+                }
+                else
+                {
+                    zone.date = dateOneDay.getTime();
+                }
+
+
+                listZone.add(zone);
+            }
+
+            return listZone;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static List<Zone> getZonesFind()
     {
         List<Zone> zoneList = new ArrayList<>();
         try
         {
             List<User> userList = getUserList();
             List<Date> dateList = getDates(20);
-            List<String> photoUrlList = new ArrayList<>();
-            photoUrlList.add("avatar1.jpg");
-            photoUrlList.add("avatar2.jpg");
-            photoUrlList.add("avatar3.jpg");
-            photoUrlList.add("avatar4.jpg");
-            photoUrlList.add("avatar5.jpg");
-            photoUrlList.add("avatar6.jpg");
-            photoUrlList.add("avatar7.jpg");
-            photoUrlList.add("avatar8.jpg");
-            photoUrlList.add("avatar9.jpg");
+            List<String> thumbUrlList = new ArrayList<>();
+            thumbUrlList.add("thumb1.jpg");
+            thumbUrlList.add("thumb2.jpg");
+            thumbUrlList.add("thumb3.jpg");
+            thumbUrlList.add("thumb4.jpg");
+            thumbUrlList.add("thumb5.jpg");
+            thumbUrlList.add("thumb6.jpg");
+            thumbUrlList.add("thumb7.jpg");
+            thumbUrlList.add("thumb8.jpg");
+            thumbUrlList.add("thumb9.jpg");
             for (int i = 0; i < 20; i++)
             {
                 int nUserIndex = i % userList.size();
@@ -277,7 +352,8 @@ public class DebugUtil
                 Zone zone = new Zone();
                 zone.id = String.valueOf(i);
                 zone.text = user.intro;
-                zone.photosUrl = toJsonArray(photoUrlList.subList(0, i % 9 + 1));
+                zone.thumbsUrl = toJsonArray(thumbUrlList.subList(0, i % 9 + 1));
+                zone.photosUrl = zone.thumbsUrl.replace("thumb", "avatar");
                 zone.date = dateList.get(i).getTime();
                 zone.watch = random();
                 zone.anchorId = user.id;

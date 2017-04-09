@@ -38,6 +38,8 @@ public class Zone implements Serializable
     public int mediaType;
     /** 图片 jarray 保存的多个 url */
     public String photosUrl;
+    /** 缩略图片 jarray 保存的多个 url */
+    public String thumbsUrl;
     /** 声音 单个url */
     public String voiceUrl;
     /** 视频 单个url */
@@ -81,6 +83,7 @@ public class Zone implements Serializable
             jsonObject.put("zoneWatch", watch);
 
             jsonObject.put("zoneMediaType", mediaType);
+            jsonObject.put("zoneThumbsUrl", thumbsUrl);
             jsonObject.put("zonePhotosUrl", photosUrl);
             jsonObject.put("zoneVoiceUrl", voiceUrl);
             jsonObject.put("zoneVideoUrl", videoUrl);
@@ -111,6 +114,7 @@ public class Zone implements Serializable
             values.put("zoneWatch", watch);
 
             values.put("zoneMediaType", mediaType);
+            values.put("zoneThumbsUrl", thumbsUrl);
             values.put("zonePhotosUrl", photosUrl);
             values.put("zoneVoiceUrl", voiceUrl);
             values.put("zoneVideoUrl", videoUrl);
@@ -142,6 +146,7 @@ public class Zone implements Serializable
             zone.watch = jsonObject.optInt("zoneWatch");
 
             zone.mediaType = jsonObject.getInt("zoneMediaType");
+            zone.thumbsUrl = jsonObject.optString("zoneThumbsUrl");
             zone.photosUrl = jsonObject.optString("zonePhotosUrl");
             zone.voiceUrl = jsonObject.optString("zoneVoiceUrl");
             zone.videoUrl = jsonObject.optString("zoneVideoUrl");
@@ -173,6 +178,7 @@ public class Zone implements Serializable
             zone.watch = DbFieldUtil.getInt(cursor, "zoneWatch");
 
             zone.mediaType = DbFieldUtil.getInt(cursor, "mediaType");
+            zone.thumbsUrl = DbFieldUtil.getString(cursor, "zoneThumbsUrl");
             zone.photosUrl = DbFieldUtil.getString(cursor, "photosUrl");
             zone.voiceUrl = DbFieldUtil.getString(cursor, "voiceUrl");
             zone.videoUrl = DbFieldUtil.getString(cursor, "videoUrl");

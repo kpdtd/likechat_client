@@ -11,13 +11,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.likechat.likechat.R;
-import com.likechat.likechat.activity.ChatTextActivity;
+import com.likechat.likechat.activity.ImageBrowseActivity;
 import com.likechat.likechat.adapter.ZoneAdapter;
 import com.likechat.likechat.algorithm.SortByDate;
 import com.likechat.likechat.algorithm.SortByFollow;
 import com.likechat.likechat.algorithm.SortByWatch;
-import com.likechat.likechat.entity.ChatMessage;
-import com.likechat.likechat.entity.User;
 import com.likechat.likechat.entity.Zone;
 import com.likechat.likechat.util.DebugUtil;
 
@@ -64,10 +62,12 @@ public class TabFindFragment extends BaseFragment
                 {
                     try
                     {
+                        // 返回值应该不是ChatMessage, 应该是Zone
+                        /*
                         Intent intentChat = new Intent(getActivity(), ChatTextActivity.class);
                         User user = (m_adapter.getItem(position) == null ? null : ((ChatMessage) m_adapter.getItem(position)).from);
                         intentChat.putExtra("user", user);
-                        startActivity(intentChat);
+                        startActivity(intentChat);*/
                     }
                     catch (Exception e)
                     {
@@ -160,11 +160,27 @@ public class TabFindFragment extends BaseFragment
     {
         try
         {
-            List<Zone> zoneList = DebugUtil.getZoneList();
+            List<Zone> zoneList = DebugUtil.getZonesFind();
             if (m_adapter == null)
             {
                 m_adapter = new ZoneAdapter(getActivity(), zoneList);
                 m_list.setAdapter(m_adapter);
+
+                m_adapter.setOnThumbClickListener(new ZoneAdapter.OnThumbClickListener()
+                {
+                    @Override
+                    public void onClick(Zone zone, final int nPosition, final int nSize)
+                    {
+                        int nIndex = nPosition;
+                        int nCount = nSize;
+                        Intent intentText = new Intent(getActivity(), ImageBrowseActivity.class);
+                        intentText.putExtra("pos", nIndex);
+                        intentText.putExtra("count", nCount);
+                        intentText.putExtra("urls", zone.photosUrl);
+                        startActivity(intentText);
+
+                    }
+                });
             }
             else
             {
