@@ -277,7 +277,7 @@ public class DebugUtil
                 Zone zone = new Zone();
                 zone.id = String.valueOf(i);
                 zone.text = user.intro;
-                zone.photosUrl = toJsonArray(photoUrlList.subList(0, (i + 1) % 10));
+                zone.photosUrl = toJsonArray(photoUrlList.subList(0, i % 9 + 1));
                 zone.date = dateList.get(i).getTime();
                 zone.watch = random();
                 zone.anchorId = user.id;

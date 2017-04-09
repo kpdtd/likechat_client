@@ -136,12 +136,15 @@ public class ZoneAdapter extends BaseAdapter
                 ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, zone.anchorAvatar);
                 JSONArray jsonArray = new JSONArray(zone.photosUrl);
                 setViewHeightEquWidth(holder.content);
-                List<ImageView> visiableViews = setZoneContentVisibility(jsonArray.length(), holder);
-                for (int i = 0; i < jsonArray.length(); i++)
+                if (!m_bIsScrolling)
                 {
-                    String strPhotoUrl = jsonArray.getString(i);
-                    ImageView imageView = visiableViews.get(i);
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(imageView, strPhotoUrl);
+                    List<ImageView> visiableViews = setZoneContentVisibility(jsonArray.length(), holder);
+                    for (int i = 0; i < jsonArray.length(); i++)
+                    {
+                        String strPhotoUrl = jsonArray.getString(i);
+                        ImageView imageView = visiableViews.get(i);
+                        ImageLoaderUtil.displayListAvatarImageFromAsset(imageView, strPhotoUrl);
+                    }
                 }
             }
         }
@@ -168,12 +171,7 @@ public class ZoneAdapter extends BaseAdapter
                 m_nContentWidth = width;
             }
 
-            setViewSize(view, m_nContentWidth, m_nContentWidth);
-//            //获取按钮的布局
-//            LinearLayout.LayoutParams para = (LinearLayout.LayoutParams) view.getLayoutParams();
-//            para.height = m_nContentWidth;
-//            para.width  = m_nContentWidth;
-//            view.setLayoutParams(para);
+            //setViewSize(view, m_nContentWidth, m_nContentWidth);
         }
         catch (Exception e)
         {
@@ -202,7 +200,7 @@ public class ZoneAdapter extends BaseAdapter
             allContentView.add(holder.imgContent9);
 
             // 中间第二张图片与第一第三张图片的边距
-            int width = 0;
+            int width;
             if (visiableCount == 1)
             {
                 width = m_nContentWidth;
@@ -230,6 +228,10 @@ public class ZoneAdapter extends BaseAdapter
             {
                 visibleIndex = new int[]{0};
             }
+            else if (visiableCount <= 2)
+            {
+                visibleIndex = new int[]{0, 1};
+            }
             else if (visiableCount <= 3)
             {
                 visibleIndex = new int[]{0, 1, 2};
@@ -238,9 +240,21 @@ public class ZoneAdapter extends BaseAdapter
             {
                 visibleIndex = new int[]{0, 1, 3, 4};
             }
+            else if (visiableCount <= 5)
+            {
+                visibleIndex = new int[]{0, 1, 2, 3, 4};
+            }
             else if (visiableCount <= 6)
             {
                 visibleIndex = new int[]{0, 1, 2, 3, 4, 5};
+            }
+            else if (visiableCount <= 7)
+            {
+                visibleIndex = new int[]{0, 1, 2, 3, 4, 5, 6};
+            }
+            else if (visiableCount <= 8)
+            {
+                visibleIndex = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
             }
             else if (visiableCount <= 9)
             {
