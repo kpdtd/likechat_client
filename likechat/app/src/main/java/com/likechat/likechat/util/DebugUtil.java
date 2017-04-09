@@ -116,7 +116,6 @@ public class DebugUtil
                             "一身翠绿衣衫,皮肤雪白,一张脸蛋清秀可爱。",
                             "折纤腰以微步，呈皓腕于轻纱。眸含春水清波流盼，头上倭堕髻斜插碧玉龙凤钗。香娇玉嫩秀靥艳比花娇，指如削葱根口如含朱丹，一颦一笑动人心魂。"
                     };
-            String[] strAvatars = new String[]{"avatar1.jpg", "avatar2.jpg", "avatar3.jpg"};
             String[] citys = new String[]
                     {
                             "四川 成都",
@@ -132,9 +131,19 @@ public class DebugUtil
                             100, 200, 300
                     };
             List<User> userList = new ArrayList<>();
+            Random rand = new Random(System.currentTimeMillis());
+            java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
             for (int i = 0; i < 20; i++)
             {
-                int avatar = i % 20;
+                int nIndex = -1;
+                while(nIndex == -1 || setExist.contains(nIndex))
+                {
+                    nIndex = rand.nextInt(20);
+                }
+
+                setExist.add(nIndex);
+
+                int avatar = nIndex;
                 int index = i % 3;
                 User user = new User();
                 user.name = titles[avatar]; // "直播主播" + (i + 1);
@@ -145,7 +154,7 @@ public class DebugUtil
                 user.sign = signs[avatar];
                 user.intro = intros[avatar]; // "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
                 user.avatar_res = avatars[avatar];
-                user.avatar = strAvatars[index];
+                user.avatar = "thumb" + (avatar + 1) + ".jpg";
                 user.fans = fanses[index];
                 user.follow = follows[index];
                 userList.add(user);
@@ -292,11 +301,26 @@ public class DebugUtil
                     jArrPhoto.put("avatar" + nIndex + ".jpg");
                 }
 
-                zone.mediaType = Zone.MEDIA_PHOTO;
-                zone.thumbsUrl = jArrThumb.toString();
-                zone.photosUrl = jArrPhoto.toString();
-                zone.voiceUrl = "";
-                zone.videoUrl = "";
+                zone.mediaType = rand.nextInt(3); // 0~2 范围
+
+                if (zone.mediaType == Zone.MEDIA_VOICE)
+                {
+                    zone.voiceUrl = "";
+                    zone.voiceSec = rand.nextInt(1000);
+                }
+                else if (zone.mediaType == Zone.MEDIA_VOICE)
+                {
+                    zone.videoUrl = "";
+                    zone.videoFaceUrl = "thumb" + (rand.nextInt(20) + 1) + ".jpg";
+                    zone.videoPrice = rand.nextInt(6);
+                    zone.videoPay = false;
+                }
+                else
+                {
+                    zone.mediaType = Zone.MEDIA_PHOTO;
+                    zone.thumbsUrl = jArrThumb.toString();
+                    zone.photosUrl = jArrPhoto.toString();
+                }
 
                 zone.anchorId = user.id;
                 zone.anchorName = user.name;

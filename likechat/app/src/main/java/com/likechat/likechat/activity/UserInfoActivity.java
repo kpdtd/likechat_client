@@ -280,7 +280,14 @@ public class UserInfoActivity extends BaseActivity
                     View vChile = layAnchor.getChildAt(j);
                     if (vChile instanceof ImageView)
                     {
-                        ((ImageView)vChile).setImageResource(null == user ? 0 : user.avatar_res);
+                        if (null == user)
+                        {
+                            ((ImageView)vChile).setImageResource(0);
+                        }
+                        else
+                        {
+                            ImageLoaderUtil.displayListAvatarImageFromAsset((ImageView)vChile, user.avatar);
+                        }
                     }
                     else if (vChile instanceof TextView)
                     {
@@ -314,7 +321,8 @@ public class UserInfoActivity extends BaseActivity
             TextView txtCallRate = (TextView) findViewById(R.id.txt_call_rate);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
 
-            imgAvatar.setImageResource(m_user.avatar_res);
+            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_user.avatar);
+            //imgAvatar.setImageResource(m_user.avatar_res);
             txtName.setText(m_user.name);
             txtAge.setText(String.valueOf(m_user.age));
             String strId = getString(R.string.txt_user_info_like_chat_id);

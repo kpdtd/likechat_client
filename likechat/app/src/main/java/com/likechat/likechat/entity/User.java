@@ -21,22 +21,22 @@ public class User implements Serializable
     public final static int GENDER_MALE = 1;
 
     /** 觅聊号 */
-    public String id;
+    public String id = "";
     /** 头像 */
-    public String avatar;
+    public String avatar = "";
     public int avatar_res;
     /** 名字 */
-    public String name;
+    public String name = "";
     /** 性别 */
     public int gender;
     /** 年龄 */
     public int age;
     /** 个性签名 */
-    public String sign;
+    public String sign = "";
     /** 介绍 */
-    public String intro;
+    public String intro = "";
     /** 在哪个城市 */
-    public String city;
+    public String city = "";
     /** 粉丝数量 */
     public int fans;
     /** 关注数量 */

@@ -26,9 +26,9 @@ public class Zone implements Serializable
     public final static int PHOTOS_MAX = 9;
 
     /** 动态id */
-    public String id;
+    public String id = "";
     /** 动态内容 */
-    public String text;
+    public String text = "";
     /** 时间 */
     public long date;
     /** 观看数量 */
@@ -37,23 +37,31 @@ public class Zone implements Serializable
     /** 媒体类型 */
     public int mediaType;
     /** 图片 jarray 保存的多个 url */
-    public String photosUrl;
+    public String photosUrl = "[]";
     /** 缩略图片 jarray 保存的多个 url */
-    public String thumbsUrl;
+    public String thumbsUrl = "[]";
     /** 声音 单个url */
-    public String voiceUrl;
+    public String voiceUrl = "";
+    /** 声音长度(秒) 单个 */
+    public int    voiceSec = 0;
     /** 视频 单个url */
-    public String videoUrl;
+    public String   videoUrl     = "";
+    /** 视频首页 单个url */
+    public String   videoFaceUrl = "";
+    /** 视频价格, 0表示免费 单个*/
+    public double   videoPrice   = 0.0;
+    /** 视频是否已付费 单个*/
+    public boolean  videoPay     = false;
 
     /** 觅聊号 */
-    public String anchorId;
+    public String anchorId = "";
     /** 头像 */
-    public String anchorAvatar;
+    public String anchorAvatar = "";
     public int anchorRes;
     /** 名字 */
-    public String anchorName;
+    public String anchorName = "";
     /** 个性签名 */
-    public String anchorSign;
+    public String anchorSign = "";
 
     @Override
     public boolean equals(Object o)
@@ -86,7 +94,11 @@ public class Zone implements Serializable
             jsonObject.put("zoneThumbsUrl", thumbsUrl);
             jsonObject.put("zonePhotosUrl", photosUrl);
             jsonObject.put("zoneVoiceUrl", voiceUrl);
+            jsonObject.put("zoneVoiceSec", voiceSec);
             jsonObject.put("zoneVideoUrl", videoUrl);
+            jsonObject.put("zoneVideoFaceUrl", videoFaceUrl);
+            jsonObject.put("zoneVideoPrice", videoPrice);
+            jsonObject.put("zoneVideoPay", videoPay);
 
             jsonObject.put("anchorId", anchorId);
             jsonObject.put("anchorAvatar", anchorAvatar);
@@ -117,7 +129,11 @@ public class Zone implements Serializable
             values.put("zoneThumbsUrl", thumbsUrl);
             values.put("zonePhotosUrl", photosUrl);
             values.put("zoneVoiceUrl", voiceUrl);
+            values.put("zoneVoiceSec", voiceSec);
             values.put("zoneVideoUrl", videoUrl);
+            values.put("zoneVideoFaceUrl", videoFaceUrl);
+            values.put("zoneVideoPrice", videoPrice);
+            values.put("zoneVideoPay", videoPay);
 
             values.put("anchorId", anchorId);
             values.put("anchorAvatar", anchorAvatar);
@@ -149,7 +165,11 @@ public class Zone implements Serializable
             zone.thumbsUrl = jsonObject.optString("zoneThumbsUrl");
             zone.photosUrl = jsonObject.optString("zonePhotosUrl");
             zone.voiceUrl = jsonObject.optString("zoneVoiceUrl");
+            zone.voiceSec = jsonObject.getInt("zoneVoiceSec");
             zone.videoUrl = jsonObject.optString("zoneVideoUrl");
+            zone.videoFaceUrl = jsonObject.optString("zoneVideoFaceUrl");
+            zone.videoPrice = jsonObject.getDouble("zoneVideoPrice");
+            zone.videoPay = jsonObject.optBoolean("zoneVideoPay");
 
             zone.anchorId = jsonObject.optString("anchorId");
             zone.anchorAvatar = jsonObject.optString("anchorAvatar");
@@ -181,7 +201,11 @@ public class Zone implements Serializable
             zone.thumbsUrl = DbFieldUtil.getString(cursor, "zoneThumbsUrl");
             zone.photosUrl = DbFieldUtil.getString(cursor, "photosUrl");
             zone.voiceUrl = DbFieldUtil.getString(cursor, "voiceUrl");
+            zone.voiceSec = DbFieldUtil.getInt(cursor, "zoneVoiceSec");
             zone.videoUrl = DbFieldUtil.getString(cursor, "videoUrl");
+            zone.videoFaceUrl = DbFieldUtil.getString(cursor, "zoneVideoFaceUrl");
+            zone.videoPrice = DbFieldUtil.getDouble(cursor, "zoneVideoPrice");
+            zone.videoPay = DbFieldUtil.getBoolean(cursor, "zoneVideoPay");
 
             zone.anchorId = DbFieldUtil.getString(cursor, "anchorId");
             zone.anchorAvatar = DbFieldUtil.getString(cursor, "anchorAvatar");

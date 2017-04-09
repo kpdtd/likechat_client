@@ -42,6 +42,16 @@ public class DbFieldUtil
 		return 0;
 	}
 
+	public static double getDouble(Cursor cursor, String key)
+	{
+		if (!cursor.isNull(cursor.getColumnIndex(key)))
+		{
+			return cursor.getDouble(cursor.getColumnIndex(key));
+		}
+		// 0
+		return 0;
+	}
+
 	public static String getString(Cursor cursor, String key)
 	{
 		if (!cursor.isNull(cursor.getColumnIndex(key)))

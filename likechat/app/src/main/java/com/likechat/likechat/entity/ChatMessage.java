@@ -17,9 +17,9 @@ import java.io.Serializable;
 public class ChatMessage implements Serializable
 {
     /** 消息id */
-    public String id;
+    public String id = "";
     /** 消息内容 */
-    public String text;
+    public String text = "";
     /** 消息发送者 */
     public User from;
     /** 消息接收者 */

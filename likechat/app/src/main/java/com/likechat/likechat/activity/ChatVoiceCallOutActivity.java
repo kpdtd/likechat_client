@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.likechat.likechat.R;
 import com.likechat.likechat.entity.User;
 import com.likechat.likechat.util.EntityUtil;
+import com.likechat.likechat.util.ImageLoaderUtil;
 
 /**
  * 聊天——呼出
@@ -82,9 +83,11 @@ public class ChatVoiceCallOutActivity extends BaseActivity
             TextView txtName = (TextView) findViewById(R.id.txt_name);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
 
-            imgInfo.setImageResource(m_user.avatar_res);
+            ImageLoaderUtil.displayListAvatarImageFromAsset(imgInfo, m_user.avatar);
+            //imgInfo.setImageResource(m_user.avatar_res);
             imgInfo.setAlpha(0.4f);
-            imgAvatar.setImageResource(m_user.avatar_res);
+            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_user.avatar);
+            //imgAvatar.setImageResource(m_user.avatar_res);
             txtAge.setText(String.valueOf(m_user.age));
             txtName.setText(m_user.name);
             txtTalkTime.setText("09:43");
