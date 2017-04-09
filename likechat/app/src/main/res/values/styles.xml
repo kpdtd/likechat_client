@@ -300,4 +300,12 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/txt_size_12_dp</item>
     </style>
+
+    <!-- 主播动态中图片 样式 -->
+    <style name="anchor_zone_pic_thumb_style">
+        <item name="android:layout_width">86dp</item>
+        <item name="android:layout_height">84dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_margin">1.5dp</item>
+    </style>
 </resources>

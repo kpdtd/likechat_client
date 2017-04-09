@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.likechat.likechat.R;
 import com.likechat.likechat.entity.User;
 import com.likechat.likechat.util.DebugUtil;
 import com.likechat.likechat.util.EntityUtil;
+import com.likechat.likechat.util.ImageLoaderUtil;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +115,27 @@ public class UserInfoActivity extends BaseActivity
                 return;
             }
 
+            final List<String> lstThumb   = new ArrayList<>();
+            final JSONArray    jArrPhoto = new JSONArray();
+
+            // 这是生成的随机数
+            Random rand = new Random(System.currentTimeMillis());
+            java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
+
+            // 椭机数产生主播
+            for(int i = 0; i < 8; i++)
+            {
+                int nIndex = -1;
+                while(nIndex == -1 || setExist.contains(nIndex))
+                {
+                    nIndex = rand.nextInt(20) + 1;
+                }
+
+                setExist.add(nIndex);
+                lstThumb.add("thumb" + nIndex + ".jpg");
+                jArrPhoto.put("avatar" + nIndex + ".jpg");
+            }
+
             View.OnClickListener clickListener = new View.OnClickListener()
             {
                 @Override
@@ -127,6 +151,7 @@ public class UserInfoActivity extends BaseActivity
                             Intent intentText = new Intent(UserInfoActivity.this, ImageBrowseActivity.class);
                             intentText.putExtra("pos", nIndex);
                             intentText.putExtra("count", nCount);
+                            intentText.putExtra("urls", jArrPhoto.toString());
                             startActivity(intentText);
                         }
                     }
@@ -147,29 +172,13 @@ public class UserInfoActivity extends BaseActivity
             viewList.add(findViewById(R.id.img_pic7));
             viewList.add(findViewById(R.id.img_pic8));
 
-            List<User> userList = DebugUtil.getUserList();
-
-            // 这是生成的随机数
-            Random rand = new Random(System.currentTimeMillis());
-            java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
-            ImageView ivPhoto = null;
-            User user = null;
-
-            // 椭机数产生主播
+            ImageView vThumb;
             for(int i = 0; i < 8; i++)
             {
-                int nIndex = -1;
-                while(nIndex == -1 || setExist.contains(nIndex))
-                {
-                    nIndex = rand.nextInt(userList.size());
-                }
-
-                setExist.add(nIndex);
-                ivPhoto = (ImageView)viewList.get(i);
-                user = userList.get(nIndex);
-                ivPhoto.setTag(nIndex);
-                ivPhoto.setOnClickListener(clickListener);
-                ivPhoto.setImageResource(null == user ? 0 : user.avatar_res);
+                vThumb = (ImageView)viewList.get(i);
+                vThumb.setTag(i);
+                vThumb.setOnClickListener(clickListener);
+                ImageLoaderUtil.displayListAvatarImageFromAsset(vThumb, lstThumb.get(i));
             }
         }
         catch (Exception e)
