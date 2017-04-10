@@ -43,7 +43,7 @@
                 android:background="@mipmap/user_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-                <com.likechat.likechat.widget.CircleImageView
+                <com.audio.miliao.widget.CircleImageView
                     android:id="@+id/img_avatar"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"

@@ -36,10 +36,10 @@
 
     </RelativeLayout>
 
-    <com.likechat.likechat.widget.NoScrollViewPager
+    <com.audio.miliao.widget.NoScrollViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.likechat.likechat.widget.NoScrollViewPager>
+    </com.audio.miliao.widget.NoScrollViewPager>
 
 </LinearLayout>

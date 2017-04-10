@@ -13,7 +13,7 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <com.likechat.likechat.widget.CircleImageView
+        <com.audio.miliao.widget.CircleImageView
             android:id="@+id/img_avatar"
             style="@style/center_crop"
             android:layout_width="50dp"

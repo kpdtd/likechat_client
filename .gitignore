@@ -1,6 +1,8 @@
 *.iml
 .gradle
 /local.properties
+/gradle.properties
+/likechat.iml
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
@@ -8,6 +10,6 @@
 /captures
 .externalNativeBuild
 /likechat/build
-/likechat/.idea/libraries/support_v4_23_1_1.xml
-/likechat/.idea/libraries/support_annotations_23_1_1.xml
-/likechat/.idea/libraries/appcompat_v7_23_1_1.xml
+/likechat/.gradle
+/likechat/.idea
+/likechat/local.properties

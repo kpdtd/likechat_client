@@ -9,7 +9,7 @@
     android:paddingRight="10dp"
     android:paddingTop="5dp">
 
-    <com.likechat.likechat.widget.RoundCornerImageView
+    <com.audio.miliao.widget.RoundCornerImageView
         android:id="@+id/img_avatar"
         android:layout_width="55dp"
         android:layout_height="55dp"

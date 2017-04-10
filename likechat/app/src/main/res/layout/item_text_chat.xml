@@ -26,7 +26,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_14_dp"/>
 
-        <com.likechat.likechat.widget.CircleImageView
+        <com.audio.miliao.widget.CircleImageView
             android:id="@+id/img_me_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -41,7 +41,7 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <com.likechat.likechat.widget.CircleImageView
+        <com.audio.miliao.widget.CircleImageView
             android:id="@+id/img_other_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
