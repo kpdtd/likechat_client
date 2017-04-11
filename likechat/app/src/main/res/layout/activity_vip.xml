@@ -61,6 +61,7 @@
 
 
             <LinearLayout
+                android:id="@+id/lay_level_silver"
                 style="@style/vip_charge_layout_style">
 
                 <ImageView
@@ -85,14 +86,13 @@
                         android:text="@string/txt_vip_member_level_silver_give"/>
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@mipmap/vip_member_level_silver"/>
+                <CheckBox
+                    android:id="@+id/chk_level_silver"
+                    style="@style/vip_charge_price_style"/>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lay_level_gold"
                 style="@style/vip_charge_layout_style"
                 android:layout_marginTop="1px">
 
@@ -118,14 +118,13 @@
                         android:text="@string/txt_vip_member_level_gold_give"/>
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@mipmap/vip_member_level_gold"/>
+                <CheckBox
+                    android:id="@+id/chk_level_gold"
+                    style="@style/vip_charge_price_style"/>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lay_level_diamond"
                 style="@style/vip_charge_layout_style"
                 android:layout_marginTop="1px">
 
@@ -151,14 +150,13 @@
                         android:text="@string/txt_vip_member_level_diamond_give"/>
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@mipmap/vip_member_level_diamond"/>
+                <CheckBox
+                    android:id="@+id/chk_level_diamond"
+                    style="@style/vip_charge_price_style"/>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lay_level_extreme"
                 style="@style/vip_charge_layout_style"
                 android:layout_marginTop="1px">
 
@@ -184,11 +182,9 @@
                         android:text="@string/txt_vip_member_level_extreme_give"/>
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@mipmap/vip_member_level_extreme"/>
+                <CheckBox
+                    android:id="@+id/chk_level_extreme"
+                    style="@style/vip_charge_price_style"/>
             </LinearLayout>
 
             <RadioGroup
@@ -205,6 +201,7 @@
 
                 <RadioButton
                     android:id="@+id/rdo_weixin"
+                    android:layout_marginTop="1px"
                     style="@style/pay_radio_button_style"
                     android:drawableLeft="@mipmap/ic_weixin"
                     android:text="@string/txt_pay_weixin"/>
@@ -219,6 +216,7 @@
                 android:padding="20dp">
 
                 <TextView
+                    android:id="@+id/txt_pay_now"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="60dp"

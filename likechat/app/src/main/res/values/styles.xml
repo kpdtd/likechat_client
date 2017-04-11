@@ -218,6 +218,8 @@
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingLeft">10dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:clickable">true</item>
     </style>
 
     <!-- Vip 充值 价格文字 样式 -->
@@ -234,6 +236,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/txt_size_12_dp</item>
         <item name="android:textColor">@color/half_more_black</item>
+    </style>
+
+    <!-- 会员中心 各种价格后面的checkbox 样式 -->
+    <style name="vip_charge_price_style">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawableRight">@drawable/radio_pay_selector</item>
     </style>
 
     <!-- 支付radio按钮 样式 -->
