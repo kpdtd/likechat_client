@@ -109,6 +109,7 @@
     <string name="txt_call_history_call_out">呼出</string>
     <string name="txt_call_history_miss">未接来电</string>
     <string name="txt_zone_watch">人观看</string>
+    <string name="txt_zone_me">我</string>
 
     <string name="img_loader_io_error">加载图片输入输出错误!</string>
     <string name="img_loader_decoding_error">加载图片解码错误!</string>

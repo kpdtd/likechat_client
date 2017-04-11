@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.ZoneAdapter;
+import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.User;
 import com.audio.miliao.entity.Zone;
 import com.audio.miliao.util.DebugUtil;
@@ -124,10 +125,6 @@ public class UserZoneActivity extends BaseActivity
                 return;
             }
 
-            TextView txtTitle = (TextView) findViewById(R.id.txt_title);
-
-            txtTitle.setText(m_user.name + getString(R.string.title_user_zone_at));
-
             List<Zone> lstZone = DebugUtil.getZonesByAnchor(m_user);
             if (m_adapter == null)
             {
@@ -154,6 +151,20 @@ public class UserZoneActivity extends BaseActivity
             {
                 m_adapter.updateData(lstZone);
                 m_adapter.notifyDataSetChanged();
+            }
+
+            TextView txtTitle = (TextView) findViewById(R.id.txt_title);
+            String strTitle = getString(R.string.title_user_zone_at);
+            if (AppData.isCurUser(m_user))
+            {
+                String strMe = getString(R.string.txt_zone_me);
+                txtTitle.setText(strMe + strTitle);
+                m_adapter.setShowDelete(true);
+            }
+            else
+            {
+                txtTitle.setText(m_user.name + strTitle);
+                m_adapter.setShowDelete(false);
             }
         }
         catch (Exception e)

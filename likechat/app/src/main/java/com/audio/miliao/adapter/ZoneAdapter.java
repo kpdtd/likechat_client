@@ -29,6 +29,8 @@ public class ZoneAdapter extends BaseAdapter
     private List<Zone> m_listZones;
     /** 列表是否处于滑动状态 */
     private boolean m_bIsScrolling = false;
+    /** 是否显示删除按钮 */
+    private boolean m_bShowDelete = false;
     /** 动态内容的宽度（宽度、高度都与屏幕宽度一致） */
     private int m_nContentWidth = 0;
 
@@ -49,6 +51,11 @@ public class ZoneAdapter extends BaseAdapter
     public void setScrolling(boolean bIsScrolling)
     {
         m_bIsScrolling = bIsScrolling;
+    }
+
+    public void setShowDelete(boolean bShowDelete)
+    {
+        m_bShowDelete = bShowDelete;
     }
 
     public List<Zone> getZones()
@@ -146,6 +153,9 @@ public class ZoneAdapter extends BaseAdapter
                 ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, zone.anchorAvatar);
                 holder.pictures.setVisibility(zone.mediaType == Zone.MEDIA_PHOTO ? View.VISIBLE : View.GONE);
                 ImageView vThumb;
+
+                int visibility = (m_bShowDelete ? View.VISIBLE : View.GONE);
+                holder.delete.setVisibility(visibility);
 
                 if (zone.mediaType == Zone.MEDIA_PHOTO)
                 {
@@ -276,11 +286,6 @@ public class ZoneAdapter extends BaseAdapter
             }
 
             setViewSize(view, m_nContentWidth, m_nContentWidth);
-//            //获取按钮的布局
-//            LinearLayout.LayoutParams para = (LinearLayout.LayoutParams) view.getLayoutParams();
-//            para.height = m_nContentWidth;
-//            para.width  = m_nContentWidth;
-//            view.setLayoutParams(para);
         }
         catch (Exception e)
         {
@@ -323,6 +328,7 @@ public class ZoneAdapter extends BaseAdapter
                 date = (TextView) root.findViewById(R.id.txt_date);
                 watch = (TextView) root.findViewById(R.id.txt_watch);
                 text = (TextView) root.findViewById(R.id.txt_text);
+                delete = (ImageView) root.findViewById(R.id.img_delete_zone);
 
                 listThumbs = new ArrayList<>();
                 listThumbs.add((ImageView) root.findViewById(R.id.img_thumb1));
@@ -362,6 +368,8 @@ public class ZoneAdapter extends BaseAdapter
         public TextView text;
         /** 观看人数 */
         public TextView watch;
+        /** 删除 */
+        private ImageView delete;
     }
     /**
      * 缩略图点击监听器

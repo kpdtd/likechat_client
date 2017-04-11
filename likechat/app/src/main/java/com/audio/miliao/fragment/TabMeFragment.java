@@ -67,6 +67,7 @@ public class TabMeFragment extends BaseFragment
                             break;
                         case R.id.txt_me_zone:
                             Intent intentZone = new Intent(getActivity(), UserZoneActivity.class);
+                            intentZone.putExtra("user", AppData.getCurUser());
                             startActivity(intentZone);
                             break;
                         case R.id.txt_me_vip:
