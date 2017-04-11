@@ -36,19 +36,32 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/lay_avatar"
         style="@style/edit_user_info_item_layout_style">
+
         <TextView
             android:id="@+id/txt_edit_user_info_avatar"
             style="@style/edit_user_info_item_text_style"
+            android:layout_weight="1"
             android:text="@string/txt_edit_user_info_avatar"/>
+
+        <com.audio.miliao.widget.CircleImageView
+            android:id="@+id/img_avatar"
+            style="@style/center_crop"
+            android:src="@mipmap/ic_user"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lay_name"
         style="@style/edit_user_info_item_layout_style">
+
         <TextView
             android:id="@+id/txt_edit_user_info_name"
             style="@style/edit_user_info_item_text_style"
             android:text="@string/txt_edit_user_info_name"/>
+
         <TextView
             android:id="@+id/txt_edit_user_info_avatar_hint"
             style="@style/edit_user_info_item_edit_style"
@@ -56,11 +69,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lay_gender"
         style="@style/edit_user_info_item_layout_style">
+
         <TextView
             android:id="@+id/txt_edit_user_info_gender"
             style="@style/edit_user_info_item_text_style"
             android:text="@string/txt_edit_user_info_gender"/>
+
         <TextView
             android:id="@+id/edt_hint_edit_user_info_gender"
             style="@style/edit_user_info_item_edit_style"
@@ -68,11 +84,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lay_birthday"
         style="@style/edit_user_info_item_layout_style">
+
         <TextView
             android:id="@+id/txt_edit_user_info_birthday"
             style="@style/edit_user_info_item_text_style"
             android:text="@string/txt_edit_user_info_birthday"/>
+
         <TextView
             android:id="@+id/edt_hint_edit_user_info_birthday"
             style="@style/edit_user_info_item_edit_style"
@@ -80,11 +99,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lay_location"
         style="@style/edit_user_info_item_layout_style">
+
         <TextView
             android:id="@+id/txt_edit_user_info_location"
             style="@style/edit_user_info_item_text_style"
             android:text="@string/txt_edit_user_info_location"/>
+
         <TextView
             android:id="@+id/edt_hint_edit_user_info_location"
             style="@style/edit_user_info_item_edit_style"
@@ -92,18 +114,21 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lay_self_intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/me_item_selector"
         android:clickable="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
         <TextView
             android:id="@+id/txt_edit_user_info_self_intro"
             style="@style/edit_user_info_item_text_style"
             android:text="@string/txt_edit_user_info_self_intro"/>
+
         <TextView
             android:id="@+id/edt_hint_edit_user_info_self_intro"
             style="@style/edit_user_info_item_edit_style"

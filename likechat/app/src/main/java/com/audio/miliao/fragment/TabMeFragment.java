@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.activity.AccountBalanceActivity;
+import com.audio.miliao.activity.EditUserInfoActivity;
 import com.audio.miliao.activity.LoginActivity;
 import com.audio.miliao.activity.SettingsActivity;
 import com.audio.miliao.activity.UserFriendActivity;
@@ -53,9 +54,28 @@ public class TabMeFragment extends BaseFragment
                     {
                         switch (v.getId())
                         {
+                        case R.id.img_avatar:
+                            if (AppData.isLogin())
+                            {
+
+                            }
+                            else
+                            {
+                                Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
+                                startActivity(intentLogin);
+                            }
+                            break;
                         case R.id.lay_avatar:
-                            Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
-                            startActivity(intentLogin);
+                            if (AppData.isLogin())
+                            {
+                                Intent intentEditUserInfo = new Intent(getActivity(), EditUserInfoActivity.class);
+                                startActivity(intentEditUserInfo);
+                            }
+                            else
+                            {
+                                Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
+                                startActivity(intentLogin);
+                            }
                             break;
                         case R.id.txt_me_account_balance:
                             Intent intentAccountBalance = new Intent(getActivity(), AccountBalanceActivity.class);
@@ -87,6 +107,7 @@ public class TabMeFragment extends BaseFragment
                 }
             };
 
+            root.findViewById(R.id.img_avatar).setOnClickListener(clickListener);
             root.findViewById(R.id.lay_avatar).setOnClickListener(clickListener);
             root.findViewById(R.id.txt_me_account_balance).setOnClickListener(clickListener);
             root.findViewById(R.id.txt_me_friend).setOnClickListener(clickListener);

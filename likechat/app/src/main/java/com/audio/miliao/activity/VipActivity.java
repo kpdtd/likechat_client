@@ -93,6 +93,7 @@ public class VipActivity extends BaseActivity
             findViewById(R.id.chk_level_diamond).setOnClickListener(clickListener);
             findViewById(R.id.chk_level_extreme).setOnClickListener(clickListener);
 
+            findViewById(R.id.lay_level_silver).performClick();
             findViewById(R.id.rdo_alipay).performClick();
         }
         catch (Exception e)

@@ -30,6 +30,8 @@
     <string name="title_help">新手帮助</string>
     <string name="title_call_out">和她嗨聊</string>
     <string name="title_user_zone_at">的动态</string>
+    <string name="title_input_name">昵称</string>
+    <string name="title_input_intro">个性签名</string>
 
     <string name="txt_me_login">点击登录</string>
     <string name="txt_me_account_balance">账户余额</string>
@@ -110,6 +112,7 @@
     <string name="txt_call_history_miss">未接来电</string>
     <string name="txt_zone_watch">人观看</string>
     <string name="txt_zone_me">我</string>
+    <string name="txt_cancel">取消</string>
 
     <string name="img_loader_io_error">加载图片输入输出错误!</string>
     <string name="img_loader_decoding_error">加载图片解码错误!</string>
@@ -122,4 +125,5 @@
     <string name="edt_hint_edit_user_info_birthday">请选择年月</string>
     <string name="edt_hint_edit_user_info_location">请选择城市</string>
     <string name="edt_hint_edit_user_info_self_intro">请填写介绍</string>
+    <string name="edt_hint_input_max_len">您最多还能再输入%d个字</string>
 </resources>

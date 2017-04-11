@@ -41,6 +41,9 @@ public class LoginActivity extends BaseActivity
                         case R.id.txt_qq_login:
                             onLoginSucceed();
                             break;
+                        case R.id.img_back:
+                            finish();
+                            break;
                         }
                     }
                     catch (Exception e)
@@ -52,6 +55,7 @@ public class LoginActivity extends BaseActivity
 
             findViewById(R.id.txt_weixin_login).setOnClickListener(clickListener);
             findViewById(R.id.txt_qq_login).setOnClickListener(clickListener);
+            findViewById(R.id.img_back).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {

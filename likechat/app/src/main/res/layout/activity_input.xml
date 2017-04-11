@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/shape_gradient_title_bg">
+
+        <TextView
+            android:id="@+id/txt_title"
+            style="@style/title_text_style"
+            android:text="@string/title_edit_user_info"/>
+
+        <TextView
+            android:id="@+id/txt_cancel"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/txt_cancel"
+            android:textColor="@color/text_white_selector"
+            android:textSize="@dimen/txt_size_14_dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/txt_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textSize="@dimen/txt_size_12_dp"/>
+
+        <EditText
+            android:id="@+id/edt_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:textSize="@dimen/txt_size_14_dp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="120dp"
+        android:background="@color/gray"/>
+
+    <TextView
+        android:id="@+id/txt_save"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_round_corner_save_input"
+        android:gravity="center"
+        android:text="@string/txt_edit_user_info_save"
+        android:textColor="@color/text_white_selector"
+        android:textSize="@dimen/txt_size_14_dp"/>
+
+</LinearLayout>

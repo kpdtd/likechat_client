@@ -29,11 +29,12 @@
             android:orientation="horizontal"
             android:paddingLeft="30dp">
 
-            <ImageView
+            <com.audio.miliao.widget.CircleImageView
                 android:id="@+id/img_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:scaleType="center"
+                android:clickable="true"
                 android:src="@mipmap/ic_user"/>
 
             <TextView
@@ -50,8 +51,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="5dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="5dp">
 
                 <LinearLayout
                     android:id="@+id/lay_name"
@@ -62,35 +63,35 @@
 
                     <TextView
                         android:id="@+id/txt_name"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/txt_size_14_dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/txt_size_14_dp"/>
 
                     <TextView
                         android:id="@+id/txt_age"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/txt_size_14_dp"
-                        android:drawablePadding="3dp"
-                        android:layout_marginLeft="5dp"
-                        android:gravity="center_vertical"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:drawablePadding="3dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/txt_size_14_dp"/>
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/txt_id"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/txt_size_12_dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_size_12_dp"/>
 
                 <TextView
                     android:id="@+id/txt_sign"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/txt_size_12_dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_size_12_dp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -107,12 +108,14 @@
             android:drawableLeft="@mipmap/ic_me_friend"
             android:text="@string/txt_me_friend"/>
 
+        <!--一期暂时隐藏改功能-->
         <TextView
             android:id="@+id/txt_me_zone"
             style="@style/me_item_style"
             android:layout_marginTop="1px"
             android:drawableLeft="@mipmap/ic_me_zone"
-            android:text="@string/txt_me_zone"/>
+            android:text="@string/txt_me_zone"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/txt_me_vip"
