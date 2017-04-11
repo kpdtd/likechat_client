@@ -1,7 +1,9 @@
 package com.audio.miliao.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 
@@ -46,6 +48,25 @@ public class UserFriendActivity extends BaseActivity
             m_rdoFollow = (RadioButton) findViewById(R.id.rdo_follow);
             m_rdoFans = (RadioButton) findViewById(R.id.rdo_fans);
             m_list = (ListView) findViewById(R.id.list);
+
+            m_list.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                {
+                    try
+                    {
+                        User user = (User) m_adapter.getItem(position);
+                        Intent intentUserInfo = new Intent(UserFriendActivity.this, UserInfoActivity.class);
+                        intentUserInfo.putExtra("user", user);
+                        startActivity(intentUserInfo);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
