@@ -13,9 +13,9 @@ import android.widget.ProgressBar;
 
 import com.audio.miliao.R;
 import com.audio.miliao.photoview.PhotoView;
+import com.audio.miliao.photoview.PhotoViewAttacher.OnViewTapListener;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -24,134 +24,172 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImagePagerAdapter extends PagerAdapter {
+public class ImagePagerAdapter extends PagerAdapter
+{
+    private LayoutInflater m_inflater = null;
+    private Context m_context = null;
+    private DisplayImageOptions m_diOptions = null;
+    private List<String> m_lstImage = new ArrayList<String>();
+    private java.util.Map<String, View> m_mapView = new java.util.HashMap<String, View>();
+    private OnViewTapListener m_tapListener = null;
 
-	private LayoutInflater m_inflater = null;
-	private Context     m_context = null;
-	private ImageLoader m_iLoader = null;
-	private DisplayImageOptions m_diOptions  = null;
-	private List<String> m_lstImage = new ArrayList<String>();
-	private java.util.Map<String, View> m_mapView = new java.util.HashMap<String, View>();
+    public ImagePagerAdapter(Context context, List<String> lstImage)
+    {
+        try
+        {
+            m_context = context;
+            m_lstImage = lstImage;
+            m_inflater = ((Activity) context).getLayoutInflater();
 
-	public ImagePagerAdapter(Context context, ImageLoader iLoader, List<String> lstImage) {
-		m_context = context;
-		m_iLoader = iLoader;
-		m_lstImage = lstImage;
-		m_inflater = ((Activity)context).getLayoutInflater();
+            m_diOptions = new DisplayImageOptions.Builder()
+                    .showImageForEmptyUri(R.mipmap.loader_empty)
+                    .showImageOnFail(R.mipmap.loader_error)
+                    .resetViewBeforeLoading(true)
+                    .cacheOnDisc(true)
+                    .imageScaleType(ImageScaleType.EXACTLY)
+                    .bitmapConfig(Bitmap.Config.ARGB_8888)
+                    .displayer(new FadeInBitmapDisplayer(300))
+                    .build();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-		m_diOptions = new DisplayImageOptions.Builder()
-				.showImageForEmptyUri(R.mipmap.loader_empty)
-				.showImageOnFail(R.mipmap.loader_error)
-				.resetViewBeforeLoading(true)
-				.cacheOnDisc(true)
-				.imageScaleType(ImageScaleType.EXACTLY)
-				.bitmapConfig(Bitmap.Config.ARGB_8888)
-				.displayer(new FadeInBitmapDisplayer(300))
-				.build();
-	}
+    public void setOnViewTapListener(OnViewTapListener tapListener)
+    {
+        m_tapListener = tapListener;
+    }
 
-	@Override
-	public void destroyItem(ViewGroup container, int position, Object object) {
-		((ViewPager) container).removeView((View) object);
-	}
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object)
+    {
+        try
+        {
+            ((ViewPager) container).removeView((View) object);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public void finishUpdate(View container) {
-	}
+    @Override
+    public void finishUpdate(View container) {}
 
-	@Override
-	public int getCount() {
-		return m_lstImage.size();
-	}
+    @Override
+    public int getCount() {
+        return m_lstImage.size();
+    }
 
-	@Override
-	public Object instantiateItem(ViewGroup view, int position) {
-		// 多张图片才会循环
-		if (m_lstImage.size() > 1){
-			if (position < 1){
-				position = m_lstImage.size() - 2;
-			}else if (position > m_lstImage.size() - 2){
-				position = 1;
-			}
-		}
+    @Override
+    public Object instantiateItem(ViewGroup view, int position)
+    {
+        try
+        {
+            // 多张图片才会循环
+            if (m_lstImage.size() > 1)
+            {
+                if (position < 1)
+                {
+                    position = m_lstImage.size() - 2;
+                }
+                else if (position > m_lstImage.size() - 2)
+                {
+                    position = 1;
+                }
+            }
 
-		if (m_mapView.containsKey(position)){
-			return m_mapView.get(position);
-		}
+            if (m_mapView.containsKey(position))
+            {
+                return m_mapView.get(position);
+            }
 
-		View imageLayout = m_inflater.inflate(R.layout.item_pager_image, view, false);
-		m_mapView.put("" + position, imageLayout);
+            View imageLayout = m_inflater.inflate(R.layout.item_pager_image, view, false);
+            m_mapView.put("" + position, imageLayout);
 
-		PhotoView photoView = (PhotoView) imageLayout.findViewById(R.id.pv_image);
-		final ProgressBar pbLoading = (ProgressBar) imageLayout.findViewById(R.id.pb_loading);
-		ImageLoaderUtil.displayListPhotoImageFromAsset(photoView, m_lstImage.get(position), new ImageLoadingListener(){
+            PhotoView photoView = (PhotoView) imageLayout.findViewById(R.id.pv_image);
+            final ProgressBar pbLoading = (ProgressBar) imageLayout.findViewById(R.id.pb_loading);
+            ImageLoaderUtil.displayListPhotoImageFromAsset(photoView, m_lstImage.get(position), new ImageLoadingListener()
+            {
+                @Override
+                public void onLoadingStarted(String strUrl, View view)
+                {
+                    pbLoading.setVisibility(View.VISIBLE);
+                }
 
-			@Override
-			public void onLoadingStarted(String strUrl, View view) {
-				pbLoading.setVisibility(View.VISIBLE);
-			}
+                @Override
+                public void onLoadingComplete(String srUrl, View view, Bitmap loadedImage)
+                {
+                    pbLoading.setVisibility(View.GONE);
+                }
 
-			@Override
-			public void onLoadingComplete(String srUrl, View view, Bitmap loadedImage) {
-				pbLoading.setVisibility(View.GONE);
-			}
+                @Override
+                public void onLoadingFailed(String strUrl, View view, FailReason failReason)
+                {
+                    String strMsg = "";
+                    switch (failReason.getType())
+                    {
+                        case IO_ERROR:
+                            // Input/Output error
+                            strMsg = m_context.getString(R.string.img_loader_io_error);
+                            break;
+                        case DECODING_ERROR:
+                            // Image can't be decoded
+                            strMsg = m_context.getString(R.string.img_loader_decoding_error);
+                            break;
+                        case NETWORK_DENIED:
+                            // Downloads are denied
+                            strMsg = m_context.getString(R.string.img_loader_network_denied);
+                            break;
+                        case OUT_OF_MEMORY:
+                            // Out Of Memory error
+                            strMsg = m_context.getString(R.string.img_loader_out_of_memory);
+                            break;
+                        case UNKNOWN:
+                            // Unknown error
+                            strMsg = m_context.getString(R.string.img_loader_unknown_error);
+                            break;
+                    }
 
-			@Override
-			public void onLoadingFailed(String strUrl, View view, FailReason failReason) {
-				String strMsg = "";
-				switch (failReason.getType()) {
-					case IO_ERROR:
-						// Input/Output error
-						strMsg = m_context.getString(R.string.img_loader_io_error);
-						break;
-					case DECODING_ERROR:
-						// Image can't be decoded
-						strMsg = m_context.getString(R.string.img_loader_decoding_error);
-						break;
-					case NETWORK_DENIED:
-						// Downloads are denied
-						strMsg = m_context.getString(R.string.img_loader_network_denied);
-						break;
-					case OUT_OF_MEMORY:
-						// Out Of Memory error
-						strMsg = m_context.getString(R.string.img_loader_out_of_memory);
-						break;
-					case UNKNOWN:
-						// Unknown error
-						strMsg = m_context.getString(R.string.img_loader_unknown_error);
-						break;
-				}
+                    android.widget.Toast.makeText(m_context, strMsg, android.widget.Toast.LENGTH_SHORT).show();
 
-				android.widget.Toast.makeText(m_context, strMsg, android.widget.Toast.LENGTH_SHORT).show();
+                    pbLoading.setVisibility(View.GONE);
+                }
 
-				pbLoading.setVisibility(View.GONE);
-			}
+                @Override
+                public void onLoadingCancelled(String arg0, View arg1)
+                {
+                }
+            });
 
-			@Override
-			public void onLoadingCancelled(String arg0, View arg1) {
-			}
-		});
+            photoView.setOnViewTapListener(m_tapListener);
 
-		((ViewPager) view).addView(imageLayout, 0);
-		return imageLayout;
-	}
+            ((ViewPager) view).addView(imageLayout, 0);
+            return imageLayout;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
-	@Override
-	public boolean isViewFromObject(View view, Object object) {
-		return view.equals(object);
-	}
+        return null;
+    }
 
-	@Override
-	public void restoreState(Parcelable state, ClassLoader loader) {
-	}
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view.equals(object);
+    }
 
-	@Override
-	public Parcelable saveState() {
-		return null;
-	}
+    @Override
+    public void restoreState(Parcelable state, ClassLoader loader) { }
 
-	@Override
-	public void startUpdate(View container) {
-	}
+    @Override
+    public Parcelable saveState() {
+        return null;
+    }
 
+    @Override
+    public void startUpdate(View container) { }
 }
