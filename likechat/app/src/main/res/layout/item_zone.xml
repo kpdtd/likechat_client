@@ -71,7 +71,8 @@
         android:background="@color/white"
         android:columnCount="3"
         android:rowCount="3"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
         <ImageView
             android:id="@+id/img_thumb1"
             style="@style/anchor_zone_pic_thumb_style"/>
@@ -100,6 +101,47 @@
             android:id="@+id/img_thumb9"
             style="@style/anchor_zone_pic_thumb_style"/>
     </GridLayout>
+
+    <TextView
+        android:id="@+id/txt_voice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/ic_text_zone_voice_bg"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_size_14_dp"
+        android:gravity="center|right"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:id="@+id/lay_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/img_video"
+            style="@style/anchor_zone_pic_thumb_style"/>
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/txt_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="1.5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_size_14_dp"
+            android:background="#d8000000"/>
+
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/img_content"

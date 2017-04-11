@@ -307,14 +307,14 @@ public class DebugUtil
                 if (zone.mediaType == Zone.MEDIA_VOICE)
                 {
                     zone.voiceUrl = "";
-                    zone.voiceSec = rand.nextInt(1000);
+                    zone.voiceSec = rand.nextInt(4000);
                 }
-                else if (zone.mediaType == Zone.MEDIA_VOICE)
+                else if (zone.mediaType == Zone.MEDIA_VIDEO)
                 {
                     zone.videoUrl = "";
                     zone.videoFaceUrl = "thumb" + (rand.nextInt(20) + 1) + ".jpg";
                     zone.videoPrice = rand.nextInt(6);
-                    zone.videoPay = false;
+                    zone.videoPay = rand.nextBoolean();
                 }
                 else
                 {
@@ -323,6 +323,7 @@ public class DebugUtil
                     zone.photosUrl = jArrPhoto.toString();
                 }
 
+                android.util.Log.e("mediatype", "" + zone.mediaType);
                 zone.anchorId = user.id;
                 zone.anchorName = user.name;
                 zone.anchorAvatar = user.avatar;

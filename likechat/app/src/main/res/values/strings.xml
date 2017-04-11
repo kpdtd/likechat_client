@@ -111,6 +111,8 @@
     <string name="txt_call_history_call_out">呼出</string>
     <string name="txt_call_history_miss">未接来电</string>
     <string name="txt_zone_watch">人观看</string>
+    <string name="txt_zone_video_pay">私密视频，付费可%1$s可观看</string>
+    <string name="txt_zone_video_price">%1$s海币</string>
     <string name="txt_zone_me">我</string>
     <string name="txt_cancel">取消</string>
 

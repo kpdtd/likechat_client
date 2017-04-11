@@ -1,12 +1,16 @@
 package com.audio.miliao.adapter;
 
 import android.app.Activity;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
@@ -34,8 +38,8 @@ public class ZoneAdapter extends BaseAdapter
     /** 动态内容的宽度（宽度、高度都与屏幕宽度一致） */
     private int m_nContentWidth = 0;
 
-    /** 缩略图点击监听器 */
-    private OnThumbClickListener m_onThumbListener  = null;
+    /** 点击监听器 */
+    private OnClickListener m_onClickListener  = null;
 
     public ZoneAdapter(Activity activity, List<Zone> listZones)
     {
@@ -64,12 +68,12 @@ public class ZoneAdapter extends BaseAdapter
     }
 
     /**
-     * 设置缩略图点击监听器
+     * 设置点击监听器
      * @param listener
      */
-    public void setOnThumbClickListener(final OnThumbClickListener listener)
+    public void setOnClickListener(final OnClickListener listener)
     {
-        m_onThumbListener = listener;
+        m_onClickListener = listener;
     }
 
     @Override
@@ -151,7 +155,6 @@ public class ZoneAdapter extends BaseAdapter
                 holder.text.setText(zone.text);
                 holder.watch.setText(zone.watch + m_parent.getString(R.string.txt_zone_watch));
                 ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, zone.anchorAvatar);
-                holder.pictures.setVisibility(zone.mediaType == Zone.MEDIA_PHOTO ? View.VISIBLE : View.GONE);
                 ImageView vThumb;
 
                 int visibility = (m_bShowDelete ? View.VISIBLE : View.GONE);
@@ -189,10 +192,10 @@ public class ZoneAdapter extends BaseAdapter
                                 {
                                     try
                                     {
-                                        if (null != m_onThumbListener)
+                                        if (null != m_onClickListener)
                                         {
                                             int nPos = (int)v.getTag();
-                                            m_onThumbListener.onClick(zone, nPos, nSize);
+                                            m_onClickListener.onThumbClick(zone, nPos, nSize);
                                         }
                                     }
                                     catch (Exception e)
@@ -211,6 +214,86 @@ public class ZoneAdapter extends BaseAdapter
 
                     setViewThumbHeightEquWidth(holder, jsonArray.length());
                 }
+                else if (zone.mediaType == Zone.MEDIA_VOICE)
+                {
+                    int total = zone.voiceSec;
+                    int hour = total / 3600;
+                    int minute = (total - hour * 3600) / 60;
+                    int second = total - hour * 3600 - minute * 60;
+
+                    String strVoice = "";
+
+                    if (hour > 0)
+                    {
+                        strVoice = "" + hour + "h" + String.format("%02d", minute) + "'" + String.format("%02d", second) + "\"";
+                    }
+                    else if (minute > 0)
+                    {
+                        strVoice = "" + minute + "'" + String.format("%02d", second) + "\"";
+                    }
+                    else
+                    {
+                        strVoice = "" + second + "\"";
+                    }
+
+                    holder.voiceLen.setText(strVoice);
+                    setViewVoiceWidth(holder.voiceLen);
+
+                    holder.voiceLen.setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View v)
+                        {
+                            try
+                            {
+                                if (null != m_onClickListener)
+                                {
+                                    m_onClickListener.onVoiceClick(zone);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                            }
+                        }
+                    });
+                }
+                else if (zone.mediaType == Zone.MEDIA_VIDEO)
+                {
+                    setViewVideoHeightEquWidth(holder.videoThumb);
+                    setViewVideoHeightEquWidth(holder.videoPay);
+                    java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
+                    String strPrice = String.format(m_parent.getString(R.string.txt_zone_video_price), df.format(zone.videoPrice));
+                    strPrice = "<font color='#d908ed'>" + strPrice + "</font>";
+                    String strPay = String.format(m_parent.getString(R.string.txt_zone_video_pay), strPrice);
+                    holder.videoPay.setText(Html.fromHtml(strPay));
+                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.videoThumb, zone.videoFaceUrl);
+                    holder.videoThumb.setVisibility(View.VISIBLE);
+                    holder.videoPay.setVisibility(zone.videoPrice > 0 ? View.VISIBLE : View.GONE);
+                    holder.videoLoading.setVisibility((!zone.videoPay && zone.videoPrice > 0) ? View.VISIBLE : View.GONE);
+
+                    holder.video.setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View v)
+                        {
+                            try
+                            {
+                                if (null != m_onClickListener)
+                                {
+                                    m_onClickListener.onVideoClick(zone);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                            }
+                        }
+                    });
+                }
+                android.util.Log.e("mediatype", "" + zone.mediaType);
+
+                holder.pictures.setVisibility(zone.mediaType == Zone.MEDIA_PHOTO ? View.VISIBLE : View.GONE);
+                holder.voiceLen.setVisibility(zone.mediaType == Zone.MEDIA_VOICE ? View.VISIBLE : View.GONE);
+                holder.video.setVisibility(zone.mediaType == Zone.MEDIA_VIDEO ? View.VISIBLE : View.GONE);
             }
         }
         catch (Exception e)
@@ -315,6 +398,70 @@ public class ZoneAdapter extends BaseAdapter
         }
     }
 
+    /**
+     * 设置动态的声音内容的宽度
+     */
+    private void setViewVoiceWidth(final View view)
+    {
+        try
+        {
+            if (m_nContentWidth == 0)
+            {
+                DisplayMetrics metric = new DisplayMetrics();
+                m_parent.getWindowManager().getDefaultDisplay().getMetrics(metric);
+                int width = metric.widthPixels;     // 屏幕宽度（像素）
+                //int height = metric.heightPixels;   // 屏幕高度（像素）
+
+                m_nContentWidth = width;
+            }
+
+            //获取按钮的布局
+            LinearLayout.LayoutParams para = (LinearLayout.LayoutParams) view.getLayoutParams();
+            int nSpace = para.leftMargin;
+
+            // 点三分之一的宽度
+            int width = (int)((m_nContentWidth - nSpace * 2) * 0.5);
+            para.width  = width;
+            view.setLayoutParams(para);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 设置动态的声音内容的宽度
+     */
+    private void setViewVideoHeightEquWidth(final View view)
+    {
+        try
+        {
+            if (m_nContentWidth == 0)
+            {
+                DisplayMetrics metric = new DisplayMetrics();
+                m_parent.getWindowManager().getDefaultDisplay().getMetrics(metric);
+                int width = metric.widthPixels;     // 屏幕宽度（像素）
+                //int height = metric.heightPixels;   // 屏幕高度（像素）
+
+                m_nContentWidth = width;
+            }
+
+            //获取按钮的布局
+            FrameLayout.LayoutParams para = (FrameLayout.LayoutParams) view.getLayoutParams();
+            int nSpace = para.leftMargin;
+
+            int width = m_nContentWidth - nSpace * 2;
+            para.width  = width;
+            para.height = width;
+            view.setLayoutParams(para);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     private class ViewHolder
     {
         ViewHolder(View root)
@@ -327,6 +474,11 @@ public class ZoneAdapter extends BaseAdapter
                 sign = (TextView) root.findViewById(R.id.txt_sign);
                 date = (TextView) root.findViewById(R.id.txt_date);
                 watch = (TextView) root.findViewById(R.id.txt_watch);
+                voiceLen = (TextView) root.findViewById(R.id.txt_voice);
+                video = (FrameLayout) root.findViewById(R.id.lay_video);
+                videoThumb = (ImageView) root.findViewById(R.id.img_video);
+                videoLoading = (ProgressBar) root.findViewById(R.id.pb_loading);
+                videoPay = (TextView) root.findViewById(R.id.txt_video);
                 text = (TextView) root.findViewById(R.id.txt_text);
                 delete = (ImageView) root.findViewById(R.id.img_delete_zone);
 
@@ -358,6 +510,16 @@ public class ZoneAdapter extends BaseAdapter
         public GridLayout pictures;
         /** 缩略图组 */
         public List<ImageView> listThumbs;
+        /** 声音长度 */
+        public TextView voiceLen;
+        /** 视频组容器 */
+        public FrameLayout video;
+        /** 视频首页缩略图 */
+        public ImageView videoThumb;
+        /** 视频等待图标 */
+        public ProgressBar videoLoading;
+        /** 视频付款 */
+        public TextView videoPay;
         /** 名字 */
         public TextView name;
         /** 个性签名 */
@@ -372,16 +534,28 @@ public class ZoneAdapter extends BaseAdapter
         private ImageView delete;
     }
     /**
-     * 缩略图点击监听器
+     * 点击监听器
      */
-    public interface OnThumbClickListener
+    public interface OnClickListener
     {
         /**
-         * 点击
+         * 点击缩略图
          * @param zone
          * @param nPosition
          * @param nSize
          */
-        public void onClick(Zone zone, final int nPosition, final int nSize);
+        public void onThumbClick(Zone zone, final int nPosition, final int nSize);
+
+        /**
+         * 点击声音
+         * @param zone
+         */
+        public void onVoiceClick(Zone zone);
+
+        /**
+         * 点击视频
+         * @param zone
+         */
+        public void onVideoClick(Zone zone);
     }
 }

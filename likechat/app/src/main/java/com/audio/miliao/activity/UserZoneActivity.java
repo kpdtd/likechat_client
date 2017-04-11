@@ -131,10 +131,10 @@ public class UserZoneActivity extends BaseActivity
                 m_adapter = new ZoneAdapter(UserZoneActivity.this, lstZone);
                 m_list.setAdapter(m_adapter);
 
-                m_adapter.setOnThumbClickListener(new ZoneAdapter.OnThumbClickListener()
+                m_adapter.setOnClickListener(new ZoneAdapter.OnClickListener()
                 {
                     @Override
-                    public void onClick(Zone zone, final int nPosition, final int nSize)
+                    public void onThumbClick(Zone zone, final int nPosition, final int nSize)
                     {
                         int nIndex = nPosition;
                         int nCount = nSize;
@@ -143,6 +143,18 @@ public class UserZoneActivity extends BaseActivity
                         intentText.putExtra("count", nCount);
                         intentText.putExtra("urls", zone.photosUrl);
                         startActivity(intentText);
+
+                    }
+
+                    @Override
+                    public void onVoiceClick(Zone zone)
+                    {
+
+                    }
+
+                    @Override
+                    public void onVideoClick(Zone zone)
+                    {
 
                     }
                 });
