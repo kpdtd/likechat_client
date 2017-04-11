@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.activity.AccountBalanceActivity;
@@ -14,6 +15,9 @@ import com.audio.miliao.activity.SettingsActivity;
 import com.audio.miliao.activity.UserFriendActivity;
 import com.audio.miliao.activity.UserZoneActivity;
 import com.audio.miliao.activity.VipActivity;
+import com.audio.miliao.entity.AppData;
+import com.audio.miliao.entity.User;
+import com.audio.miliao.util.EntityUtil;
 
 public class TabMeFragment extends BaseFragment
 {
@@ -30,6 +34,7 @@ public class TabMeFragment extends BaseFragment
         {
             m_root = inflater.inflate(R.layout.fragment_tab_me, container, false);
             initUI(m_root);
+            updateData();
         }
 
         return m_root;
@@ -87,6 +92,46 @@ public class TabMeFragment extends BaseFragment
             root.findViewById(R.id.txt_me_zone).setOnClickListener(clickListener);
             root.findViewById(R.id.txt_me_vip).setOnClickListener(clickListener);
             root.findViewById(R.id.txt_me_settings).setOnClickListener(clickListener);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateData()
+    {
+        try
+        {
+            View layInfo = m_root.findViewById(R.id.lay_user_info);
+            View txtLogin = m_root.findViewById(R.id.txt_me_login);
+
+            if (AppData.isLogin())
+            {
+                layInfo.setVisibility(View.VISIBLE);
+                txtLogin.setVisibility(View.GONE);
+
+                TextView txtName = (TextView) m_root.findViewById(R.id.txt_name);
+                TextView txtAge = (TextView) m_root.findViewById(R.id.txt_age);
+                TextView txtId = (TextView) m_root.findViewById(R.id.txt_id);
+                TextView txtSigh = (TextView) m_root.findViewById(R.id.txt_sign);
+
+                User user = AppData.getCurUser();
+                if (user != null)
+                {
+                    txtName.setText(user.name);
+                    txtAge.setText(String.valueOf(user.age));
+                    EntityUtil.setAnchorGenderDrawable(txtAge, user, true);
+                    String strId = getString(R.string.txt_user_info_like_chat_id) + user.id;
+                    txtId.setText(strId);
+                    txtSigh.setText(user.sign);
+                }
+            }
+            else
+            {
+                layInfo.setVisibility(View.GONE);
+                txtLogin.setVisibility(View.VISIBLE);
+            }
         }
         catch (Exception e)
         {

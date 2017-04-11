@@ -26,18 +26,21 @@
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:orientation="horizontal">
         <RadioButton
+            android:id="@+id/rdo_follow"
             style="@style/user_friend_radio_style"
             android:text="@string/txt_user_friend_follow"/>
 
         <RadioButton
+            android:id="@+id/rdo_fans"
             style="@style/user_friend_radio_style"
             android:text="@string/txt_user_friend_fans"/>
     </RadioGroup>
 
     <ListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:background="@color/white"
         android:layout_height="match_parent">

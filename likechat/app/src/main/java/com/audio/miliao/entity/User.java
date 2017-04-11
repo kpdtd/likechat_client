@@ -70,7 +70,7 @@ public class User implements Serializable
             jsonObject.put("gender", gender);
             jsonObject.put("age", age);
             jsonObject.put("sign", sign);
-            jsonObject.put("intro", intro);
+            jsonObject.put("sign", intro);
             jsonObject.put("city", city);
             jsonObject.put("fans", fans);
             jsonObject.put("follow", follow);

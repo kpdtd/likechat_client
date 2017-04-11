@@ -37,6 +37,7 @@ public class theApp extends Application
             user.id = "12345678";
             user.name = "我是大管家";
             user.avatar = "avatar1.jpg";
+            user.sign = "管家就是要有管家的样子，别拿管家不当干部";
             AppData.saveCurUser(user);
         }
         catch (Exception e)
