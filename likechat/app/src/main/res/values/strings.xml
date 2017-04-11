@@ -110,6 +110,12 @@
     <string name="txt_call_history_miss">未接来电</string>
     <string name="txt_zone_watch">人观看</string>
 
+    <string name="img_loader_io_error">加载图片输入输出错误!</string>
+    <string name="img_loader_decoding_error">加载图片解码错误!</string>
+    <string name="img_loader_network_denied">加载图片网络中断!</string>
+    <string name="img_loader_out_of_memory">加载图片内存不足!</string>
+    <string name="img_loader_unknown_error">加载图片未知错误!</string>
+
     <string name="edt_hint_edit_user_info_name">请输入昵称</string>
     <string name="edt_hint_edit_user_info_gender">请选择性别</string>
     <string name="edt_hint_edit_user_info_birthday">请选择年月</string>

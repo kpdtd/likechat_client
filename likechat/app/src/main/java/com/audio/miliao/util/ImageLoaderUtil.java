@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**
  * 加载图片工具类<br/>
@@ -27,6 +28,8 @@ public class ImageLoaderUtil
     private static DisplayImageOptions m_optionsAvatar;
     /** 用于绘制圆角 */
     private static DisplayImageOptions m_optionsListAvatar;
+    /** 用于显示大图浏览 */
+    private static DisplayImageOptions m_optionsListPhoto;
 
     private static void init()
     {
@@ -82,6 +85,17 @@ public class ImageLoaderUtil
                         //.cacheOnDisc()
                         //.displayer(new RoundedBitmapDisplayer(14))
                         .build();
+
+                m_optionsListPhoto = new DisplayImageOptions.Builder()
+                        .showImageForEmptyUri(R.mipmap.loader_empty) // 设置图片Uri为空或是错误的时候显示的图片
+                        .showImageOnFail(R.mipmap.loader_error) // 设置图片加载/解码过程中错误时候显示的图片
+                        .resetViewBeforeLoading(true)
+                        .delayBeforeLoading(300)
+                        //.showStubImage(R.mipmap.ic_user) // 设置图片在下载期间显示的图片
+                        //.cacheInMemory()
+                        //.cacheOnDisc()
+                        // .displayer(new RoundedBitmapDisplayer(20))
+                        .build();
             }
         }
         catch (Exception e)
@@ -134,6 +148,32 @@ public class ImageLoaderUtil
 
             String strUrl = "assets://" + imageName;
             m_imageLoader.displayImage(strUrl, imageView, m_optionsListAvatar);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 在列表中显示大图<br/>
+     * 加载asset中的图片
+     * @param imageView
+     * @param imageName asset 中图片文件名
+     */
+    public static void displayListPhotoImageFromAsset(ImageView imageView, String imageName, ImageLoadingListener listener)
+    {
+        try
+        {
+            if (imageView == null)
+            {
+                return;
+            }
+
+            init();
+
+            String strUrl = "assets://" + imageName;
+            m_imageLoader.displayImage(strUrl, imageView, m_optionsListPhoto, listener);
         }
         catch (Exception e)
         {
