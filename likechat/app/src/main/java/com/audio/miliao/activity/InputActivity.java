@@ -1,5 +1,6 @@
 package com.audio.miliao.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -59,6 +60,10 @@ public class InputActivity extends BaseActivity
                             finish();
                             break;
                         case R.id.txt_save:
+                            String strInput = m_edtInput.getText().toString().trim();
+                            Intent data = new Intent();
+                            data.putExtra("input", strInput);
+                            setResult(RESULT_OK, data);
                             finish();
                             break;
                         }

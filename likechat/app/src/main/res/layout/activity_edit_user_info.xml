@@ -63,7 +63,7 @@
             android:text="@string/txt_edit_user_info_name"/>
 
         <TextView
-            android:id="@+id/txt_edit_user_info_avatar_hint"
+            android:id="@+id/txt_edit_user_info_name_hint"
             style="@style/edit_user_info_item_edit_style"
             android:text="@string/edt_hint_edit_user_info_name"/>
     </LinearLayout>
@@ -78,7 +78,7 @@
             android:text="@string/txt_edit_user_info_gender"/>
 
         <TextView
-            android:id="@+id/edt_hint_edit_user_info_gender"
+            android:id="@+id/txt_hint_edit_user_info_gender"
             style="@style/edit_user_info_item_edit_style"
             android:text="@string/edt_hint_edit_user_info_gender"/>
     </LinearLayout>
@@ -93,7 +93,7 @@
             android:text="@string/txt_edit_user_info_birthday"/>
 
         <TextView
-            android:id="@+id/edt_hint_edit_user_info_birthday"
+            android:id="@+id/txt_hint_edit_user_info_birthday"
             style="@style/edit_user_info_item_edit_style"
             android:text="@string/edt_hint_edit_user_info_birthday"/>
     </LinearLayout>
@@ -108,7 +108,7 @@
             android:text="@string/txt_edit_user_info_location"/>
 
         <TextView
-            android:id="@+id/edt_hint_edit_user_info_location"
+            android:id="@+id/txt_hint_edit_user_info_location"
             style="@style/edit_user_info_item_edit_style"
             android:text="@string/edt_hint_edit_user_info_location"/>
     </LinearLayout>
@@ -130,7 +130,7 @@
             android:text="@string/txt_edit_user_info_self_intro"/>
 
         <TextView
-            android:id="@+id/edt_hint_edit_user_info_self_intro"
+            android:id="@+id/txt_hint_edit_user_info_self_intro"
             style="@style/edit_user_info_item_edit_style"
             android:layout_width="match_parent"
             android:layout_height="50dp"

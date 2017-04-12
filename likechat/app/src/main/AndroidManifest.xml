@@ -114,6 +114,12 @@
                   android:launchMode="singleTop"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.audio.miliao.dialog.DatePickerActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait"
+                  android:theme = "@style/Base.Theme.AppCompat.Light.Dialog">
+        </activity>
     </application>
 
 </manifest>
