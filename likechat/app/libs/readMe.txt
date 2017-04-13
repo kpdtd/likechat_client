@@ -1,3 +1,23 @@
 universal-image-loader-1.9.5.jar
  图片浏览工具类
 https://github.com/nostra13/Android-Universal-Image-Loader
+
+eventbus-2.4.0
+eventBus库
+
+okhttp-3.5.0
+https://github.com/square/okhttp
+Square开发的开源库
+代替Apache HttpClient库的。由于Apache HttpClient不支持SNI，而且在6.0之后已经废除了
+所以需要使用一个支持SNI的库来代替
+
+okio-1.11.0
+okhttp需要用到的库
+
+okhttputils-2_6_2
+https://github.com/hongyangAndroid/okhttputils
+ 对okhttp的封装调用
+
+wheelView.jar
+ios风格的时间或者城市选择控件
+https://code.google.com/p/android-wheel/

@@ -1,7 +1,9 @@
 package com.audio.miliao.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,17 +13,34 @@ import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.User;
 import com.audio.miliao.util.StringUtil;
 
+import java.util.Calendar;
+
 /**
  * 编辑用户信息
  */
 public class EditUserInfoActivity extends BaseActivity
 {
-    /** 输入名称 */
+    /**
+     * 输入名称
+     */
     private static final int REQ_CODE_INPUT_NAME = 0;
-    /** 输入介绍 */
+    /**
+     * 输入介绍
+     */
     private static final int REQ_CODE_INPUT_INTRO = 1;
+    /**
+     * 选择生日
+     */
+    private static final int REQ_CODE_PICKER_DATE = 2;
+    /**
+     * 选择城市
+     */
+    private static final int REQ_CODE_PICKER_CITY = 3;
 
     private TextView m_txtName;
+    private TextView m_txtGender;
+    private TextView m_txtAge;
+    private TextView m_txtCity;
     private TextView m_txtIntro;
 
     @Override
@@ -60,6 +79,12 @@ public class EditUserInfoActivity extends BaseActivity
             case REQ_CODE_INPUT_INTRO:
                 onInputIntro(data);
                 break;
+            case REQ_CODE_PICKER_DATE:
+                onPickDate(data);
+                break;
+            case REQ_CODE_PICKER_CITY:
+                onPickCity(data);
+                break;
             }
         }
         catch (Exception e)
@@ -73,6 +98,9 @@ public class EditUserInfoActivity extends BaseActivity
         try
         {
             m_txtName = (TextView) findViewById(R.id.txt_edit_user_info_name_hint);
+            m_txtGender = (TextView) findViewById(R.id.txt_hint_edit_user_info_gender);
+            m_txtAge = (TextView) findViewById(R.id.txt_hint_edit_user_info_age);
+            m_txtCity = (TextView) findViewById(R.id.txt_hint_edit_user_info_location);
             m_txtIntro = (TextView) findViewById(R.id.txt_hint_edit_user_info_self_intro);
 
             View.OnClickListener clickListener = new View.OnClickListener()
@@ -99,10 +127,11 @@ public class EditUserInfoActivity extends BaseActivity
                             startActivityForResult(intentInputName, REQ_CODE_INPUT_NAME);
                             break;
                         case R.id.lay_gender:
+                            showListDialog();
                             break;
                         case R.id.lay_birthday:
                             Intent intentDatePicker = new Intent(EditUserInfoActivity.this, DatePickerActivity.class);
-                            startActivity(intentDatePicker);
+                            startActivityForResult(intentDatePicker, REQ_CODE_PICKER_DATE);
                             break;
                         case R.id.lay_location:
                             break;
@@ -148,6 +177,8 @@ public class EditUserInfoActivity extends BaseActivity
 
             m_txtName.setText(user.name);
             m_txtIntro.setText(user.intro);
+            String strGender = (user.gender == User.GENDER_FEMALE ? getString(R.string.txt_female) : getString(R.string.txt_male));
+            m_txtGender.setText(strGender);
         }
         catch (Exception e)
         {
@@ -187,6 +218,34 @@ public class EditUserInfoActivity extends BaseActivity
         }
     }
 
+    private void onPickDate(Intent data)
+    {
+        try
+        {
+            int nYear = data.getIntExtra("year", 0);
+            int nMonth = data.getIntExtra("month", 0);
+            int nDay = data.getIntExtra("day", 0);
+            int nAge = getAgeByBirthday(nYear, nMonth, nDay);
+            m_txtAge.setText(String.valueOf(nAge));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void onPickCity(Intent data)
+    {
+        try
+        {
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     private void onSave()
     {
         try
@@ -201,5 +260,61 @@ public class EditUserInfoActivity extends BaseActivity
         {
             e.printStackTrace();
         }
+    }
+
+    private void showListDialog()
+    {
+        try
+        {
+            final String[] items = {getString(R.string.txt_male), getString(R.string.txt_female)};
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.title_select_gender);
+            builder.setItems(items, new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int item)
+                {
+                    m_txtGender.setText(items[item]);
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 根据用户生日计算年龄
+     */
+    public static int getAgeByBirthday(int nYear, int nMonth, int nDay)
+    {
+        Calendar cal = Calendar.getInstance();
+
+        int yearNow = cal.get(Calendar.YEAR);
+        int monthNow = cal.get(Calendar.MONTH) + 1;
+        int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
+
+        int age = yearNow - nYear;
+
+        if (monthNow <= nMonth)
+        {
+            if (monthNow == nMonth)
+            {
+                // monthNow==monthBirth
+                if (dayOfMonthNow < nDay)
+                {
+                    age--;
+                }
+            }
+            else
+            {
+                // monthNow>monthBirth
+                age--;
+            }
+        }
+
+        return age;
     }
 }

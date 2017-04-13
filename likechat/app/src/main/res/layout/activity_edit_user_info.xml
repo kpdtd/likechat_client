@@ -88,12 +88,12 @@
         style="@style/edit_user_info_item_layout_style">
 
         <TextView
-            android:id="@+id/txt_edit_user_info_birthday"
+            android:id="@+id/txt_edit_user_info_age"
             style="@style/edit_user_info_item_text_style"
-            android:text="@string/txt_edit_user_info_birthday"/>
+            android:text="@string/txt_edit_user_info_age"/>
 
         <TextView
-            android:id="@+id/txt_hint_edit_user_info_birthday"
+            android:id="@+id/txt_hint_edit_user_info_age"
             style="@style/edit_user_info_item_edit_style"
             android:text="@string/edt_hint_edit_user_info_birthday"/>
     </LinearLayout>
@@ -135,6 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="left"
+            android:drawableRight="@null"
             android:text="@string/edt_hint_edit_user_info_self_intro"/>
     </LinearLayout>
 </LinearLayout>

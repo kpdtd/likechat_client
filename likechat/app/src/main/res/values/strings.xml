@@ -32,6 +32,7 @@
     <string name="title_user_zone_at">的动态</string>
     <string name="title_input_name">昵称</string>
     <string name="title_input_intro">个性签名</string>
+    <string name="title_select_gender">性别</string>
 
     <string name="txt_me_login">点击登录</string>
     <string name="txt_me_account_balance">账户余额</string>
@@ -60,9 +61,10 @@
     <string name="txt_call_out_ont_the_phone2">正在等待对方…</string>
     <string name="txt_edit_user_info_save">保存</string>
     <string name="txt_edit_user_info_avatar">用户头像：</string>
-    <string name="txt_edit_user_info_name">昵    称：</string>
-    <string name="txt_edit_user_info_gender">性    别：</string>
+    <string name="txt_edit_user_info_name">昵称：</string>
+    <string name="txt_edit_user_info_gender">性别：</string>
     <string name="txt_edit_user_info_birthday">出生日期：</string>
+    <string name="txt_edit_user_info_age">年龄：</string>
     <string name="txt_edit_user_info_location">所在城市：</string>
     <string name="txt_edit_user_info_self_intro">自我介绍：</string>
     <string name="txt_login_weixin">微信登录</string>
@@ -115,6 +117,8 @@
     <string name="txt_zone_video_price">%1$s海币</string>
     <string name="txt_zone_me">我</string>
     <string name="txt_cancel">取消</string>
+    <string name="txt_male">男</string>
+    <string name="txt_female">女</string>
 
     <string name="img_loader_io_error">加载图片输入输出错误!</string>
     <string name="img_loader_decoding_error">加载图片解码错误!</string>
