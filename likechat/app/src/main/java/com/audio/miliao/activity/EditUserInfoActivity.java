@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.dialog.CityPickerActivity;
 import com.audio.miliao.dialog.DatePickerActivity;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.User;
@@ -134,6 +135,8 @@ public class EditUserInfoActivity extends BaseActivity
                             startActivityForResult(intentDatePicker, REQ_CODE_PICKER_DATE);
                             break;
                         case R.id.lay_location:
+                            Intent intentCityPicker = new Intent(EditUserInfoActivity.this, CityPickerActivity.class);
+                            startActivityForResult(intentCityPicker, REQ_CODE_PICKER_CITY);
                             break;
                         case R.id.lay_self_intro:
                             Intent intentInputIntro = new Intent(EditUserInfoActivity.this, InputActivity.class);
@@ -238,7 +241,10 @@ public class EditUserInfoActivity extends BaseActivity
     {
         try
         {
-
+            String provice = data.getStringExtra("provice");
+            String city = data.getStringExtra("city");
+            String district = data.getStringExtra("district");
+            m_txtCity.setText(provice + "/" + city);
         }
         catch (Exception e)
         {
