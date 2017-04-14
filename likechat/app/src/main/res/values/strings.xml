@@ -34,6 +34,9 @@
     <string name="title_input_intro">个性签名</string>
     <string name="title_select_gender">性别</string>
     <string name="title_change_avatar">更换头像</string>
+    <string name="title_photo_zone">图片动态</string>
+    <string name="title_voice_zone">声音动态</string>
+    <string name="title_video_zone">视频动态</string>
 
     <string name="txt_me_login">点击登录</string>
     <string name="txt_me_account_balance">账户余额</string>
@@ -122,6 +125,8 @@
     <string name="txt_cancel">取消</string>
     <string name="txt_male">男</string>
     <string name="txt_female">女</string>
+    <string name="txt_zone_publish">发布</string>
+    <string name="txt_zone_text_add">请输入动态内容(选填)</string>
 
     <string name="img_loader_io_error">加载图片输入输出错误!</string>
     <string name="img_loader_decoding_error">加载图片解码错误!</string>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/shape_gradient_title_bg">
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="@string/title_voice_zone"/>
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@drawable/btn_back_selector"/>
+
+        <TextView
+            android:id="@+id/txt_publish"
+            style="@style/title_text_publish_style"
+            android:text="@string/txt_zone_publish"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/gray">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_marginBottom="15dp">
+
+                <EditText
+                    android:id="@+id/edt_zone_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:gravity="left|top"
+                    android:background="@null"
+                    android:textSize="@dimen/txt_size_14_dp"
+                    android:hint="@string/txt_zone_text_add"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

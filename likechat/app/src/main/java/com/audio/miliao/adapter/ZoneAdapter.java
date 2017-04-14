@@ -268,8 +268,8 @@ public class ZoneAdapter extends BaseAdapter
                     holder.videoPay.setText(Html.fromHtml(strPay));
                     ImageLoaderUtil.displayListAvatarImageFromAsset(holder.videoThumb, zone.videoFaceUrl);
                     holder.videoThumb.setVisibility(View.VISIBLE);
-                    holder.videoPay.setVisibility(zone.videoPrice > 0 ? View.VISIBLE : View.GONE);
-                    holder.videoLoading.setVisibility((!zone.videoPay && zone.videoPrice > 0) ? View.VISIBLE : View.GONE);
+                    holder.videoPay.setVisibility((zone.videoPay && zone.videoPrice > 0) ? View.VISIBLE : View.GONE);
+                    holder.videoLoading.setVisibility(!(zone.videoPay || zone.videoPrice == 0) ? View.VISIBLE : View.GONE);
 
                     holder.video.setOnClickListener(new View.OnClickListener()
                     {
