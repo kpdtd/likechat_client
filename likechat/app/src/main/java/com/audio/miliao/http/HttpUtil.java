@@ -1,0 +1,34 @@
+package com.audio.miliao.http;
+
+/**
+ * 网络操作结果
+ */
+public class HttpResult
+{
+    public static final int RESULT_CONTINUE = -2; // 请求无需执行网络操作，保留在数据库，下次启动继续执行
+    public static final int RESULT_LOCAL_DELETE = -1; // 请求无需执行网络操作，并且可以删除
+    public static final int RESULT_OK = 0;
+
+    // 网络、系统层的错误。
+    public static final int RESULT_ERROR_UNKNOWN = 1;
+    public static final int RESULT_ERROR_CONNECT_FAILED = 2;
+    public static final int RESULT_ERROR_CONNECT_REFUSED = 3;
+    public static final int RESULT_ERROR_CONNECT_TIMEOUT = 4;
+    public static final int RESULT_ERROR_RECEIVING_DATA = 5;
+
+    // 应用逻辑错误（服务器应答）。
+    public static final int RESULT_ERROR_UNKNOWN_STATUS = 9; // 服务器返回未知意义的状态码
+    public static final int RESULT_ERROR_PARSE_RESPONSE = 10; // 解析服务器的应答数据时出错。
+    public static final int RESULT_ERROR_NOT_FOUND_TOKEN = 11; // 没有找到Token对应的数据
+    public static final int RESULT_ERROR_COMMIT_NULL = 12; // 提交的数据有空内容
+    public static final int RESULT_ERROR_INVALID_CODE = 13; // 用户名或密码错误
+    public static final int RESULT_ERROR_INVALIDATE_CLIENT = 14; // 客户端AppId和Secret错误
+    public static final int RESULT_ERROR_MOBILE_EXIST = 15; // 手机号已经被注册了
+    public static final int RESULT_ERROR_OLD_PASSWORD_ERROR = 16; // 旧密码不正确
+    public static final int RESULT_ERROR_DISK_FULL = 17; // 用户的网络空间已满
+    public static final int RESULT_ERROR_REGISTER_DEVICE_FAILED = 18; // 注册用户设备失败（所有操作都需要携带deviceId，如果没有则需要先执行registerDevice从服务器获取deviceId）
+    public static final int RESULT_ERROR_UNAUTHORIZED = 19; // 未认证
+    public static final int RESULT_ERROR_FILE_EXIST = 20; // 文件或者文件夹已存在
+    public static final int RESULT_ERROR_CONTACT_OUT_OF_TENANT = 21; // 联系人不是同一个公司的不能添加
+    public static final int RESULT_ERROR_DENIAL_OF_SERVICE = 22; // 系统拒绝服务，可能是单个手机号发送次数超限。需要稍候再发送。
+}

@@ -2,6 +2,8 @@ package com.audio.miliao.entity;
 
 import com.audio.miliao.util.PreferUtil;
 
+import org.json.JSONObject;
+
 /**
  * 内存中使用的数据
  */
@@ -9,12 +11,23 @@ import com.audio.miliao.util.PreferUtil;
 public class AppData
 {
     /** 当前用户 */
-    private static User ms_curUser;
+    //private static User ms_curUser;
     private static boolean ms_bIsLogin = false;
+
+    public static void saveToken(String strToken)
+    {
+        PreferUtil.setStringPreference(KEY_TOKEN, strToken);
+    }
+
+    public static String getToken()
+    {
+        return PreferUtil.getStringPreference(KEY_TOKEN);
+    }
 
     public static void saveCurUser(User user)
     {
-        ms_curUser = user;
+        //ms_curUser = user;
+        PreferUtil.setStringPreference(KEY_USER, user.toJson().toString());
     }
 
     /**
@@ -23,7 +36,19 @@ public class AppData
      */
     public static User getCurUser()
     {
-        return ms_curUser;
+        //return ms_curUser;
+        try
+        {
+            JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_USER));
+            User user = User.fromJson(jsonObject);
+            return user;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     /**
@@ -68,4 +93,5 @@ public class AppData
 
     private final static String KEY_IS_LOGIN = "key_is_login";
     private final static String KEY_USER = "key_user";
+    private static final String KEY_TOKEN = "key_token";
 }
