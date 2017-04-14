@@ -10,7 +10,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**
@@ -70,7 +69,7 @@ public class ImageLoaderUtil
                         //.cacheInMemory()
                         //.cacheOnDisc()
                         // 圆角显示
-                        .displayer(new RoundedBitmapDisplayer(10))
+                        //.displayer(new RoundedBitmapDisplayer(10))
                         .build();
 
                 m_optionsListAvatar = new DisplayImageOptions.Builder()
@@ -174,6 +173,32 @@ public class ImageLoaderUtil
 
             String strUrl = "assets://" + imageName;
             m_imageLoader.displayImage(strUrl, imageView, m_optionsListPhoto, listener);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 在列表中显示头像<br/>
+     * 加载asset中的图片
+     * @param imageView
+     * @param imageName asset 中图片文件名
+     */
+    public static void displayFromFile(ImageView imageView, String imageName)
+    {
+        try
+        {
+            if (imageView == null)
+            {
+                return;
+            }
+
+            init();
+
+            String strUrl = "file:///" + imageName;
+            m_imageLoader.displayImage(strUrl, imageView, m_optionsAvatar);
         }
         catch (Exception e)
         {

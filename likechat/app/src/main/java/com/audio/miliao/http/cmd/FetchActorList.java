@@ -11,28 +11,29 @@ import java.util.List;
 
 
 /**
- * 增加关注
+ * 根据Tag获取20个随机主播
  */
-public class FetchActor extends BaseReqRsp
+public class FetchActorList extends BaseReqRsp
 {
-	public int reqActorId;
+	public String reqTag;
+
 	/**
-	 * 增加关注
+	 * 根据Tag获取20个随机主播
 	 * @param handler
-	 * @param actorId 用户ID
+	 * @param strTag Tag
 	 * @param tag
 	 */
-	public FetchActor(Handler handler, int actorId, Object tag)
+	public FetchActorList(Handler handler, String strTag, Object tag)
 	{
-		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR, false, tag);
+		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR_LIST_BY_TAG, false, tag);
 
-		reqActorId = actorId;
+		reqTag = strTag;
 	}
 
 	@Override
 	public String getReqUrl()
 	{
-		String url = getPrevBaseURL() + "getActorPage";
+		String url = getPrevBaseURL() + "getActorListByTag";
 
 		return url;
 	}
@@ -43,7 +44,7 @@ public class FetchActor extends BaseReqRsp
 		JSONObject jsonObject = new JSONObject();
 		try
 		{
-			jsonObject.put("id", reqActorId);
+			jsonObject.put("identifying", reqTag);
 		}
 		catch (Exception e)
 		{

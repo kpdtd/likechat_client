@@ -74,12 +74,12 @@ public abstract class BaseReqRsp
 
 	public static String getPrevBaseURL()
 	{
-		return getBaseURL() + "iot/v1/";
+		return getBaseURL() + "home/";
 	}
 
 	public static boolean isSucceed(BaseReqRsp baseReqRsp)
 	{
-		if (baseReqRsp != null && baseReqRsp.rspResultCode == HttpResult.RESULT_OK)
+		if (baseReqRsp != null && baseReqRsp.rspResultCode == HttpUtil.Result.OK)
 		{
 			return true;
 		}

@@ -11,13 +11,13 @@ import java.util.List;
 
 
 /**
- * 增加关注
+ * 获取主播详情
  */
 public class FetchActor extends BaseReqRsp
 {
 	public int reqActorId;
 	/**
-	 * 增加关注
+	 * 获取主播详情
 	 * @param handler
 	 * @param actorId 用户ID
 	 * @param tag

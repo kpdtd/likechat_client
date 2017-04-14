@@ -11,22 +11,22 @@ import java.util.List;
 
 
 /**
- * 增加关注
+ * 取消关注
  */
-public class AddAttention extends BaseReqRsp
+public class CancelAttention extends BaseReqRsp
 {
 	public int reqUserId;
 	public int reqActorId;
 	/**
-	 * 增加关注
+	 * 取消关注
 	 * @param handler
 	 * @param userId 用户ID
 	 * @param actorId 主播ID
 	 * @param tag
 	 */
-	public AddAttention(Handler handler, int userId, int actorId, Object tag)
+	public CancelAttention(Handler handler, int userId, int actorId, Object tag)
 	{
-		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.ADD_ATTENTION, false, tag);
+		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.CANCEL_ATTENTION, false, tag);
 
 		reqUserId = userId;
 		reqActorId = actorId;
@@ -35,7 +35,7 @@ public class AddAttention extends BaseReqRsp
 	@Override
 	public String getReqUrl()
 	{
-		String url = getPrevBaseURL() + "addAttention";
+		String url = getPrevBaseURL() + "cancelAttention";
 
 		return url;
 	}
