@@ -393,6 +393,31 @@ public class DebugUtil
         return zoneList;
     }
 
+    /**
+     *
+     * @param nCount (0,20]
+     * @return
+     */
+    public static List<String> getBannerUrls(int nCount)
+    {
+        List<String> list = new ArrayList<>();
+        try
+        {
+            String avatar = "avatar%d.jpg";
+            for (int i = 0; i < nCount; i++)
+            {
+                String url = String.format(avatar, i + 1);
+                list.add(url);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
     private static Random sm_rand;
     private static int random()
     {

@@ -348,4 +348,13 @@
         <item name="android:src">@mipmap/pic_add</item>
         <item name="android:layout_margin">1.5dp</item>
     </style>
+
+    <!-- 主播动态中图片 样式 -->
+    <style name="main_pager_indicator_style">
+        <item name="android:layout_width">8dp</item>
+        <item name="android:layout_height">8dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:drawableRight">@drawable/radio_main_pager_indicator_selector</item>
+    </style>
 </resources>

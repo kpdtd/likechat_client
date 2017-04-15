@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.GridView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.activity.CustomerServiceActivity;
@@ -16,6 +15,8 @@ import com.audio.miliao.activity.UserInfoActivity;
 import com.audio.miliao.adapter.AnchorAdapter;
 import com.audio.miliao.entity.User;
 import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.widget.GridViewWithHeaderAndFooter;
+import com.audio.miliao.widget.HeaderView;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class TabMainFragment extends BaseFragment
      * 界面中的root view
      */
     private View m_root;
-    private GridView m_gridView;
+    private GridViewWithHeaderAndFooter m_gridView;
     private AnchorAdapter m_adapter;
 
     @Nullable
@@ -46,7 +47,7 @@ public class TabMainFragment extends BaseFragment
     {
         try
         {
-            m_gridView = (GridView) root.findViewById(R.id.grid);
+            m_gridView = (GridViewWithHeaderAndFooter) root.findViewById(R.id.grid);
 
             m_gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
             {
@@ -142,6 +143,11 @@ public class TabMainFragment extends BaseFragment
 
             if (m_adapter == null)
             {
+                //m_headerView = (HeaderView) View.inflate(getActivity(), R.layout.layout_banner, null);
+                //m_headerView.updateData(DebugUtil.getBannerUrls(10));
+                View headerView = HeaderView.load(getActivity(), R.layout.list_header_main_banner, DebugUtil.getBannerUrls(10));
+                m_gridView.addHeaderView(headerView);
+
                 m_adapter = new AnchorAdapter(getActivity(), userList);
                 m_gridView.setAdapter(m_adapter);
             }

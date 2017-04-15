@@ -50,7 +50,7 @@
             android:layout_marginRight="10dp"/>
     </LinearLayout>
 
-    <GridView
+    <com.audio.miliao.widget.GridViewWithHeaderAndFooter
         android:id="@+id/grid"
         android:numColumns="2"
         android:background="@color/transparent"
@@ -58,6 +58,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </GridView>
+    </com.audio.miliao.widget.GridViewWithHeaderAndFooter>
 
 </LinearLayout>
