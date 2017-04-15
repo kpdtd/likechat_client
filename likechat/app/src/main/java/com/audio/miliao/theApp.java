@@ -33,12 +33,20 @@ public class theApp extends Application
     {
         try
         {
-            User user = new User();
-            user.id = "12345678";
-            user.name = "我是大管家";
-            user.avatar = "avatar1.jpg";
-            user.sign = "管家就是要有管家的样子，别拿管家不当干部";
-            AppData.saveCurUser(user);
+            if (AppData.getCurUser() == null)
+            {
+                User user = new User();
+                user.id = "12345678";
+                user.name = "我是大管家";
+                user.avatar = "avatar1.jpg";
+                user.sign = "管家就是要有管家的样子，别拿管家不当干部";
+                user.intro = "我是大管家，我要管好整个家族";
+                user.age = 23;
+                user.city = "成都";
+                user.fans = 10043;
+                user.follow = 325;
+                AppData.saveCurUser(user);
+            }
         }
         catch (Exception e)
         {

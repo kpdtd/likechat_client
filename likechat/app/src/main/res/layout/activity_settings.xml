@@ -43,6 +43,7 @@
         android:text="@string/txt_settings_update"/>
 
     <LinearLayout
+        android:id="@+id/lay_contact_us"
         style="@style/edit_user_info_item_layout_style">
 
         <TextView

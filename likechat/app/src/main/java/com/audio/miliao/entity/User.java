@@ -24,7 +24,6 @@ public class User implements Serializable
     public String id = "";
     /** 头像 */
     public String avatar = "";
-    public int avatar_res;
     /** 名字 */
     public String name = "";
     /** 性别 */
@@ -70,7 +69,7 @@ public class User implements Serializable
             jsonObject.put("gender", gender);
             jsonObject.put("age", age);
             jsonObject.put("sign", sign);
-            jsonObject.put("sign", intro);
+            jsonObject.put("intro", intro);
             jsonObject.put("city", city);
             jsonObject.put("fans", fans);
             jsonObject.put("follow", follow);
@@ -114,16 +113,16 @@ public class User implements Serializable
         try
         {
             User user = new User();
-            user.id = jsonObject.optString("anchorId");
-            user.name = jsonObject.optString("anchorName");
-            user.avatar = jsonObject.optString("anchorAvatar");
-            user.gender = jsonObject.optInt("anchorGender");
-            user.age = jsonObject.optInt("anchorAge");
-            user.sign = jsonObject.optString("anchorSign");
-            user.intro = jsonObject.optString("anchorIntro");
-            user.city = jsonObject.optString("anchorCity");
-            user.fans = jsonObject.optInt("anchorFans");
-            user.follow = jsonObject.optInt("anchorFollow");
+            user.id = jsonObject.optString("id");
+            user.name = jsonObject.optString("name");
+            user.avatar = jsonObject.optString("avatar");
+            user.gender = jsonObject.optInt("gender");
+            user.age = jsonObject.optInt("age");
+            user.sign = jsonObject.optString("sign");
+            user.intro = jsonObject.optString("intro");
+            user.city = jsonObject.optString("city");
+            user.fans = jsonObject.optInt("fans");
+            user.follow = jsonObject.optInt("follow");
 
             return user;
         }
@@ -143,6 +142,13 @@ public class User implements Serializable
             user.id = DbFieldUtil.getString(cursor, "anchorId");
             user.name = DbFieldUtil.getString(cursor, "anchorName");
             user.sign = DbFieldUtil.getString(cursor, "anchorSign");
+            user.avatar = DbFieldUtil.getString(cursor, "anchorAvatar");
+            user.gender = DbFieldUtil.getInt(cursor, "anchorGender");
+            user.age = DbFieldUtil.getInt(cursor, "anchorAge");
+            user.intro = DbFieldUtil.getString(cursor, "anchorIntro");
+            user.city = DbFieldUtil.getString(cursor, "anchorCity");
+            user.fans = DbFieldUtil.getInt(cursor, "anchorFans");
+            user.follow = DbFieldUtil.getInt(cursor, "anchorFollow");
 
             return user;
         }

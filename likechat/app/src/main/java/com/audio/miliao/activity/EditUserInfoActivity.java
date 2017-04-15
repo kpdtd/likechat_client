@@ -19,6 +19,7 @@ import com.audio.miliao.util.FileUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.util.UIUtil;
+import com.audio.miliao.widget.CircleImageView;
 
 import java.io.File;
 import java.util.Calendar;
@@ -57,7 +58,7 @@ public class EditUserInfoActivity extends BaseActivity
      */
     public static final int REQ_CROP_AVATAR = 6;
 
-    private com.audio.miliao.widget.CircleImageView m_imgAvatar;
+    private CircleImageView m_imgAvatar;
     private TextView m_txtName;
     private TextView m_txtGender;
     private TextView m_txtAge;
@@ -139,7 +140,7 @@ public class EditUserInfoActivity extends BaseActivity
     {
         try
         {
-            m_imgAvatar = (com.audio.miliao.widget.CircleImageView) findViewById(R.id.img_avatar);
+            m_imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
             m_txtName = (TextView) findViewById(R.id.txt_edit_user_info_name_hint);
             m_txtGender = (TextView) findViewById(R.id.txt_hint_edit_user_info_gender);
             m_txtAge = (TextView) findViewById(R.id.txt_hint_edit_user_info_age);
@@ -227,6 +228,8 @@ public class EditUserInfoActivity extends BaseActivity
             m_txtIntro.setText(user.intro);
             String strGender = (user.gender == User.GENDER_FEMALE ? getString(R.string.txt_female) : getString(R.string.txt_male));
             m_txtGender.setText(strGender);
+            m_txtAge.setText(String.valueOf(user.age));
+            m_txtCity.setText(user.city);
         }
         catch (Exception e)
         {

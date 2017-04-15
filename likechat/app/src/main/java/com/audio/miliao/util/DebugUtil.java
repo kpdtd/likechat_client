@@ -154,7 +154,6 @@ public class DebugUtil
                 user.gender = User.GENDER_FEMALE;
                 user.sign = signs[avatar];
                 user.intro = intros[avatar]; // "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
-                user.avatar_res = avatars[avatar];
                 user.avatar = "thumb" + (avatar + 1) + ".jpg";
                 user.fans = fanses[index];
                 user.follow = follows[index];
@@ -214,15 +213,12 @@ public class DebugUtil
             Date dateOneDay = StringUtil.getDate("2017-02-06");
             User user1 = new User();
             user1.name = "美丽可儿";
-            user1.avatar_res = R.mipmap.avatar1;
             user1.avatar = "avatar1.jpg";
             User user2 = new User();
             user2.name = "寂寞美人";
-            user2.avatar_res = R.mipmap.avatar2;
             user2.avatar = "avatar2.jpg";
             User user3 = new User();
             user3.name = "足球宝贝";
-            user3.avatar_res = R.mipmap.avatar3;
             user3.avatar = "avatar3.jpg";
             User users1[] = new User[]{user1, user2, user3, AppData.getCurUser()};
             User users2[] = new User[]{user1, user2, user3};
@@ -327,7 +323,6 @@ public class DebugUtil
                 zone.anchorId = user.id;
                 zone.anchorName = user.name;
                 zone.anchorAvatar = user.avatar;
-                zone.anchorRes = user.avatar_res;
                 zone.anchorSign = user.sign;
 
                 if (i % 2 == 0)
