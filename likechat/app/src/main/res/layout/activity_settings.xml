@@ -60,6 +60,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/txt_switch_account"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="50dp"

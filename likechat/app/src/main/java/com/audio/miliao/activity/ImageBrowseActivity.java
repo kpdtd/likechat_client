@@ -1,6 +1,5 @@
 package com.audio.miliao.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * 图片浏览
  */
-public class ImageBrowseActivity extends Activity
+public class ImageBrowseActivity extends BaseActivity
 {
 	private static final String STATE_POSITION = "STATE_POSITION";
 	private HackyViewPager      m_hViewPager = null;

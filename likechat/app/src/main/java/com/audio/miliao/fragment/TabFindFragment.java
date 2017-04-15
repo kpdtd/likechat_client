@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.activity.ImageBrowseActivity;
+import com.audio.miliao.activity.WatchVideoActivity;
 import com.audio.miliao.adapter.ZoneAdapter;
 import com.audio.miliao.algorithm.SortByDate;
 import com.audio.miliao.algorithm.SortByFollow;
@@ -187,6 +188,9 @@ public class TabFindFragment extends BaseFragment
                     @Override
                     public void onVideoClick(Zone zone)
                     {
+                        Intent intentText = new Intent(getActivity(), WatchVideoActivity.class);
+                        intentText.putExtra("url", zone.voiceUrl);
+                        startActivity(intentText);
                     }
                 });
             }

@@ -67,6 +67,26 @@
                   android:launchMode="singleTop"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.audio.miliao.activity.WatchVideoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.audio.miliao.activity.PhotoZoneActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.audio.miliao.activity.VoiceZoneActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.audio.miliao.activity.VideoZoneActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name="com.audio.miliao.activity.InputActivity"
                   android:configChanges="orientation|keyboardHidden"
                   android:launchMode="singleTop"

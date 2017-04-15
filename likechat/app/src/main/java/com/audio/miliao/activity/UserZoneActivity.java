@@ -155,7 +155,9 @@ public class UserZoneActivity extends BaseActivity
                     @Override
                     public void onVideoClick(Zone zone)
                     {
-
+                        Intent intentText = new Intent(UserZoneActivity.this, WatchVideoActivity.class);
+                        intentText.putExtra("url", zone.voiceUrl);
+                        startActivity(intentText);
                     }
                 });
             }
