@@ -8,6 +8,7 @@ import com.audio.miliao.util.DbFieldUtil;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 用户
@@ -34,12 +35,22 @@ public class User implements Serializable
     public String sign = "";
     /** 介绍 */
     public String intro = "";
-    /** 在哪个城市 */
+    /** 省 */
+    public String province;
+    /** 城市 */
     public String city = "";
     /** 粉丝数量 */
     public int fans;
     /** 关注数量 */
     public int follow;
+    /** 资费价格（整数）转成 --》 1.5币/分 */
+    public String price;
+    /** 通话时长 */
+    public String callTime;
+    /** 音频地址 */
+    public String videoUrl;
+    /** 主播相册地址列表 */
+    public List<String> picList;
 
     @Override
     public boolean equals(Object o)

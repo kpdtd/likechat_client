@@ -20,10 +20,16 @@ public class DbHelper extends SQLiteOpenHelper
 			+ "[userAvatar] TEXT," //
 			+ "[userGender] INTEGER," //
 			+ "[userAge] INTEGER," //
+			+ "[userSign] TEXT," //
 			+ "[userIntro] TEXT," //
+			+ "[userProvince] TEXT," //
 			+ "[userCity] TEXT," //
-			+ "[userFans] INTEGER," //
-			+ "[userFollow] INTEGER" //
+			+ "[userFans] INTEGER," // 粉丝数量
+			+ "[userFollow] INTEGER," // 关注数量
+			+ "[userPrice] TEXT," // 资费价格（整数）转成 --》 1.5币/分
+			+ "[userCallTime] TEXT," // 通话时长
+			+ "[userVideoUrl] TEXT," // 音频地址
+			+ "[userPicList] TEXT" // 主播相册地址列表
 			+ ")";
 	// -----------------------------------------------------------------------------------------------
 
