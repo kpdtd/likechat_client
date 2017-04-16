@@ -3,6 +3,8 @@ package com.audio.miliao.entity;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.audio.miliao.util.DbFieldUtil;
+
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -21,7 +23,12 @@ public class Tag implements Serializable
     {
         try
         {
+            Tag tag = new Tag();
+            tag.identifying = jsonObject.optString("identifying");
+            tag.tagName = jsonObject.optString("tagName");
+            tag.pic = jsonObject.optString("pic");
 
+            return tag;
         }
         catch (Exception e)
         {
@@ -31,11 +38,16 @@ public class Tag implements Serializable
         return null;
     }
 
-    public static JSONObject toJson()
+    public JSONObject toJson()
     {
         try
         {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("identifying", identifying);
+            jsonObject.put("tagName", tagName);
+            jsonObject.put("pic", pic);
 
+            return jsonObject;
         }
         catch (Exception e)
         {
@@ -49,7 +61,12 @@ public class Tag implements Serializable
     {
         try
         {
+            Tag tag = new Tag();
+            tag.identifying = DbFieldUtil.getString(cursor, "tagIdentifying");
+            tag.tagName = DbFieldUtil.getString(cursor, "tagName");
+            tag.pic = DbFieldUtil.getString(cursor, "tagPic");
 
+            return tag;
         }
         catch (Exception e)
         {
@@ -59,11 +76,14 @@ public class Tag implements Serializable
         return null;
     }
 
-    public static ContentValues toContentValues()
+    public ContentValues toContentValues()
     {
         try
         {
-
+            ContentValues values = new ContentValues();
+            values.put("tagIdentifying", identifying);
+            values.put("tagName", tagName);
+            values.put("tagPic", pic);
         }
         catch (Exception e)
         {

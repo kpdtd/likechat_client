@@ -31,6 +31,25 @@ public class DbHelper extends SQLiteOpenHelper
 			+ "[userVideoUrl] TEXT," // 音频地址
 			+ "[userPicList] TEXT" // 主播相册地址列表
 			+ ")";
+
+	// banner 主表。
+	public static final String TABLE_BANNER_NAME = "Banner";
+	private static final String CREATE_TABLE_BANNER = "CREATE TABLE " + TABLE_BANNER_NAME
+			+ " (" + "[_id] INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ "[bannerDisplayName] TEXT," //
+			+ "[bannerIdentifying] TEXT," //
+			+ "[bannerVisitUrl] TEXT," //
+			+ "[bannerIcon] TEXT" //
+			+ ")";
+
+	// tag 主表。
+	public static final String TABLE_TAG_NAME = "Tag";
+	private static final String CREATE_TABLE_TAG = "CREATE TABLE " + TABLE_TAG_NAME
+			+ " (" + "[_id] INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ "[tagIdentifying] TEXT," //
+			+ "[tagName] TEXT," //
+			+ "[tagPic] TEXT" //
+			+ ")";
 	// -----------------------------------------------------------------------------------------------
 
 	// tableName, fieldName
@@ -38,6 +57,12 @@ public class DbHelper extends SQLiteOpenHelper
 	{
 		{
 				TABLE_USER_NAME, "[userId]"
+		},
+		{
+				TABLE_BANNER_NAME, "[bannerIdentifying]"
+		},
+		{
+				TABLE_TAG_NAME, "[tagIdentifying]"
 		}
 	};
 
