@@ -81,9 +81,13 @@ public class User implements Serializable
             jsonObject.put("age", age);
             jsonObject.put("sign", sign);
             jsonObject.put("intro", intro);
+            jsonObject.put("province", province);
             jsonObject.put("city", city);
             jsonObject.put("fans", fans);
             jsonObject.put("follow", follow);
+            jsonObject.put("price", price);
+            jsonObject.put("callTime", callTime);
+            jsonObject.put("videoUrl", videoUrl);
         }
         catch (Exception e)
         {
@@ -105,9 +109,13 @@ public class User implements Serializable
             values.put("anchorAge", age);
             values.put("anchorSign", sign);
             values.put("anchorIntro", intro);
+            values.put("anchorProvince", province);
             values.put("anchorCity", city);
             values.put("anchorFans", fans);
             values.put("anchorFollow", follow);
+            values.put("anchorPrice", price);
+            values.put("anchorCallTime", callTime);
+            values.put("anchorVideoUrl", videoUrl);
 
             return values;
         }
@@ -131,9 +139,13 @@ public class User implements Serializable
             user.age = jsonObject.optInt("age");
             user.sign = jsonObject.optString("sign");
             user.intro = jsonObject.optString("intro");
+            user.province = jsonObject.optString("province");
             user.city = jsonObject.optString("city");
             user.fans = jsonObject.optInt("fans");
             user.follow = jsonObject.optInt("follow");
+            user.price = jsonObject.optString("price");
+            user.callTime = jsonObject.optString("callTime");
+            user.videoUrl = jsonObject.optString("videoUrl");
 
             return user;
         }
@@ -157,9 +169,13 @@ public class User implements Serializable
             user.gender = DbFieldUtil.getInt(cursor, "anchorGender");
             user.age = DbFieldUtil.getInt(cursor, "anchorAge");
             user.intro = DbFieldUtil.getString(cursor, "anchorIntro");
+            user.province = DbFieldUtil.getString(cursor, "anchorProvince");
             user.city = DbFieldUtil.getString(cursor, "anchorCity");
             user.fans = DbFieldUtil.getInt(cursor, "anchorFans");
             user.follow = DbFieldUtil.getInt(cursor, "anchorFollow");
+            user.price = DbFieldUtil.getString(cursor, "anchorPrice");
+            user.callTime = DbFieldUtil.getString(cursor, "anchorCallTime");
+            user.videoUrl = DbFieldUtil.getString(cursor, "anchorVideoUrl");
 
             return user;
         }

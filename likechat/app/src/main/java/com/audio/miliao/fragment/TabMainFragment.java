@@ -143,8 +143,6 @@ public class TabMainFragment extends BaseFragment
 
             if (m_adapter == null)
             {
-                //m_headerView = (HeaderView) View.inflate(getActivity(), R.layout.layout_banner, null);
-                //m_headerView.updateData(DebugUtil.getBannerUrls(10));
                 View headerView = HeaderView.load(getActivity(), R.layout.list_header_main_banner, DebugUtil.getBannerUrls(10));
                 m_gridView.addHeaderView(headerView);
 

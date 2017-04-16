@@ -1,6 +1,7 @@
 package com.audio.miliao.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.audio.miliao.R;
 
@@ -14,5 +15,33 @@ public class CustomerServiceActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_service);
+
+        initUI();
+    }
+
+    private void initUI()
+    {
+        try
+        {
+            View.OnClickListener clickListener = new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    switch (v.getId())
+                    {
+                    case R.id.btn_ok:
+                        finish();
+                        break;
+                    }
+                }
+            };
+
+            findViewById(R.id.btn_ok).setOnClickListener(clickListener);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
