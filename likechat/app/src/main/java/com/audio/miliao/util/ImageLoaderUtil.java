@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.theApp;
+import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -199,6 +200,34 @@ public class ImageLoaderUtil
 
             String strUrl = "file:///" + imageName;
             m_imageLoader.displayImage(strUrl, imageView, m_optionsAvatar);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 在列表中显示图片<br/>
+     * 加载asset中的图片
+     * @param imageView
+     * @param imageName asset 中图片文件名
+     */
+    public static void displayPhotoFromFile(ImageView imageView, String imageName)
+    {
+        try
+        {
+            if (imageView == null)
+            {
+                return;
+            }
+
+            String strUrl = "file:///" + imageName;
+            Glide.with(theApp.CONTEXT)
+                    .load(strUrl)
+                    //.placeholder(com.yancy.imageselector.R.mipmap.imageselector_photo)
+                    .centerCrop()
+                    .into(imageView);
         }
         catch (Exception e)
         {
