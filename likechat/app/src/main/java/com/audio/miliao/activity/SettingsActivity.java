@@ -1,5 +1,6 @@
 package com.audio.miliao.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -42,10 +43,16 @@ public class SettingsActivity extends BaseActivity
                         FetchHomeContent addAttention = new FetchHomeContent(null, null);
                         addAttention.send();
                         break;
+                    case R.id.txt_settings_clear_cache:
+                        Intent intentText = new Intent(SettingsActivity.this, PhotoSelectorActivity.class);
+                        intentText.putExtra("urls", "[]");
+                        startActivity(intentText);
+                        break;
                     }
                 }
             };
 
+            findViewById(R.id.txt_settings_clear_cache).setOnClickListener(clickListener);
             findViewById(R.id.lay_contact_us).setOnClickListener(clickListener);
         }
         catch (Exception e)
