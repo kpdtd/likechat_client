@@ -10,6 +10,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //设置支持的SO库架构
+            abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+        }
     }
     buildTypes {
         release {
@@ -20,17 +24,34 @@ android {
 }
 
 dependencies {
+    // 这一句可以编译libs下的jar文件
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:23.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
+    //compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     testCompile 'junit:junit:4.12'
-    compile files('libs/universal-image-loader-1.9.5.jar')
-    compile files('libs/eventbus-2.4.0.jar')
-    compile files('libs/okhttp-3.5.0.jar')
-    compile files('libs/okhttputils-2_6_2.jar')
-    compile files('libs/okio-1.11.0.jar')
-    compile files('libs/wheelView.jar')
+    //compile files('libs/universal-image-loader-1.9.5.jar')
+    //compile files('libs/eventbus-2.4.0.jar')
+    //compile files('libs/okhttp-3.5.0.jar')
+    //compile files('libs/okhttputils-2_6_2.jar')
+    //compile files('libs/okio-1.11.0.jar')
+    //compile files('libs/wheelView.jar')
+    //compile files('libs/open_sdk_r5788.jar')
+    //compile files('libs/mta-sdk-1.6.2.jar')
+    // 添加依赖。注意，版本号必须一致。
+    // 基础功能 (必需)
+    //compile files('libs/nim-basesdk-3.5.5.jar')
+    // 音视频需要
+    //compile files('libs/nim-avchat-3.5.5.jar')
+    // 聊天室需要
+    //compile files('libs/nim-chatroom-3.5.5.jar')
+    // 全文检索服务需要
+    //compile files('libs/nim-lucene-3.5.5.jar')
+    // 实时会话、文档转码需要
+    //compile files('libs/nim-rts-3.5.5.jar')
+    // 音视频需要
+    //compile files('libs/nrtc-sdk.jar')
 }

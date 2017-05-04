@@ -21,3 +21,21 @@ https://github.com/hongyangAndroid/okhttputils
 wheelView.jar
 ios风格的时间或者城市选择控件
 https://code.google.com/p/android-wheel/
+
+mta-sdk-1.6.2.jar
+open_sdk_r5788.jar
+qq sdk 全量包
+http://wiki.open.qq.com/wiki/%E3%80%90QQ%E7%99%BB%E5%BD%95%E3%80%91Android_SDK%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E
+
+网易云信相关sdk
+arm64-v8a
+armeabi-v7a
+x86
+x86_64
+cosinesdk.jar
+nim-avchat-3.5.5.jar
+nim-basesdk-3.5.5.jar
+nim-chatroom-3.5.5.jar
+nim-lucene-3.5.5.jar
+nim-rts-3.5.5.jar
+nrtc-sdk.jar

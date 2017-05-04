@@ -53,13 +53,15 @@ public class HttpUtil
         /** 获取首页所有内容接口 */
         public static final int FETCH_HOME_CONTENT = 0;
         /** 增加关注 */
-        public static final int ADD_ATTENTION = 0;
+        public static final int ADD_ATTENTION = 1;
         /** 取消关注 */
-        public static final int CANCEL_ATTENTION = 0;
+        public static final int CANCEL_ATTENTION = 2;
         /** 获取主播详情 */
-        public static final int FETCH_ACTOR = 0;
+        public static final int FETCH_ACTOR = 3;
         /** 根据tag获取20个随机的主播 */
-        public static final int FETCH_ACTOR_LIST_BY_TAG = 0;
+        public static final int FETCH_ACTOR_LIST_BY_TAG = 4;
+        /** 微信Oauth */
+        public static final int WX_OAUTH = 5;
     }
 
     /** 请求类型 */

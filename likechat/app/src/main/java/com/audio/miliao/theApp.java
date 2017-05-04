@@ -2,13 +2,17 @@ package com.audio.miliao;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
 
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.User;
+import com.audio.miliao.util.UIUtil;
+import com.audio.miliao.util.YunXinUtil;
 
 public class theApp extends Application
 {
     public static Context CONTEXT = null;
+    public static Handler sm_handler = new Handler();
 
     @Override
     public void onCreate()
@@ -18,6 +22,18 @@ public class theApp extends Application
         try
         {
             CONTEXT = this;
+            init(this);
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
+    public static void init(Context context)
+    {
+        try
+        {
+            YunXinUtil.init();
 
             if (AppData.isLogin())
             {
@@ -26,6 +42,7 @@ public class theApp extends Application
         }
         catch (Exception e)
         {
+            e.printStackTrace();
         }
     }
 
@@ -52,5 +69,17 @@ public class theApp extends Application
         {
             e.printStackTrace();
         }
+    }
+
+    public static void showToast(final String strToast)
+    {
+        sm_handler.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                UIUtil.showToastLong(CONTEXT, strToast);
+            }
+        });
     }
 }

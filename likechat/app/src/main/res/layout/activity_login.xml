@@ -47,6 +47,12 @@
                 android:drawableLeft="@mipmap/ic_login_weixin"
                 android:background="@drawable/shape_round_corner_weixin_login"
                 android:text="@string/txt_login_weixin"/>
+
+            <Button
+                android:id="@+id/btn_yunxin_login"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:text="YunXin Login"/>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

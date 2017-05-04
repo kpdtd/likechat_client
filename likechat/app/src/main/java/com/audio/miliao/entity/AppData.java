@@ -91,6 +91,29 @@ public class AppData
         return PreferUtil.getBooleanPreference(KEY_IS_LOGIN, false);
     }
 
+    public static void setYunXinAccount(String account)
+    {
+        PreferUtil.setStringPreference(KEY_YUNXIN_ACCOUNT, account);
+    }
+
+    public static String getYunXinAccount()
+    {
+        return PreferUtil.getStringPreference(KEY_YUNXIN_ACCOUNT);
+    }
+
+    public static void setYunXinToken(String token)
+    {
+        PreferUtil.setStringPreference(KEY_YUNXIN_TOKEN, token);
+    }
+
+    public static String getYunXinToken()
+    {
+        return PreferUtil.getStringPreference(KEY_YUNXIN_TOKEN);
+    }
+
+    private final static String KEY_YUNXIN_ACCOUNT = "key_yunxin_account";
+    private final static String KEY_YUNXIN_TOKEN = "key_yunxin_token";
+
     private final static String KEY_IS_LOGIN = "key_is_login";
     private final static String KEY_USER = "key_user";
     private static final String KEY_TOKEN = "key_token";
