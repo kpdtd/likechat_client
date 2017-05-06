@@ -43,15 +43,15 @@ dependencies {
     //compile files('libs/mta-sdk-1.6.2.jar')
     // 添加依赖。注意，版本号必须一致。
     // 基础功能 (必需)
-    //compile files('libs/nim-basesdk-3.5.5.jar')
+    //compile files('libs/nim-basesdk-3.6.0.jar')
     // 音视频需要
-    //compile files('libs/nim-avchat-3.5.5.jar')
+    //compile files('libs/nim-avchat-3.6.0.jar')
     // 聊天室需要
-    //compile files('libs/nim-chatroom-3.5.5.jar')
+    //compile files('libs/nim-chatroom-3.6.0.jar')
     // 全文检索服务需要
-    //compile files('libs/nim-lucene-3.5.5.jar')
+    //compile files('libs/nim-lucene-3.6.0.jar')
     // 实时会话、文档转码需要
-    //compile files('libs/nim-rts-3.5.5.jar')
+    //compile files('libs/nim-rts-3.6.0.jar')
     // 音视频需要
     //compile files('libs/nrtc-sdk.jar')
 }

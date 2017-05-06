@@ -22,7 +22,7 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
  */
 public class YunXinUtil
 {
-    public static String APP_KEY = "fa0f2219206b8a2e1be41fb9382cd0f4";
+    public static final String APP_KEY = "fa0f2219206b8a2e1be41fb9382cd0f4";
 
     /**
      * 只能在主线程运行

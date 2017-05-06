@@ -10,6 +10,7 @@ import com.audio.miliao.theApp;
 import com.audio.miliao.util.MD5;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.WXUtil;
+import com.audio.miliao.util.YunXinUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
@@ -98,7 +99,7 @@ public class LoginActivity extends BaseActivity
         try
         {
             String strToken = MD5.getStringMD5("123456");
-            LoginInfo info = new LoginInfo("liu1501134", strToken); // config...
+            LoginInfo info = new LoginInfo("liu1501134", strToken, YunXinUtil.APP_KEY); // config...
             RequestCallback<LoginInfo> callback =
                     new RequestCallback<LoginInfo>()
                     {
