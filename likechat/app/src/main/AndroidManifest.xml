@@ -281,7 +281,6 @@
             android:process=":cosine">
         </receiver>
 
-
         <meta-data
             android:name="com.netease.cosine.target"
             android:value=""/>
