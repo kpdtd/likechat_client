@@ -3,6 +3,7 @@ package com.audio.miliao.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.audio.miliao.http.cmd.WXOauth;
 import com.audio.miliao.theApp;
@@ -59,7 +60,23 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler
     @Override
     public void onResp(BaseResp baseResp)
     {
-
+        switch (baseResp.errCode) {
+        case BaseResp.ErrCode.ERR_OK:
+            Toast.makeText(this, "发送成功", Toast.LENGTH_LONG).show();
+            finish();
+            break;
+        case BaseResp.ErrCode.ERR_USER_CANCEL:
+            Toast.makeText(this, "分享取消", Toast.LENGTH_LONG).show();
+            finish();
+            break;
+        case BaseResp.ErrCode.ERR_AUTH_DENIED:
+            Toast.makeText(this, "分享被拒绝", Toast.LENGTH_LONG).show();
+            finish();
+            break;
+        default:
+            Toast.makeText(this, "分享返回", Toast.LENGTH_LONG).show();
+            break;
+        }
     }
 }
 

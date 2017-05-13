@@ -7,7 +7,6 @@ import android.view.View;
 import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.MD5;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.WXUtil;
 import com.audio.miliao.util.YunXinUtil;
@@ -98,8 +97,10 @@ public class LoginActivity extends BaseActivity
     {
         try
         {
-            String strToken = MD5.getStringMD5("123456");
-            LoginInfo info = new LoginInfo("liu1501134", strToken, YunXinUtil.APP_KEY); // config...
+            // String strToken = MD5.getStringMD5("123456");
+            String strAccount = "test003";
+            String strToken = "1c641f3af395c4734afe3786ba818d63";
+            LoginInfo info = new LoginInfo(strAccount, strToken, YunXinUtil.APP_KEY); // config...
             RequestCallback<LoginInfo> callback =
                     new RequestCallback<LoginInfo>()
                     {
