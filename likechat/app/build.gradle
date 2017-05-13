@@ -40,7 +40,7 @@ dependencies {
     //compile files('libs/okio-1.11.0.jar')
     //compile files('libs/wheelView.jar')
     //compile files('libs/open_sdk_r5788.jar')
-    //compile files('libs/mta-sdk-1.6.2.jar')
+    //compile files('libs/open_sdk_r5788_lite.jar')
     // 添加依赖。注意，版本号必须一致。
     // 基础功能 (必需)
     //compile files('libs/nim-basesdk-3.6.0.jar')

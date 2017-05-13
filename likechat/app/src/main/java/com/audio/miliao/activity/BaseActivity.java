@@ -1,6 +1,7 @@
 package com.audio.miliao.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 
@@ -8,6 +9,8 @@ import com.audio.miliao.handler.WeakHandler;
 
 public class BaseActivity extends AppCompatActivity implements WeakHandler.MessageHandler
 {
+    private WeakHandler mHandler = new WeakHandler(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -23,5 +26,10 @@ public class BaseActivity extends AppCompatActivity implements WeakHandler.Messa
     public void handleMessage(Message msg)
     {
 
+    }
+
+    public Handler handler()
+    {
+        return mHandler;
     }
 }

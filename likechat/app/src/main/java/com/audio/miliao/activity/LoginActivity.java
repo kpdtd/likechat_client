@@ -2,13 +2,18 @@ package com.audio.miliao.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 
 import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.Login;
 import com.audio.miliao.theApp;
+import com.audio.miliao.util.JSONUtil;
 import com.audio.miliao.util.MD5;
 import com.audio.miliao.util.QQUtil;
+import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.util.WXUtil;
 import com.audio.miliao.util.YunXinUtil;
 import com.netease.nimlib.sdk.NIMClient;
@@ -16,12 +21,16 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 
+import org.json.JSONObject;
+
 
 /**
  * 登录
  */
 public class LoginActivity extends BaseActivity
 {
+    private static final int CODE_QQ_LOGIN = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -37,6 +46,36 @@ public class LoginActivity extends BaseActivity
         super.onActivityResult(requestCode, resultCode, data);
         QQUtil.onActivityResult(requestCode, resultCode, data);
         theApp.showToast("onActivityResult " + resultCode);
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case CODE_QQ_LOGIN:
+            JSONObject json = (JSONObject) msg.obj;
+            String strOpenId = JSONUtil.getString(json, "openid");
+            String strAccessToken = JSONUtil.getString(json, "access_token");
+            String strRefreshToken = "";
+            if (StringUtil.isNotEmpty(strAccessToken))
+            {
+                Login login = new Login(handler(), Login.TYPE_QQ, strOpenId, strAccessToken, strRefreshToken, null);
+                login.send();
+            }
+            break;
+        case HttpUtil.RequestCode.LOGIN:
+            Login login1 = (Login) msg.obj;
+            if (Login.isSucceed(login1))
+            {
+                theApp.showToast("login secceed");
+                finish();
+            }
+            else
+            {
+            }
+            break;
+        }
     }
 
     private void initUI()
@@ -91,7 +130,7 @@ public class LoginActivity extends BaseActivity
 
     private void onQQLogin()
     {
-        QQUtil.login(this);
+        QQUtil.login(this, CODE_QQ_LOGIN, handler());
     }
 
     private void onYunXinLogin()

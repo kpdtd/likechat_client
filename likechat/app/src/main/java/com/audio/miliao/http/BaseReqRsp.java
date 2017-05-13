@@ -19,7 +19,7 @@ public abstract class BaseReqRsp
 	public String reqHttpMethod;
 	public String reqPostFileName;
 
-	public int rspResultCode;
+	public int rspResultCode = -1;
 	public Object rspCallBackTag;
 
 	/**
@@ -39,7 +39,6 @@ public abstract class BaseReqRsp
 	public static final String APPLICATION_JSON = "application/json";
 
 	public static final String BASE_URL = "http://114.215.221.15:8080/likechat_server_service/";
-	// public static final String BASE_URL = "https://service.motoilet.com";
 
 	public static class KeyValuePair
 	{
