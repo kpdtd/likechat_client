@@ -1,10 +1,11 @@
 package com.audio.miliao.wxapi;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
+import com.audio.miliao.http.cmd.Login;
 import com.audio.miliao.http.cmd.WXOauth;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.UIUtil;
@@ -36,19 +37,15 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler
     private void handleIntent(Intent intent)
     {
         SendAuth.Resp resp = new SendAuth.Resp(intent.getExtras());
+        theApp.showToast("handleIntent : " + resp.errCode);
         if (resp.errCode == BaseResp.ErrCode.ERR_OK)
         {
-            //用户同意
-            StringBuilder sb = new StringBuilder();
-            sb.append("code : " + resp.code + "\n");
-            sb.append("state : " + resp.state + "\n");
-            sb.append("lang : " + resp.lang + "\n");
-            sb.append("country : " + resp.country + "\n");
-
-            UIUtil.showToastShort(theApp.CONTEXT, sb.toString());
-
-            WXOauth wxOauth = new WXOauth(null, WXUtil.generateWXOauthURL(resp.code), null);
-            wxOauth.send();
+            fetchAndLogin(this, resp);
+        }
+        else if (resp.errCode == BaseResp.ErrCode.ERR_AUTH_DENIED ||
+                resp.errCode == BaseResp.ErrCode.ERR_USER_CANCEL)
+        {
+            finish();
         }
     }
 
@@ -60,22 +57,74 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler
     @Override
     public void onResp(BaseResp baseResp)
     {
-        switch (baseResp.errCode) {
+        switch (baseResp.errCode)
+        {
         case BaseResp.ErrCode.ERR_OK:
-            Toast.makeText(this, "发送成功", Toast.LENGTH_LONG).show();
+            theApp.showToast("发送成功");
             finish();
             break;
         case BaseResp.ErrCode.ERR_USER_CANCEL:
-            Toast.makeText(this, "分享取消", Toast.LENGTH_LONG).show();
+            theApp.showToast("分享取消");
             finish();
             break;
         case BaseResp.ErrCode.ERR_AUTH_DENIED:
-            Toast.makeText(this, "分享被拒绝", Toast.LENGTH_LONG).show();
+            theApp.showToast("分享被拒绝");
             finish();
             break;
         default:
-            Toast.makeText(this, "分享返回", Toast.LENGTH_LONG).show();
+            theApp.showToast("分享返回");
             break;
+        }
+    }
+
+    /**
+     * 获取用户信息并登录
+     */
+    private void fetchAndLogin(final Context context, final SendAuth.Resp resp)
+    {
+        try
+        {
+            Runnable runnable = new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    //用户同意
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("code : " + resp.code + "\n");
+                    sb.append("state : " + resp.state + "\n");
+                    sb.append("lang : " + resp.lang + "\n");
+                    sb.append("country : " + resp.country + "\n");
+
+                    UIUtil.showToastShort(theApp.CONTEXT, sb.toString());
+
+                    WXOauth wxOauth = new WXOauth(null, WXUtil.generateWXOauthURL(resp.code), null);
+                    wxOauth.sendSync();
+                    if (WXOauth.isSucceed(wxOauth))
+                    {
+//                WXFetchUserinfo fetchUserinfo = new WXFetchUserinfo(null, wxOauth.rspAccessToken, wxOauth.rspOpenId, null);
+//                fetchUserinfo.sendSync();
+//
+//                if (WXFetchUserinfo.isSucceed(fetchUserinfo))
+//                {
+//                }
+                        Login login = new Login(null, wxOauth.rspOpenId, Login.TYPE_WEIXIN, wxOauth.rspAccessToken, wxOauth.rspRefreshToken, null);
+                        login.sendSync();
+                        if (Login.isSucceed(login))
+                        {
+                            setResult(RESULT_OK);
+                            finish();
+                            return;
+                        }
+                    }
+                }
+            };
+
+            new Thread(runnable).start();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 }

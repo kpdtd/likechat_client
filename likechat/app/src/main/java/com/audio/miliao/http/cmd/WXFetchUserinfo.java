@@ -2,11 +2,9 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
-import com.audio.miliao.entity.AppData;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.JSONUtil;
 import com.audio.miliao.util.UIUtil;
 
 import org.json.JSONObject;
@@ -15,38 +13,34 @@ import java.util.List;
 
 
 /**
- * 微信Oauth2
+ * 微信获取用户信息
  */
-public class WXOauth extends BaseReqRsp
+public class WXFetchUserinfo extends BaseReqRsp
 {
-	public String reqURL;
-	public String rspAccessToken;
-	public int rspExpiresIn;
-	public String rspRefreshToken;
-	public String rspOpenId;
-
+	private String reqAccessToken;
+	private String reqOpenId;
 	/**
 	 * 微信Oauth2
 	 * @param handler
 	 * @param tag
 	 */
-	public WXOauth(Handler handler, String url, Object tag)
+	public WXFetchUserinfo(Handler handler, String accessToken, String openId, Object tag)
 	{
-		super(HttpUtil.Method.GET, handler, HttpUtil.RequestCode.WX_OAUTH, false, tag);
+		super(HttpUtil.Method.GET, handler, HttpUtil.RequestCode.WX_FETCH_USERINFO, false, tag);
 
-		reqURL = url;
+		reqAccessToken = accessToken;
+		reqOpenId = openId;
 	}
 
 	@Override
 	public String getReqUrl()
 	{
-		return reqURL;
-	}
+		StringBuilder sb = new StringBuilder();
+		sb.append("https://api.weixin.qq.com/sns/userinfo");
+		sb.append("?access_token=" + reqAccessToken);
+		sb.append("&openid=" + reqOpenId);
 
-	@Override
-	public String getReqBody()
-	{
-		return "";
+		return sb.toString();
 	}
 
 	@Override
@@ -64,10 +58,6 @@ public class WXOauth extends BaseReqRsp
 			try
 			{
 				JSONObject jsonObject = new JSONObject(httpBody);
-				rspAccessToken = JSONUtil.getString(jsonObject, "access_token");
-				rspExpiresIn = JSONUtil.getInt(jsonObject, "expires_in");
-				rspRefreshToken = JSONUtil.getString(jsonObject, "refresh_token");
-				rspOpenId = JSONUtil.getString(jsonObject, "openid");
 			}
 			catch (Exception e)
 			{
@@ -86,10 +76,6 @@ public class WXOauth extends BaseReqRsp
 	{
 		if (rspResultCode == HttpUtil.Result.OK)
 		{
-			AppData.setAccessToken(rspAccessToken);
-			AppData.setRefreshToken(rspRefreshToken);
-			AppData.setOpenId(rspOpenId);
-			AppData.setExpiresIn(rspExpiresIn);
 		}
 	}
 }
