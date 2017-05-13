@@ -24,7 +24,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        WXUtil.api().handleIntent(getIntent(), this);
+        WXUtil.handleIntent(getIntent(), this);
         handleIntent(getIntent());
     }
 

@@ -2,13 +2,17 @@ package com.audio.miliao.util;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 
 import com.audio.miliao.theApp;
-import com.tencent.connect.common.Constants;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQToken;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -21,6 +25,9 @@ public class QQUtil
 
     private static Tencent mTencent = null;
     private static IUiListener mUiListener = null;
+
+    private static int mNotifyCode = -1;
+    private static Handler mHandler = null;
 
     private static void init()
     {
@@ -38,7 +45,11 @@ public class QQUtil
                 {
                     JSONObject jsonObject = (JSONObject) o;
                     theApp.showToast("onComplete" + jsonObject.toString());
-                    getUserInfoSync();
+                    fetchUserinfo(mNotifyCode, mHandler);
+                    if (mHandler != null)
+                    {
+                        mHandler.obtainMessage(mNotifyCode, jsonObject).sendToTarget();
+                    }
                 }
 
                 @Override
@@ -56,11 +67,14 @@ public class QQUtil
         }
     }
 
-    public static void login(Activity activity)
+    public static void login(Activity activity, final int notifyCode, final Handler handler)
     {
         init();
         if (!mTencent.isSessionValid())
         {
+            mNotifyCode = notifyCode;
+            mHandler = handler;
+
             // 应用需要获得哪些接口的权限，由“,”分隔，
             // 例如：SCOPE = “get_user_info,add_topic”；
             // 如果需要所有权限则使用”all”
@@ -74,30 +88,100 @@ public class QQUtil
         mTencent.logout(activity);
     }
 
+    public static void fetchUserinfo(final int notifyCode, final Handler handler)
+    {
+        Runnable runnable = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                JSONObject json = fetchUserInfoSync();
+                if (handler != null)
+                {
+                    handler.obtainMessage(notifyCode, json).sendToTarget();
+                }
+            }
+        };
+
+        new Thread(runnable).start();
+    }
+
     /**
      * 同步获取用户信息
      */
-    public static void getUserInfoSync()
+    public static JSONObject fetchUserInfoSync()
     {
-        new Thread(){
-            @Override
-            public void run() {
-                try
+        try
+        {
+            QQToken qqToken = mTencent.getQQToken();
+            UserInfo info = new UserInfo(theApp.CONTEXT, qqToken);
+            info.getUserInfo(new IUiListener()
+            {
+                @Override
+                public void onComplete(Object response)
                 {
-                    String get_simple_userinfo = "get_simple_userinfo";
-                    JSONObject json = mTencent.request(
-                            get_simple_userinfo, null,
-                            Constants.HTTP_GET);
+                    JSONObject json = (JSONObject) response;
+                    // 昵称
+                    String nickname = null;
+                    try
+                    {
+                        Message msg = new Message();
+                        nickname = json.getString("nickname");
+                        msg.getData().putString("nickname", nickname);
+                        msg.what = 0;
+                        mHandler.sendMessage(msg);
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    //头像
+                    String smallimgurl, bigimgurl;
+                    try
+                    {
+                        Message msg = new Message();
+                        smallimgurl = json.getString("figureurl_qq_1");
+                        bigimgurl = json.getString("figureurl_qq_1");
+                        msg.getData().putString("smallimgurl", smallimgurl);
+                        msg.getData().putString("bigimgurl", bigimgurl);
+                        msg.what = 1;
+                        mHandler.sendMessage(msg);
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
 
-                    LogUtil.d(json.toString());
-                    theApp.showToast(json.toString());
-                }
-                catch (Exception e)
+                @Override
+                public void onError(UiError uiError)
                 {
-                    e.printStackTrace();
+
                 }
-            }
-        }.start();
+
+                @Override
+                public void onCancel()
+                {
+
+                }
+            });
+
+//            String get_simple_userinfo = Constants.GRAPH_BASE; //"get_simple_userinfo";
+//            JSONObject json = mTencent.request(
+//                    get_simple_userinfo, null,
+//                    Constants.HTTP_GET);
+//
+//            LogUtil.d(json.toString());
+//            theApp.showToast(json.toString());
+//
+//            return json;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static void onActivityResult(int requestCode, int resultCode, Intent data)

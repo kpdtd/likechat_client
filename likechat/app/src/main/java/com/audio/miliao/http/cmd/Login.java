@@ -32,7 +32,7 @@ public class Login extends BaseReqRsp
 	 * @param type 登录类型(weixin或qq)
 	 * @param tag
 	 */
-	public Login(Handler handler, String openId, String type, String accessToken, String refreshToken, Object tag)
+	public Login(Handler handler, String type, String openId, String accessToken, String refreshToken, Object tag)
 	{
 		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.LOGIN, false, tag);
 		this.reqLoginType = type;
@@ -77,8 +77,8 @@ public class Login extends BaseReqRsp
 		{
 			jsonObject.put("openId", reqOpenId);
 			jsonObject.put("type", reqLoginType);
-			jsonObject.put("access_token", reqAccessToken);
-			jsonObject.put("refresh_token", reqRefreshToken);
+//			jsonObject.put("access_token", reqAccessToken);
+//			jsonObject.put("refresh_token", reqRefreshToken);
 		}
 		catch (Exception e)
 		{

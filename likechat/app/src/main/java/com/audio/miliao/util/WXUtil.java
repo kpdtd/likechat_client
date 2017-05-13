@@ -1,9 +1,12 @@
 package com.audio.miliao.util;
 
 
+import android.content.Intent;
+
 import com.audio.miliao.theApp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 /**
@@ -44,9 +47,10 @@ public class WXUtil
         }
     }
 
-    public static IWXAPI api()
+    public static void handleIntent(Intent intent, IWXAPIEventHandler wxHandler)
     {
-        return api;
+        init();
+        api.handleIntent(intent, wxHandler);
     }
 
     /**
