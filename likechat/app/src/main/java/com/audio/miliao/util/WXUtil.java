@@ -44,6 +44,11 @@ public class WXUtil
         }
     }
 
+    public static IWXAPI api()
+    {
+        return api;
+    }
+
     /**
      * 生成微信Oauth的url地址
      *
