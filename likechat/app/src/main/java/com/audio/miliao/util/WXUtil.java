@@ -16,28 +16,37 @@ public class WXUtil
 
     private static IWXAPI api;
 
-    private static void regToWX()
+    private static void init()
     {
         if (api == null)
         {
-            api = WXAPIFactory.createWXAPI(theApp.CONTEXT, APP_ID, true);
+            api = WXAPIFactory.createWXAPI(theApp.CONTEXT, APP_ID, false);
             api.registerApp(APP_ID);
         }
     }
 
     public static void login()
     {
-        regToWX();
+        try
+        {
+            init();
 
-        // send oauth request
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        api.sendReq(req);
+            // send oauth request
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_likechat";
+            api.sendReq(req);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            theApp.showToast(e.toString());
+        }
     }
 
     /**
      * 生成微信Oauth的url地址
+     *
      * @param code
      * @return
      */

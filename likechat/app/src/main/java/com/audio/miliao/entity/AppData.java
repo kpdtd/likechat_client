@@ -1,6 +1,7 @@
 package com.audio.miliao.entity;
 
 import com.audio.miliao.util.PreferUtil;
+import com.audio.miliao.util.StringUtil;
 
 import org.json.JSONObject;
 
@@ -88,7 +89,9 @@ public class AppData
      */
     public static boolean isLogin()
     {
-        return PreferUtil.getBooleanPreference(KEY_IS_LOGIN, false);
+        String accessToken = getAccessToken();
+        return StringUtil.isNotEmpty(accessToken);
+        //return PreferUtil.getBooleanPreference(KEY_IS_LOGIN, false);
     }
 
     public static void setYunXinAccount(String account)
@@ -111,10 +114,55 @@ public class AppData
         return PreferUtil.getStringPreference(KEY_YUNXIN_TOKEN);
     }
 
+    public static void setAccessToken(String accessToken)
+    {
+        PreferUtil.setStringPreference(KEY_ACCESS_TOKEN, accessToken);
+    }
+
+    public static String getAccessToken()
+    {
+        return PreferUtil.getStringPreference(KEY_ACCESS_TOKEN);
+    }
+
+    public static void setExpiresIn(int expiresIn)
+    {
+        PreferUtil.setIntPreference(KEY_EXPIRES_IN, expiresIn);
+    }
+
+    public static int getExpiresIn()
+    {
+        return PreferUtil.getIntPreference(KEY_EXPIRES_IN, 0);
+    }
+
+    public static void setRefreshToken(String refreshToken)
+    {
+        PreferUtil.setStringPreference(KEY_REFRESH_TOKEN, refreshToken);
+    }
+
+    public static String getRefreshToken()
+    {
+        return PreferUtil.getStringPreference(KEY_REFRESH_TOKEN);
+    }
+
+    public static void setOpenId(String openId)
+    {
+        PreferUtil.setStringPreference(KEY_OPEN_ID, openId);
+    }
+
+    public static String getOpenId()
+    {
+        return PreferUtil.getStringPreference(KEY_OPEN_ID);
+    }
+
     private final static String KEY_YUNXIN_ACCOUNT = "key_yunxin_account";
     private final static String KEY_YUNXIN_TOKEN = "key_yunxin_token";
 
     private final static String KEY_IS_LOGIN = "key_is_login";
     private final static String KEY_USER = "key_user";
     private static final String KEY_TOKEN = "key_token";
+
+    private static final String KEY_ACCESS_TOKEN = "key_access_token";
+    private static final String KEY_EXPIRES_IN = "key_expires_in";
+    private static final String KEY_REFRESH_TOKEN = "key_refresh_token";
+    private static final String KEY_OPEN_ID = "key_open_id";
 }

@@ -62,6 +62,10 @@ public class HttpUtil
         public static final int FETCH_ACTOR_LIST_BY_TAG = 4;
         /** 微信Oauth */
         public static final int WX_OAUTH = 5;
+        /** 微信获取用户信息 */
+        public static final int WX_FETCH_USERINFO = 6;
+        /** 登录 */
+        public static final int LOGIN = 7;
     }
 
     /** 请求类型 */
