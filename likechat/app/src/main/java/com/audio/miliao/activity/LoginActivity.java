@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
+import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
@@ -30,6 +31,9 @@ import org.json.JSONObject;
 public class LoginActivity extends BaseActivity
 {
     private static final int CODE_QQ_LOGIN = 0;
+    private static final int CODE_QQ_FETCH_USERINFO = 1;
+
+    private TextView mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,9 +64,15 @@ public class LoginActivity extends BaseActivity
             String strRefreshToken = "";
             if (StringUtil.isNotEmpty(strAccessToken))
             {
+                QQUtil.fetchUserinfo(CODE_QQ_FETCH_USERINFO, handler());
+
                 Login login = new Login(handler(), Login.TYPE_QQ, strOpenId, strAccessToken, strRefreshToken, null);
                 login.send();
             }
+            break;
+        case CODE_QQ_FETCH_USERINFO:
+            JSONObject jsonObject = (JSONObject) msg.obj;
+            mTextView.setText(jsonObject.toString());
             break;
         case HttpUtil.RequestCode.LOGIN:
             Login login1 = (Login) msg.obj;
@@ -82,6 +92,8 @@ public class LoginActivity extends BaseActivity
     {
         try
         {
+            mTextView = (TextView) findViewById(R.id.txt_view);
+
             View.OnClickListener clickListener = new View.OnClickListener()
             {
                 @Override

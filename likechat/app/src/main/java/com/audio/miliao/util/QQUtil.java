@@ -45,7 +45,12 @@ public class QQUtil
                 {
                     JSONObject jsonObject = (JSONObject) o;
                     theApp.showToast("onComplete" + jsonObject.toString());
-                    fetchUserinfo(mNotifyCode, mHandler);
+                    String openID = jsonObject.optString("openid");
+                    String accessToken = jsonObject.optString("access_token");
+                    String expires = jsonObject.optString("expires_in");
+                    mTencent.setOpenId(openID);
+                    mTencent.setAccessToken(accessToken, expires);
+                    //fetchUserinfo(mNotifyCode, mHandler);
                     if (mHandler != null)
                     {
                         mHandler.obtainMessage(mNotifyCode, jsonObject).sendToTarget();
@@ -121,6 +126,11 @@ public class QQUtil
                 public void onComplete(Object response)
                 {
                     JSONObject json = (JSONObject) response;
+                    theApp.showToast(json.toString());
+                    if (mHandler != null)
+                    {
+                        mHandler.obtainMessage(mNotifyCode, json).sendToTarget();
+                    }
                     // 昵称
                     String nickname = null;
                     try
