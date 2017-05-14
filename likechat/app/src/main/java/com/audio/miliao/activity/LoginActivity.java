@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
@@ -14,7 +14,6 @@ import com.audio.miliao.theApp;
 import com.audio.miliao.util.JSONUtil;
 import com.audio.miliao.util.MD5;
 import com.audio.miliao.util.QQUtil;
-import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.util.WXUtil;
 import com.audio.miliao.util.YunXinUtil;
 import com.netease.nimlib.sdk.NIMClient;
@@ -33,7 +32,7 @@ public class LoginActivity extends BaseActivity
     private static final int CODE_QQ_LOGIN = 0;
     private static final int CODE_QQ_FETCH_USERINFO = 1;
 
-    private TextView mTextView;
+    private EditText mEdittext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,27 +58,22 @@ public class LoginActivity extends BaseActivity
         {
         case CODE_QQ_LOGIN:
             JSONObject json = (JSONObject) msg.obj;
-            String strOpenId = JSONUtil.getString(json, "openid");
+            mEdittext.setText(json.toString());
+            String strOpenId = JSONUtil.getString(json, "open_id");
             String strAccessToken = JSONUtil.getString(json, "access_token");
-            String strRefreshToken = "";
-            if (StringUtil.isNotEmpty(strAccessToken))
-            {
-                QQUtil.fetchUserinfo(CODE_QQ_FETCH_USERINFO, handler());
-
-                Login login = new Login(handler(), Login.TYPE_QQ, strOpenId, strAccessToken, strRefreshToken, null);
-                login.send();
-            }
-            break;
-        case CODE_QQ_FETCH_USERINFO:
-            JSONObject jsonObject = (JSONObject) msg.obj;
-            mTextView.setText(jsonObject.toString());
+            String strNickname = JSONUtil.getString(json, "nickname");
+            String strAvatar = JSONUtil.getString(json, "avatar");
+            int nExpiresIn = JSONUtil.getInt(json, "expires_in");
+            Login login = new Login(handler(), Login.TYPE_QQ, strOpenId, strAccessToken,
+                    strNickname, strAvatar, nExpiresIn, null);
+            login.send();
             break;
         case HttpUtil.RequestCode.LOGIN:
             Login login1 = (Login) msg.obj;
             if (Login.isSucceed(login1))
             {
                 theApp.showToast("login secceed");
-                finish();
+                //finish();
             }
             else
             {
@@ -92,7 +86,7 @@ public class LoginActivity extends BaseActivity
     {
         try
         {
-            mTextView = (TextView) findViewById(R.id.txt_view);
+            mEdittext = (EditText) findViewById(R.id.txt_view);
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {

@@ -23,7 +23,10 @@ public class Login extends BaseReqRsp
 	private String reqLoginType;
 	private String reqOpenId;
 	private String reqAccessToken;
-	private String reqRefreshToken;
+	//private String reqRefreshToken;
+	private int reqExpiresIn;
+	private String reqNickname;
+	private String reqAvatar;
 
 	/**
 	 * 增加关注
@@ -32,13 +35,19 @@ public class Login extends BaseReqRsp
 	 * @param type 登录类型(weixin或qq)
 	 * @param tag
 	 */
-	public Login(Handler handler, String type, String openId, String accessToken, String refreshToken, Object tag)
+	public Login(Handler handler, String type,
+				 String openId, String accessToken,
+				 String nickname, String avatar,
+				 int expiresIn, Object tag)
 	{
 		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.LOGIN, false, tag);
 		this.reqLoginType = type;
 		this.reqOpenId = openId;
 		reqAccessToken = accessToken;
-		reqRefreshToken = refreshToken;
+		//reqRefreshToken = refreshToken;
+		reqExpiresIn = expiresIn;
+		reqNickname = nickname;
+		reqAvatar = avatar;
 	}
 
 	public String getReqLoginType()
@@ -56,9 +65,19 @@ public class Login extends BaseReqRsp
 		return reqAccessToken;
 	}
 
-	public String getReqRefreshToken()
+	public int getReqExpiresIn()
 	{
-		return reqRefreshToken;
+		return reqExpiresIn;
+	}
+
+	public String getReqNickname()
+	{
+		return reqNickname;
+	}
+
+	public String getReqAvatar()
+	{
+		return reqAvatar;
 	}
 
 	@Override
@@ -77,8 +96,10 @@ public class Login extends BaseReqRsp
 		{
 			jsonObject.put("openId", reqOpenId);
 			jsonObject.put("type", reqLoginType);
-//			jsonObject.put("access_token", reqAccessToken);
-//			jsonObject.put("refresh_token", reqRefreshToken);
+			jsonObject.put("access_token", reqAccessToken);
+			jsonObject.put("expires_in", reqExpiresIn);
+			jsonObject.put("nickname", reqNickname);
+			jsonObject.put("avatar", reqAvatar);
 		}
 		catch (Exception e)
 		{

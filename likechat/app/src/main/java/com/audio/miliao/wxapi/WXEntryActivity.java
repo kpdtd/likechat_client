@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.audio.miliao.http.cmd.Login;
 import com.audio.miliao.http.cmd.WXOauth;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.UIUtil;
@@ -109,14 +108,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler
 //                if (WXFetchUserinfo.isSucceed(fetchUserinfo))
 //                {
 //                }
-                        Login login = new Login(null, wxOauth.rspOpenId, Login.TYPE_WEIXIN, wxOauth.rspAccessToken, wxOauth.rspRefreshToken, null);
-                        login.sendSync();
-                        if (Login.isSucceed(login))
-                        {
-                            setResult(RESULT_OK);
-                            finish();
-                            return;
-                        }
+//                        Login login = new Login(null, wxOauth.rspOpenId, Login.TYPE_WEIXIN, wxOauth.rspAccessToken, wxOauth.rspRefreshToken, null);
+//                        login.sendSync();
+//                        if (Login.isSucceed(login))
+//                        {
+//                            setResult(RESULT_OK);
+//                            finish();
+//                            return;
+//                        }
                     }
                 }
             };
