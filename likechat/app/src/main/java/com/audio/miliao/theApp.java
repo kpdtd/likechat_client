@@ -5,7 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.audio.miliao.entity.AppData;
-import com.audio.miliao.entity.User;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.util.YunXinUtil;
 
@@ -52,17 +52,17 @@ public class theApp extends Application
         {
             if (AppData.getCurUser() == null)
             {
-                User user = new User();
-                user.id = "12345678";
-                user.name = "我是大管家";
-                user.avatar = "avatar1.jpg";
-                user.sign = "管家就是要有管家的样子，别拿管家不当干部";
-                user.intro = "我是大管家，我要管好整个家族";
-                user.age = 23;
-                user.city = "成都";
-                user.fans = 10043;
-                user.follow = 325;
-                AppData.saveCurUser(user);
+                Actor actor = new Actor();
+                actor.id = "12345678";
+                actor.name = "我是大管家";
+                actor.avatar = "avatar1.jpg";
+                actor.sign = "管家就是要有管家的样子，别拿管家不当干部";
+                actor.intro = "我是大管家，我要管好整个家族";
+                actor.age = 23;
+                actor.city = "成都";
+                actor.fans = 10043;
+                actor.follow = 325;
+                AppData.saveCurUser(actor);
             }
         }
         catch (Exception e)

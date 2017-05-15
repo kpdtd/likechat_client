@@ -14,7 +14,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.dialog.CityPickerActivity;
 import com.audio.miliao.dialog.DatePickerActivity;
 import com.audio.miliao.entity.AppData;
-import com.audio.miliao.entity.User;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.FileUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
@@ -218,18 +218,18 @@ public class EditUserInfoActivity extends BaseActivity
     {
         try
         {
-            User user = AppData.getCurUser();
-            if (user == null)
+            Actor actor = AppData.getCurUser();
+            if (actor == null)
             {
                 return;
             }
 
-            m_txtName.setText(user.name);
-            m_txtIntro.setText(user.intro);
-            String strGender = (user.gender == User.GENDER_FEMALE ? getString(R.string.txt_female) : getString(R.string.txt_male));
+            m_txtName.setText(actor.name);
+            m_txtIntro.setText(actor.intro);
+            String strGender = (actor.gender == Actor.GENDER_FEMALE ? getString(R.string.txt_female) : getString(R.string.txt_male));
             m_txtGender.setText(strGender);
-            m_txtAge.setText(String.valueOf(user.age));
-            m_txtCity.setText(user.city);
+            m_txtAge.setText(String.valueOf(actor.age));
+            m_txtCity.setText(actor.city);
         }
         catch (Exception e)
         {
@@ -304,9 +304,9 @@ public class EditUserInfoActivity extends BaseActivity
     {
         try
         {
-            User user = AppData.getCurUser();
-            user.name = m_txtName.getText().toString();
-            user.intro = m_txtIntro.getText().toString();
+            Actor actor = AppData.getCurUser();
+            actor.name = m_txtName.getText().toString();
+            actor.intro = m_txtIntro.getText().toString();
 
             finish();
         }

@@ -8,9 +8,9 @@ import java.io.Serializable;
 public class CallHistory implements Serializable
 {
     /** 发起者 */
-    public User from;
+    public Actor from;
     /** 接收者 */
-    public User to;
+    public Actor to;
     /** 开始时间（毫秒） */
     public long startTime;
     /** 通话时间(秒) */

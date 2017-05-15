@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.entity.User;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
@@ -24,7 +24,7 @@ import java.util.Random;
  */
 public class UserInfoActivity extends BaseActivity
 {
-    private User m_user;
+    private Actor m_actor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,7 +33,7 @@ public class UserInfoActivity extends BaseActivity
         setContentView(R.layout.activity_user_info);
         try
         {
-            m_user = (User) getIntent().getSerializableExtra("user");
+            m_actor = (Actor) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -62,20 +62,20 @@ public class UserInfoActivity extends BaseActivity
                             // 最新动态
                             case R.id.txt_latest_news:
                                 Intent intentZone = new Intent(UserInfoActivity.this, UserZoneActivity.class);
-                                intentZone.putExtra("user", m_user);
+                                intentZone.putExtra("user", m_actor);
                                 startActivity(intentZone);
                                 break;
 
                             // 嗨聊
                             case R.id.lay_voice_chat:
                                 Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
-                                intentVoice.putExtra("user", m_user);
+                                intentVoice.putExtra("user", m_actor);
                                 startActivity(intentVoice);
                                 break;
                             // 文字聊天
                             case R.id.lay_text_chat:
                                 Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
-                                intentText.putExtra("user", m_user);
+                                intentText.putExtra("user", m_actor);
                                 startActivity(intentText);
                                 break;
                             // 关注
@@ -110,7 +110,7 @@ public class UserInfoActivity extends BaseActivity
     {
         try
         {
-            if (m_user == null)
+            if (m_actor == null)
             {
                 return;
             }
@@ -191,7 +191,7 @@ public class UserInfoActivity extends BaseActivity
     {
         try
         {
-            if (m_user == null)
+            if (m_actor == null)
             {
                 return;
             }
@@ -209,9 +209,9 @@ public class UserInfoActivity extends BaseActivity
                             // 关闭当前页
                             finish();
 
-                            User user = (User)v.getTag();
+                            Actor actor = (Actor)v.getTag();
                             Intent intentUserInfo = new Intent(UserInfoActivity.this, UserInfoActivity.class);
-                            intentUserInfo.putExtra("user", user);
+                            intentUserInfo.putExtra("user", actor);
                             startActivity(intentUserInfo);
                         }
                     }
@@ -222,14 +222,14 @@ public class UserInfoActivity extends BaseActivity
                 }
             };
 
-            List<User> userList = DebugUtil.getUserList();
+            List<Actor> actorList = DebugUtil.getUserList();
 
             // 去掉当前用户
-            for(int i = 0; i < userList.size(); i++)
+            for(int i = 0; i < actorList.size(); i++)
             {
-                if (userList.get(i).name.equals(m_user.name))
+                if (actorList.get(i).name.equals(m_actor.name))
                 {
-                    userList.remove(i);
+                    actorList.remove(i);
                     break;
                 }
             }
@@ -248,25 +248,25 @@ public class UserInfoActivity extends BaseActivity
             Random rand = new Random(System.currentTimeMillis());
             java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
             LinearLayout layAnchor = null;
-            int nSize = userList.size() < 8 ? userList.size() : 8;
-            User user = null;
+            int nSize = actorList.size() < 8 ? actorList.size() : 8;
+            Actor actor = null;
 
             // 椭机数产生主播
             for(int i = 0; i < 8; i++)
             {
-                user = null;
+                actor = null;
                 layAnchor = (LinearLayout)viewList.get(i);
                 if (i < nSize)
                 {
                     int nIndex = -1;
                     while(nIndex == -1 || setExist.contains(nIndex))
                     {
-                        nIndex = rand.nextInt(userList.size());
+                        nIndex = rand.nextInt(actorList.size());
                     }
 
                     setExist.add(nIndex);
-                    user = userList.get(nIndex);
-                    layAnchor.setTag(user);
+                    actor = actorList.get(nIndex);
+                    layAnchor.setTag(actor);
                     layAnchor.setOnClickListener(clickListener);
                 }else
                 {
@@ -280,18 +280,18 @@ public class UserInfoActivity extends BaseActivity
                     View vChile = layAnchor.getChildAt(j);
                     if (vChile instanceof ImageView)
                     {
-                        if (null == user)
+                        if (null == actor)
                         {
                             ((ImageView)vChile).setImageResource(0);
                         }
                         else
                         {
-                            ImageLoaderUtil.displayListAvatarImageFromAsset((ImageView)vChile, user.avatar);
+                            ImageLoaderUtil.displayListAvatarImageFromAsset((ImageView)vChile, actor.avatar);
                         }
                     }
                     else if (vChile instanceof TextView)
                     {
-                        ((TextView)vChile).setText(null == user ? "" : user.name);
+                        ((TextView)vChile).setText(null == actor ? "" : actor.name);
                     }
                 }
             }
@@ -306,7 +306,7 @@ public class UserInfoActivity extends BaseActivity
     {
         try
         {
-            if (m_user == null)
+            if (m_actor == null)
             {
                 return;
             }
@@ -321,23 +321,23 @@ public class UserInfoActivity extends BaseActivity
             TextView txtCallRate = (TextView) findViewById(R.id.txt_call_rate);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
 
-            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_user.avatar);
+            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_actor.avatar);
             //imgAvatar.setImageResource(m_user.avatar_res);
-            txtName.setText(m_user.name);
-            txtAge.setText(String.valueOf(m_user.age));
+            txtName.setText(m_actor.name);
+            txtAge.setText(String.valueOf(m_actor.age));
             String strId = getString(R.string.txt_user_info_like_chat_id);
-            txtId.setText(strId + m_user.id);
-            txtCity.setText(m_user.city);
+            txtId.setText(strId + m_actor.id);
+            txtCity.setText(m_actor.city);
             String strFansFollow = getString(R.string.txt_user_info_fans_count);
-            strFansFollow += m_user.fans + "  ";
+            strFansFollow += m_actor.fans + "  ";
             strFansFollow += getString(R.string.txt_user_info_follow_count);
-            strFansFollow += m_user.follow;
+            strFansFollow += m_actor.follow;
             txtFansFollow.setText(strFansFollow);
-            txtIntro.setText(m_user.intro);
+            txtIntro.setText(m_actor.intro);
             txtCallRate.setText("1.5币/分");
             txtTalkTime.setText("21小时35分钟");
 
-            EntityUtil.setAnchorGenderDrawable(txtAge, m_user, true);
+            EntityUtil.setAnchorGenderDrawable(txtAge, m_actor, true);
         }
         catch (Exception e)
         {

@@ -4,7 +4,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.CallHistory;
 import com.audio.miliao.entity.ChatMessage;
-import com.audio.miliao.entity.User;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.entity.Zone;
 
 import org.json.JSONArray;
@@ -22,7 +22,7 @@ import static com.audio.miliao.R.mipmap.avatar1;
  */
 public class DebugUtil
 {
-    public static List<User> getUserList()
+    public static List<Actor> getUserList()
     {
         try
         {
@@ -131,7 +131,7 @@ public class DebugUtil
                     {
                             100, 200, 300
                     };
-            List<User> userList = new ArrayList<>();
+            List<Actor> actorList = new ArrayList<>();
             Random rand = new Random(System.currentTimeMillis());
             java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
             for (int i = 0; i < 20; i++)
@@ -146,21 +146,21 @@ public class DebugUtil
 
                 int avatar = nIndex;
                 int index = i % 3;
-                User user = new User();
-                user.name = titles[avatar]; // "直播主播" + (i + 1);
-                user.age = 20;
-                user.id = String.valueOf(10000 + i + 1);
-                user.city = citys[index];
-                user.gender = User.GENDER_FEMALE;
-                user.sign = signs[avatar];
-                user.intro = intros[avatar]; // "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
-                user.avatar = "thumb" + (avatar + 1) + ".jpg";
-                user.fans = fanses[index];
-                user.follow = follows[index];
-                userList.add(user);
+                Actor actor = new Actor();
+                actor.name = titles[avatar]; // "直播主播" + (i + 1);
+                actor.age = 20;
+                actor.id = String.valueOf(10000 + i + 1);
+                actor.city = citys[index];
+                actor.gender = Actor.GENDER_FEMALE;
+                actor.sign = signs[avatar];
+                actor.intro = intros[avatar]; // "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
+                actor.avatar = "thumb" + (avatar + 1) + ".jpg";
+                actor.fans = fanses[index];
+                actor.follow = follows[index];
+                actorList.add(actor);
             }
 
-            return userList;
+            return actorList;
         }
         catch (Exception e)
         {
@@ -211,17 +211,17 @@ public class DebugUtil
         try
         {
             Date dateOneDay = StringUtil.getDate("2017-02-06");
-            User user1 = new User();
-            user1.name = "美丽可儿";
-            user1.avatar = "avatar1.jpg";
-            User user2 = new User();
-            user2.name = "寂寞美人";
-            user2.avatar = "avatar2.jpg";
-            User user3 = new User();
-            user3.name = "足球宝贝";
-            user3.avatar = "avatar3.jpg";
-            User users1[] = new User[]{user1, user2, user3, AppData.getCurUser()};
-            User users2[] = new User[]{user1, user2, user3};
+            Actor actor1 = new Actor();
+            actor1.name = "美丽可儿";
+            actor1.avatar = "avatar1.jpg";
+            Actor actor2 = new Actor();
+            actor2.name = "寂寞美人";
+            actor2.avatar = "avatar2.jpg";
+            Actor actor3 = new Actor();
+            actor3.name = "足球宝贝";
+            actor3.avatar = "avatar3.jpg";
+            Actor users1[] = new Actor[]{actor1, actor2, actor3, AppData.getCurUser()};
+            Actor users2[] = new Actor[]{actor1, actor2, actor3};
             int talkTimes[] = new int[]{0, 59, 61, 3599, 3601, 123456};
             for (int i = 0; i < 20; i++)
             {
@@ -258,7 +258,7 @@ public class DebugUtil
         return callHistories;
     }
 
-    public static List<Zone> getZonesByAnchor(User user)
+    public static List<Zone> getZonesByAnchor(Actor actor)
     {
         try
         {
@@ -320,10 +320,10 @@ public class DebugUtil
                 }
 
                 android.util.Log.e("mediatype", "" + zone.mediaType);
-                zone.anchorId = user.id;
-                zone.anchorName = user.name;
-                zone.anchorAvatar = user.avatar;
-                zone.anchorSign = user.sign;
+                zone.anchorId = actor.id;
+                zone.anchorName = actor.name;
+                zone.anchorAvatar = actor.avatar;
+                zone.anchorSign = actor.sign;
 
                 if (i % 2 == 0)
                 {
@@ -353,7 +353,7 @@ public class DebugUtil
         List<Zone> zoneList = new ArrayList<>();
         try
         {
-            List<User> userList = getUserList();
+            List<Actor> actorList = getUserList();
             List<Date> dateList = getDates(20);
             List<String> thumbUrlList = new ArrayList<>();
             thumbUrlList.add("thumb1.jpg");
@@ -367,20 +367,20 @@ public class DebugUtil
             thumbUrlList.add("thumb9.jpg");
             for (int i = 0; i < 20; i++)
             {
-                int nUserIndex = i % userList.size();
-                User user = userList.get(nUserIndex);
+                int nUserIndex = i % actorList.size();
+                Actor actor = actorList.get(nUserIndex);
 
                 Zone zone = new Zone();
                 zone.id = String.valueOf(i);
-                zone.text = user.intro;
+                zone.text = actor.intro;
                 zone.thumbsUrl = toJsonArray(thumbUrlList.subList(0, i % 9 + 1));
                 zone.photosUrl = zone.thumbsUrl.replace("thumb", "avatar");
                 zone.date = dateList.get(i).getTime();
                 zone.watch = random();
-                zone.anchorId = user.id;
-                zone.anchorAvatar = user.avatar;
-                zone.anchorName = user.name;
-                zone.anchorSign = user.sign;
+                zone.anchorId = actor.id;
+                zone.anchorAvatar = actor.avatar;
+                zone.anchorName = actor.name;
+                zone.anchorSign = actor.sign;
 
                 zoneList.add(zone);
             }

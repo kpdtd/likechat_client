@@ -14,7 +14,7 @@ import java.util.List;
  * 用户
  */
 
-public class User implements Serializable
+public class Actor implements Serializable
 {
     /** 女 */
     public final static int GENDER_FEMALE = 0;
@@ -60,10 +60,10 @@ public class User implements Serializable
             return false;
         }
 
-        if (o instanceof User)
+        if (o instanceof Actor)
         {
-            User user = (User) o;
-            return user.id.equals(id);
+            Actor actor = (Actor) o;
+            return actor.id.equals(id);
         }
 
         return false;
@@ -127,27 +127,27 @@ public class User implements Serializable
         return null;
     }
 
-    public static User fromJson(JSONObject jsonObject)
+    public static Actor fromJson(JSONObject jsonObject)
     {
         try
         {
-            User user = new User();
-            user.id = jsonObject.optString("id");
-            user.name = jsonObject.optString("name");
-            user.avatar = jsonObject.optString("avatar");
-            user.gender = jsonObject.optInt("gender");
-            user.age = jsonObject.optInt("age");
-            user.sign = jsonObject.optString("sign");
-            user.intro = jsonObject.optString("intro");
-            user.province = jsonObject.optString("province");
-            user.city = jsonObject.optString("city");
-            user.fans = jsonObject.optInt("fans");
-            user.follow = jsonObject.optInt("follow");
-            user.price = jsonObject.optString("price");
-            user.callTime = jsonObject.optString("callTime");
-            user.videoUrl = jsonObject.optString("videoUrl");
+            Actor actor = new Actor();
+            actor.id = jsonObject.optString("id");
+            actor.name = jsonObject.optString("name");
+            actor.avatar = jsonObject.optString("avatar");
+            actor.gender = jsonObject.optInt("gender");
+            actor.age = jsonObject.optInt("age");
+            actor.sign = jsonObject.optString("sign");
+            actor.intro = jsonObject.optString("intro");
+            actor.province = jsonObject.optString("province");
+            actor.city = jsonObject.optString("city");
+            actor.fans = jsonObject.optInt("fans");
+            actor.follow = jsonObject.optInt("follow");
+            actor.price = jsonObject.optString("price");
+            actor.callTime = jsonObject.optString("callTime");
+            actor.videoUrl = jsonObject.optString("videoUrl");
 
-            return user;
+            return actor;
         }
         catch (Exception e)
         {
@@ -157,27 +157,27 @@ public class User implements Serializable
         return null;
     }
 
-    public static User fromCursor(Cursor cursor)
+    public static Actor fromCursor(Cursor cursor)
     {
         try
         {
-            User user = new User();
-            user.id = DbFieldUtil.getString(cursor, "anchorId");
-            user.name = DbFieldUtil.getString(cursor, "anchorName");
-            user.sign = DbFieldUtil.getString(cursor, "anchorSign");
-            user.avatar = DbFieldUtil.getString(cursor, "anchorAvatar");
-            user.gender = DbFieldUtil.getInt(cursor, "anchorGender");
-            user.age = DbFieldUtil.getInt(cursor, "anchorAge");
-            user.intro = DbFieldUtil.getString(cursor, "anchorIntro");
-            user.province = DbFieldUtil.getString(cursor, "anchorProvince");
-            user.city = DbFieldUtil.getString(cursor, "anchorCity");
-            user.fans = DbFieldUtil.getInt(cursor, "anchorFans");
-            user.follow = DbFieldUtil.getInt(cursor, "anchorFollow");
-            user.price = DbFieldUtil.getString(cursor, "anchorPrice");
-            user.callTime = DbFieldUtil.getString(cursor, "anchorCallTime");
-            user.videoUrl = DbFieldUtil.getString(cursor, "anchorVideoUrl");
+            Actor actor = new Actor();
+            actor.id = DbFieldUtil.getString(cursor, "anchorId");
+            actor.name = DbFieldUtil.getString(cursor, "anchorName");
+            actor.sign = DbFieldUtil.getString(cursor, "anchorSign");
+            actor.avatar = DbFieldUtil.getString(cursor, "anchorAvatar");
+            actor.gender = DbFieldUtil.getInt(cursor, "anchorGender");
+            actor.age = DbFieldUtil.getInt(cursor, "anchorAge");
+            actor.intro = DbFieldUtil.getString(cursor, "anchorIntro");
+            actor.province = DbFieldUtil.getString(cursor, "anchorProvince");
+            actor.city = DbFieldUtil.getString(cursor, "anchorCity");
+            actor.fans = DbFieldUtil.getInt(cursor, "anchorFans");
+            actor.follow = DbFieldUtil.getInt(cursor, "anchorFollow");
+            actor.price = DbFieldUtil.getString(cursor, "anchorPrice");
+            actor.callTime = DbFieldUtil.getString(cursor, "anchorCallTime");
+            actor.videoUrl = DbFieldUtil.getString(cursor, "anchorVideoUrl");
 
-            return user;
+            return actor;
         }
         catch (Exception e)
         {

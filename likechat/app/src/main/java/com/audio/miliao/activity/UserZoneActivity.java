@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.ZoneAdapter;
 import com.audio.miliao.entity.AppData;
-import com.audio.miliao.entity.User;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.entity.Zone;
 import com.audio.miliao.util.DebugUtil;
 
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class UserZoneActivity extends BaseActivity
 {
-    private User m_user;
+    private Actor m_actor;
     private ListView m_list;
     private ZoneAdapter m_adapter;
 
@@ -32,7 +32,7 @@ public class UserZoneActivity extends BaseActivity
         setContentView(R.layout.activity_user_zone);
         try
         {
-            m_user = (User) getIntent().getSerializableExtra("user");
+            m_actor = (Actor) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -120,12 +120,12 @@ public class UserZoneActivity extends BaseActivity
     {
         try
         {
-            if (m_user == null)
+            if (m_actor == null)
             {
                 return;
             }
 
-            List<Zone> lstZone = DebugUtil.getZonesByAnchor(m_user);
+            List<Zone> lstZone = DebugUtil.getZonesByAnchor(m_actor);
             if (m_adapter == null)
             {
                 m_adapter = new ZoneAdapter(UserZoneActivity.this, lstZone);
@@ -169,7 +169,7 @@ public class UserZoneActivity extends BaseActivity
 
             TextView txtTitle = (TextView) findViewById(R.id.txt_title);
             String strTitle = getString(R.string.title_user_zone_at);
-            if (AppData.isCurUser(m_user))
+            if (AppData.isCurUser(m_actor))
             {
                 String strMe = getString(R.string.txt_zone_me);
                 txtTitle.setText(strMe + strTitle);
@@ -177,7 +177,7 @@ public class UserZoneActivity extends BaseActivity
             }
             else
             {
-                txtTitle.setText(m_user.name + strTitle);
+                txtTitle.setText(m_actor.name + strTitle);
                 m_adapter.setShowDelete(false);
             }
         }

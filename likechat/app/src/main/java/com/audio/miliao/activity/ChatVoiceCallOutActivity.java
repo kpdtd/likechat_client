@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.entity.User;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 
@@ -15,7 +15,7 @@ import com.audio.miliao.util.ImageLoaderUtil;
  */
 public class ChatVoiceCallOutActivity extends BaseActivity
 {
-    private User m_user;
+    private Actor m_actor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,7 +24,7 @@ public class ChatVoiceCallOutActivity extends BaseActivity
         setContentView(R.layout.activity_chat_voice_call_out);
         try
         {
-            m_user = (User) getIntent().getSerializableExtra("user");
+            m_actor = (Actor) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -72,7 +72,7 @@ public class ChatVoiceCallOutActivity extends BaseActivity
     {
         try
         {
-            if (m_user == null)
+            if (m_actor == null)
             {
                 return;
             }
@@ -83,15 +83,15 @@ public class ChatVoiceCallOutActivity extends BaseActivity
             TextView txtName = (TextView) findViewById(R.id.txt_name);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
 
-            ImageLoaderUtil.displayListAvatarImageFromAsset(imgInfo, m_user.avatar);
+            ImageLoaderUtil.displayListAvatarImageFromAsset(imgInfo, m_actor.avatar);
             //imgInfo.setImageResource(m_user.avatar_res);
             imgInfo.setAlpha(0.4f);
-            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_user.avatar);
+            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_actor.avatar);
             //imgAvatar.setImageResource(m_user.avatar_res);
-            txtAge.setText(String.valueOf(m_user.age));
-            txtName.setText(m_user.name);
+            txtAge.setText(String.valueOf(m_actor.age));
+            txtName.setText(m_actor.name);
             txtTalkTime.setText("09:43");
-            EntityUtil.setAnchorGenderDrawable(txtAge, m_user, true);
+            EntityUtil.setAnchorGenderDrawable(txtAge, m_actor, true);
         }
         catch (Exception e)
         {

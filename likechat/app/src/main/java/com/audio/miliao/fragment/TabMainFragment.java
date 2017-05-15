@@ -13,7 +13,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.activity.CustomerServiceActivity;
 import com.audio.miliao.activity.UserInfoActivity;
 import com.audio.miliao.adapter.AnchorAdapter;
-import com.audio.miliao.entity.User;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.widget.GridViewWithHeaderAndFooter;
 import com.audio.miliao.widget.HeaderView;
@@ -57,8 +57,8 @@ public class TabMainFragment extends BaseFragment
                     try
                     {
                         Intent intentUserInfo = new Intent(getActivity(), UserInfoActivity.class);
-                        User user = (User) m_adapter.getItem(position);
-                        intentUserInfo.putExtra("user", user);
+                        Actor actor = (Actor) m_adapter.getItem(position);
+                        intentUserInfo.putExtra("user", actor);
                         startActivity(intentUserInfo);
                     }
                     catch (Exception e)
@@ -139,19 +139,19 @@ public class TabMainFragment extends BaseFragment
     {
         try
         {
-            List<User> userList = DebugUtil.getUserList();
+            List<Actor> actorList = DebugUtil.getUserList();
 
             if (m_adapter == null)
             {
                 View headerView = HeaderView.load(getActivity(), R.layout.list_header_main_banner, DebugUtil.getBannerUrls(10));
                 m_gridView.addHeaderView(headerView);
 
-                m_adapter = new AnchorAdapter(getActivity(), userList);
+                m_adapter = new AnchorAdapter(getActivity(), actorList);
                 m_gridView.setAdapter(m_adapter);
             }
             else
             {
-                m_adapter.updateData(userList);
+                m_adapter.updateData(actorList);
                 m_adapter.notifyDataSetChanged();
             }
         }

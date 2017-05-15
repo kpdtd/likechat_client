@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.ChatAdapter;
 import com.audio.miliao.entity.ChatMessage;
-import com.audio.miliao.entity.User;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.DebugUtil;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class ChatTextActivity extends BaseActivity
 {
-    private User m_user;
+    private Actor m_actor;
     private ListView m_list;
     private ChatAdapter m_adapter;
 
@@ -31,7 +31,7 @@ public class ChatTextActivity extends BaseActivity
         setContentView(R.layout.activity_chat_text);
         try
         {
-            m_user = (User) getIntent().getSerializableExtra("user");
+            m_actor = (Actor) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -99,12 +99,12 @@ public class ChatTextActivity extends BaseActivity
                             break;
                         case R.id.img_user_info:
                             Intent intentUserInfo = new Intent(ChatTextActivity.this, UserInfoActivity.class);
-                            intentUserInfo.putExtra("user", m_user);
+                            intentUserInfo.putExtra("user", m_actor);
                             startActivity(intentUserInfo);
                             break;
                         case R.id.img_phone:
                             Intent intentCallout = new Intent(ChatTextActivity.this, ChatVoiceCallOutActivity.class);
-                            intentCallout.putExtra("user", m_user);
+                            intentCallout.putExtra("user", m_actor);
                             startActivity(intentCallout);
                             break;
                         }
@@ -130,13 +130,13 @@ public class ChatTextActivity extends BaseActivity
     {
         try
         {
-            if (m_user == null)
+            if (m_actor == null)
             {
                 return;
             }
 
             TextView txtTitle = (TextView) findViewById(R.id.txt_title);
-            txtTitle.setText(m_user.name);
+            txtTitle.setText(m_actor.name);
 
             List<ChatMessage> chatMessages = DebugUtil.getChatMessage();
             if (m_adapter == null)

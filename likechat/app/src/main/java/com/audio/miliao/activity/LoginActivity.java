@@ -77,6 +77,7 @@ public class LoginActivity extends BaseActivity
             }
             else
             {
+                theApp.showToast("login failed");
             }
             break;
         }

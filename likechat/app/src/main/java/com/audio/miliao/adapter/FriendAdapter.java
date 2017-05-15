@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.entity.User;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 
@@ -21,19 +21,19 @@ import java.util.List;
 public class FriendAdapter extends BaseAdapter
 {
     private Activity m_parent;
-    private List<User> m_listUsers;
+    private List<Actor> m_listActors;
     /** 列表是否处于滑动状态 */
     private boolean m_bIsScrolling = false;
 
-    public FriendAdapter(Activity activity, List<User> listUsers)
+    public FriendAdapter(Activity activity, List<Actor> listActors)
     {
         m_parent = activity;
-        m_listUsers = listUsers;
+        m_listActors = listActors;
     }
 
-    public void updateData(List<User> listUsers)
+    public void updateData(List<Actor> listActors)
     {
-        m_listUsers = listUsers;
+        m_listActors = listActors;
     }
 
     public void setScrolling(boolean bIsScrolling)
@@ -46,7 +46,7 @@ public class FriendAdapter extends BaseAdapter
     {
         try
         {
-            return m_listUsers.size();
+            return m_listActors.size();
         }
         catch (Exception e)
         {
@@ -60,7 +60,7 @@ public class FriendAdapter extends BaseAdapter
     {
         try
         {
-            return m_listUsers.get(position);
+            return m_listActors.get(position);
         }
         catch (Exception e)
         {
@@ -111,17 +111,17 @@ public class FriendAdapter extends BaseAdapter
     {
         try
         {
-            User user = (User) getItem(nPosition);
-            if (user != null)
+            Actor actor = (Actor) getItem(nPosition);
+            if (actor != null)
             {
-                holder.name.setText(user.name);
-                holder.sign.setText(user.intro);
-                holder.gender.setText(String.valueOf(user.age));
+                holder.name.setText(actor.name);
+                holder.sign.setText(actor.intro);
+                holder.gender.setText(String.valueOf(actor.age));
                 //if (!m_bIsScrolling)
                 {
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, user.avatar);
+                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, actor.avatar);
                 }
-                EntityUtil.setAnchorGenderDrawable(holder.gender, user, true);
+                EntityUtil.setAnchorGenderDrawable(holder.gender, actor, true);
             }
         }
         catch (Exception e)

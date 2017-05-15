@@ -25,24 +25,24 @@ public class AppData
         return PreferUtil.getStringPreference(KEY_TOKEN);
     }
 
-    public static void saveCurUser(User user)
+    public static void saveCurUser(Actor actor)
     {
         //ms_curUser = user;
-        PreferUtil.setStringPreference(KEY_USER, user.toJson().toString());
+        PreferUtil.setStringPreference(KEY_USER, actor.toJson().toString());
     }
 
     /**
      * 获取当前用户
      * @return
      */
-    public static User getCurUser()
+    public static Actor getCurUser()
     {
         //return ms_curUser;
         try
         {
             JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_USER));
-            User user = User.fromJson(jsonObject);
-            return user;
+            Actor actor = Actor.fromJson(jsonObject);
+            return actor;
         }
         catch (Exception e)
         {
@@ -54,16 +54,16 @@ public class AppData
 
     /**
      * 判断用户是否是当前用户
-     * @param user
+     * @param actor
      * @return
      */
-    public static boolean isCurUser(User user)
+    public static boolean isCurUser(Actor actor)
     {
         try
         {
-            if (user != null && getCurUser() != null)
+            if (actor != null && getCurUser() != null)
             {
-                return user.id.equals(getCurUser().id);
+                return actor.id.equals(getCurUser().id);
             }
         }
         catch (Exception e)
@@ -165,4 +165,6 @@ public class AppData
     private static final String KEY_EXPIRES_IN = "key_expires_in";
     private static final String KEY_REFRESH_TOKEN = "key_refresh_token";
     private static final String KEY_OPEN_ID = "key_open_id";
+    private static final String KEY_NICKNAME = "key_nickname";
+    private static final String KEY_AVATAR = "key_avatar";
 }

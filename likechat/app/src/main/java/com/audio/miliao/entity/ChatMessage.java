@@ -21,9 +21,9 @@ public class ChatMessage implements Serializable
     /** 消息内容 */
     public String text = "";
     /** 消息发送者 */
-    public User from;
+    public Actor from;
     /** 消息接收者 */
-    public User to;
+    public Actor to;
     /** 时间 */
     public long date;
 
@@ -72,8 +72,8 @@ public class ChatMessage implements Serializable
             ChatMessage chat = new ChatMessage();
             chat.id = jsonObject.optString("id");
             chat.text = jsonObject.optString("text");
-            chat.from = User.fromJson(jsonObject.optJSONObject("from"));
-            chat.to = User.fromJson(jsonObject.optJSONObject("to"));
+            chat.from = Actor.fromJson(jsonObject.optJSONObject("from"));
+            chat.to = Actor.fromJson(jsonObject.optJSONObject("to"));
 
             return chat;
         }
@@ -94,10 +94,10 @@ public class ChatMessage implements Serializable
             chat.text = DbFieldUtil.getString(cursor, "chatText");
             String strFrom = DbFieldUtil.getString(cursor, "chatFrom");
             JSONObject jsonFrom = new JSONObject(strFrom);
-            chat.from = User.fromJson(jsonFrom);
+            chat.from = Actor.fromJson(jsonFrom);
             String strTo = DbFieldUtil.getString(cursor, "chatTo");
             JSONObject jsonTo = new JSONObject(strTo);
-            chat.to = User.fromJson(jsonTo);
+            chat.to = Actor.fromJson(jsonTo);
 
             return chat;
         }

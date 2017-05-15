@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.audio.miliao.db.DbHelper;
-import com.audio.miliao.entity.User;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.theApp;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class DbUtil
 	/**
 	 * 查找主播
 	 */
-	public static User getAnchor(final String anchorId)
+	public static Actor getAnchor(final String anchorId)
 	{
 		try
 		{
@@ -55,14 +55,14 @@ public class DbUtil
 			String strSQL = "select * from " + DbHelper.TABLE_USER_NAME + " where anchorId = '" + anchorId + "'";
 			Cursor cursor = ms_db.rawQuery(strSQL, null);
 
-			User user = null;
+			Actor actor = null;
 			if (cursor.moveToFirst())
 			{
-				user = User.fromCursor(cursor);
+				actor = Actor.fromCursor(cursor);
 			}
 			cursor.close();
 
-			return user;
+			return actor;
 		}
 		catch (Exception e)
 		{
@@ -77,9 +77,9 @@ public class DbUtil
 	 * 
 	 * @return
 	 */
-	public static List<User> getAllAnchor()
+	public static List<Actor> getAllAnchor()
 	{
-		List<User> userList = new ArrayList<User>();
+		List<Actor> actorList = new ArrayList<Actor>();
 		try
 		{
 			init();
@@ -89,10 +89,10 @@ public class DbUtil
 
 			while (cursor.moveToNext())
 			{
-				User user = User.fromCursor(cursor);
-				if (user != null)
+				Actor actor = Actor.fromCursor(cursor);
+				if (actor != null)
 				{
-					userList.add(user);
+					actorList.add(actor);
 				}
 			}
 			cursor.close();
@@ -103,7 +103,7 @@ public class DbUtil
 			e.printStackTrace();
 		}
 
-		return userList;
+		return actorList;
 	}
 
 	/**
@@ -120,17 +120,17 @@ public class DbUtil
 	/**
 	 * 保存主播信息
 	 */
-	public static int saveAnchor(User user)
+	public static int saveAnchor(Actor actor)
 	{
 		try
 		{
-			if (exist(user.id, "anchorId", DbHelper.TABLE_USER_NAME))
+			if (exist(actor.id, "anchorId", DbHelper.TABLE_USER_NAME))
 			{
-				return updateAnchor(user);
+				return updateAnchor(actor);
 			}
 			else
 			{
-				return insertAnchor(user);
+				return insertAnchor(actor);
 			}
 		}
 		catch (Exception e)
@@ -144,11 +144,11 @@ public class DbUtil
 	/**
 	 * 批量保存主播数据
 	 * 
-	 * @param listUser
+	 * @param listActor
 	 */
-	public static void saveAnchors(List<User> listUser)
+	public static void saveAnchors(List<Actor> listActor)
 	{
-		if (UIUtil.isListEmpty(listUser))
+		if (UIUtil.isListEmpty(listActor))
 		{
 			return;
 		}
@@ -159,9 +159,9 @@ public class DbUtil
 
 			ms_db.beginTransaction();
 
-			for (User user : listUser)
+			for (Actor actor : listActor)
 			{
-				saveAnchor(user);
+				saveAnchor(actor);
 			}
 
 			ms_db.setTransactionSuccessful();
@@ -207,11 +207,11 @@ public class DbUtil
 
 	/**
 	 * 批量删除主播
-	 * @param users
+	 * @param actors
 	 */
-	public static void deleteAnchors(List<User> users)
+	public static void deleteAnchors(List<Actor> actors)
 	{
-		if (UIUtil.isListEmpty(users))
+		if (UIUtil.isListEmpty(actors))
 		{
 			return;
 		}
@@ -222,9 +222,9 @@ public class DbUtil
 
 			ms_db.beginTransaction();
 
-			for (User user : users)
+			for (Actor actor : actors)
 			{
-				deleteAnchor(user.id);
+				deleteAnchor(actor.id);
 			}
 
 			ms_db.setTransactionSuccessful();
@@ -292,7 +292,7 @@ public class DbUtil
 	 * 
 	 * @return 影响的行数
 	 */
-	private static int updateAnchor(User user)
+	private static int updateAnchor(Actor actor)
 	{
 		try
 		{
@@ -300,11 +300,11 @@ public class DbUtil
 
 			synchronized (sqlite_writeLock)
 			{
-				ContentValues values = user.toContentValues();
+				ContentValues values = actor.toContentValues();
 				String whereClause = "anchorId = ?";
 				String[] whereArgs = new String[]
 				{
-                        user.id
+                        actor.id
 				};
 				int nRow = ms_db.update(DbHelper.TABLE_USER_NAME, values, whereClause, whereArgs);
 				return nRow;
@@ -323,7 +323,7 @@ public class DbUtil
 	 * 
 	 * @return 影响的行数
 	 */
-	private static int insertAnchor(User user)
+	private static int insertAnchor(Actor actor)
 	{
 		try
 		{
@@ -331,7 +331,7 @@ public class DbUtil
 
 			synchronized (sqlite_writeLock)
 			{
-				ContentValues values = user.toContentValues();
+				ContentValues values = actor.toContentValues();
 				int nRow = (int) ms_db.insert(DbHelper.TABLE_USER_NAME, null, values);
 
 				return nRow;
