@@ -39,3 +39,6 @@ nim-chatroom-3.5.5.jar
 nim-lucene-3.5.5.jar
 nim-rts-3.5.5.jar
 nrtc-sdk.jar
+
+gson-2.3.jar
+jsonĞòÁĞ»¯²Ù×÷

@@ -2,7 +2,6 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
-import com.audio.miliao.entity.AppData;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
@@ -86,10 +85,6 @@ public class WXOauth extends BaseReqRsp
 	{
 		if (rspResultCode == HttpUtil.Result.OK)
 		{
-			AppData.setAccessToken(rspAccessToken);
-			AppData.setRefreshToken(rspRefreshToken);
-			AppData.setOpenId(rspOpenId);
-			AppData.setExpiresIn(rspExpiresIn);
 		}
 	}
 }

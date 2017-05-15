@@ -8,10 +8,10 @@ import android.widget.EditText;
 
 import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
+import com.audio.miliao.entity.UserInfo;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.Login;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.JSONUtil;
 import com.audio.miliao.util.MD5;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.WXUtil;
@@ -20,8 +20,6 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
-
-import org.json.JSONObject;
 
 
 /**
@@ -57,15 +55,9 @@ public class LoginActivity extends BaseActivity
         switch (msg.what)
         {
         case CODE_QQ_LOGIN:
-            JSONObject json = (JSONObject) msg.obj;
-            mEdittext.setText(json.toString());
-            String strOpenId = JSONUtil.getString(json, "open_id");
-            String strAccessToken = JSONUtil.getString(json, "access_token");
-            String strNickname = JSONUtil.getString(json, "nickname");
-            String strAvatar = JSONUtil.getString(json, "avatar");
-            int nExpiresIn = JSONUtil.getInt(json, "expires_in");
-            Login login = new Login(handler(), Login.TYPE_QQ, strOpenId, strAccessToken,
-                    strNickname, strAvatar, nExpiresIn, null);
+            UserInfo userInfo = (UserInfo) msg.obj;
+            mEdittext.setText(userInfo.toJsonString());
+            Login login = new Login(handler(), Login.TYPE_QQ, userInfo, null);
             login.send();
             break;
         case HttpUtil.RequestCode.LOGIN:
@@ -73,7 +65,9 @@ public class LoginActivity extends BaseActivity
             if (Login.isSucceed(login1))
             {
                 theApp.showToast("login secceed");
-                //finish();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
             else
             {
@@ -184,7 +178,6 @@ public class LoginActivity extends BaseActivity
     {
         try
         {
-            AppData.saveIsLogin(true);
             theApp.saveCurUser();
 
             Intent intentMain = new Intent(this, MainActivity.class);

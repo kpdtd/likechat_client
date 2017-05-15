@@ -1,6 +1,5 @@
 package com.audio.miliao.http;
 
-import com.audio.miliao.entity.AppData;
 import com.audio.miliao.util.LogUtil;
 import com.audio.miliao.util.StringUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -346,11 +345,11 @@ public class OKHttps
 	{
 		builder.addHeader("Accept", "application/json");
 		builder.addHeader("Content-Type", req.reqContentType);
-		String strToken = AppData.getToken();
-		if (StringUtil.isNotEmpty(strToken))
-		{
-			builder.addHeader("Authorization", "Bearer " + strToken);
-		}
+//		String strToken = AppData.getToken();
+//		if (StringUtil.isNotEmpty(strToken))
+//		{
+//			builder.addHeader("Authorization", "Bearer " + strToken);
+//		}
 
 		return builder;
 	}

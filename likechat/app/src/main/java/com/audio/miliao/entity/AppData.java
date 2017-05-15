@@ -1,7 +1,6 @@
 package com.audio.miliao.entity;
 
 import com.audio.miliao.util.PreferUtil;
-import com.audio.miliao.util.StringUtil;
 
 import org.json.JSONObject;
 
@@ -11,24 +10,10 @@ import org.json.JSONObject;
 
 public class AppData
 {
-    /** 当前用户 */
-    //private static User ms_curUser;
-    private static boolean ms_bIsLogin = false;
-
-    public static void saveToken(String strToken)
-    {
-        PreferUtil.setStringPreference(KEY_TOKEN, strToken);
-    }
-
-    public static String getToken()
-    {
-        return PreferUtil.getStringPreference(KEY_TOKEN);
-    }
-
     public static void saveCurUser(Actor actor)
     {
         //ms_curUser = user;
-        PreferUtil.setStringPreference(KEY_USER, actor.toJson().toString());
+        PreferUtil.setStringPreference(KEY_ACTOR, actor.toJson().toString());
     }
 
     /**
@@ -40,7 +25,7 @@ public class AppData
         //return ms_curUser;
         try
         {
-            JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_USER));
+            JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_ACTOR));
             Actor actor = Actor.fromJson(jsonObject);
             return actor;
         }
@@ -75,23 +60,12 @@ public class AppData
     }
 
     /**
-     * 保存是否已登录
-     * @param isLogin
-     */
-    public static void saveIsLogin(boolean isLogin)
-    {
-        PreferUtil.setBooleanPreference(KEY_IS_LOGIN, isLogin);
-    }
-
-    /**
      * 获取是否已登录
      * @return
      */
     public static boolean isLogin()
     {
-        String accessToken = getAccessToken();
-        return StringUtil.isNotEmpty(accessToken);
-        //return PreferUtil.getBooleanPreference(KEY_IS_LOGIN, false);
+        return getUserInfo() != null;
     }
 
     public static void setYunXinAccount(String account)
@@ -114,26 +88,6 @@ public class AppData
         return PreferUtil.getStringPreference(KEY_YUNXIN_TOKEN);
     }
 
-    public static void setAccessToken(String accessToken)
-    {
-        PreferUtil.setStringPreference(KEY_ACCESS_TOKEN, accessToken);
-    }
-
-    public static String getAccessToken()
-    {
-        return PreferUtil.getStringPreference(KEY_ACCESS_TOKEN);
-    }
-
-    public static void setExpiresIn(int expiresIn)
-    {
-        PreferUtil.setIntPreference(KEY_EXPIRES_IN, expiresIn);
-    }
-
-    public static int getExpiresIn()
-    {
-        return PreferUtil.getIntPreference(KEY_EXPIRES_IN, 0);
-    }
-
     public static void setRefreshToken(String refreshToken)
     {
         PreferUtil.setStringPreference(KEY_REFRESH_TOKEN, refreshToken);
@@ -144,21 +98,23 @@ public class AppData
         return PreferUtil.getStringPreference(KEY_REFRESH_TOKEN);
     }
 
-    public static void setOpenId(String openId)
+    public static void setUserInfo(UserInfo userInfo)
     {
-        PreferUtil.setStringPreference(KEY_OPEN_ID, openId);
+        PreferUtil.setStringPreference(KEY_USERINFO, userInfo.toJsonString());
     }
 
-    public static String getOpenId()
+    public static UserInfo getUserInfo()
     {
-        return PreferUtil.getStringPreference(KEY_OPEN_ID);
+        String strUserInfo = PreferUtil.getStringPreference(KEY_USERINFO);
+        UserInfo userInfo = UserInfo.parse(strUserInfo, UserInfo.class);
+        return userInfo;
     }
 
     private final static String KEY_YUNXIN_ACCOUNT = "key_yunxin_account";
     private final static String KEY_YUNXIN_TOKEN = "key_yunxin_token";
 
     private final static String KEY_IS_LOGIN = "key_is_login";
-    private final static String KEY_USER = "key_user";
+    private final static String KEY_ACTOR = "key_actor";
     private static final String KEY_TOKEN = "key_token";
 
     private static final String KEY_ACCESS_TOKEN = "key_access_token";
@@ -167,4 +123,5 @@ public class AppData
     private static final String KEY_OPEN_ID = "key_open_id";
     private static final String KEY_NICKNAME = "key_nickname";
     private static final String KEY_AVATAR = "key_avatar";
+    private static final String KEY_USERINFO = "key_userinfo";
 }
