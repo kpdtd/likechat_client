@@ -13,3 +13,5 @@
 /likechat/.gradle
 /likechat/.idea
 /likechat/local.properties
+/likechat/app/*.apk
+/likechat/uikit/build

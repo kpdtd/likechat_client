@@ -1,13 +1,18 @@
 package com.audio.miliao.wxapi;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
+import android.widget.EditText;
 
+import com.audio.miliao.R;
+import com.audio.miliao.activity.BaseActivity;
+import com.audio.miliao.entity.UserInfo;
+import com.audio.miliao.http.cmd.Login;
+import com.audio.miliao.http.cmd.WXFetchUserinfo;
 import com.audio.miliao.http.cmd.WXOauth;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.util.WXUtil;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -17,14 +22,23 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 /**
  * 接收微信消息
  */
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler
+public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler
 {
+    private EditText mEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_wx_entrty);
+        mEditText = (EditText) findViewById(R.id.edt_log);
         WXUtil.handleIntent(getIntent(), this);
         handleIntent(getIntent());
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
     }
 
     @Override
@@ -45,7 +59,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler
         else if (resp.errCode == BaseResp.ErrCode.ERR_AUTH_DENIED ||
                 resp.errCode == BaseResp.ErrCode.ERR_USER_CANCEL)
         {
-            finish();
+            //finish();
         }
     }
 
@@ -57,24 +71,24 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler
     @Override
     public void onResp(BaseResp baseResp)
     {
-        switch (baseResp.errCode)
-        {
-        case BaseResp.ErrCode.ERR_OK:
-            theApp.showToast("发送成功");
-            finish();
-            break;
-        case BaseResp.ErrCode.ERR_USER_CANCEL:
-            theApp.showToast("分享取消");
-            finish();
-            break;
-        case BaseResp.ErrCode.ERR_AUTH_DENIED:
-            theApp.showToast("分享被拒绝");
-            finish();
-            break;
-        default:
-            theApp.showToast("分享返回");
-            break;
-        }
+//        switch (baseResp.errCode)
+//        {
+//        case BaseResp.ErrCode.ERR_OK:
+//            theApp.showToast("发送成功");
+//            finish();
+//            break;
+//        case BaseResp.ErrCode.ERR_USER_CANCEL:
+//            theApp.showToast("分享取消");
+//            finish();
+//            break;
+//        case BaseResp.ErrCode.ERR_AUTH_DENIED:
+//            theApp.showToast("分享被拒绝");
+//            finish();
+//            break;
+//        default:
+//            theApp.showToast("分享返回");
+//            break;
+//        }
     }
 
     /**
@@ -95,27 +109,44 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler
                     sb.append("state : " + resp.state + "\n");
                     sb.append("lang : " + resp.lang + "\n");
                     sb.append("country : " + resp.country + "\n");
-
-                    UIUtil.showToastShort(theApp.CONTEXT, sb.toString());
+                    sb.append("openId : " + resp.openId + "\n");
+                    theApp.showToast(sb.toString());
 
                     WXOauth wxOauth = new WXOauth(null, WXUtil.generateWXOauthURL(resp.code), null);
                     wxOauth.sendSync();
+                    log(wxOauth.rspResult);
+
                     if (WXOauth.isSucceed(wxOauth))
                     {
-//                WXFetchUserinfo fetchUserinfo = new WXFetchUserinfo(null, wxOauth.rspAccessToken, wxOauth.rspOpenId, null);
-//                fetchUserinfo.sendSync();
-//
-//                if (WXFetchUserinfo.isSucceed(fetchUserinfo))
-//                {
-//                }
-//                        Login login = new Login(null, wxOauth.rspOpenId, Login.TYPE_WEIXIN, wxOauth.rspAccessToken, wxOauth.rspRefreshToken, null);
-//                        login.sendSync();
-//                        if (Login.isSucceed(login))
-//                        {
-//                            setResult(RESULT_OK);
-//                            finish();
-//                            return;
-//                        }
+                        WXFetchUserinfo fetchUserinfo = new WXFetchUserinfo(null, wxOauth.rspAccessToken, wxOauth.rspOpenId, null);
+                        fetchUserinfo.sendSync();
+
+                        log(fetchUserinfo.rspResult);
+
+                        if (WXFetchUserinfo.isSucceed(fetchUserinfo))
+                        {
+                            final UserInfo userInfo = new UserInfo();
+                            userInfo.openId = wxOauth.rspOpenId;
+                            userInfo.accessToken = wxOauth.rspAccessToken;
+                            userInfo.refreshToken = wxOauth.rspRefreshToken;
+                            userInfo.expiresIn = wxOauth.rspExpiresIn;
+                            userInfo.nickname = fetchUserinfo.rspNickname;
+                            userInfo.gender = fetchUserinfo.rspGender;
+                            userInfo.avatar = fetchUserinfo.rspAvatar;
+                            userInfo.province = fetchUserinfo.rspProvince;
+                            userInfo.city = fetchUserinfo.rspCity;
+                            userInfo.type = "weixin";
+                            Login login = new Login(null, userInfo, null);
+                            login.sendSync();
+                            if (Login.isSucceed(login))
+                            {
+                                setResult(RESULT_OK);
+                                finish();
+                                return;
+                            }
+
+                            log(userInfo.toJsonString());
+                        }
                     }
                 }
             };
@@ -126,6 +157,18 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler
         {
             e.printStackTrace();
         }
+    }
+
+    private void log(final String strLog)
+    {
+        handler().post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                mEditText.setText(mEditText.getText().toString() + "\n" + strLog);
+            }
+        });
     }
 }
 

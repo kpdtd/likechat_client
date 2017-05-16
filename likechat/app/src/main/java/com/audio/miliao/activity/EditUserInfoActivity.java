@@ -13,12 +13,12 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.dialog.CityPickerActivity;
 import com.audio.miliao.dialog.DatePickerActivity;
-import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.Actor;
+import com.audio.miliao.entity.AppData;
+import com.audio.miliao.theApp;
 import com.audio.miliao.util.FileUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
-import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.widget.CircleImageView;
 
 import java.io.File;
@@ -339,7 +339,7 @@ public class EditUserInfoActivity extends BaseActivity
         catch (Exception e)
         {
             e.printStackTrace();
-            UIUtil.showToastShort(getApplicationContext(), R.string.toast_no_camera);
+            theApp.showToast(getString(R.string.toast_no_camera));
         }
     }
 
@@ -371,7 +371,7 @@ public class EditUserInfoActivity extends BaseActivity
         catch (Exception e)
         {
             e.printStackTrace();
-            UIUtil.showToastShort(getApplicationContext(), R.string.toast_no_album);
+            theApp.showToast(getString(R.string.toast_no_album));
         }
     }
 
@@ -410,7 +410,7 @@ public class EditUserInfoActivity extends BaseActivity
         catch (Exception e)
         {
             e.printStackTrace();
-            UIUtil.showToastShort(getApplicationContext(), R.string.toast_no_album);
+            theApp.showToast(getString(R.string.toast_no_album));
         }
     }
 

@@ -5,7 +5,7 @@ import android.os.Handler;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.UIUtil;
+import com.audio.miliao.util.JSONUtil;
 
 import org.json.JSONObject;
 
@@ -19,6 +19,13 @@ public class WXFetchUserinfo extends BaseReqRsp
 {
 	private String reqAccessToken;
 	private String reqOpenId;
+	public String rspResult;
+	public String rspNickname;
+	public String rspProvince;
+	public String rspCity;
+	public String rspAvatar;
+	public String rspGender;
+
 	/**
 	 * 微信Oauth2
 	 * @param handler
@@ -46,7 +53,8 @@ public class WXFetchUserinfo extends BaseReqRsp
 	@Override
 	public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
 	{
-		UIUtil.showToastShort(theApp.CONTEXT, httpStatusCode + ";" + httpBody);
+		theApp.showToast("WXFetchUserinfo:" + httpStatusCode + ";" + httpBody);
+		rspResult = httpBody;
 		switch (httpStatusCode)
 		{
 		case 429:
@@ -58,6 +66,11 @@ public class WXFetchUserinfo extends BaseReqRsp
 			try
 			{
 				JSONObject jsonObject = new JSONObject(httpBody);
+				rspNickname = JSONUtil.getString(jsonObject, "nickname");
+				rspProvince = JSONUtil.getString(jsonObject, "province");
+				rspCity = JSONUtil.getString(jsonObject, "city");
+				rspAvatar = JSONUtil.getString(jsonObject, "headimgurl");
+				rspGender = JSONUtil.getString(jsonObject, "sex");
 			}
 			catch (Exception e)
 			{

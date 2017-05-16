@@ -3,16 +3,24 @@ package com.audio.miliao;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
+import android.support.multidex.MultiDex;
 
-import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.Actor;
+import com.audio.miliao.entity.AppData;
 import com.audio.miliao.util.UIUtil;
-import com.audio.miliao.util.YunXinUtil;
+import com.uikit.loader.LoaderApp;
 
 public class theApp extends Application
 {
     public static Context CONTEXT = null;
     public static Handler sm_handler = new Handler();
+
+    @Override
+    protected void attachBaseContext(Context newBase)
+    {
+        super.attachBaseContext(newBase);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate()
@@ -33,7 +41,8 @@ public class theApp extends Application
     {
         try
         {
-            YunXinUtil.init();
+            //YunXinUtil.init();
+            LoaderApp.init(context);
 
             if (AppData.isLogin())
             {

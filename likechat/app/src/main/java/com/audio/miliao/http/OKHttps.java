@@ -320,7 +320,7 @@ public class OKHttps
 			if (response != null)
 			{
 				int code = response.code();
-				String body = response.body().toString();
+				String body = response.body().string();
 				Headers headers = response.headers();
 
 				req.parseHttpResponse(code, headersToPair(headers), body);

@@ -5,7 +5,6 @@ import android.os.Handler;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.UIUtil;
 
 import org.json.JSONObject;
 
@@ -44,7 +43,7 @@ public class FetchHomeContent extends BaseReqRsp
 	@Override
 	public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
 	{
-		UIUtil.showToastShort(theApp.CONTEXT, httpStatusCode + ";" + httpBody);
+		theApp.showToast(httpStatusCode + ";" + httpBody);
 		switch (httpStatusCode)
 		{
 		case 429:

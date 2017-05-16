@@ -14,8 +14,8 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
  */
 public class WXUtil
 {
-    private final static String APP_ID = "wxb5954a6bfc557eea";
-    private final static String APP_SECRET = "882c7229a818cb249df4efb0d48c1997";
+    private final static String APP_ID = "wx9af1549f05e98da1";
+    private final static String APP_SECRET = "c9e2fba886f2590a09514280b6b5c5ee";
 
     private static IWXAPI api;
 

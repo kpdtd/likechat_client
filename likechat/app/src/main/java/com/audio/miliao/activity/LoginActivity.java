@@ -7,19 +7,18 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.audio.miliao.R;
-import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.UserInfo;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.Login;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.MD5;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.WXUtil;
-import com.audio.miliao.util.YunXinUtil;
-import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nim.uikit.NimUIKit;
 import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.uikit.loader.LoaderApp;
+import com.uikit.loader.entity.LoaderAppData;
+import com.uikit.loader.util.YunXinUtil;
 
 
 /**
@@ -28,7 +27,7 @@ import com.netease.nimlib.sdk.auth.LoginInfo;
 public class LoginActivity extends BaseActivity
 {
     private static final int CODE_QQ_LOGIN = 0;
-    private static final int CODE_QQ_FETCH_USERINFO = 1;
+    private static final int CODE_WEIXIN_LOGIN = 1;
 
     private EditText mEdittext;
 
@@ -46,7 +45,7 @@ public class LoginActivity extends BaseActivity
     {
         super.onActivityResult(requestCode, resultCode, data);
         QQUtil.onActivityResult(requestCode, resultCode, data);
-        theApp.showToast("onActivityResult " + resultCode);
+        theApp.showToast("onActivityResult requestCode:" + requestCode + ";resultCode:" + resultCode);
     }
 
     @Override
@@ -57,17 +56,17 @@ public class LoginActivity extends BaseActivity
         case CODE_QQ_LOGIN:
             UserInfo userInfo = (UserInfo) msg.obj;
             mEdittext.setText(userInfo.toJsonString());
-            Login login = new Login(handler(), Login.TYPE_QQ, userInfo, null);
+            Login login = new Login(handler(), userInfo, null);
             login.send();
+            break;
+        case CODE_WEIXIN_LOGIN:
             break;
         case HttpUtil.RequestCode.LOGIN:
             Login login1 = (Login) msg.obj;
             if (Login.isSucceed(login1))
             {
                 theApp.showToast("login secceed");
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                onLoginSucceed();
             }
             else
             {
@@ -136,50 +135,49 @@ public class LoginActivity extends BaseActivity
 
     private void onYunXinLogin()
     {
-        try
+        String strAccount = LoaderApp.getCurAccount().getAccount();
+        String strToken = LoaderApp.getCurAccount().getToken();
+        YunXinUtil.login(strAccount, strToken, new RequestCallback<LoginInfo>()
         {
-            String strToken = MD5.getStringMD5("123456");
-            LoginInfo info = new LoginInfo("liu1501134", strToken, YunXinUtil.APP_KEY); // config...
-            RequestCallback<LoginInfo> callback =
-                    new RequestCallback<LoginInfo>()
-                    {
-                        @Override
-                        public void onSuccess(LoginInfo loginInfo)
-                        {
-                            theApp.showToast("onSuccess");
+            @Override
+            public void onSuccess(LoginInfo loginInfo)
+            {
+                theApp.showToast("YunXin onSuccess");
+                // 可以在此保存LoginInfo到本地，下次启动APP做自动登录用
+                NimUIKit.setAccount(loginInfo.getAccount());
+                LoaderAppData.setYunXinAccount(loginInfo.getAccount());
+                LoaderAppData.setYunXinToken(loginInfo.getToken());
 
-                            // 可以在此保存LoginInfo到本地，下次启动APP做自动登录用
-                            AppData.setYunXinAccount(loginInfo.getAccount());
-                            AppData.setYunXinToken(loginInfo.getToken());
-                        }
+                String strAccount;
+                if (loginInfo.getAccount().equals(LoaderApp.TEST3.getAccount()))
+                {
+                    strAccount = LoaderApp.TEST4.getAccount();
+                }
+                else
+                {
+                    strAccount = LoaderApp.TEST3.getAccount();
+                }
+                YunXinUtil.chat(strAccount);
+            }
 
-                        @Override
-                        public void onFailed(int i)
-                        {
-                            theApp.showToast("onFailed " + i);
-                        }
+            @Override
+            public void onFailed(int i)
+            {
+                theApp.showToast("YunXin onFailed");
+            }
 
-                        @Override
-                        public void onException(Throwable throwable)
-                        {
-                            theApp.showToast("onException " + throwable.toString());
-                        }
-                    };
-            NIMClient.getService(AuthService.class).login(info).setCallback(callback);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            theApp.showToast("Exception " + e.toString());
-        }
+            @Override
+            public void onException(Throwable throwable)
+            {
+                theApp.showToast("YunXin onException");
+            }
+        });
     }
 
     private void onLoginSucceed()
     {
         try
         {
-            theApp.saveCurUser();
-
             Intent intentMain = new Intent(this, MainActivity.class);
             startActivity(intentMain);
 

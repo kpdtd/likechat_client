@@ -61,9 +61,13 @@ public class QQUtil
                                 userInfo.openId = openId;
                                 userInfo.accessToken = accessToken;
                                 userInfo.expiresIn = expiresIn;
+                                userInfo.refreshToken = "";
                                 userInfo.nickname = JSONUtil.getString(jsonUserInfo, "nickname");
                                 userInfo.gender = JSONUtil.getString(jsonUserInfo, "gender");
                                 userInfo.avatar = JSONUtil.getString(jsonUserInfo, "figureurl_2");
+                                userInfo.province = JSONUtil.getString(jsonUserInfo, "province");
+                                userInfo.city = JSONUtil.getString(jsonUserInfo, "city");
+                                userInfo.type = "QQ";
 
                                 if (mHandler != null)
                                 {

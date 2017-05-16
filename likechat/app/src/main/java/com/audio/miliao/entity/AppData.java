@@ -113,15 +113,9 @@ public class AppData
     private final static String KEY_YUNXIN_ACCOUNT = "key_yunxin_account";
     private final static String KEY_YUNXIN_TOKEN = "key_yunxin_token";
 
-    private final static String KEY_IS_LOGIN = "key_is_login";
     private final static String KEY_ACTOR = "key_actor";
     private static final String KEY_TOKEN = "key_token";
 
-    private static final String KEY_ACCESS_TOKEN = "key_access_token";
-    private static final String KEY_EXPIRES_IN = "key_expires_in";
     private static final String KEY_REFRESH_TOKEN = "key_refresh_token";
-    private static final String KEY_OPEN_ID = "key_open_id";
-    private static final String KEY_NICKNAME = "key_nickname";
-    private static final String KEY_AVATAR = "key_avatar";
     private static final String KEY_USERINFO = "key_userinfo";
 }

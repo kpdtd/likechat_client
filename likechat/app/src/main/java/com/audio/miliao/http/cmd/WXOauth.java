@@ -6,7 +6,6 @@ import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.JSONUtil;
-import com.audio.miliao.util.UIUtil;
 
 import org.json.JSONObject;
 
@@ -19,6 +18,7 @@ import java.util.List;
 public class WXOauth extends BaseReqRsp
 {
 	public String reqURL;
+	public String rspResult;
 	public String rspAccessToken;
 	public int rspExpiresIn;
 	public String rspRefreshToken;
@@ -51,7 +51,9 @@ public class WXOauth extends BaseReqRsp
 	@Override
 	public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
 	{
-		UIUtil.showToastShort(theApp.CONTEXT, httpStatusCode + ";" + httpBody);
+		//UIUtil.showToastShort(theApp.CONTEXT, httpStatusCode + ";" + httpBody);
+		rspResult = httpBody.toString();
+		theApp.showToast("WXOauth:" + httpStatusCode + ";" + httpBody.toString());
 		switch (httpStatusCode)
 		{
 		case 429:
