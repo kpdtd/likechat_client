@@ -18,7 +18,7 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.uikit.loader.LoaderApp;
 import com.uikit.loader.entity.LoaderAppData;
-import com.uikit.loader.util.YunXinUtil;
+import com.uikit.loader.service.YXService;
 
 
 /**
@@ -30,6 +30,7 @@ public class LoginActivity extends BaseActivity
     private static final int CODE_WEIXIN_LOGIN = 1;
 
     private EditText mEdittext;
+    private YXService mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,6 +39,8 @@ public class LoginActivity extends BaseActivity
         setContentView(R.layout.activity_login);
 
         initUI();
+
+        mService = new YXService(this);
     }
 
     @Override
@@ -135,9 +138,7 @@ public class LoginActivity extends BaseActivity
 
     private void onYunXinLogin()
     {
-        String strAccount = LoaderApp.getCurAccount().getAccount();
-        String strToken = LoaderApp.getCurAccount().getToken();
-        YunXinUtil.login(strAccount, strToken, new RequestCallback<LoginInfo>()
+        mService.login(LoaderApp.getCurAccount(), new RequestCallback<LoginInfo>()
         {
             @Override
             public void onSuccess(LoginInfo loginInfo)
@@ -157,7 +158,7 @@ public class LoginActivity extends BaseActivity
                 {
                     strAccount = LoaderApp.TEST3.getAccount();
                 }
-                YunXinUtil.chat(strAccount);
+                mService.chat(strAccount);
             }
 
             @Override

@@ -12,12 +12,10 @@ import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
-import com.uikit.loader.LoaderApp;
 import com.uikit.loader.R;
 import com.uikit.loader.activity.MainActivity;
 import com.uikit.loader.entity.Account;
 import com.uikit.loader.entity.LoaderAppData;
-import com.uikit.loader.service.YXService;
 
 
 /**
@@ -29,7 +27,7 @@ public class YunXinUtil
     //public static final String APP_KEY = "fa0f2219206b8a2e1be41fb9382cd0f4";
     // 这是云信Demo的appkay
     public static final String APP_KEY = "45c6af3c98409b18a84451215d0bdd6e";
-    public static YXService mService;
+    //public static YXService mService;
 
     /**
      * 只能在主线程运行
@@ -54,7 +52,7 @@ public class YunXinUtil
             // 1.定制通讯录列表中点击事响应处理（一般需要，UIKit 提供默认实现为点击进入聊天界面)
             //ContactHelper.init();
 
-            mService = new YXService(LoaderApp.CONTEXT);
+            //mService = new YXService(LoaderApp.CONTEXT);
         }
         catch (Exception e)
         {
@@ -159,11 +157,11 @@ public class YunXinUtil
     public static void login(String strAccount, String strToken, RequestCallback<LoginInfo> callback)
     {
         Account account = new Account(strAccount, strToken);
-        mService.login(account, callback);
+        //mService.login(account, callback);
     }
 
     public static void chat(String strAccount)
     {
-        mService.chat(strAccount);
+        //mService.chat(strAccount);
     }
 }

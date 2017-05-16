@@ -1,7 +1,6 @@
 package com.uikit.loader.service;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 
@@ -31,11 +30,15 @@ import java.util.ArrayList;
  */
 public class YXService
 {
-    private Context mContext;
+    private Activity mActivity;
 
-    public YXService(Context context)
+    /**
+     *
+     * @param activity
+     */
+    public YXService(Activity activity)
     {
-        mContext = context;
+        mActivity = activity;
     }
 
     /**
@@ -51,7 +54,7 @@ public class YXService
             SessionCustomization customization = customP2PChatOptions();
             //NimUIKit.startP2PSession(this, "test003");
             // 启动单聊
-            NimUIKit.startChatting(mContext, account, SessionTypeEnum.P2P, customization, null);
+            NimUIKit.startChatting(mActivity, account, SessionTypeEnum.P2P, customization, null);
         }
         catch (Exception e)
         {
