@@ -160,10 +160,17 @@
             android:name=".activity.LoginActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.P2PChatActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">

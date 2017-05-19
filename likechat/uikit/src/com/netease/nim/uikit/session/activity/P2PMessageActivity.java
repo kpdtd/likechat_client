@@ -55,7 +55,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
         super.onCreate(savedInstanceState);
 
         // 单聊特例话数据，包括个人信息，
-        requestBuddyInfo();
+        requestUserInfo();
         displayOnlineState();
         registerObservers(true);
         registerOnlineStateChangeListener(true);
@@ -80,7 +80,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
         isResume = false;
     }
 
-    private void requestBuddyInfo() {
+    private void requestUserInfo() {
         setTitle(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
     }
 
@@ -154,7 +154,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
                 @Override
                 public void onUserInfoChanged(List<String> accounts) {
                     if (accounts.contains(sessionId)) {
-                        requestBuddyInfo();
+                        requestUserInfo();
                     }
                 }
             };

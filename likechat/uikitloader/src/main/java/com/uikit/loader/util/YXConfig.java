@@ -2,26 +2,21 @@ package com.uikit.loader.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.SDKOptions;
-import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.uikit.loader.R;
-import com.uikit.loader.activity.MainActivity;
-import com.uikit.loader.entity.Account;
 import com.uikit.loader.entity.LoaderAppData;
 
 
 /**
- * 网易云信相关操作
+ * 网易云信相关配置
  */
-public class YunXinUtil
+public class YXConfig
 {
     // 这是likechat的appkey
     //public static final String APP_KEY = "fa0f2219206b8a2e1be41fb9382cd0f4";
@@ -32,7 +27,7 @@ public class YunXinUtil
     /**
      * 只能在主线程运行
      */
-    public static void init()
+    private static void init()
     {
         try
         {
@@ -66,16 +61,16 @@ public class YunXinUtil
         SDKOptions options = new SDKOptions();
 
         // 如果将新消息通知提醒托管给 SDK 完成，需要添加以下配置。否则无需设置。
-        StatusBarNotificationConfig config = new StatusBarNotificationConfig();
-        config.notificationEntrance = MainActivity.class; // 点击通知栏跳转到该Activity
-        config.notificationSmallIconId = R.drawable.ic_stat_notify_msg;
-        // 呼吸灯配置
-        config.ledARGB = Color.GREEN;
-        config.ledOnMs = 1000;
-        config.ledOffMs = 1500;
-        // 通知铃声的uri字符串
-        config.notificationSound = "android.resource://com.netease.nim.demo/raw/msg";
-        options.statusBarNotificationConfig = config;
+//        StatusBarNotificationConfig config = new StatusBarNotificationConfig();
+//        config.notificationEntrance = MainActivity.class; // 点击通知栏跳转到该Activity
+//        config.notificationSmallIconId = R.drawable.ic_stat_notify_msg;
+//        // 呼吸灯配置
+//        config.ledARGB = Color.GREEN;
+//        config.ledOnMs = 1000;
+//        config.ledOffMs = 1500;
+//        // 通知铃声的uri字符串
+//        config.notificationSound = "android.resource://com.netease.nim.demo/raw/msg";
+//        options.statusBarNotificationConfig = config;
 
         options.appKey = APP_KEY;
 
@@ -147,21 +142,5 @@ public class YunXinUtil
         {
             return null;
         }
-    }
-
-    /**
-     * 登录云信
-     * @param strAccount
-     * @param strToken
-     */
-    public static void login(String strAccount, String strToken, RequestCallback<LoginInfo> callback)
-    {
-        Account account = new Account(strAccount, strToken);
-        //mService.login(account, callback);
-    }
-
-    public static void chat(String strAccount)
-    {
-        //mService.chat(strAccount);
     }
 }

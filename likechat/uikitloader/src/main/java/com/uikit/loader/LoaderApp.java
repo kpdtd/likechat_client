@@ -24,7 +24,7 @@ import com.uikit.loader.avchat.receiver.PhoneCallStateObserver;
 import com.uikit.loader.entity.Account;
 import com.uikit.loader.session.SessionHelper;
 import com.uikit.loader.util.UIUtil;
-import com.uikit.loader.util.YunXinUtil;
+import com.uikit.loader.util.YXConfig;
 import com.uikit.loader.util.sys.SystemUtil;
 
 import java.util.Map;
@@ -59,10 +59,10 @@ public class LoaderApp extends Application
     public static void init(Context context)
     {
         CONTEXT = context;
-        NIMClient.init(context, YunXinUtil.loginInfo(), YunXinUtil.options(context));
+        NIMClient.init(context, YXConfig.loginInfo(), YXConfig.options(context));
         if (inMainProcess(context))
         {
-            YunXinUtil.init();
+            //YXConfig.init();
             NimUIKit.init(context);
 
             // 会话窗口的定制初始化。

@@ -14,6 +14,7 @@ import com.audio.miliao.theApp;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.WXUtil;
 import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.uikit.loader.LoaderApp;
@@ -158,7 +159,11 @@ public class LoginActivity extends BaseActivity
                 {
                     strAccount = LoaderApp.TEST3.getAccount();
                 }
-                mService.chat(strAccount);
+//                mService.chat(strAccount);
+
+                Intent intent = new Intent(LoginActivity.this, P2PChatActivity.class);
+                intent.putExtra(Extras.EXTRA_ACCOUNT, strAccount);
+                startActivity(intent);
             }
 
             @Override

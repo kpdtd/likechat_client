@@ -2,7 +2,6 @@ package com.uikit.loader.service;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.session.SessionCustomization;
@@ -11,17 +10,12 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
-import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.uikit.loader.LoaderApp;
 import com.uikit.loader.entity.Account;
 import com.uikit.loader.entity.LoaderAppData;
-import com.uikit.loader.session.action.AVChatAction;
-import com.uikit.loader.session.action.FileAction;
-import com.uikit.loader.session.action.GuessAction;
-import com.uikit.loader.session.action.SnapChatAction;
-import com.uikit.loader.util.YunXinUtil;
+import com.uikit.loader.util.YXConfig;
 
 import java.util.ArrayList;
 
@@ -69,7 +63,7 @@ public class YXService
             // String strToken = MD5.getStringMD5("123456");
             String strAccount = account.getAccount();
             String strToken = account.getToken();
-            LoginInfo info = new LoginInfo(strAccount, strToken, YunXinUtil.APP_KEY); // config...
+            LoginInfo info = new LoginInfo(strAccount, strToken, YXConfig.APP_KEY); // config...
 //            RequestCallback<LoginInfo> callback =
 //                    new RequestCallback<LoginInfo>()
 //                    {
@@ -177,18 +171,19 @@ public class YXService
         };
 
         // 背景
-        sessionCustomization.backgroundColor = Color.BLUE;
-        sessionCustomization.backgroundUri = "file:///android_asset/xx/bk.jpg";
-        sessionCustomization.backgroundUri = "file:///sdcard/Pictures/bk.png";
+//        sessionCustomization.backgroundColor = Color.BLUE;
+//        sessionCustomization.backgroundUri = "file:///android_asset/xx/bk.jpg";
+//        sessionCustomization.backgroundUri = "file:///sdcard/Pictures/bk.png";
         sessionCustomization.backgroundUri = "android.resource://com.netease.nim.demo/drawable/bk";
+//        sessionCustomization.backgroundUri = "android.resource://com.audio.miliao/drawable/avchat_call_bg";
 
         // 定制加号点开后可以包含的操作，默认已经有图片，视频等消息了，如果要去掉默认的操作，请修改MessageFragment的getActionList函数
         ArrayList<BaseAction> actions = new ArrayList<>();
-        actions.add(new AVChatAction(AVChatType.AUDIO));
-        actions.add(new AVChatAction(AVChatType.VIDEO));
-        actions.add(new SnapChatAction());
-        actions.add(new GuessAction());
-        actions.add(new FileAction());
+//        actions.add(new AVChatAction(AVChatType.AUDIO));
+//        actions.add(new AVChatAction(AVChatType.VIDEO));
+//        actions.add(new SnapChatAction());
+//        actions.add(new GuessAction());
+//        actions.add(new FileAction());
         sessionCustomization.actions = actions;
         sessionCustomization.withSticker = true;
 

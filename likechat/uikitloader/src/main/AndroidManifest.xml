@@ -49,14 +49,6 @@
 
     <application>
 
-        <activity android:name=".activity.LoginActivity">
-        </activity>
-        <activity android:name=".activity.MainActivity">
-        </activity>
-        <activity android:name=".activity.RecentContactActivity">
-        </activity>
-        <activity android:name=".activity.ContactsActivity">
-        </activity>
         <activity android:name=".avchat.AVChatActivity">
         </activity>
 

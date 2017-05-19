@@ -8,15 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.uikit.loader.R;
-import com.uikit.loader.session.action.AVChatAction;
-import com.uikit.loader.session.action.FileAction;
-import com.uikit.loader.session.action.GuessAction;
-import com.uikit.loader.session.action.RTSAction;
-import com.uikit.loader.session.action.SnapChatAction;
-import com.uikit.loader.session.action.TipAction;
-import com.uikit.loader.session.viewholder.MsgViewHolderAVChat;
-import com.uikit.loader.LoaderApp;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
@@ -44,6 +35,15 @@ import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.model.Team;
+import com.uikit.loader.LoaderApp;
+import com.uikit.loader.R;
+import com.uikit.loader.session.action.AVChatAction;
+import com.uikit.loader.session.action.FileAction;
+import com.uikit.loader.session.action.GuessAction;
+import com.uikit.loader.session.action.RTSAction;
+import com.uikit.loader.session.action.SnapChatAction;
+import com.uikit.loader.session.action.TipAction;
+import com.uikit.loader.session.viewholder.MsgViewHolderAVChat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,7 +136,6 @@ public class SessionHelper
                 public void onActivityResult(final Activity activity, int requestCode, int resultCode, Intent data)
                 {
                     super.onActivityResult(activity, requestCode, resultCode, data);
-
                 }
 
                 @Override
@@ -148,7 +147,8 @@ public class SessionHelper
             };
 
             // 背景
-//            p2pCustomization.backgroundColor = Color.BLUE;
+//            p2pCustomization.backgroundColor = Color.RED;
+//            p2pCustomization.backgroundUri = "android.resource://com.audio.miliao/drawable/avchat_call_bg";
 //            p2pCustomization.backgroundUri = "file:///android_asset/xx/bk.jpg";
 //            p2pCustomization.backgroundUri = "file:///sdcard/Pictures/bk.png";
 //            p2pCustomization.backgroundUri = "android.resource://com.netease.nim.demo/drawable/bk"
