@@ -2,7 +2,7 @@ package com.fun.likechat.vo;
 
 /**
  * <p>
- * antor的主页vo
+ * 我的信息vo ：相当于用户vo（UserVo，名字不改了）
  * </p>
  * 修改记录:
  * 		(从这里添加，没有则删除此项)
