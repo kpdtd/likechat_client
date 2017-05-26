@@ -4,37 +4,58 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.theApp;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
 
 /**
- * 获取我的登录信息，需要登录用户才能访问服务器
+ * 软件更新
  */
-public class FetchMineInfo extends BaseReqRsp
+public class Update extends BaseReqRsp
 {
+    String reqVersion;
     /**
-     * 获取我的登录信息，需要登录用户才能访问服务器
+     * 软件更新
      *
      * @param handler
      * @param tag
      */
-    public FetchMineInfo(Handler handler, Object tag)
+    public Update(Handler handler, String version, Object tag)
     {
-        super(HttpUtil.Method.GET, handler, HttpUtil.RequestCode.FETCH_MINE_INFO, false, tag);
+        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.UPDATE, false, tag);
+        reqVersion = version;
     }
 
     @Override
     public String getReqUrl()
     {
-        String url = getPrevBaseURL() + "mine/getMineInfo";
+        String url = getPrevBaseURL() + "app/appUpdate";
 
         return url;
     }
 
     @Override
+    public String getReqBody()
+    {
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put("version", reqVersion);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    @Override
     public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
     {
+        theApp.showToast("Login;" + httpStatusCode + ":" + httpBody);
         switch (httpStatusCode)
         {
         case 429:

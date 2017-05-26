@@ -35,7 +35,7 @@ public class FetchFindList extends BaseReqRsp
      */
     public FetchFindList(Handler handler, int nTag, String stamp, Object tag)
     {
-        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR_LIST_BY_TAG, false, tag);
+        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_FIND_LIST, false, tag);
 
         reqTag = nTag;
         reqStamp = stamp;

@@ -32,7 +32,7 @@ public class Login extends BaseReqRsp
     private UserInfo reqUserInfo;
 
     /**
-     * 增加关注
+     * 登录
      *
      * @param handler
      * @param userInfo

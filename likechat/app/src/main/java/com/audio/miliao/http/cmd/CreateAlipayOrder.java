@@ -32,7 +32,7 @@ public class CreateAlipayOrder extends BaseReqRsp
      */
     public CreateAlipayOrder(Handler handler, UserInfo userInfo, Object tag)
     {
-        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.LOGIN, false, tag);
+        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.CREATE_ALIPAY_ORDER, false, tag);
         this.reqUserInfo = userInfo;
     }
 

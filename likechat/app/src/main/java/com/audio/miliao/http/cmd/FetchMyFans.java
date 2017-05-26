@@ -26,7 +26,7 @@ public class FetchMyFans extends BaseReqRsp
 	 */
 	public FetchMyFans(Handler handler, String stamp, Object tag)
 	{
-		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR, false, tag);
+		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_MY_FANS, false, tag);
 
 		reqStamp = stamp;
 	}

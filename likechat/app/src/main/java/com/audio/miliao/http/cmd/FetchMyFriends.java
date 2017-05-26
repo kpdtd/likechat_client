@@ -25,7 +25,7 @@ public class FetchMyFriends extends BaseReqRsp
 	 */
 	public FetchMyFriends(Handler handler, String stamp, Object tag)
 	{
-		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR, false, tag);
+		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_MY_FRIENDS, false, tag);
 
 		reqStamp = stamp;
 	}

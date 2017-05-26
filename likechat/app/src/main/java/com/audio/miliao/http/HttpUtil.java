@@ -66,6 +66,18 @@ public class HttpUtil
         public static final int WX_FETCH_USERINFO = 6;
         /** 登录 */
         public static final int LOGIN = 7;
+        /** 创建支付宝订单 */
+        public static final int CREATE_ALIPAY_ORDER = 8;
+        /** 获取获取发现页内容 */
+        public static final int FETCH_FIND_LIST = 9;
+        /** 获取我的登录信息 */
+        public static final int FETCH_MINE_INFO = 10;
+        /** 我的好友（我关注的） */
+        public static final int FETCH_MY_FRIENDS = 11;
+        /** 获取我的粉丝（关注我的） */
+        public static final int FETCH_MY_FANS = 12;
+        /** 软件更新 */
+        public static final int UPDATE = 13;
     }
 
     /** 请求类型 */
