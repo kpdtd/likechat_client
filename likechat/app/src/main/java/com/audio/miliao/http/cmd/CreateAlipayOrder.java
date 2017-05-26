@@ -12,23 +12,15 @@ import java.util.List;
 
 
 /**
- * 登录
- * 调用说明：
- * 1、当app采用qq和微信登录成功并且获得用户的基本信息后（微信UserInfo接口调用成功后）
- * 调用此接口，成功后服务器会返回用户的id；
+ * 创建支付宝订单
  * <p>
- * 2、调用registerAndLogin接口成功后应在http头设置用户信息，
- * 以后每次请求http头都应传递用户id，服务器以此作为用户已经登录的依据
- * <p>
- * 3、如果失败应该提示用户重新登录.
+ * 调用说明：（用户需登录）
+ * 在调用支付宝sdk时先向服务器发送消息，创建订单。
+ * 主要同步用户openid和订单号这两个重要信息。如果不同步，
+ * 最终支付的异步订返回后也无法为用户充值
  */
-public class Login extends BaseReqRsp
+public class CreateAlipayOrder extends BaseReqRsp
 {
-    // 登录类型，qq
-    public static final String TYPE_QQ = "qq";
-    // 登录类型，微信
-    public static final String TYPE_WEIXIN = "weixin";
-
     private UserInfo reqUserInfo;
 
     /**
@@ -38,7 +30,7 @@ public class Login extends BaseReqRsp
      * @param userInfo
      * @param tag
      */
-    public Login(Handler handler, UserInfo userInfo, Object tag)
+    public CreateAlipayOrder(Handler handler, UserInfo userInfo, Object tag)
     {
         super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.LOGIN, false, tag);
         this.reqUserInfo = userInfo;
@@ -47,7 +39,7 @@ public class Login extends BaseReqRsp
     @Override
     public String getReqUrl()
     {
-        String url = getPrevBaseURL() + "mine/registerAndLogin";
+        String url = getPrevBaseURL() + "accounting/createOder";
 
         return url;
     }

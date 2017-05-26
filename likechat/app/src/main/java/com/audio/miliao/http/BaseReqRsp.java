@@ -73,7 +73,7 @@ public abstract class BaseReqRsp
 
 	public static String getPrevBaseURL()
 	{
-		return getBaseURL() + "home/";
+		return getBaseURL();
 	}
 
 	public static boolean isSucceed(BaseReqRsp baseReqRsp)

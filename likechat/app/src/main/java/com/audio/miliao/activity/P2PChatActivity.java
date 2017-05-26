@@ -11,6 +11,8 @@ import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
 import com.netease.nim.uikit.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.uinfo.UserInfoObservable;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import java.util.List;
@@ -32,7 +34,15 @@ public class P2PChatActivity extends BaseActivity
         sessionId = getIntent().getStringExtra(Extras.EXTRA_ACCOUNT);
 
         initUI();
+        registerObserver(true);
         updateData();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        registerObserver(false);
     }
 
     private void initUI()
@@ -57,6 +67,11 @@ public class P2PChatActivity extends BaseActivity
         findViewById(R.id.img_back).setOnClickListener(clickListener);
     }
 
+    private void initNim()
+    {
+        NIMClient.getService(MsgService.class).setChattingAccount(sessionId, SessionTypeEnum.P2P);
+    }
+
     private void addFragment()
     {
         Bundle arguments = getIntent().getExtras();
@@ -78,10 +93,26 @@ public class P2PChatActivity extends BaseActivity
         }
     }
 
+    private void registerObserver(boolean register)
+    {
+        if (register)
+        {
+            registerUserInfoObserver();
+        }
+        else
+        {
+            unregisterUserInfoObserver();
+        }
+    }
+
     private void updateData()
     {
         requestUserInfo();
-        registerUserInfoObserver();
+    }
+
+    private void sendMessage(final String strMsg)
+    {
+
     }
 
     private void requestUserInfo()
@@ -110,8 +141,10 @@ public class P2PChatActivity extends BaseActivity
         UserInfoHelper.registerObserver(uinfoObserver);
     }
 
-    private void unregisterUserInfoObserver() {
-        if (uinfoObserver != null) {
+    private void unregisterUserInfoObserver()
+    {
+        if (uinfoObserver != null)
+        {
             UserInfoHelper.unregisterObserver(uinfoObserver);
         }
     }

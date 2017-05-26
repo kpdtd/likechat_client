@@ -42,3 +42,7 @@ nrtc-sdk.jar
 
 gson-2.3.jar
 json序列化操作
+
+alipaySingle-20170510.jar
+支付宝sdk
+https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.qVWq8t&treeId=204&articleId=105296&docType=1

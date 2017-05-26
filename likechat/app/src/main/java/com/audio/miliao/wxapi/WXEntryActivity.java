@@ -131,11 +131,11 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler
                             userInfo.refreshToken = wxOauth.rspRefreshToken;
                             userInfo.expiresIn = wxOauth.rspExpiresIn;
                             userInfo.nickname = fetchUserinfo.rspNickname;
-                            userInfo.gender = fetchUserinfo.rspGender;
-                            userInfo.avatar = fetchUserinfo.rspAvatar;
+                            userInfo.sex = fetchUserinfo.rspGender;
+                            userInfo.icon = fetchUserinfo.rspAvatar;
                             userInfo.province = fetchUserinfo.rspProvince;
                             userInfo.city = fetchUserinfo.rspCity;
-                            userInfo.type = "weixin";
+                            userInfo.loginType = "weixin";
                             Login login = new Login(null, userInfo, null);
                             login.sendSync();
                             if (Login.isSucceed(login))

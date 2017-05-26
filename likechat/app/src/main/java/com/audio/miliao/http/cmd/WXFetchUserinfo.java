@@ -24,7 +24,7 @@ public class WXFetchUserinfo extends BaseReqRsp
 	public String rspProvince;
 	public String rspCity;
 	public String rspAvatar;
-	public String rspGender;
+	public int rspGender;
 
 	/**
 	 * 微信Oauth2
@@ -70,7 +70,7 @@ public class WXFetchUserinfo extends BaseReqRsp
 				rspProvince = JSONUtil.getString(jsonObject, "province");
 				rspCity = JSONUtil.getString(jsonObject, "city");
 				rspAvatar = JSONUtil.getString(jsonObject, "headimgurl");
-				rspGender = JSONUtil.getString(jsonObject, "sex");
+				rspGender = Integer.valueOf(JSONUtil.getString(jsonObject, "sex"));
 			}
 			catch (Exception e)
 			{

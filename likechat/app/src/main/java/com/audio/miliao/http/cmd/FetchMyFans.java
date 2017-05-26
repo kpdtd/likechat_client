@@ -11,29 +11,30 @@ import java.util.List;
 
 
 /**
- * 根据Tag获取20个随机主播
+ * 获取我的粉丝（关注我的）
+ * 返回关注数、粉丝数、粉丝列表（图片、昵称、性别、年龄、签名）
  */
-public class FetchActorList extends BaseReqRsp
+public class FetchMyFans extends BaseReqRsp
 {
-	public String reqTag;
-
+	public String reqStamp;
 	/**
-	 * 根据Tag获取20个随机主播
+	 * 获取我的粉丝（关注我的）
+	 * 返回关注数、粉丝数以及我的好友列表,默认显示关注列表。（图片、昵称、性别、年龄、签名）
 	 * @param handler
-	 * @param strTag Tag
+	 * @param stamp 分页戳，第一次传0或null
 	 * @param tag
 	 */
-	public FetchActorList(Handler handler, String strTag, Object tag)
+	public FetchMyFans(Handler handler, String stamp, Object tag)
 	{
-		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR_LIST_BY_TAG, false, tag);
+		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR, false, tag);
 
-		reqTag = strTag;
+		reqStamp = stamp;
 	}
 
 	@Override
 	public String getReqUrl()
 	{
-		String url = getPrevBaseURL() + "home/getActorListByTag";
+		String url = getPrevBaseURL() + "mine/getMyFans";
 
 		return url;
 	}
@@ -44,7 +45,7 @@ public class FetchActorList extends BaseReqRsp
 		JSONObject jsonObject = new JSONObject();
 		try
 		{
-			jsonObject.put("identifying", reqTag);
+			jsonObject.put("stamp", reqStamp);
 		}
 		catch (Exception e)
 		{

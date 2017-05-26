@@ -4,8 +4,6 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.theApp;
-import com.audio.miliao.util.UIUtil;
 
 import org.json.JSONObject;
 
@@ -34,7 +32,7 @@ public class FetchActor extends BaseReqRsp
 	@Override
 	public String getReqUrl()
 	{
-		String url = getPrevBaseURL() + "getActorPage";
+		String url = getPrevBaseURL() + "home/getActorPage";
 
 		return url;
 	}

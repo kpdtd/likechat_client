@@ -35,7 +35,7 @@ public class AddAttention extends BaseReqRsp
 	@Override
 	public String getReqUrl()
 	{
-		String url = getPrevBaseURL() + "addAttention";
+		String url = getPrevBaseURL() + "home/addAttention";
 
 		return url;
 	}

@@ -29,7 +29,7 @@ public class FetchHomeContent extends BaseReqRsp
 	@Override
 	public String getReqUrl()
 	{
-		String url = getPrevBaseURL() + "getHomePageContent";
+		String url = getPrevBaseURL() + "home/getHomePageContent";
 
 		return url;
 	}

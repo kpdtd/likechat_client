@@ -2,52 +2,41 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
-import com.audio.miliao.entity.AppData;
-import com.audio.miliao.entity.UserInfo;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.theApp;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
 
 /**
- * 登录
- * 调用说明：
- * 1、当app采用qq和微信登录成功并且获得用户的基本信息后（微信UserInfo接口调用成功后）
- * 调用此接口，成功后服务器会返回用户的id；
- * <p>
- * 2、调用registerAndLogin接口成功后应在http头设置用户信息，
- * 以后每次请求http头都应传递用户id，服务器以此作为用户已经登录的依据
- * <p>
- * 3、如果失败应该提示用户重新登录.
+ * 1、当用户点击播放音频或视频时，访问服务器增加一次点击量；
+ * 2、点击一条动态的多个照片，只访问一次服务器（点击量仅算一次）；
  */
-public class Login extends BaseReqRsp
+public class AddDynamicPageView extends BaseReqRsp
 {
-    // 登录类型，qq
-    public static final String TYPE_QQ = "qq";
-    // 登录类型，微信
-    public static final String TYPE_WEIXIN = "weixin";
-
-    private UserInfo reqUserInfo;
+    // 动态ID
+    public int reqDynamicId;
 
     /**
      * 增加关注
      *
      * @param handler
-     * @param userInfo
+     * @param dynamicId  动态ID
      * @param tag
      */
-    public Login(Handler handler, UserInfo userInfo, Object tag)
+    public AddDynamicPageView(Handler handler, int dynamicId, Object tag)
     {
-        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.LOGIN, false, tag);
-        this.reqUserInfo = userInfo;
+        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.ADD_ATTENTION, false, tag);
+
+        reqDynamicId = dynamicId;
     }
 
     @Override
     public String getReqUrl()
     {
-        String url = getPrevBaseURL() + "mine/registerAndLogin";
+        String url = getPrevBaseURL() + "find/addDynamicPageView";
 
         return url;
     }
@@ -55,13 +44,22 @@ public class Login extends BaseReqRsp
     @Override
     public String getReqBody()
     {
-        return reqUserInfo.toJsonString();
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put("id", reqDynamicId);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return jsonObject.toString();
     }
 
     @Override
     public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
     {
-        theApp.showToast("Login;" + httpStatusCode + ":" + httpBody);
         switch (httpStatusCode)
         {
         case 429:
@@ -90,7 +88,6 @@ public class Login extends BaseReqRsp
     {
         if (rspResultCode == HttpUtil.Result.OK)
         {
-            AppData.setUserInfo(reqUserInfo);
         }
     }
 }
