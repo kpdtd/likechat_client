@@ -71,24 +71,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler
     @Override
     public void onResp(BaseResp baseResp)
     {
-//        switch (baseResp.errCode)
-//        {
-//        case BaseResp.ErrCode.ERR_OK:
-//            theApp.showToast("发送成功");
-//            finish();
-//            break;
-//        case BaseResp.ErrCode.ERR_USER_CANCEL:
-//            theApp.showToast("分享取消");
-//            finish();
-//            break;
-//        case BaseResp.ErrCode.ERR_AUTH_DENIED:
-//            theApp.showToast("分享被拒绝");
-//            finish();
-//            break;
-//        default:
-//            theApp.showToast("分享返回");
-//            break;
-//        }
     }
 
     /**

@@ -60,6 +60,12 @@
                 android:layout_height="58dp"
                 android:text="支付宝支付"/>
 
+            <Button
+                android:id="@+id/btn_pay_wx"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:text="微信支付"/>
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

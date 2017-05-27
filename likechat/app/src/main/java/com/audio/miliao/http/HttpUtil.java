@@ -78,6 +78,8 @@ public class HttpUtil
         public static final int FETCH_MY_FANS = 12;
         /** 软件更新 */
         public static final int UPDATE = 13;
+        /** 微信创建订单 */
+        public static final int WX_PAY_CREATE_ORDER = 14;
     }
 
     /** 请求类型 */

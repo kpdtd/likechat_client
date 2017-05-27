@@ -13,6 +13,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.entity.UserInfo;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.Login;
+import com.audio.miliao.http.cmd.WXPayCreateOrder;
 import com.audio.miliao.pay.alipay.Constant;
 import com.audio.miliao.pay.alipay.OrderInfoUtil2_0;
 import com.audio.miliao.pay.alipay.PayResult;
@@ -28,8 +29,6 @@ import com.uikit.loader.entity.LoaderAppData;
 import com.uikit.loader.service.YXService;
 
 import java.util.Map;
-
-import static com.audio.miliao.pay.alipay.Constant.RSA2_PRIVATE;
 
 
 /**
@@ -111,6 +110,17 @@ public class LoginActivity extends BaseActivity
                 theApp.showToast("支付失败");
             }
             break;
+        case HttpUtil.RequestCode.WX_PAY_CREATE_ORDER:
+            WXPayCreateOrder createOrder = (WXPayCreateOrder) msg.obj;
+            if (WXPayCreateOrder.isSucceed(createOrder))
+            {
+                theApp.showToast("创建订单成功");
+            }
+            else
+            {
+                theApp.showToast("创建订单失败");
+            }
+            break;
         }
     }
 
@@ -144,6 +154,9 @@ public class LoginActivity extends BaseActivity
                         case R.id.btn_pay_alipay:
                             onAlipay();
                             break;
+                        case R.id.btn_pay_wx:
+                            onWxPay();
+                            break;
                         }
                     }
                     catch (Exception e)
@@ -158,6 +171,7 @@ public class LoginActivity extends BaseActivity
             findViewById(R.id.btn_yunxin_login).setOnClickListener(clickListener);
             findViewById(R.id.img_back).setOnClickListener(clickListener);
             findViewById(R.id.btn_pay_alipay).setOnClickListener(clickListener);
+            findViewById(R.id.btn_pay_wx).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
@@ -243,8 +257,8 @@ public class LoginActivity extends BaseActivity
          *
          * orderInfo的获取必须来自服务端；
          */
-        boolean rsa2 = (RSA2_PRIVATE.length() > 0);
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constant.APPID, rsa2);
+        boolean rsa2 = (Constant.RSA2_PRIVATE.length() > 0);
+        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constant.APP_ID, rsa2);
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
 
         String privateKey = rsa2 ? Constant.RSA2_PRIVATE : Constant.RSA_PRIVATE;
@@ -256,6 +270,8 @@ public class LoginActivity extends BaseActivity
             @Override
             public void run()
             {
+                // 使用沙箱环境
+                //EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
                 PayTask alipay = new PayTask(LoginActivity.this);
                 Map<String, String> result = alipay.payV2(orderInfo, true);
                 Log.i("msp", result.toString());
@@ -269,5 +285,12 @@ public class LoginActivity extends BaseActivity
 
         Thread payThread = new Thread(payRunnable);
         payThread.start();
+    }
+
+    private void onWxPay()
+    {
+        theApp.showToast("获取订单中...");
+        WXPayCreateOrder createOrder = new WXPayCreateOrder(handler(),  null);
+        createOrder.send();
     }
 }

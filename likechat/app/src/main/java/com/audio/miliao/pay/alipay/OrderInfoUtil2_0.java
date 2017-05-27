@@ -82,7 +82,10 @@ public class OrderInfoUtil2_0
 
         keyValues.put("sign_type", rsa2 ? "RSA2" : "RSA");
 
-        keyValues.put("timestamp", "2016-07-29 16:55:53");
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+        String strDate = simpleDateFormat.format(date);
+        keyValues.put("timestamp", strDate);
 
         keyValues.put("version", "1.0");
 
