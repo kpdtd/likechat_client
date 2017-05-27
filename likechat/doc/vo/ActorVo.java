@@ -59,9 +59,5 @@ public class ActorVo {
 	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
-	@Override
-    public String toString() {
-	    return "ActorVo [id=" + id + ", idcard=" + idcard + ", nickname=" + nickname + ", icon=" + icon + ", signature=" + signature + ", age=" + age + ", sex=" + sex + "]";
-    }
 }
 
