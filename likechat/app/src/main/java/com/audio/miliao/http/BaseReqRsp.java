@@ -128,7 +128,6 @@ public abstract class BaseReqRsp
 	{
 		try
 		{
-			// mWebService.sendRequest(this);
 			OKHttps.call(this, null);
 		}
 		catch (Exception e)
@@ -141,7 +140,6 @@ public abstract class BaseReqRsp
 	{
 		try
 		{
-			// mWebService.sendRequestSync(this);
 			OKHttps.callSync(this);
 		}
 		catch (Exception e)

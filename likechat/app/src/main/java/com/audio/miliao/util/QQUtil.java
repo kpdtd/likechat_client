@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 
 import com.audio.miliao.theApp;
+import com.audio.miliao.vo.UserRegisterVo;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQToken;
 import com.tencent.tauth.IUiListener;
@@ -57,17 +58,15 @@ public class QQUtil
 
                             try
                             {
-                                com.audio.miliao.entity.UserInfo userInfo = new com.audio.miliao.entity.UserInfo();
-                                userInfo.openId = openId;
-                                userInfo.accessToken = accessToken;
-                                userInfo.expiresIn = expiresIn;
-                                userInfo.refreshToken = "";
-                                userInfo.nickname = JSONUtil.getString(jsonUserInfo, "nickname");
-                                userInfo.sex = Integer.valueOf(JSONUtil.getString(jsonUserInfo, "gender"));
-                                userInfo.icon = JSONUtil.getString(jsonUserInfo, "figureurl_2");
-                                userInfo.province = JSONUtil.getString(jsonUserInfo, "province");
-                                userInfo.city = JSONUtil.getString(jsonUserInfo, "city");
-                                userInfo.loginType = "QQ";
+                                UserRegisterVo userInfo = new UserRegisterVo();
+                                userInfo.setOpenId(openId);
+                                userInfo.setCity(JSONUtil.getString(jsonUserInfo, "city"));
+                                userInfo.setIcon(JSONUtil.getString(jsonUserInfo, "figureurl_2"));
+                                userInfo.setLogin_type("qq");
+                                userInfo.setNickname(JSONUtil.getString(jsonUserInfo, "nickname"));
+                                userInfo.setProvince(JSONUtil.getString(jsonUserInfo, "province"));
+                                userInfo.setSex((Integer.valueOf(JSONUtil.getString(jsonUserInfo, "gender")) == 1 ? "男" : "女"));
+                                userInfo.setSignature("");
 
                                 if (mHandler != null)
                                 {
@@ -115,6 +114,7 @@ public class QQUtil
      * 1、获取openid, accessToken,expiresIn<br/>
      * 2、获取用户信息（nickname,avatar）<br/>
      * 两步成功了才回调界面
+     *
      * @param activity
      * @param notifyCode
      * @param handler

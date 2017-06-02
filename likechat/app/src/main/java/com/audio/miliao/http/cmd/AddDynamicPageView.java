@@ -20,7 +20,8 @@ public class AddDynamicPageView extends BaseReqRsp
     public int reqDynamicId;
 
     /**
-     * 增加关注
+     * 1、当用户点击播放音频或视频时，访问服务器增加一次点击量；
+     * 2、点击一条动态的多个照片，只访问一次服务器（点击量仅算一次）；
      *
      * @param handler
      * @param dynamicId  动态ID

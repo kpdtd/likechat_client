@@ -1,6 +1,7 @@
 package com.audio.miliao.entity;
 
 import com.audio.miliao.util.PreferUtil;
+import com.audio.miliao.vo.UserRegisterVo;
 
 import org.json.JSONObject;
 
@@ -98,16 +99,52 @@ public class AppData
         return PreferUtil.getStringPreference(KEY_REFRESH_TOKEN);
     }
 
-    public static void setUserInfo(UserInfo userInfo)
+    public static void setUserInfo(UserRegisterVo userInfo)
     {
         PreferUtil.setStringPreference(KEY_USERINFO, userInfo.toJsonString());
     }
 
-    public static UserInfo getUserInfo()
+    public static UserRegisterVo getUserInfo()
     {
         String strUserInfo = PreferUtil.getStringPreference(KEY_USERINFO);
-        UserInfo userInfo = UserInfo.parse(strUserInfo, UserInfo.class);
+        UserRegisterVo userInfo = UserRegisterVo.parse(strUserInfo, UserRegisterVo.class);
         return userInfo;
+    }
+
+    /**
+     * 登录后返回的用户id
+     * @param userId
+     */
+    public static void setUserId(String userId)
+    {
+        PreferUtil.setStringPreference(KEY_USER_ID, userId);
+    }
+
+    /**
+     * 登录后返回的用户id
+     * @return
+     */
+    public static String getUserId()
+    {
+        return PreferUtil.getStringPreference(KEY_USER_ID);
+    }
+
+    /**
+     * qq或者微信登录后返回的openid
+     * @param openId
+     */
+    public static void setOpenId(String openId)
+    {
+        PreferUtil.setStringPreference(KEY_OPEN_ID, openId);
+    }
+
+    /**
+     * qq或者微信登录后返回的openid
+     * @return
+     */
+    public static String getOpenId()
+    {
+        return PreferUtil.getStringPreference(KEY_OPEN_ID);
     }
 
     private final static String KEY_YUNXIN_ACCOUNT = "key_yunxin_account";
@@ -118,4 +155,7 @@ public class AppData
 
     private static final String KEY_REFRESH_TOKEN = "key_refresh_token";
     private static final String KEY_USERINFO = "key_userinfo";
+
+    private static final String KEY_USER_ID = "key_user_id";
+    private static final String KEY_OPEN_ID = "key_open_id";
 }

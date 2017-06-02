@@ -8,12 +8,12 @@ import android.widget.EditText;
 
 import com.audio.miliao.R;
 import com.audio.miliao.activity.BaseActivity;
-import com.audio.miliao.entity.UserInfo;
 import com.audio.miliao.http.cmd.Login;
 import com.audio.miliao.http.cmd.WXFetchUserinfo;
 import com.audio.miliao.http.cmd.WXOauth;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.WXUtil;
+import com.audio.miliao.vo.UserRegisterVo;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -107,18 +107,16 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler
 
                         if (WXFetchUserinfo.isSucceed(fetchUserinfo))
                         {
-                            final UserInfo userInfo = new UserInfo();
-                            userInfo.openId = wxOauth.rspOpenId;
-                            userInfo.accessToken = wxOauth.rspAccessToken;
-                            userInfo.refreshToken = wxOauth.rspRefreshToken;
-                            userInfo.expiresIn = wxOauth.rspExpiresIn;
-                            userInfo.nickname = fetchUserinfo.rspNickname;
-                            userInfo.sex = fetchUserinfo.rspGender;
-                            userInfo.icon = fetchUserinfo.rspAvatar;
-                            userInfo.province = fetchUserinfo.rspProvince;
-                            userInfo.city = fetchUserinfo.rspCity;
-                            userInfo.loginType = "weixin";
-                            Login login = new Login(null, userInfo, null);
+                            final UserRegisterVo registerVo = new UserRegisterVo();
+                            registerVo.setOpenId(wxOauth.rspOpenId);
+                            registerVo.setCity(fetchUserinfo.rspCity);
+                            registerVo.setIcon(fetchUserinfo.rspAvatar);
+                            registerVo.setLogin_type("weixin");
+                            registerVo.setNickname(fetchUserinfo.rspNickname);
+                            registerVo.setProvince(fetchUserinfo.rspProvince);
+                            registerVo.setSex((fetchUserinfo.rspGender == 1 ? "男" : "女"));
+                            registerVo.setSignature("");
+                            Login login = new Login(null, registerVo, null);
                             login.sendSync();
                             if (Login.isSucceed(login))
                             {
@@ -127,7 +125,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler
                                 return;
                             }
 
-                            log(userInfo.toJsonString());
+                            log(registerVo.toJsonString());
                         }
                     }
                 }

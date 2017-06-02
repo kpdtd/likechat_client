@@ -2,11 +2,10 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
-import com.audio.miliao.entity.AppData;
-import com.audio.miliao.entity.UserInfo;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
+import com.audio.miliao.vo.PayInfoVo;
 
 import java.util.List;
 
@@ -21,19 +20,19 @@ import java.util.List;
  */
 public class CreateAlipayOrder extends BaseReqRsp
 {
-    private UserInfo reqUserInfo;
+    private PayInfoVo reqPayInfoVo;
 
     /**
      * 增加关注
      *
      * @param handler
-     * @param userInfo
+     * @param payInfoVo
      * @param tag
      */
-    public CreateAlipayOrder(Handler handler, UserInfo userInfo, Object tag)
+    public CreateAlipayOrder(Handler handler, PayInfoVo payInfoVo, Object tag)
     {
         super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.CREATE_ALIPAY_ORDER, false, tag);
-        this.reqUserInfo = userInfo;
+        this.reqPayInfoVo = payInfoVo;
     }
 
     @Override
@@ -47,7 +46,7 @@ public class CreateAlipayOrder extends BaseReqRsp
     @Override
     public String getReqBody()
     {
-        return reqUserInfo.toJsonString();
+        return reqPayInfoVo.toJsonString();
     }
 
     @Override
@@ -82,7 +81,6 @@ public class CreateAlipayOrder extends BaseReqRsp
     {
         if (rspResultCode == HttpUtil.Result.OK)
         {
-            AppData.setUserInfo(reqUserInfo);
         }
     }
 }

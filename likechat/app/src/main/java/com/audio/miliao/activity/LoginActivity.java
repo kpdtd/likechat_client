@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import com.alipay.sdk.app.PayTask;
 import com.audio.miliao.R;
-import com.audio.miliao.entity.UserInfo;
+import com.audio.miliao.event.LoginEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.Login;
 import com.audio.miliao.http.cmd.WXPayCreateOrder;
@@ -19,7 +19,9 @@ import com.audio.miliao.pay.alipay.OrderInfoUtil2_0;
 import com.audio.miliao.pay.alipay.PayResult;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.QQUtil;
+import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.util.WXUtil;
+import com.audio.miliao.vo.UserRegisterVo;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -29,6 +31,8 @@ import com.uikit.loader.entity.LoaderAppData;
 import com.uikit.loader.service.YXService;
 
 import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 
 /**
@@ -55,6 +59,40 @@ public class LoginActivity extends BaseActivity
     }
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    /**
+     * EventBus 在主线程的响应事件
+     *
+     * @param event 登录结果
+     */
+    public void onEventMainThread(LoginEvent event)
+    {
+        theApp.showToast("onEventMainThread");
+        if (StringUtil.isNotEmpty(event.getUserId()))
+        {
+            // 登录成功
+            onLoginSucceed();
+        }
+        else
+        {
+            // 登录失败
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
@@ -68,7 +106,7 @@ public class LoginActivity extends BaseActivity
         switch (msg.what)
         {
         case CODE_QQ_LOGIN:
-            UserInfo userInfo = (UserInfo) msg.obj;
+            UserRegisterVo userInfo = (UserRegisterVo) msg.obj;
             mEdittext.setText(userInfo.toJsonString());
             Login login = new Login(handler(), userInfo, null);
             login.send();

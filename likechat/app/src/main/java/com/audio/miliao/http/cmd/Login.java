@@ -3,12 +3,17 @@ package com.audio.miliao.http.cmd;
 import android.os.Handler;
 
 import com.audio.miliao.entity.AppData;
-import com.audio.miliao.entity.UserInfo;
+import com.audio.miliao.event.LoginEvent;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
+import com.audio.miliao.vo.UserRegisterVo;
+
+import org.json.JSONObject;
 
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 /**
@@ -29,19 +34,20 @@ public class Login extends BaseReqRsp
     // 登录类型，微信
     public static final String TYPE_WEIXIN = "weixin";
 
-    private UserInfo reqUserInfo;
+    private UserRegisterVo reqUserRegisterVo;
+    public String rspUserId;
 
     /**
      * 登录
      *
      * @param handler
-     * @param userInfo
+     * @param userRegisterVo
      * @param tag
      */
-    public Login(Handler handler, UserInfo userInfo, Object tag)
+    public Login(Handler handler, UserRegisterVo userRegisterVo, Object tag)
     {
         super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.LOGIN, false, tag);
-        this.reqUserInfo = userInfo;
+        this.reqUserRegisterVo = userRegisterVo;
     }
 
     @Override
@@ -55,7 +61,7 @@ public class Login extends BaseReqRsp
     @Override
     public String getReqBody()
     {
-        return reqUserInfo.toJsonString();
+        return reqUserRegisterVo.toJsonString();
     }
 
     @Override
@@ -72,6 +78,9 @@ public class Login extends BaseReqRsp
             rspResultCode = HttpUtil.Result.OK;
             try
             {
+                JSONObject jsonObject = new JSONObject(httpBody);
+                JSONObject data = jsonObject.optJSONObject("data");
+                rspUserId = data.optString("id");
             }
             catch (Exception e)
             {
@@ -90,7 +99,12 @@ public class Login extends BaseReqRsp
     {
         if (rspResultCode == HttpUtil.Result.OK)
         {
-            AppData.setUserInfo(reqUserInfo);
+            AppData.setUserInfo(reqUserRegisterVo);
+            AppData.setOpenId(reqUserRegisterVo.getOpenId());
+            AppData.setUserId(rspUserId);
         }
+
+        LoginEvent event = new LoginEvent(reqUserRegisterVo, rspUserId);
+        EventBus.getDefault().post(event);
     }
 }
