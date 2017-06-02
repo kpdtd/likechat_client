@@ -12,7 +12,6 @@ import com.alipay.sdk.app.PayTask;
 import com.audio.miliao.R;
 import com.audio.miliao.event.LoginEvent;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.http.cmd.Login;
 import com.audio.miliao.http.cmd.WXPayCreateOrder;
 import com.audio.miliao.pay.alipay.Constant;
 import com.audio.miliao.pay.alipay.OrderInfoUtil2_0;
@@ -21,7 +20,6 @@ import com.audio.miliao.theApp;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.util.WXUtil;
-import com.audio.miliao.vo.UserRegisterVo;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -40,8 +38,6 @@ import de.greenrobot.event.EventBus;
  */
 public class LoginActivity extends BaseActivity
 {
-    private static final int CODE_QQ_LOGIN = 0;
-    private static final int CODE_WEIXIN_LOGIN = 1;
     private static final int CODE_ALIPAY_SDK_PAY_FLAG = 3;
 
     private EditText mEdittext;
@@ -56,22 +52,15 @@ public class LoginActivity extends BaseActivity
         initUI();
 
         mService = new YXService(this);
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
         EventBus.getDefault().register(this);
     }
 
     @Override
-    protected void onStop()
+    protected void onDestroy()
     {
-        super.onStop();
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
 
     /**
      * EventBus 在主线程的响应事件
@@ -80,7 +69,6 @@ public class LoginActivity extends BaseActivity
      */
     public void onEventMainThread(LoginEvent event)
     {
-        theApp.showToast("onEventMainThread");
         if (StringUtil.isNotEmpty(event.getUserId()))
         {
             // 登录成功
@@ -105,26 +93,6 @@ public class LoginActivity extends BaseActivity
     {
         switch (msg.what)
         {
-        case CODE_QQ_LOGIN:
-            UserRegisterVo userInfo = (UserRegisterVo) msg.obj;
-            mEdittext.setText(userInfo.toJsonString());
-            Login login = new Login(handler(), userInfo, null);
-            login.send();
-            break;
-        case CODE_WEIXIN_LOGIN:
-            break;
-        case HttpUtil.RequestCode.LOGIN:
-            Login login1 = (Login) msg.obj;
-            if (Login.isSucceed(login1))
-            {
-                theApp.showToast("login secceed");
-                onLoginSucceed();
-            }
-            else
-            {
-                theApp.showToast("login failed");
-            }
-            break;
         case CODE_ALIPAY_SDK_PAY_FLAG:
 
             @SuppressWarnings("unchecked")
@@ -224,7 +192,7 @@ public class LoginActivity extends BaseActivity
 
     private void onQQLogin()
     {
-        QQUtil.login(this, CODE_QQ_LOGIN, handler());
+        QQUtil.login(this);
     }
 
     private void onYunXinLogin()

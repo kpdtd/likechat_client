@@ -336,10 +336,10 @@ public class OKHttps
 			e.printStackTrace();
 			req.setError(1);
 		}
-		finally
-		{
-			req.onFinish();
-		}
+//		finally
+//		{
+//			//req.onFinish();
+//		}
 	}
 
 	private static OkHttpRequestBuilder addHeaders(OkHttpRequestBuilder builder, BaseReqRsp req)

@@ -29,11 +29,6 @@ import de.greenrobot.event.EventBus;
  */
 public class Login extends BaseReqRsp
 {
-    // 登录类型，qq
-    public static final String TYPE_QQ = "qq";
-    // 登录类型，微信
-    public static final String TYPE_WEIXIN = "weixin";
-
     private UserRegisterVo reqUserRegisterVo;
     public String rspUserId;
 
@@ -67,7 +62,7 @@ public class Login extends BaseReqRsp
     @Override
     public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
     {
-        theApp.showToast("Login;" + httpStatusCode + ":" + httpBody);
+        theApp.showToast("Login " + httpStatusCode + ";" + httpBody);
         switch (httpStatusCode)
         {
         case 429:
@@ -97,6 +92,7 @@ public class Login extends BaseReqRsp
     @Override
     public void onFinish()
     {
+        theApp.showToast("Login onFinish");
         if (rspResultCode == HttpUtil.Result.OK)
         {
             AppData.setUserInfo(reqUserRegisterVo);

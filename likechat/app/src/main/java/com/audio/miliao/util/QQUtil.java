@@ -2,8 +2,8 @@ package com.audio.miliao.util;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
 
+import com.audio.miliao.http.cmd.Login;
 import com.audio.miliao.theApp;
 import com.audio.miliao.vo.UserRegisterVo;
 import com.tencent.connect.UserInfo;
@@ -25,9 +25,6 @@ public class QQUtil
     private static Tencent mTencent = null;
     private static IUiListener mUiListener = null;
 
-    private static int mNotifyCode = -1;
-    private static Handler mHandler = null;
-
     private static void init()
     {
         if (mTencent == null)
@@ -42,6 +39,7 @@ public class QQUtil
                 @Override
                 public void onComplete(Object o)
                 {
+                    theApp.showToast("login onComplete " + o.toString());
                     final JSONObject jsonObject = (JSONObject) o;
                     final String openId = jsonObject.optString("openid");
                     final String accessToken = jsonObject.optString("access_token");
@@ -54,6 +52,7 @@ public class QQUtil
                         @Override
                         public void onComplete(Object o)
                         {
+                            theApp.showToast("fetchUserInfo onComplete " + o.toString());
                             JSONObject jsonUserInfo = (JSONObject) o;
 
                             try
@@ -65,30 +64,30 @@ public class QQUtil
                                 userInfo.setLogin_type("qq");
                                 userInfo.setNickname(JSONUtil.getString(jsonUserInfo, "nickname"));
                                 userInfo.setProvince(JSONUtil.getString(jsonUserInfo, "province"));
-                                userInfo.setSex((Integer.valueOf(JSONUtil.getString(jsonUserInfo, "gender")) == 1 ? "男" : "女"));
+                                userInfo.setSex(JSONUtil.getString(jsonUserInfo, "gender"));
                                 userInfo.setSignature("");
 
-                                if (mHandler != null)
-                                {
-                                    mHandler.obtainMessage(mNotifyCode, userInfo).sendToTarget();
-                                }
+                                theApp.showToast("begin login");
+                                Login login = new Login(null, userInfo, null);
+                                login.send();
                             }
                             catch (Exception e)
                             {
                                 e.printStackTrace();
+                                theApp.showToast("login error " + e.toString());
                             }
                         }
 
                         @Override
                         public void onError(UiError uiError)
                         {
-
+                            theApp.showToast("onError");
                         }
 
                         @Override
                         public void onCancel()
                         {
-
+                            theApp.showToast("onCancel");
                         }
                     });
                 }
@@ -116,17 +115,12 @@ public class QQUtil
      * 两步成功了才回调界面
      *
      * @param activity
-     * @param notifyCode
-     * @param handler
      */
-    public static void login(Activity activity, final int notifyCode, final Handler handler)
+    public static void login(Activity activity)
     {
         init();
         if (!mTencent.isSessionValid())
         {
-            mNotifyCode = notifyCode;
-            mHandler = handler;
-
             // 应用需要获得哪些接口的权限，由“,”分隔，
             // 例如：SCOPE = “get_user_info,add_topic”；
             // 如果需要所有权限则使用”all”
