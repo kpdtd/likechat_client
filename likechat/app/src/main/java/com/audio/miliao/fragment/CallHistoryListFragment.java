@@ -15,8 +15,8 @@ import com.audio.miliao.activity.ChatVoiceCallOutActivity;
 import com.audio.miliao.adapter.CallHistoryAdapter;
 import com.audio.miliao.entity.CallHistory;
 import com.audio.miliao.entity.ChatMessage;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.vo.ActorVo;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class CallHistoryListFragment extends BaseFragment
                     try
                     {
                         Intent intentChat = new Intent(getActivity(), ChatVoiceCallOutActivity.class);
-                        Actor actor = (m_adapter.getItem(position) == null ? null : ((ChatMessage) m_adapter.getItem(position)).from);
+                        ActorVo actor = (m_adapter.getItem(position) == null ? null : ((ChatMessage) m_adapter.getItem(position)).from);
                         intentChat.putExtra("user", actor);
                         startActivity(intentChat);
                     }

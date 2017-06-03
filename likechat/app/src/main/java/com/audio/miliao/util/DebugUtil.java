@@ -1,11 +1,13 @@
 package com.audio.miliao.util;
 
 import com.audio.miliao.R;
+import com.audio.miliao.entity.Actor;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.CallHistory;
 import com.audio.miliao.entity.ChatMessage;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.entity.Zone;
+import com.audio.miliao.vo.ActorPageVo;
+import com.audio.miliao.vo.ActorVo;
 
 import org.json.JSONArray;
 
@@ -211,17 +213,17 @@ public class DebugUtil
         try
         {
             Date dateOneDay = StringUtil.getDate("2017-02-06");
-            Actor actor1 = new Actor();
-            actor1.name = "美丽可儿";
-            actor1.avatar = "avatar1.jpg";
-            Actor actor2 = new Actor();
-            actor2.name = "寂寞美人";
-            actor2.avatar = "avatar2.jpg";
-            Actor actor3 = new Actor();
-            actor3.name = "足球宝贝";
-            actor3.avatar = "avatar3.jpg";
-            Actor users1[] = new Actor[]{actor1, actor2, actor3, AppData.getCurUser()};
-            Actor users2[] = new Actor[]{actor1, actor2, actor3};
+            ActorVo actor1 = new ActorVo();
+            actor1.setNickname("美丽可儿");
+            actor1.setIcon("avatar1.jpg");
+            ActorVo actor2 = new ActorVo();
+            actor2.setNickname("寂寞美人");
+            actor2.setIcon("avatar2.jpg");
+            ActorVo actor3 = new ActorVo();
+            actor3.setNickname("足球宝贝");
+            actor3.setIcon("avatar3.jpg");
+            ActorVo users1[] = new ActorVo[]{actor1, actor2, actor3, AppData.getCurUser()};
+            ActorVo users2[] = new ActorVo[]{actor1, actor2, actor3};
             int talkTimes[] = new int[]{0, 59, 61, 3599, 3601, 123456};
             for (int i = 0; i < 20; i++)
             {
@@ -258,7 +260,7 @@ public class DebugUtil
         return callHistories;
     }
 
-    public static List<Zone> getZonesByAnchor(Actor actor)
+    public static List<Zone> getZonesByAnchor(ActorVo actor)
     {
         try
         {
@@ -320,10 +322,10 @@ public class DebugUtil
                 }
 
                 android.util.Log.e("mediatype", "" + zone.mediaType);
-                zone.anchorId = actor.id;
-                zone.anchorName = actor.name;
-                zone.anchorAvatar = actor.avatar;
-                zone.anchorSign = actor.sign;
+                zone.anchorId = String.valueOf(actor.getId());
+                zone.anchorName = actor.getNickname();
+                zone.anchorAvatar = actor.getIcon();
+                zone.anchorSign = actor.getSignature();
 
                 if (i % 2 == 0)
                 {
@@ -416,6 +418,40 @@ public class DebugUtil
         }
 
         return list;
+    }
+
+    public static ActorPageVo actor2ActorPageVo(Actor actor)
+    {
+        ActorPageVo actorPageVo = new ActorPageVo();
+
+        actorPageVo.setId(Integer.valueOf(actor.id));
+        actorPageVo.setAge(String.valueOf(actor.age));
+        actorPageVo.setNickname(actor.name);
+        actorPageVo.setCity(actor.city);
+        actorPageVo.setProvince(actor.province);
+        actorPageVo.setSignature(actor.sign);
+        actorPageVo.setIntroduction(actor.intro);
+        actorPageVo.setFans(String.valueOf(actor.fans));
+        actorPageVo.setAttention(String.valueOf(actor.follow));
+        actorPageVo.setIcon(actor.avatar);
+
+        return actorPageVo;
+    }
+
+    public static List<ActorPageVo> actor2ActorPageVo(List<Actor> actors)
+    {
+        List<ActorPageVo> actorPageVos = new ArrayList<>();
+
+        for (Actor actor : actors)
+        {
+            ActorPageVo actorPageVo = actor2ActorPageVo(actor);
+            if (actorPageVo != null)
+            {
+                actorPageVos.add(actorPageVo);
+            }
+        }
+
+        return actorPageVos;
     }
 
     private static Random sm_rand;

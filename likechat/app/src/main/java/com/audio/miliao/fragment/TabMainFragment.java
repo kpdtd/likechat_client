@@ -14,11 +14,16 @@ import com.audio.miliao.activity.CustomerServiceActivity;
 import com.audio.miliao.activity.UserInfoActivity;
 import com.audio.miliao.adapter.AnchorAdapter;
 import com.audio.miliao.entity.Actor;
+import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.vo.ActorVo;
 import com.audio.miliao.widget.GridViewWithHeaderAndFooter;
 import com.audio.miliao.widget.HeaderView;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class TabMainFragment extends BaseFragment
 {
@@ -28,6 +33,7 @@ public class TabMainFragment extends BaseFragment
     private View m_root;
     private GridViewWithHeaderAndFooter m_gridView;
     private AnchorAdapter m_adapter;
+    private List<ActorVo> m_actorVoList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -38,9 +44,17 @@ public class TabMainFragment extends BaseFragment
             m_root = inflater.inflate(R.layout.fragment_tab_main, container, false);
             initUI(m_root);
             updateData();
+            EventBus.getDefault().register(this);
         }
 
         return m_root;
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initUI(final View root)
@@ -139,25 +153,37 @@ public class TabMainFragment extends BaseFragment
     {
         try
         {
-            List<Actor> actorList = DebugUtil.getUserList();
-
             if (m_adapter == null)
             {
                 View headerView = HeaderView.load(getActivity(), R.layout.list_header_main_banner, DebugUtil.getBannerUrls(10));
                 m_gridView.addHeaderView(headerView);
 
-                m_adapter = new AnchorAdapter(getActivity(), actorList);
+                m_adapter = new AnchorAdapter(getActivity(), m_actorVoList);
                 m_gridView.setAdapter(m_adapter);
             }
             else
             {
-                m_adapter.updateData(actorList);
+                m_adapter.updateData(m_actorVoList);
                 m_adapter.notifyDataSetChanged();
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * EventBus 在主线程的响应事件
+     *
+     * @param event 获取主界面内容结果
+     */
+    public void onEventMainThread(FetchHomeContentEvent event)
+    {
+        if (event.isSucceed())
+        {
+            m_actorVoList = event.getActorVos();
+            updateData();
         }
     }
 }

@@ -4,7 +4,6 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.theApp;
 import com.audio.miliao.util.JSONUtil;
 
 import org.json.JSONObject;
@@ -53,7 +52,7 @@ public class WXOauth extends BaseReqRsp
 	{
 		//UIUtil.showToastShort(theApp.CONTEXT, httpStatusCode + ";" + httpBody);
 		rspResult = httpBody.toString();
-		theApp.showToast("WXOauth:" + httpStatusCode + ";" + httpBody.toString());
+		//theApp.showToast("WXOauth:" + httpStatusCode + ";" + httpBody.toString());
 		switch (httpStatusCode)
 		{
 		case 429:

@@ -118,11 +118,11 @@ public class MessageAdapter extends BaseAdapter
                 holder.textSummary.setText(message.text);
                 if (message.from != null)
                 {
-                    holder.textName.setText(message.from.name);
+                    holder.textName.setText(message.from.getNickname());
 
                     if (!m_bIsScrolling)
                     {
-                        ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, message.from.avatar);
+                        ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, message.from.getIcon());
                     }
                 }
                 else

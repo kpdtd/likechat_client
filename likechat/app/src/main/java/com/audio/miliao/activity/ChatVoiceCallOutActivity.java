@@ -6,16 +6,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
+import com.audio.miliao.vo.ActorVo;
 
 /**
  * 聊天——呼出
  */
 public class ChatVoiceCallOutActivity extends BaseActivity
 {
-    private Actor m_actor;
+    private ActorVo m_actor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,7 +24,7 @@ public class ChatVoiceCallOutActivity extends BaseActivity
         setContentView(R.layout.activity_chat_voice_call_out);
         try
         {
-            m_actor = (Actor) getIntent().getSerializableExtra("user");
+            m_actor = (ActorVo) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -83,13 +83,13 @@ public class ChatVoiceCallOutActivity extends BaseActivity
             TextView txtName = (TextView) findViewById(R.id.txt_name);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
 
-            ImageLoaderUtil.displayListAvatarImageFromAsset(imgInfo, m_actor.avatar);
+            ImageLoaderUtil.displayListAvatarImageFromAsset(imgInfo, m_actor.getIcon());
             //imgInfo.setImageResource(m_user.avatar_res);
             imgInfo.setAlpha(0.4f);
-            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_actor.avatar);
+            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_actor.getIcon());
             //imgAvatar.setImageResource(m_user.avatar_res);
-            txtAge.setText(String.valueOf(m_actor.age));
-            txtName.setText(m_actor.name);
+            txtAge.setText(String.valueOf(m_actor.getAge()));
+            txtName.setText(m_actor.getNickname());
             txtTalkTime.setText("09:43");
             EntityUtil.setAnchorGenderDrawable(txtAge, m_actor, true);
         }

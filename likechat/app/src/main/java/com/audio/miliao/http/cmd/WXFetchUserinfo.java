@@ -4,7 +4,6 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.theApp;
 import com.audio.miliao.util.JSONUtil;
 
 import org.json.JSONObject;
@@ -53,7 +52,7 @@ public class WXFetchUserinfo extends BaseReqRsp
 	@Override
 	public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
 	{
-		theApp.showToast("WXFetchUserinfo:" + httpStatusCode + ";" + httpBody);
+		//theApp.showToast("WXFetchUserinfo:" + httpStatusCode + ";" + httpBody);
 		rspResult = httpBody;
 		switch (httpStatusCode)
 		{

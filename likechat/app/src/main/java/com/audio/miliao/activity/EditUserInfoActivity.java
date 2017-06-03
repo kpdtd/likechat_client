@@ -13,12 +13,12 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.dialog.CityPickerActivity;
 import com.audio.miliao.dialog.DatePickerActivity;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.FileUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
+import com.audio.miliao.vo.ActorPageVo;
 import com.audio.miliao.widget.CircleImageView;
 
 import java.io.File;
@@ -218,18 +218,18 @@ public class EditUserInfoActivity extends BaseActivity
     {
         try
         {
-            Actor actor = AppData.getCurUser();
+            ActorPageVo actor = AppData.getCurActorPageVo();
             if (actor == null)
             {
                 return;
             }
 
-            m_txtName.setText(actor.name);
-            m_txtIntro.setText(actor.intro);
-            String strGender = (actor.gender == Actor.GENDER_FEMALE ? getString(R.string.txt_female) : getString(R.string.txt_male));
+            m_txtName.setText(actor.getNickname());
+            m_txtIntro.setText(actor.getIntroduction());
+            String strGender = (actor.getSex() == 2 ? getString(R.string.txt_female) : getString(R.string.txt_male));
             m_txtGender.setText(strGender);
-            m_txtAge.setText(String.valueOf(actor.age));
-            m_txtCity.setText(actor.city);
+            m_txtAge.setText(String.valueOf(actor.getAge()));
+            m_txtCity.setText(actor.getCity());
         }
         catch (Exception e)
         {
@@ -304,9 +304,9 @@ public class EditUserInfoActivity extends BaseActivity
     {
         try
         {
-            Actor actor = AppData.getCurUser();
-            actor.name = m_txtName.getText().toString();
-            actor.intro = m_txtIntro.getText().toString();
+            ActorPageVo actor = AppData.getCurActorPageVo();
+            actor.setNickname(m_txtName.getText().toString());
+            actor.setIntroduction(m_txtIntro.getText().toString());
 
             finish();
         }

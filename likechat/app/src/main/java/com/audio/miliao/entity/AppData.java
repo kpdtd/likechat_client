@@ -1,6 +1,8 @@
 package com.audio.miliao.entity;
 
 import com.audio.miliao.util.PreferUtil;
+import com.audio.miliao.vo.ActorPageVo;
+import com.audio.miliao.vo.ActorVo;
 import com.audio.miliao.vo.UserRegisterVo;
 
 import org.json.JSONObject;
@@ -21,13 +23,39 @@ public class AppData
      * 获取当前用户
      * @return
      */
-    public static Actor getCurUser()
+    public static ActorVo getCurUser()
     {
         //return ms_curUser;
         try
         {
             JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_ACTOR));
-            Actor actor = Actor.fromJson(jsonObject);
+            ActorVo actor = ActorVo.parse(jsonObject.toString(), ActorVo.class);
+            return actor;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public static void setCurActorPageVo(ActorPageVo actor)
+    {
+        //ms_curUser = user;
+        PreferUtil.setStringPreference(KEY_ACTOR_PAGE_VO, actor.toJson().toString());
+    }
+
+    /**
+     * 获取当前用户
+     * @return
+     */
+    public static ActorPageVo getCurActorPageVo()
+    {
+        //return ms_curUser;
+        try
+        {
+            JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_ACTOR_PAGE_VO));
+            ActorPageVo actor = ActorPageVo.parse(jsonObject.toString(), ActorPageVo.class);
             return actor;
         }
         catch (Exception e)
@@ -43,13 +71,13 @@ public class AppData
      * @param actor
      * @return
      */
-    public static boolean isCurUser(Actor actor)
+    public static boolean isCurUser(ActorVo actor)
     {
         try
         {
             if (actor != null && getCurUser() != null)
             {
-                return actor.id.equals(getCurUser().id);
+                return actor.getId().equals(getCurUser().getId());
             }
         }
         catch (Exception e)
@@ -66,7 +94,9 @@ public class AppData
      */
     public static boolean isLogin()
     {
-        return getUserInfo() != null;
+        // Debug
+        return true;
+        //return StringUtil.isNotEmpty(getUserId());
     }
 
     public static void setYunXinAccount(String account)
@@ -151,6 +181,7 @@ public class AppData
     private final static String KEY_YUNXIN_TOKEN = "key_yunxin_token";
 
     private final static String KEY_ACTOR = "key_actor";
+    private final static String KEY_ACTOR_PAGE_VO = "key_actor_page_vo";
     private static final String KEY_TOKEN = "key_token";
 
     private static final String KEY_REFRESH_TOKEN = "key_refresh_token";

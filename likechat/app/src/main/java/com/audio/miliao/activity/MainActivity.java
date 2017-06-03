@@ -11,6 +11,7 @@ import com.audio.miliao.fragment.TabFindFragment;
 import com.audio.miliao.fragment.TabMainFragment;
 import com.audio.miliao.fragment.TabMeFragment;
 import com.audio.miliao.fragment.TabMessageFragment;
+import com.audio.miliao.http.cmd.FetchHomeContent;
 import com.audio.miliao.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public class MainActivity extends BaseActivity
             setContentView(R.layout.activity_main);
             initUI();
             initPager();
+
+            FetchHomeContent fetchHomeContent = new FetchHomeContent(null, null);
+            fetchHomeContent.send();
         }
         catch (Exception e)
         {

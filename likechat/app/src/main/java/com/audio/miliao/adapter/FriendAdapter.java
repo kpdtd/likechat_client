@@ -11,6 +11,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
+import com.audio.miliao.vo.ActorVo;
 
 import java.util.List;
 
@@ -111,15 +112,15 @@ public class FriendAdapter extends BaseAdapter
     {
         try
         {
-            Actor actor = (Actor) getItem(nPosition);
+            ActorVo actor = (ActorVo) getItem(nPosition);
             if (actor != null)
             {
-                holder.name.setText(actor.name);
-                holder.sign.setText(actor.intro);
-                holder.gender.setText(String.valueOf(actor.age));
+                holder.name.setText(actor.getNickname());
+                holder.sign.setText(actor.getSignature());
+                holder.gender.setText(String.valueOf(actor.getAge()));
                 //if (!m_bIsScrolling)
                 {
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, actor.avatar);
+                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, actor.getIcon());
                 }
                 EntityUtil.setAnchorGenderDrawable(holder.gender, actor, true);
             }

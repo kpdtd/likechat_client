@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.audio.miliao.util.DbFieldUtil;
+import com.audio.miliao.vo.ActorVo;
 
 import org.json.JSONObject;
 
@@ -21,9 +22,9 @@ public class ChatMessage implements Serializable
     /** 消息内容 */
     public String text = "";
     /** 消息发送者 */
-    public Actor from;
+    public ActorVo from;
     /** 消息接收者 */
-    public Actor to;
+    public ActorVo to;
     /** 时间 */
     public long date;
 
@@ -72,8 +73,10 @@ public class ChatMessage implements Serializable
             ChatMessage chat = new ChatMessage();
             chat.id = jsonObject.optString("id");
             chat.text = jsonObject.optString("text");
-            chat.from = Actor.fromJson(jsonObject.optJSONObject("from"));
-            chat.to = Actor.fromJson(jsonObject.optJSONObject("to"));
+//            chat.from = Actor.fromJson(jsonObject.optJSONObject("from"));
+//            chat.to = Actor.fromJson(jsonObject.optJSONObject("to"));
+            chat.from = ActorVo.parse(jsonObject.optJSONObject("from"), ActorVo.class);
+            chat.to = ActorVo.parse(jsonObject.optJSONObject("to"), ActorVo.class);
 
             return chat;
         }
@@ -94,10 +97,12 @@ public class ChatMessage implements Serializable
             chat.text = DbFieldUtil.getString(cursor, "chatText");
             String strFrom = DbFieldUtil.getString(cursor, "chatFrom");
             JSONObject jsonFrom = new JSONObject(strFrom);
-            chat.from = Actor.fromJson(jsonFrom);
+//            chat.from = Actor.fromJson(jsonFrom);
+            chat.from = ActorVo.parse(jsonFrom, ActorVo.class);
             String strTo = DbFieldUtil.getString(cursor, "chatTo");
             JSONObject jsonTo = new JSONObject(strTo);
-            chat.to = Actor.fromJson(jsonTo);
+            //chat.to = Actor.fromJson(jsonTo);
+            chat.to = ActorVo.parse(jsonTo, ActorVo.class);
 
             return chat;
         }

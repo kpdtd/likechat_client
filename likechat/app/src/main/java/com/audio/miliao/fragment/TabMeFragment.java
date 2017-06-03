@@ -17,8 +17,8 @@ import com.audio.miliao.activity.UserFriendActivity;
 import com.audio.miliao.activity.UserZoneActivity;
 import com.audio.miliao.activity.VipActivity;
 import com.audio.miliao.entity.AppData;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.EntityUtil;
+import com.audio.miliao.vo.ActorVo;
 
 public class TabMeFragment extends BaseFragment
 {
@@ -138,15 +138,15 @@ public class TabMeFragment extends BaseFragment
                 TextView txtId = (TextView) m_root.findViewById(R.id.txt_id);
                 TextView txtSigh = (TextView) m_root.findViewById(R.id.txt_sign);
 
-                Actor actor = AppData.getCurUser();
+                ActorVo actor = AppData.getCurUser();
                 if (actor != null)
                 {
-                    txtName.setText(actor.name);
-                    txtAge.setText(String.valueOf(actor.age));
-                    EntityUtil.setAnchorGenderDrawable(txtAge, actor, true);
-                    String strId = getString(R.string.txt_user_info_like_chat_id) + actor.id;
+                    txtName.setText(actor.getNickname());
+                    txtAge.setText(String.valueOf(actor.getAge()));
+                    EntityUtil.setAnchorGenderDrawable(txtAge, actor.getSex(), true);
+                    String strId = getString(R.string.txt_user_info_like_chat_id) + actor.getId();
                     txtId.setText(strId);
-                    txtSigh.setText(actor.sign);
+                    txtSigh.setText(actor.getSignature());
                 }
             }
             else

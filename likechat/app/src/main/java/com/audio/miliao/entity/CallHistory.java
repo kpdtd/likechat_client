@@ -1,5 +1,7 @@
 package com.audio.miliao.entity;
 
+import com.audio.miliao.vo.ActorVo;
+
 import java.io.Serializable;
 
 /**
@@ -8,9 +10,9 @@ import java.io.Serializable;
 public class CallHistory implements Serializable
 {
     /** 发起者 */
-    public Actor from;
+    public ActorVo from;
     /** 接收者 */
-    public Actor to;
+    public ActorVo to;
     /** 开始时间（毫秒） */
     public long startTime;
     /** 通话时间(秒) */

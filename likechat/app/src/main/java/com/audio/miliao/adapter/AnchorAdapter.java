@@ -8,9 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
+import com.audio.miliao.vo.ActorVo;
 
 import java.util.List;
 
@@ -21,17 +21,17 @@ import java.util.List;
 public class AnchorAdapter extends BaseAdapter
 {
     private Activity m_parent;
-    private List<Actor> m_listActors;
+    private List<ActorVo> m_listActors;
     /** 列表是否处于滑动状态 */
     private boolean m_bIsScrolling = false;
 
-    public AnchorAdapter(Activity activity, List<Actor> listActors)
+    public AnchorAdapter(Activity activity, List<ActorVo> listActors)
     {
         m_parent = activity;
         m_listActors = listActors;
     }
 
-    public void updateData(List<Actor> listActors)
+    public void updateData(List<ActorVo> listActors)
     {
         m_listActors = listActors;
     }
@@ -111,16 +111,16 @@ public class AnchorAdapter extends BaseAdapter
     {
         try
         {
-            Actor actor = (Actor) getItem(nPosition);
+            ActorVo actor = (ActorVo) getItem(nPosition);
             if (actor != null)
             {
-                holder.name.setText(actor.name);
-                holder.intro.setText(actor.intro);
-                holder.gender.setText(String.valueOf(actor.age));
+                holder.name.setText(actor.getNickname());
+                holder.intro.setText(actor.getSignature());
+                holder.gender.setText((actor.getSex() == 1 ? "男" : "女"));
                 //holder.avatar.setImageResource(user.avatar_res);
                 if (!m_bIsScrolling)
                 {
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, actor.avatar);
+                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, actor.getIcon());
                 }
                 EntityUtil.setAnchorGenderDrawable(holder.gender, actor, false);
             }

@@ -4,6 +4,9 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.vo.ActorVo;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -13,6 +16,8 @@ import java.util.List;
  */
 public class FetchMineInfo extends BaseReqRsp
 {
+    public ActorVo rspActorVo;
+
     /**
      * 获取我的登录信息，需要登录用户才能访问服务器
      *
@@ -45,6 +50,9 @@ public class FetchMineInfo extends BaseReqRsp
             rspResultCode = HttpUtil.Result.OK;
             try
             {
+                JSONObject jsonObject = new JSONObject(httpBody);
+                JSONObject jsonData = jsonObject.optJSONObject("data");
+                rspActorVo = ActorVo.parse(jsonData.toString(), ActorVo.class);
             }
             catch (Exception e)
             {

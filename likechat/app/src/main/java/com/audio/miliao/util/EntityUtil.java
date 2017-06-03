@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.entity.Actor;
+import com.audio.miliao.vo.ActorVo;
 
 /**
  * 放置经常使用的跟Entity和UI相关的代码
@@ -18,7 +18,7 @@ public class EntityUtil
      * @param actor
      * @param checked 使用的是选择状态的图标还是非选择状态的图标
      */
-    public static void setAnchorGenderDrawable(TextView textView, Actor actor, boolean checked)
+    public static void setAnchorGenderDrawable(TextView textView, ActorVo actor, boolean checked)
     {
         try
         {
@@ -27,8 +27,31 @@ public class EntityUtil
                 return;
             }
 
+            setAnchorGenderDrawable(textView, actor.getSex(), checked);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 设置主播性别的图标
+     * @param textView 要设置图标的View
+     * @param gender 性别 1男2女
+     * @param checked 使用的是选择状态的图标还是非选择状态的图标
+     */
+    public static void setAnchorGenderDrawable(TextView textView, int gender, boolean checked)
+    {
+        try
+        {
+            if (textView == null)
+            {
+                return;
+            }
+
             Context context = textView.getContext();
-            if (actor.gender == Actor.GENDER_FEMALE)
+            if (gender == 2)
             {
                 int imgRes = (checked ? R.drawable.ic_female_checked : R.drawable.ic_female_normal);
                 Drawable female = context.getResources().getDrawable(imgRes);

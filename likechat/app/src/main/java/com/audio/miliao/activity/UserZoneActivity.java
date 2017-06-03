@@ -13,6 +13,7 @@ import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.Actor;
 import com.audio.miliao.entity.Zone;
 import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.vo.ActorVo;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class UserZoneActivity extends BaseActivity
 {
-    private Actor m_actor;
+    private ActorVo m_actor;
     private ListView m_list;
     private ZoneAdapter m_adapter;
 
@@ -32,7 +33,7 @@ public class UserZoneActivity extends BaseActivity
         setContentView(R.layout.activity_user_zone);
         try
         {
-            m_actor = (Actor) getIntent().getSerializableExtra("user");
+            m_actor = (ActorVo) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -177,7 +178,7 @@ public class UserZoneActivity extends BaseActivity
             }
             else
             {
-                txtTitle.setText(m_actor.name + strTitle);
+                txtTitle.setText(m_actor.getNickname() + strTitle);
                 m_adapter.setShowDelete(false);
             }
         }

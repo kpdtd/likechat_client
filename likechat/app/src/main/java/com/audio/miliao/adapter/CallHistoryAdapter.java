@@ -131,12 +131,12 @@ public class CallHistoryAdapter extends BaseAdapter
                     }
 
                     holder.textState.setText(strTalkTime);
-                    holder.textName.setText(callHistory.to.name);
+                    holder.textName.setText(callHistory.to.getNickname());
                     //holder.imgAvatar.setImageResource(callHistory.to.avatar_res);
 
                     if (!m_bIsScrolling)
                     {
-                        ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, callHistory.to.avatar);
+                        ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, callHistory.to.getIcon());
                     }
                 }
                 else
@@ -154,12 +154,12 @@ public class CallHistoryAdapter extends BaseAdapter
                     }
 
                     holder.textState.setText(strTalkTime);
-                    holder.textName.setText(callHistory.from.name);
+                    holder.textName.setText(callHistory.from.getNickname());
                     //holder.imgAvatar.setImageResource(callHistory.from.avatar_res);
 
                     if (!m_bIsScrolling)
                     {
-                        ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, callHistory.from.avatar);
+                        ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, callHistory.from.getIcon());
                     }
                 }
             }

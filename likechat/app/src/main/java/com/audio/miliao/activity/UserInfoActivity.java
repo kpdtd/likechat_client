@@ -12,6 +12,7 @@ import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
+import com.audio.miliao.vo.ActorPageVo;
 
 import org.json.JSONArray;
 
@@ -24,7 +25,7 @@ import java.util.Random;
  */
 public class UserInfoActivity extends BaseActivity
 {
-    private Actor m_actor;
+    private ActorPageVo m_actor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,7 +34,7 @@ public class UserInfoActivity extends BaseActivity
         setContentView(R.layout.activity_user_info);
         try
         {
-            m_actor = (Actor) getIntent().getSerializableExtra("user");
+            m_actor = (ActorPageVo) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -223,13 +224,14 @@ public class UserInfoActivity extends BaseActivity
             };
 
             List<Actor> actorList = DebugUtil.getUserList();
+            List<ActorPageVo> actorPageVoList = DebugUtil.actor2ActorPageVo(actorList);
 
             // 去掉当前用户
-            for(int i = 0; i < actorList.size(); i++)
+            for(int i = 0; i < actorPageVoList.size(); i++)
             {
-                if (actorList.get(i).name.equals(m_actor.name))
+                if (actorPageVoList.get(i).getNickname().equals(m_actor.getNickname()))
                 {
-                    actorList.remove(i);
+                    actorPageVoList.remove(i);
                     break;
                 }
             }
@@ -249,12 +251,12 @@ public class UserInfoActivity extends BaseActivity
             java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
             LinearLayout layAnchor = null;
             int nSize = actorList.size() < 8 ? actorList.size() : 8;
-            Actor actor = null;
+            ActorPageVo actorPageVo = null;
 
             // 椭机数产生主播
             for(int i = 0; i < 8; i++)
             {
-                actor = null;
+                actorPageVo = null;
                 layAnchor = (LinearLayout)viewList.get(i);
                 if (i < nSize)
                 {
@@ -265,8 +267,8 @@ public class UserInfoActivity extends BaseActivity
                     }
 
                     setExist.add(nIndex);
-                    actor = actorList.get(nIndex);
-                    layAnchor.setTag(actor);
+                    actorPageVo = actorPageVoList.get(nIndex);
+                    layAnchor.setTag(actorPageVo);
                     layAnchor.setOnClickListener(clickListener);
                 }else
                 {
@@ -280,18 +282,18 @@ public class UserInfoActivity extends BaseActivity
                     View vChile = layAnchor.getChildAt(j);
                     if (vChile instanceof ImageView)
                     {
-                        if (null == actor)
+                        if (null == actorPageVo)
                         {
                             ((ImageView)vChile).setImageResource(0);
                         }
                         else
                         {
-                            ImageLoaderUtil.displayListAvatarImageFromAsset((ImageView)vChile, actor.avatar);
+                            ImageLoaderUtil.displayListAvatarImageFromAsset((ImageView)vChile, actorPageVo.getIcon());
                         }
                     }
                     else if (vChile instanceof TextView)
                     {
-                        ((TextView)vChile).setText(null == actor ? "" : actor.name);
+                        ((TextView)vChile).setText(null == actorPageVo ? "" : actorPageVo.getNickname());
                     }
                 }
             }
@@ -321,23 +323,23 @@ public class UserInfoActivity extends BaseActivity
             TextView txtCallRate = (TextView) findViewById(R.id.txt_call_rate);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
 
-            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_actor.avatar);
+            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_actor.getIcon());
             //imgAvatar.setImageResource(m_user.avatar_res);
-            txtName.setText(m_actor.name);
-            txtAge.setText(String.valueOf(m_actor.age));
+            txtName.setText(m_actor.getNickname());
+            txtAge.setText(String.valueOf(m_actor.getAge()));
             String strId = getString(R.string.txt_user_info_like_chat_id);
-            txtId.setText(strId + m_actor.id);
-            txtCity.setText(m_actor.city);
+            txtId.setText(strId + m_actor.getId());
+            txtCity.setText(m_actor.getCity());
             String strFansFollow = getString(R.string.txt_user_info_fans_count);
-            strFansFollow += m_actor.fans + "  ";
+            strFansFollow += m_actor.getFans() + "  ";
             strFansFollow += getString(R.string.txt_user_info_follow_count);
-            strFansFollow += m_actor.follow;
+            strFansFollow += m_actor.getAttention();
             txtFansFollow.setText(strFansFollow);
-            txtIntro.setText(m_actor.intro);
+            txtIntro.setText(m_actor.getIntroduction());
             txtCallRate.setText("1.5币/分");
             txtTalkTime.setText("21小时35分钟");
 
-            EntityUtil.setAnchorGenderDrawable(txtAge, m_actor, true);
+            EntityUtil.setAnchorGenderDrawable(txtAge, m_actor.getSex(), true);
         }
         catch (Exception e)
         {

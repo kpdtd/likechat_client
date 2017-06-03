@@ -4,9 +4,13 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.util.JSONUtil;
+import com.audio.miliao.vo.ActorVo;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,6 +21,17 @@ import java.util.List;
 public class FetchMyFans extends BaseReqRsp
 {
 	public String reqStamp;
+	// 关注数
+	public int rspAttentionCount;
+	// 我的粉丝数
+	public int rspFansCount;
+	// 粉丝列表
+	public List<ActorVo> rspFanses;
+	// 分页戳，数字值 用Object类型返回，取下一页内容列表时传给服务器
+	public String rspStamp;
+	// 是否有下一页
+	public boolean rspHasNext;
+
 	/**
 	 * 获取我的粉丝（关注我的）
 	 * 返回关注数、粉丝数以及我的好友列表,默认显示关注列表。（图片、昵称、性别、年龄、签名）
@@ -68,6 +83,20 @@ public class FetchMyFans extends BaseReqRsp
 			rspResultCode = HttpUtil.Result.OK;
 			try
 			{
+				JSONObject jsonObject = new JSONObject(httpBody);
+				rspStamp = JSONUtil.getString(jsonObject, "stamp");
+				rspHasNext = JSONUtil.getBoolean(jsonObject, "has_next", false);
+				JSONObject jsonData = jsonObject.optJSONObject("data");
+				rspAttentionCount = JSONUtil.getInt(jsonData, "attentionCount");
+				rspFansCount = JSONUtil.getInt(jsonData, "fansCount");
+				JSONArray jsonArray = jsonData.optJSONArray("dataList");
+				rspFanses = new ArrayList<>();
+				for (int i = 0; i < jsonArray.length(); i++)
+				{
+					JSONObject json = jsonArray.getJSONObject(i);
+					ActorVo actorVo = ActorVo.parse(json.toString(), ActorVo.class);
+					rspFanses.add(actorVo);
+				}
 			}
 			catch (Exception e)
 			{
