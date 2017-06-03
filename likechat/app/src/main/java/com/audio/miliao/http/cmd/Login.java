@@ -6,7 +6,6 @@ import com.audio.miliao.entity.AppData;
 import com.audio.miliao.event.LoginEvent;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.theApp;
 import com.audio.miliao.vo.UserRegisterVo;
 
 import org.json.JSONObject;
@@ -62,7 +61,7 @@ public class Login extends BaseReqRsp
     @Override
     public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
     {
-        theApp.showToast("Login " + httpStatusCode + ";" + httpBody);
+        //theApp.showToast("Login " + httpStatusCode + ";" + httpBody);
         switch (httpStatusCode)
         {
         case 429:
@@ -92,7 +91,7 @@ public class Login extends BaseReqRsp
     @Override
     public void onFinish()
     {
-        theApp.showToast("Login onFinish");
+        //theApp.showToast("Login onFinish");
         if (rspResultCode == HttpUtil.Result.OK)
         {
             AppData.setUserInfo(reqUserRegisterVo);

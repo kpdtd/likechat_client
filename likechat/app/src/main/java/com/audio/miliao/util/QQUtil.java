@@ -39,7 +39,6 @@ public class QQUtil
                 @Override
                 public void onComplete(Object o)
                 {
-                    theApp.showToast("login onComplete " + o.toString());
                     final JSONObject jsonObject = (JSONObject) o;
                     final String openId = jsonObject.optString("openid");
                     final String accessToken = jsonObject.optString("access_token");
@@ -52,7 +51,6 @@ public class QQUtil
                         @Override
                         public void onComplete(Object o)
                         {
-                            theApp.showToast("fetchUserInfo onComplete " + o.toString());
                             JSONObject jsonUserInfo = (JSONObject) o;
 
                             try
@@ -67,27 +65,23 @@ public class QQUtil
                                 userInfo.setSex(JSONUtil.getString(jsonUserInfo, "gender"));
                                 userInfo.setSignature("");
 
-                                theApp.showToast("begin login");
                                 Login login = new Login(null, userInfo, null);
                                 login.send();
                             }
                             catch (Exception e)
                             {
                                 e.printStackTrace();
-                                theApp.showToast("login error " + e.toString());
                             }
                         }
 
                         @Override
                         public void onError(UiError uiError)
                         {
-                            theApp.showToast("onError");
                         }
 
                         @Override
                         public void onCancel()
                         {
-                            theApp.showToast("onCancel");
                         }
                     });
                 }
@@ -95,13 +89,11 @@ public class QQUtil
                 @Override
                 public void onError(UiError uiError)
                 {
-                    theApp.showToast("onError");
                 }
 
                 @Override
                 public void onCancel()
                 {
-                    theApp.showToast("onCancel");
                 }
             };
         }
