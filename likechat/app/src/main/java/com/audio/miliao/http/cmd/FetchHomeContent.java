@@ -6,7 +6,6 @@ import com.audio.miliao.entity.GsonObj;
 import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.theApp;
 import com.audio.miliao.vo.ActorVo;
 import com.audio.miliao.vo.BannerVo;
 import com.audio.miliao.vo.TagVo;
@@ -56,7 +55,7 @@ public class FetchHomeContent extends BaseReqRsp
 	@Override
 	public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
 	{
-		theApp.showToast(httpStatusCode + ";" + httpBody);
+		//theApp.showToast(httpStatusCode + ";" + httpBody);
 		switch (httpStatusCode)
 		{
 		case 429:

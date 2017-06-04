@@ -18,14 +18,14 @@ import java.util.List;
  * 主播列表
  */
 
-public class AnchorAdapter extends BaseAdapter
+public class ActorAdapter extends BaseAdapter
 {
     private Activity m_parent;
     private List<ActorVo> m_listActors;
     /** 列表是否处于滑动状态 */
     private boolean m_bIsScrolling = false;
 
-    public AnchorAdapter(Activity activity, List<ActorVo> listActors)
+    public ActorAdapter(Activity activity, List<ActorVo> listActors)
     {
         m_parent = activity;
         m_listActors = listActors;

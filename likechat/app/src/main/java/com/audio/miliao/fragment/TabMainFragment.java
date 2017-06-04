@@ -8,17 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.audio.miliao.R;
 import com.audio.miliao.activity.CustomerServiceActivity;
 import com.audio.miliao.activity.UserInfoActivity;
-import com.audio.miliao.adapter.AnchorAdapter;
+import com.audio.miliao.adapter.ActorAdapter;
 import com.audio.miliao.entity.Actor;
 import com.audio.miliao.event.FetchHomeContentEvent;
-import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.vo.ActorVo;
+import com.audio.miliao.vo.TagVo;
 import com.audio.miliao.widget.GridViewWithHeaderAndFooter;
-import com.audio.miliao.widget.HeaderView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +34,11 @@ public class TabMainFragment extends BaseFragment
      */
     private View m_root;
     private GridViewWithHeaderAndFooter m_gridView;
-    private AnchorAdapter m_adapter;
+    private ActorAdapter m_adapter;
     private List<ActorVo> m_actorVoList = new ArrayList<>();
+    // 标题栏上的tag
+    private RadioGroup mRadioGroupTag;
+    private List<TagVo> m_tagVoList;
 
     @Nullable
     @Override
@@ -62,6 +67,7 @@ public class TabMainFragment extends BaseFragment
         try
         {
             m_gridView = (GridViewWithHeaderAndFooter) root.findViewById(R.id.grid);
+            mRadioGroupTag = (RadioGroup) root.findViewById(R.id.rgp_tag);
 
             m_gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
             {
@@ -155,10 +161,10 @@ public class TabMainFragment extends BaseFragment
         {
             if (m_adapter == null)
             {
-                View headerView = HeaderView.load(getActivity(), R.layout.list_header_main_banner, DebugUtil.getBannerUrls(10));
+                View headerView = View.inflate(getActivity(), R.layout.list_header_main_banner, null);
                 m_gridView.addHeaderView(headerView);
 
-                m_adapter = new AnchorAdapter(getActivity(), m_actorVoList);
+                m_adapter = new ActorAdapter(getActivity(), m_actorVoList);
                 m_gridView.setAdapter(m_adapter);
             }
             else
@@ -173,6 +179,32 @@ public class TabMainFragment extends BaseFragment
         }
     }
 
+    private void updateTitleTag()
+    {
+        if (UIUtil.isListNotEmpty(m_tagVoList))
+        {
+            mRadioGroupTag.removeAllViews();
+
+            int width = UIUtil.dip2px(getContext(), 30);
+            RadioGroup.LayoutParams params =  new RadioGroup.LayoutParams(
+                    RadioGroup.LayoutParams.WRAP_CONTENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT,
+                    1.0f);
+
+            for (TagVo tagVo : m_tagVoList)
+            {
+                RadioButton radio = (RadioButton) View.inflate(getContext(), R.layout.layout_tag, null);
+
+                radio.setText(tagVo.getTagName());
+                radio.setTag(tagVo);
+                mRadioGroupTag.addView(radio, params);
+            }
+
+            RadioButton radio = (RadioButton) mRadioGroupTag.getChildAt(0);
+            radio.setChecked(true);
+        }
+    }
+
     /**
      * EventBus 在主线程的响应事件
      *
@@ -183,7 +215,9 @@ public class TabMainFragment extends BaseFragment
         if (event.isSucceed())
         {
             m_actorVoList = event.getActorVos();
+            m_tagVoList = event.getTagVos();
             updateData();
+            updateTitleTag();
         }
     }
 }
