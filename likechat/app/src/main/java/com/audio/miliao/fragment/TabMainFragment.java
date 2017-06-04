@@ -15,8 +15,8 @@ import com.audio.miliao.R;
 import com.audio.miliao.activity.CustomerServiceActivity;
 import com.audio.miliao.activity.UserInfoActivity;
 import com.audio.miliao.adapter.ActorAdapter;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.event.FetchHomeContentEvent;
+import com.audio.miliao.theApp;
 import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.vo.ActorVo;
 import com.audio.miliao.vo.TagVo;
@@ -77,7 +77,7 @@ public class TabMainFragment extends BaseFragment
                     try
                     {
                         Intent intentUserInfo = new Intent(getActivity(), UserInfoActivity.class);
-                        Actor actor = (Actor) m_adapter.getItem(position);
+                        ActorVo actor = (ActorVo) m_adapter.getItem(position);
                         intentUserInfo.putExtra("user", actor);
                         startActivity(intentUserInfo);
                     }
@@ -191,12 +191,26 @@ public class TabMainFragment extends BaseFragment
                     RadioGroup.LayoutParams.WRAP_CONTENT,
                     1.0f);
 
+            View.OnClickListener clickListener = new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    TagVo tagVo = (TagVo) v.getTag();
+                    if (tagVo != null)
+                    {
+                        theApp.showToast(tagVo.toString());
+                    }
+                }
+            };
+
             for (TagVo tagVo : m_tagVoList)
             {
                 RadioButton radio = (RadioButton) View.inflate(getContext(), R.layout.layout_tag, null);
 
                 radio.setText(tagVo.getTagName());
                 radio.setTag(tagVo);
+                radio.setOnClickListener(clickListener);
                 mRadioGroupTag.addView(radio, params);
             }
 
