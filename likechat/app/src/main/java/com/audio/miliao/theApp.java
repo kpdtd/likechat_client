@@ -5,9 +5,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.util.UIUtil;
+import com.audio.miliao.vo.ActorPageVo;
 import com.uikit.loader.LoaderApp;
 
 public class theApp extends Application
@@ -61,16 +61,16 @@ public class theApp extends Application
         {
             if (AppData.getCurUser() == null)
             {
-                Actor actor = new Actor();
-                actor.id = "12345678";
-                actor.name = "我是大管家";
-                actor.avatar = "avatar1.jpg";
-                actor.sign = "管家就是要有管家的样子，别拿管家不当干部";
-                actor.intro = "我是大管家，我要管好整个家族";
-                actor.age = 23;
-                actor.city = "成都";
-                actor.fans = 10043;
-                actor.follow = 325;
+                ActorPageVo actor = new ActorPageVo();
+                actor.setId(12345678);
+                actor.setNickname("我是大管家");
+                actor.setIcon("avatar1.jpg");
+                actor.setSignature("管家就是要有管家的样子，别拿管家不当干部");
+                actor.setIntroduction("我是大管家，我要管好整个家族");
+                actor.setAge("23");
+                actor.setCity("成都");
+                actor.setFans("10043");
+                actor.setAttention("205");
                 AppData.saveCurUser(actor);
             }
         }

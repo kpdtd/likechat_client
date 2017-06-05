@@ -8,11 +8,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.vo.ActorPageVo;
+import com.audio.miliao.vo.ActorVo;
 
 import org.json.JSONArray;
 
@@ -210,7 +210,7 @@ public class UserInfoActivity extends BaseActivity
                             // 关闭当前页
                             finish();
 
-                            Actor actor = (Actor)v.getTag();
+                            ActorPageVo actor = (ActorPageVo)v.getTag();
                             Intent intentUserInfo = new Intent(UserInfoActivity.this, UserInfoActivity.class);
                             intentUserInfo.putExtra("user", actor);
                             startActivity(intentUserInfo);
@@ -223,8 +223,8 @@ public class UserInfoActivity extends BaseActivity
                 }
             };
 
-            List<Actor> actorList = DebugUtil.getUserList();
-            List<ActorPageVo> actorPageVoList = DebugUtil.actor2ActorPageVo(actorList);
+            List<ActorPageVo> actorList = DebugUtil.getUserList();
+            List<ActorVo> actorPageVoList = DebugUtil.actorPageVos2Actors(actorList);
 
             // 去掉当前用户
             for(int i = 0; i < actorPageVoList.size(); i++)
@@ -251,12 +251,12 @@ public class UserInfoActivity extends BaseActivity
             java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
             LinearLayout layAnchor = null;
             int nSize = actorList.size() < 8 ? actorList.size() : 8;
-            ActorPageVo actorPageVo = null;
+            ActorVo actorVo = null;
 
             // 椭机数产生主播
             for(int i = 0; i < 8; i++)
             {
-                actorPageVo = null;
+                actorVo = null;
                 layAnchor = (LinearLayout)viewList.get(i);
                 if (i < nSize)
                 {
@@ -267,8 +267,8 @@ public class UserInfoActivity extends BaseActivity
                     }
 
                     setExist.add(nIndex);
-                    actorPageVo = actorPageVoList.get(nIndex);
-                    layAnchor.setTag(actorPageVo);
+                    actorVo = actorPageVoList.get(nIndex);
+                    layAnchor.setTag(actorVo);
                     layAnchor.setOnClickListener(clickListener);
                 }else
                 {
@@ -282,18 +282,18 @@ public class UserInfoActivity extends BaseActivity
                     View vChile = layAnchor.getChildAt(j);
                     if (vChile instanceof ImageView)
                     {
-                        if (null == actorPageVo)
+                        if (null == actorVo)
                         {
                             ((ImageView)vChile).setImageResource(0);
                         }
                         else
                         {
-                            ImageLoaderUtil.displayListAvatarImageFromAsset((ImageView)vChile, actorPageVo.getIcon());
+                            ImageLoaderUtil.displayListAvatarImageFromAsset((ImageView)vChile, actorVo.getIcon());
                         }
                     }
                     else if (vChile instanceof TextView)
                     {
-                        ((TextView)vChile).setText(null == actorPageVo ? "" : actorPageVo.getNickname());
+                        ((TextView)vChile).setText(null == actorVo ? "" : actorVo.getNickname());
                     }
                 }
             }

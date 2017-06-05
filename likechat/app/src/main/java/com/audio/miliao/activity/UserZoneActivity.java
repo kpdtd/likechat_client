@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.ZoneAdapter;
 import com.audio.miliao.entity.AppData;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.entity.Zone;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.vo.ActorVo;

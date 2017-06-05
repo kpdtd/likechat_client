@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.ChatAdapter;
 import com.audio.miliao.entity.ChatMessage;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.vo.ActorVo;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class ChatTextActivity extends BaseActivity
 {
-    private Actor m_actor;
+    private ActorVo m_actor;
     private ListView m_list;
     private ChatAdapter m_adapter;
 
@@ -31,7 +31,7 @@ public class ChatTextActivity extends BaseActivity
         setContentView(R.layout.activity_chat_text);
         try
         {
-            m_actor = (Actor) getIntent().getSerializableExtra("user");
+            m_actor = (ActorVo) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -136,7 +136,7 @@ public class ChatTextActivity extends BaseActivity
             }
 
             TextView txtTitle = (TextView) findViewById(R.id.txt_title);
-            txtTitle.setText(m_actor.name);
+            txtTitle.setText(m_actor.getNickname());
 
             List<ChatMessage> chatMessages = DebugUtil.getChatMessage();
             if (m_adapter == null)

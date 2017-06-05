@@ -17,6 +17,7 @@ import com.audio.miliao.activity.UserFriendActivity;
 import com.audio.miliao.activity.UserZoneActivity;
 import com.audio.miliao.activity.VipActivity;
 import com.audio.miliao.entity.AppData;
+import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.vo.ActorVo;
 
@@ -138,7 +139,7 @@ public class TabMeFragment extends BaseFragment
                 TextView txtId = (TextView) m_root.findViewById(R.id.txt_id);
                 TextView txtSigh = (TextView) m_root.findViewById(R.id.txt_sign);
 
-                ActorVo actor = AppData.getCurUser();
+                ActorVo actor = DebugUtil.actorPageVo2ActorVo(AppData.getCurUser());
                 if (actor != null)
                 {
                     txtName.setText(actor.getNickname());

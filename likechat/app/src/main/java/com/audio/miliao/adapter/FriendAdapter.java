@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.vo.ActorVo;
@@ -22,17 +21,17 @@ import java.util.List;
 public class FriendAdapter extends BaseAdapter
 {
     private Activity m_parent;
-    private List<Actor> m_listActors;
+    private List<ActorVo> m_listActors;
     /** 列表是否处于滑动状态 */
     private boolean m_bIsScrolling = false;
 
-    public FriendAdapter(Activity activity, List<Actor> listActors)
+    public FriendAdapter(Activity activity, List<ActorVo> listActors)
     {
         m_parent = activity;
         m_listActors = listActors;
     }
 
-    public void updateData(List<Actor> listActors)
+    public void updateData(List<ActorVo> listActors)
     {
         m_listActors = listActors;
     }

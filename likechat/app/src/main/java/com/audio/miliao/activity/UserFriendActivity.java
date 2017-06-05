@@ -9,8 +9,9 @@ import android.widget.RadioButton;
 
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.FriendAdapter;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.vo.ActorPageVo;
+import com.audio.miliao.vo.ActorVo;
 
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class UserFriendActivity extends BaseActivity
                 {
                     try
                     {
-                        Actor actor = (Actor) m_adapter.getItem(position);
+                        ActorVo actor = (ActorVo) m_adapter.getItem(position);
                         Intent intentUserInfo = new Intent(UserFriendActivity.this, UserInfoActivity.class);
                         intentUserInfo.putExtra("user", actor);
                         startActivity(intentUserInfo);
@@ -107,16 +108,17 @@ public class UserFriendActivity extends BaseActivity
     {
         try
         {
-            List<Actor> actorList = DebugUtil.getUserList();
+            List<ActorPageVo> actorList = DebugUtil.getUserList();
+            List<ActorVo> actorVos = DebugUtil.actorPageVos2Actors(actorList);
 
             if (m_adapter == null)
             {
-                m_adapter = new FriendAdapter(this, actorList);
+                m_adapter = new FriendAdapter(this, actorVos);
                 m_list.setAdapter(m_adapter);
             }
             else
             {
-                m_adapter.updateData(actorList);
+                m_adapter.updateData(actorVos);
                 m_adapter.notifyDataSetChanged();
             }
 

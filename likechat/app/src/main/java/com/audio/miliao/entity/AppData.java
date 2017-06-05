@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 public class AppData
 {
-    public static void saveCurUser(Actor actor)
+    public static void saveCurUser(ActorPageVo actor)
     {
         //ms_curUser = user;
         PreferUtil.setStringPreference(KEY_ACTOR, actor.toJson().toString());
@@ -23,13 +23,13 @@ public class AppData
      * 获取当前用户
      * @return
      */
-    public static ActorVo getCurUser()
+    public static ActorPageVo getCurUser()
     {
         //return ms_curUser;
         try
         {
             JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_ACTOR));
-            ActorVo actor = ActorVo.parse(jsonObject.toString(), ActorVo.class);
+            ActorPageVo actor = ActorPageVo.parse(jsonObject.toString(), ActorPageVo.class);
             return actor;
         }
         catch (Exception e)

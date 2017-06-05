@@ -1,7 +1,6 @@
 package com.audio.miliao.util;
 
 import com.audio.miliao.R;
-import com.audio.miliao.entity.Actor;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.CallHistory;
 import com.audio.miliao.entity.ChatMessage;
@@ -24,7 +23,7 @@ import static com.audio.miliao.R.mipmap.avatar1;
  */
 public class DebugUtil
 {
-    public static List<Actor> getUserList()
+    public static List<ActorPageVo> getUserList()
     {
         try
         {
@@ -133,7 +132,7 @@ public class DebugUtil
                     {
                             100, 200, 300
                     };
-            List<Actor> actorList = new ArrayList<>();
+            List<ActorPageVo> actorList = new ArrayList<>();
             Random rand = new Random(System.currentTimeMillis());
             java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
             for (int i = 0; i < 20; i++)
@@ -148,17 +147,17 @@ public class DebugUtil
 
                 int avatar = nIndex;
                 int index = i % 3;
-                Actor actor = new Actor();
-                actor.name = titles[avatar]; // "直播主播" + (i + 1);
-                actor.age = 20;
-                actor.id = String.valueOf(10000 + i + 1);
-                actor.city = citys[index];
-                actor.gender = Actor.GENDER_FEMALE;
-                actor.sign = signs[avatar];
-                actor.intro = intros[avatar]; // "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
-                actor.avatar = "thumb" + (avatar + 1) + ".jpg";
-                actor.fans = fanses[index];
-                actor.follow = follows[index];
+                ActorPageVo actor = new ActorPageVo();
+                actor.setNickname(titles[avatar]); // "直播主播" + (i + 1);
+                actor.setAge(String.valueOf(20));
+                actor.setId(10000 + i + 1);
+                actor.setCity(citys[index]);
+                actor.setSex(2);
+                actor.setSignature(signs[avatar]);
+                actor.setIntroduction(intros[avatar]); // "虽说这座临时洞府外仅仅布置了一套隐秘旗阵，很难瞒过真丹境的修士，但若要骗过化晶修士还是绰绰有余的";
+                actor.setIcon("thumb" + (avatar + 1) + ".jpg");
+                actor.setFans(String.valueOf(fanses[index]));
+                actor.setAttention(String.valueOf(follows[index]));
                 actorList.add(actor);
             }
 
@@ -185,7 +184,7 @@ public class DebugUtil
                 chatMessage.text = strTexts[i % 3] + i;
                 if (i % 2 == 0)
                 {
-                    chatMessage.from = AppData.getCurUser();
+                    chatMessage.from = actorPageVo2ActorVo(AppData.getCurUser());
                     chatMessage.date = System.currentTimeMillis();
                 }
                 else
@@ -222,7 +221,7 @@ public class DebugUtil
             ActorVo actor3 = new ActorVo();
             actor3.setNickname("足球宝贝");
             actor3.setIcon("avatar3.jpg");
-            ActorVo users1[] = new ActorVo[]{actor1, actor2, actor3, AppData.getCurUser()};
+            ActorVo users1[] = new ActorVo[]{actor1, actor2, actor3, actorPageVo2ActorVo(AppData.getCurUser())};
             ActorVo users2[] = new ActorVo[]{actor1, actor2, actor3};
             int talkTimes[] = new int[]{0, 59, 61, 3599, 3601, 123456};
             for (int i = 0; i < 20; i++)
@@ -235,7 +234,7 @@ public class DebugUtil
                 }
                 else
                 {
-                    callHistory.to = AppData.getCurUser();
+                    callHistory.to = actorPageVo2ActorVo(AppData.getCurUser());
                 }
 
                 if (i % 2 == 0)
@@ -355,7 +354,7 @@ public class DebugUtil
         List<Zone> zoneList = new ArrayList<>();
         try
         {
-            List<Actor> actorList = getUserList();
+            List<ActorPageVo> actorList = getUserList();
             List<Date> dateList = getDates(20);
             List<String> thumbUrlList = new ArrayList<>();
             thumbUrlList.add("thumb1.jpg");
@@ -370,19 +369,19 @@ public class DebugUtil
             for (int i = 0; i < 20; i++)
             {
                 int nUserIndex = i % actorList.size();
-                Actor actor = actorList.get(nUserIndex);
+                ActorPageVo actor = actorList.get(nUserIndex);
 
                 Zone zone = new Zone();
                 zone.id = String.valueOf(i);
-                zone.text = actor.intro;
+                zone.text = actor.getIntroduction();
                 zone.thumbsUrl = toJsonArray(thumbUrlList.subList(0, i % 9 + 1));
                 zone.photosUrl = zone.thumbsUrl.replace("thumb", "avatar");
                 zone.date = dateList.get(i).getTime();
                 zone.watch = random();
-                zone.anchorId = actor.id;
-                zone.anchorAvatar = actor.avatar;
-                zone.anchorName = actor.name;
-                zone.anchorSign = actor.sign;
+                zone.anchorId = String.valueOf(actor.getId());
+                zone.anchorAvatar = actor.getIcon();
+                zone.anchorName = actor.getNickname();
+                zone.anchorSign = actor.getSignature();
 
                 zoneList.add(zone);
             }
@@ -420,38 +419,33 @@ public class DebugUtil
         return list;
     }
 
-    public static ActorPageVo actor2ActorPageVo(Actor actor)
+    public static ActorVo actorPageVo2ActorVo(ActorPageVo actor)
     {
-        ActorPageVo actorPageVo = new ActorPageVo();
+        ActorVo actorVo = new ActorVo();
 
-        actorPageVo.setId(Integer.valueOf(actor.id));
-        actorPageVo.setAge(String.valueOf(actor.age));
-        actorPageVo.setNickname(actor.name);
-        actorPageVo.setCity(actor.city);
-        actorPageVo.setProvince(actor.province);
-        actorPageVo.setSignature(actor.sign);
-        actorPageVo.setIntroduction(actor.intro);
-        actorPageVo.setFans(String.valueOf(actor.fans));
-        actorPageVo.setAttention(String.valueOf(actor.follow));
-        actorPageVo.setIcon(actor.avatar);
+        actorVo.setId(actor.getId());
+        actorVo.setAge(actor.getAge());
+        actorVo.setNickname(actor.getNickname());
+        actorVo.setSignature(actor.getSignature());
+        actorVo.setIcon(actor.getIcon());
 
-        return actorPageVo;
+        return actorVo;
     }
 
-    public static List<ActorPageVo> actor2ActorPageVo(List<Actor> actors)
+    public static List<ActorVo> actorPageVos2Actors(List<ActorPageVo> actorPageVos)
     {
-        List<ActorPageVo> actorPageVos = new ArrayList<>();
+        List<ActorVo> actors = new ArrayList<>();
 
-        for (Actor actor : actors)
+        for (ActorPageVo actor : actorPageVos)
         {
-            ActorPageVo actorPageVo = actor2ActorPageVo(actor);
-            if (actorPageVo != null)
+            ActorVo actorVo = actorPageVo2ActorVo(actor);
+            if (actorVo != null)
             {
-                actorPageVos.add(actorPageVo);
+                actors.add(actorVo);
             }
         }
 
-        return actorPageVos;
+        return actors;
     }
 
     private static Random sm_rand;
