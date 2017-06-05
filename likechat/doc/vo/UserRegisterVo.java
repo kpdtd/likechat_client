@@ -16,7 +16,7 @@ public class UserRegisterVo {
 	private String signature;//个性签名
 	private String province;//个性签名
 	private String city;//个性签名
-	private String sex;//1男2女
+	private String sex;//直接填入：男    女
 	
 	public String getOpenId() {
 		return openId;
@@ -27,7 +27,7 @@ public class UserRegisterVo {
 	public String getLoginType() {
 		return loginType;
 	}
-	public void setLogin_type(String loginType) {
+	public void setLoginType(String loginType) {
 		this.loginType = loginType;
 	}
 	public String getNickname() {
