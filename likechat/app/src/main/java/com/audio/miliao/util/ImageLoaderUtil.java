@@ -76,7 +76,7 @@ public class ImageLoaderUtil
                 m_optionsListAvatar = new DisplayImageOptions.Builder()
                         .showImageForEmptyUri(R.mipmap.ic_user)
                         // 设置图片在下载期间显示的图片
-                        .showImageOnFail(R.mipmap.ic_user)
+                        .showImageOnFail(R.mipmap.loader_empty)
                         // 设置图片Uri为空或是错误的时候显示的图片
                         //.showStubImage(R.mipmap.ic_user)
                         // 设置图片加载/解码过程中错误时候显示的图片

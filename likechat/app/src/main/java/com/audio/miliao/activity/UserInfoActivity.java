@@ -9,7 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.entity.AppData;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.AddAttention;
+import com.audio.miliao.http.cmd.CancelAttention;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.EntityUtil;
@@ -46,7 +49,7 @@ public class UserInfoActivity extends BaseActivity
             initUI();
             //updateData();
             //updatePhoto();
-            //updateAnchor();
+            //updateRecommand();
         }
         catch (Exception e)
         {
@@ -88,6 +91,7 @@ public class UserInfoActivity extends BaseActivity
                                 break;
                             // 关注
                             case R.id.lay_follow:
+                                onFollowClick();
                                 break;
                             // 关注
                             case R.id.img_back:
@@ -111,6 +115,39 @@ public class UserInfoActivity extends BaseActivity
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 关注/取消关注 按钮点击
+     */
+    private void onFollowClick()
+    {
+        if (AppData.isLogin())
+        {
+            String follow = getString(R.string.txt_user_info_follow);
+            String cancelFollow = getString(R.string.txt_user_info_cancel_follow);
+            TextView textFollow = (TextView) findViewById(R.id.txt_user_info_follow);
+            String text = textFollow.getText().toString();
+
+            int userId = AppData.getCurUserId();
+            int actorId = mActorVoId;
+
+            if (text.equals(follow))
+            {
+                AddAttention addAttention = new AddAttention(handler(), userId, actorId, null);
+                addAttention.send();;
+            }
+            else
+            {
+                CancelAttention cancelAttention = new CancelAttention(handler(), userId, actorId, null);
+                cancelAttention.send();
+            }
+        }
+        else
+        {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -195,7 +232,10 @@ public class UserInfoActivity extends BaseActivity
         }
     }
 
-    private void updateAnchor()
+    /**
+     * 第一期暂时取消推荐
+     */
+    private void updateRecommand()
     {
         try
         {
@@ -329,6 +369,8 @@ public class UserInfoActivity extends BaseActivity
             TextView txtIntro = (TextView) findViewById(R.id.txt_intro);
             TextView txtCallRate = (TextView) findViewById(R.id.txt_call_rate);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
+            TextView txtFollow = (TextView) findViewById(R.id.txt_user_info_follow);
+
 
             String icon = m_actorPage.getIcon();
             ImageLoaderUtil.displayListAvatarImage(imgAvatar, icon);
@@ -346,6 +388,8 @@ public class UserInfoActivity extends BaseActivity
             txtIntro.setText(m_actorPage.getIntroduction());
             txtCallRate.setText(m_actorPage.getPrice());
             txtTalkTime.setText(m_actorPage.getCallTime());
+
+            updateFollowButtonState(m_actorPage.getIsAttention());
 
             EntityUtil.setAnchorGenderDrawable(txtAge, m_actorPage.getSex(), true);
         }
@@ -366,8 +410,41 @@ public class UserInfoActivity extends BaseActivity
             {
                 m_actorPage = fetchActorPage.rspActorPageVo;
                 updateData();
+                updatePhoto();
             }
             break;
+        case HttpUtil.RequestCode.ADD_ATTENTION:
+            AddAttention addAttention = (AddAttention) msg.obj;
+            if (addAttention.isSucceed(addAttention))
+            {
+                updateFollowButtonState(true);
+            }
+            break;
+        case HttpUtil.RequestCode.CANCEL_ATTENTION:
+            CancelAttention cancelAttention = (CancelAttention) msg.obj;
+            if (CancelAttention.isSucceed(cancelAttention))
+            {
+                updateFollowButtonState(false);
+            }
+            break;
+        }
+    }
+
+    /**
+     * 更新关注/取消关注 按钮状态
+     * @param follow 当前是关注还是未关注状态
+     */
+    private void updateFollowButtonState(boolean follow)
+    {
+        TextView textFollow = (TextView) findViewById(R.id.txt_user_info_follow);
+
+        if (follow)
+        {
+            textFollow.setText(R.string.txt_user_info_cancel_follow);
+        }
+        else
+        {
+            textFollow.setText(R.string.txt_user_info_follow);
         }
     }
 }

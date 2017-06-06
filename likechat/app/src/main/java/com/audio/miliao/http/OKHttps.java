@@ -351,10 +351,10 @@ public class OKHttps
 //		{
 //			builder.addHeader("Authorization", "Bearer " + strToken);
 //		}
-		String userId = AppData.getUserId();
-		if (StringUtil.isNotEmpty(userId))
+		int userId = AppData.getCurUserId();
+		if (userId != -1)
 		{
-			builder.addHeader("userId", userId);
+			builder.addHeader("userId", String.valueOf(userId));
 		}
 
 		String openId = AppData.getOpenId();

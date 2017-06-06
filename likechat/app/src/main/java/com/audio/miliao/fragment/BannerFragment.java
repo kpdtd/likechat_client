@@ -147,11 +147,12 @@ public class BannerFragment extends BaseFragment
                     public Object instantiateItem(ViewGroup container, int position)
                     {
                         //return super.instantiateItem(container, position);
-                        if (mViewList != null && mViewList.size() > 0)
+                        //if (mViewList != null && mViewList.size() > 0)
+                        if (UIUtil.isListNotEmpty(mViewList))
                         {
                             BannerVo bannerVo = mBannerList.get(position);
                             ImageView view = (ImageView) mViewList.get(position);
-                            String icon = bannerVo.getIcon();
+                            String icon = bannerVo.getIcon().trim();
                             ImageLoaderUtil.displayListAvatarImage(view, icon);
 
                             //添加页卡
@@ -178,7 +179,7 @@ public class BannerFragment extends BaseFragment
      */
     public void onEventMainThread(FetchHomeContentEvent event)
     {
-        if (event.isSucceed())
+        if (event.getIsSucceed())
         {
             mBannerList = event.getBannerVos();
             updateData();

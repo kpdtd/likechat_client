@@ -5,7 +5,13 @@ import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.entity.GsonObj;
 import com.audio.miliao.vo.ActorVo;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * 放置经常使用的跟Entity和UI相关的代码
@@ -69,6 +75,19 @@ public class EntityUtil
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+
+
+    public static <T extends GsonObj<T>> void parseList(JSONArray jsonArray, List<T> list, Class<T> cls)
+    {
+        int len = jsonArray.length();
+        for (int i= 0; i < len; i++)
+        {
+            JSONObject jsonObject = jsonArray.optJSONObject(i);
+            T obj = T.parse(jsonObject.toString(), cls);
+            list.add(obj);
         }
     }
 }

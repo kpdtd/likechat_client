@@ -4,18 +4,23 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.util.EntityUtil;
+import com.audio.miliao.vo.ActorVo;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 /**
  * 根据Tag获取20个随机主播
  */
-public class FetchActorList extends BaseReqRsp
+public class FetchActorListByTag extends BaseReqRsp
 {
 	public String reqTag;
+	public List<ActorVo> rspActorVos;
 
 	/**
 	 * 根据Tag获取20个随机主播
@@ -23,7 +28,7 @@ public class FetchActorList extends BaseReqRsp
 	 * @param strTag Tag
 	 * @param tag
 	 */
-	public FetchActorList(Handler handler, String strTag, Object tag)
+	public FetchActorListByTag(Handler handler, String strTag, Object tag)
 	{
 		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR_LIST_BY_TAG, false, tag);
 
@@ -67,6 +72,10 @@ public class FetchActorList extends BaseReqRsp
 			rspResultCode = HttpUtil.Result.OK;
 			try
 			{
+				JSONObject jsonObject = new JSONObject(httpBody);
+				JSONArray jsonArray = jsonObject.optJSONArray("data");
+				rspActorVos = new ArrayList<>();
+				EntityUtil.parseList(jsonArray, rspActorVos, ActorVo.class);
 			}
 			catch (Exception e)
 			{

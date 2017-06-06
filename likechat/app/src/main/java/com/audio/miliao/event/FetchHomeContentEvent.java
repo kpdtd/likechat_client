@@ -9,12 +9,11 @@ import java.util.List;
 /**
  * 获取主界面内容结果Event
  */
-public class FetchHomeContentEvent
+public class FetchHomeContentEvent extends BaseEvent
 {
     private List<TagVo> tagVos;
     private List<BannerVo> bannerVos;
     private List<ActorVo> actorVos;
-    private boolean isSucceed = false;
 
     public FetchHomeContentEvent(List<TagVo> tagVos,
                                  List<BannerVo> bannerVos,
@@ -38,15 +37,5 @@ public class FetchHomeContentEvent
     public List<ActorVo> getActorVos()
     {
         return actorVos;
-    }
-
-    public void setIsSucceed(boolean isSucceed)
-    {
-        this.isSucceed = isSucceed;
-    }
-
-    public boolean isSucceed()
-    {
-        return isSucceed;
     }
 }

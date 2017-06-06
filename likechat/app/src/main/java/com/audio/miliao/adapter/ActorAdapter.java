@@ -114,7 +114,7 @@ public class ActorAdapter extends BaseAdapter
             ActorVo actor = (ActorVo) getItem(nPosition);
             if (actor != null)
             {
-                holder.name.setText(actor.getNickname() + ":" + nPosition);
+                holder.name.setText(actor.getNickname());
                 holder.intro.setText(actor.getSignature());
                 holder.gender.setText((actor.getSex() == 1 ? "男" : "女"));
                 //holder.avatar.setImageResource(user.avatar_res);

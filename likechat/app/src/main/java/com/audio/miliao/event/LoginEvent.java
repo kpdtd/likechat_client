@@ -5,12 +5,12 @@ import com.audio.miliao.vo.UserRegisterVo;
 /**
  * EventBus发送的登录结果Event
  */
-public class LoginEvent
+public class LoginEvent extends BaseEvent
 {
     private UserRegisterVo registerVo;
-    private String userId;
+    private int userId;
 
-    public LoginEvent(UserRegisterVo registerVo, String userId)
+    public LoginEvent(UserRegisterVo registerVo, int userId)
     {
         this.registerVo = registerVo;
         this.userId = userId;
@@ -21,7 +21,7 @@ public class LoginEvent
         return registerVo;
     }
 
-    public String getUserId()
+    public int getUserId()
     {
         return userId;
     }

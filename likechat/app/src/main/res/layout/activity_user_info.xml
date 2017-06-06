@@ -245,18 +245,8 @@
                     android:textColor="@color/gray"
                     android:textSize="@dimen/txt_size_14_dp"/>
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/lay_recommend"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:clickable="true"
-                android:background="#fefefe"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-            </LinearLayout>
             <GridLayout
-                android:id="@+id/lay_anchor"
+                android:id="@+id/lay_recommend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -264,6 +254,7 @@
                 android:background="@color/white"
                 android:columnCount="4"
                 android:rowCount="2"
+                android:visibility="gone"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:id="@+id/lay_anchor1"

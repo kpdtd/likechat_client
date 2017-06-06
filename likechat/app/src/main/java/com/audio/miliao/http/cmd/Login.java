@@ -29,7 +29,7 @@ import de.greenrobot.event.EventBus;
 public class Login extends BaseReqRsp
 {
     private UserRegisterVo reqUserRegisterVo;
-    public String rspUserId;
+    public int rspUserId;
 
     /**
      * 登录
@@ -74,7 +74,7 @@ public class Login extends BaseReqRsp
             {
                 JSONObject jsonObject = new JSONObject(httpBody);
                 JSONObject data = jsonObject.optJSONObject("data");
-                rspUserId = data.optString("id");
+                rspUserId = data.optInt("id");
             }
             catch (Exception e)
             {
@@ -91,15 +91,17 @@ public class Login extends BaseReqRsp
     @Override
     public void onFinish()
     {
+        LoginEvent event = new LoginEvent(reqUserRegisterVo, rspUserId);
         //theApp.showToast("Login onFinish");
         if (rspResultCode == HttpUtil.Result.OK)
         {
             AppData.setUserInfo(reqUserRegisterVo);
             AppData.setOpenId(reqUserRegisterVo.getOpenId());
-            AppData.setUserId(rspUserId);
+            AppData.setCurUserId(rspUserId);
+
+            event.setIsSucceed(true);
         }
 
-        LoginEvent event = new LoginEvent(reqUserRegisterVo, rspUserId);
         EventBus.getDefault().post(event);
     }
 }

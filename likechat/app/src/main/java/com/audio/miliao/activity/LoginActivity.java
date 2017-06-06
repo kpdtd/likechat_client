@@ -18,7 +18,6 @@ import com.audio.miliao.pay.alipay.OrderInfoUtil2_0;
 import com.audio.miliao.pay.alipay.PayResult;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.QQUtil;
-import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.util.WXUtil;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.session.constant.Extras;
@@ -69,7 +68,7 @@ public class LoginActivity extends BaseActivity
      */
     public void onEventMainThread(LoginEvent event)
     {
-        if (StringUtil.isNotEmpty(event.getUserId()))
+        if (event.getIsSucceed())
         {
             // 登录成功
             onLoginSucceed();

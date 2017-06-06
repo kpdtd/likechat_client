@@ -2,6 +2,7 @@ package com.audio.miliao.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.audio.miliao.activity.CustomerServiceActivity;
 import com.audio.miliao.activity.UserInfoActivity;
 import com.audio.miliao.adapter.ActorAdapter;
 import com.audio.miliao.event.FetchHomeContentEvent;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchActorListByTag;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.vo.ActorVo;
@@ -200,6 +203,8 @@ public class TabMainFragment extends BaseFragment
                     if (tagVo != null)
                     {
                         theApp.showToast(tagVo.toString());
+                        FetchActorListByTag fetchActorListByTag = new FetchActorListByTag(handler(), tagVo.getIdentifying(), null);
+                        fetchActorListByTag.send();
                     }
                 }
             };
@@ -226,12 +231,28 @@ public class TabMainFragment extends BaseFragment
      */
     public void onEventMainThread(FetchHomeContentEvent event)
     {
-        if (event.isSucceed())
+        if (event.getIsSucceed())
         {
             m_actorVoList = event.getActorVos();
             m_tagVoList = event.getTagVos();
             updateData();
             updateTitleTag();
+        }
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_ACTOR_LIST_BY_TAG:
+            FetchActorListByTag fetchActorListByTag = (FetchActorListByTag) msg.obj;
+            if (FetchActorListByTag.isSucceed(fetchActorListByTag))
+            {
+                m_actorVoList = fetchActorListByTag.rspActorVos;
+                updateData();
+            }
+            break;
         }
     }
 }

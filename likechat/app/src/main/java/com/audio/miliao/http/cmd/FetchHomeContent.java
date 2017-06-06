@@ -2,10 +2,10 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
-import com.audio.miliao.entity.GsonObj;
 import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.vo.ActorVo;
 import com.audio.miliao.vo.BannerVo;
 import com.audio.miliao.vo.TagVo;
@@ -75,9 +75,9 @@ public class FetchHomeContent extends BaseReqRsp
 				rspTagVos = new ArrayList<>();
 				rspBannerVos = new ArrayList<>();
 				rspActorVos = new ArrayList<>();
-				parse(jsonTagVo, rspTagVos, TagVo.class);
-				parse(jsonBannerVo, rspBannerVos, BannerVo.class);
-				parse(jsonActorsVo, rspActorVos, ActorVo.class);
+				EntityUtil.parseList(jsonTagVo, rspTagVos, TagVo.class);
+				EntityUtil.parseList(jsonBannerVo, rspBannerVos, BannerVo.class);
+				EntityUtil.parseList(jsonActorsVo, rspActorVos, ActorVo.class);
 			}
 			catch (Exception e)
 			{
@@ -105,16 +105,5 @@ public class FetchHomeContent extends BaseReqRsp
 		}
 
 		EventBus.getDefault().post(event);
-	}
-
-	private <T extends GsonObj<T>> void parse(JSONArray jsonArray, List<T> list, Class<T> cls)
-	{
-		int len = jsonArray.length();
-		for (int i= 0; i < len; i++)
-		{
-			JSONObject jsonObject = jsonArray.optJSONObject(i);
-			T obj = T.parse(jsonObject.toString(), cls);
-			list.add(obj);
-		}
 	}
 }

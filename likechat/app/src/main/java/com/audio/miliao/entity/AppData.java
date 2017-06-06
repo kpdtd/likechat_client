@@ -96,7 +96,7 @@ public class AppData
     {
         // Debug
         return true;
-        //return StringUtil.isNotEmpty(getUserId());
+        //return StringUtil.isNotEmpty(getCurUserId());
     }
 
     public static void setYunXinAccount(String account)
@@ -145,18 +145,18 @@ public class AppData
      * 登录后返回的用户id
      * @param userId
      */
-    public static void setUserId(String userId)
+    public static void setCurUserId(int userId)
     {
-        PreferUtil.setStringPreference(KEY_USER_ID, userId);
+        PreferUtil.setIntPreference(KEY_USER_ID, userId);
     }
 
     /**
      * 登录后返回的用户id
      * @return
      */
-    public static String getUserId()
+    public static int getCurUserId()
     {
-        return PreferUtil.getStringPreference(KEY_USER_ID);
+        return PreferUtil.getIntPreference(KEY_USER_ID, -1);
     }
 
     /**
