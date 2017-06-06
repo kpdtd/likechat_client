@@ -151,7 +151,8 @@ public class BannerFragment extends BaseFragment
                         {
                             BannerVo bannerVo = mBannerList.get(position);
                             ImageView view = (ImageView) mViewList.get(position);
-                            ImageLoaderUtil.displayListAvatarImageFromAsset(view, bannerVo.getIcon());
+                            String icon = bannerVo.getIcon();
+                            ImageLoaderUtil.displayListAvatarImage(view, icon);
 
                             //添加页卡
                             container.addView(view, 0);

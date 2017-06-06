@@ -114,13 +114,13 @@ public class ActorAdapter extends BaseAdapter
             ActorVo actor = (ActorVo) getItem(nPosition);
             if (actor != null)
             {
-                holder.name.setText(actor.getNickname());
+                holder.name.setText(actor.getNickname() + ":" + nPosition);
                 holder.intro.setText(actor.getSignature());
                 holder.gender.setText((actor.getSex() == 1 ? "男" : "女"));
                 //holder.avatar.setImageResource(user.avatar_res);
                 if (!m_bIsScrolling)
                 {
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, actor.getIcon());
+                    ImageLoaderUtil.displayListAvatarImage(holder.avatar, actor.getIcon());
                 }
                 EntityUtil.setAnchorGenderDrawable(holder.gender, actor, false);
             }

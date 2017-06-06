@@ -1,8 +1,8 @@
 package com.audio.miliao.entity;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 @Entity
 public class Test
@@ -13,14 +13,16 @@ public class Test
     private int age;
 
     @Generated(hash = 1255361573)
-    public Test(Long id, String name, int age) {
+    public Test(Long id, String name, int age)
+    {
         this.id = id;
         this.name = name;
         this.age = age;
     }
 
     @Generated(hash = 372557997)
-    public Test() {
+    public Test()
+    {
     }
 
     public Long getId()

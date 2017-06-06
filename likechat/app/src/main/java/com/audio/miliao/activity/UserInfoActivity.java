@@ -2,12 +2,15 @@ package com.audio.miliao.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
@@ -25,7 +28,8 @@ import java.util.Random;
  */
 public class UserInfoActivity extends BaseActivity
 {
-    private ActorPageVo m_actor;
+    private int mActorVoId;
+    private ActorPageVo m_actorPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,12 +38,15 @@ public class UserInfoActivity extends BaseActivity
         setContentView(R.layout.activity_user_info);
         try
         {
-            m_actor = (ActorPageVo) getIntent().getSerializableExtra("user");
+            ActorVo actorVo = (ActorVo) getIntent().getSerializableExtra("user");
+            mActorVoId = actorVo.getId();
+            FetchActorPage fetchActor = new FetchActorPage(handler(), mActorVoId, null);
+            fetchActor.send();
 
             initUI();
-            updateData();
-            updatePhoto();
-            updateAnchor();
+            //updateData();
+            //updatePhoto();
+            //updateAnchor();
         }
         catch (Exception e)
         {
@@ -63,20 +70,20 @@ public class UserInfoActivity extends BaseActivity
                             // 最新动态
                             case R.id.txt_latest_news:
                                 Intent intentZone = new Intent(UserInfoActivity.this, UserZoneActivity.class);
-                                intentZone.putExtra("user", m_actor);
+                                intentZone.putExtra("user", m_actorPage);
                                 startActivity(intentZone);
                                 break;
 
                             // 嗨聊
                             case R.id.lay_voice_chat:
                                 Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
-                                intentVoice.putExtra("user", m_actor);
+                                intentVoice.putExtra("user", m_actorPage);
                                 startActivity(intentVoice);
                                 break;
                             // 文字聊天
                             case R.id.lay_text_chat:
                                 Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
-                                intentText.putExtra("user", m_actor);
+                                intentText.putExtra("user", m_actorPage);
                                 startActivity(intentText);
                                 break;
                             // 关注
@@ -111,7 +118,7 @@ public class UserInfoActivity extends BaseActivity
     {
         try
         {
-            if (m_actor == null)
+            if (m_actorPage == null)
             {
                 return;
             }
@@ -192,7 +199,7 @@ public class UserInfoActivity extends BaseActivity
     {
         try
         {
-            if (m_actor == null)
+            if (m_actorPage == null)
             {
                 return;
             }
@@ -229,7 +236,7 @@ public class UserInfoActivity extends BaseActivity
             // 去掉当前用户
             for(int i = 0; i < actorPageVoList.size(); i++)
             {
-                if (actorPageVoList.get(i).getNickname().equals(m_actor.getNickname()))
+                if (actorPageVoList.get(i).getNickname().equals(m_actorPage.getNickname()))
                 {
                     actorPageVoList.remove(i);
                     break;
@@ -308,7 +315,7 @@ public class UserInfoActivity extends BaseActivity
     {
         try
         {
-            if (m_actor == null)
+            if (m_actorPage == null)
             {
                 return;
             }
@@ -323,27 +330,44 @@ public class UserInfoActivity extends BaseActivity
             TextView txtCallRate = (TextView) findViewById(R.id.txt_call_rate);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
 
-            ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_actor.getIcon());
+            String icon = m_actorPage.getIcon();
+            ImageLoaderUtil.displayListAvatarImage(imgAvatar, icon);
             //imgAvatar.setImageResource(m_user.avatar_res);
-            txtName.setText(m_actor.getNickname());
-            txtAge.setText(String.valueOf(m_actor.getAge()));
+            txtName.setText(m_actorPage.getNickname());
+            txtAge.setText(String.valueOf(m_actorPage.getAge()));
             String strId = getString(R.string.txt_user_info_like_chat_id);
-            txtId.setText(strId + m_actor.getId());
-            txtCity.setText(m_actor.getCity());
+            txtId.setText(strId + mActorVoId);
+            txtCity.setText(m_actorPage.getCity());
             String strFansFollow = getString(R.string.txt_user_info_fans_count);
-            strFansFollow += m_actor.getFans() + "  ";
+            strFansFollow += m_actorPage.getFans() + "  ";
             strFansFollow += getString(R.string.txt_user_info_follow_count);
-            strFansFollow += m_actor.getAttention();
+            strFansFollow += m_actorPage.getAttention();
             txtFansFollow.setText(strFansFollow);
-            txtIntro.setText(m_actor.getIntroduction());
-            txtCallRate.setText("1.5币/分");
-            txtTalkTime.setText("21小时35分钟");
+            txtIntro.setText(m_actorPage.getIntroduction());
+            txtCallRate.setText(m_actorPage.getPrice());
+            txtTalkTime.setText(m_actorPage.getCallTime());
 
-            EntityUtil.setAnchorGenderDrawable(txtAge, m_actor.getSex(), true);
+            EntityUtil.setAnchorGenderDrawable(txtAge, m_actorPage.getSex(), true);
         }
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_ACTOR_PAGE:
+            FetchActorPage fetchActorPage = (FetchActorPage) msg.obj;
+            if (FetchActorPage.isSucceed(fetchActorPage))
+            {
+                m_actorPage = fetchActorPage.rspActorPageVo;
+                updateData();
+            }
+            break;
         }
     }
 }

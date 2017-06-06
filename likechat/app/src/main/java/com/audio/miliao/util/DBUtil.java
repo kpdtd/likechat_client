@@ -9,6 +9,7 @@ import com.audio.miliao.entity.Test;
 import com.audio.miliao.entity.TestDao;
 import com.audio.miliao.theApp;
 
+import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
@@ -49,6 +50,39 @@ public class DBUtil
         init();
         SQLiteDatabase db = openHelper.getWritableDatabase();
         return db;
+    }
+
+    public static<T> void insert(T obj, Class<T> cls)
+    {
+        DaoMaster daoMaster = new DaoMaster(writableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        AbstractDao dao = daoSession.getDao(cls);
+        dao.insert(obj);
+    }
+
+    /**
+     *
+     * @param cls
+     * @param key 主键
+     * @param <T>
+     * @return
+     */
+    public static <T> T query(Class<T> cls, Long key)
+    {
+        DaoMaster daoMaster = new DaoMaster(readableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        AbstractDao dao = daoSession.getDao(cls);
+        return (T)dao.load(key);
+    }
+
+    public static<T> List<T> queryAll(Class<T> cls)
+    {
+        DaoMaster daoMaster = new DaoMaster(readableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        AbstractDao dao = daoSession.getDao(cls);
+        QueryBuilder<T> qb = dao.queryBuilder();
+        List<T> list = qb.list();
+        return list;
     }
 
     /**

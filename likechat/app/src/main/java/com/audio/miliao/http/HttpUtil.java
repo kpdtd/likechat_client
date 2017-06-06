@@ -57,7 +57,7 @@ public class HttpUtil
         /** 取消关注 */
         public static final int CANCEL_ATTENTION = 2;
         /** 获取主播详情 */
-        public static final int FETCH_ACTOR = 3;
+        public static final int FETCH_ACTOR_PAGE = 3;
         /** 根据tag获取20个随机的主播 */
         public static final int FETCH_ACTOR_LIST_BY_TAG = 4;
         /** 微信Oauth */

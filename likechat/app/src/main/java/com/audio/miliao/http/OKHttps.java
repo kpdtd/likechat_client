@@ -83,11 +83,11 @@ public class OKHttps
 		{
 			e.printStackTrace();
 		}
-		finally
-		{
-			req.onFinish();
-			req.onNotify();
-		}
+//		finally
+//		{
+//			req.onFinish();
+//			req.onNotify();
+//		}
 	}
 	
 	/**

@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.vo.ActorPageVo;
 
 import org.json.JSONObject;
 
@@ -13,18 +14,20 @@ import java.util.List;
 /**
  * 获取主播详情
  */
-public class FetchActor extends BaseReqRsp
+public class FetchActorPage extends BaseReqRsp
 {
 	public int reqActorId;
+	public ActorPageVo rspActorPageVo;
+
 	/**
 	 * 获取主播详情
 	 * @param handler
 	 * @param actorId 用户ID
 	 * @param tag
 	 */
-	public FetchActor(Handler handler, int actorId, Object tag)
+	public FetchActorPage(Handler handler, int actorId, Object tag)
 	{
-		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR, false, tag);
+		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR_PAGE, false, tag);
 
 		reqActorId = actorId;
 	}
@@ -66,6 +69,9 @@ public class FetchActor extends BaseReqRsp
 			rspResultCode = HttpUtil.Result.OK;
 			try
 			{
+				JSONObject jsonObject = new JSONObject(httpBody);
+				JSONObject jsonData = jsonObject.optJSONObject("data");
+				rspActorPageVo = ActorPageVo.parse(jsonData, ActorPageVo.class);
 			}
 			catch (Exception e)
 			{
