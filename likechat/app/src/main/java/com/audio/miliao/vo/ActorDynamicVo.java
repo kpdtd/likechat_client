@@ -6,6 +6,12 @@ import java.util.List;
 
 public class ActorDynamicVo extends GsonObj<ActorDynamicVo>
 {
+    /** 视频 */
+    public final static int MEDIA_VIDEO = 1;
+    /** 图片 */
+    public final static int MEDIA_PHOTO = 2;
+    /** 声音 */
+    public final static int MEDIA_VOICE = 3;
 
 	private Integer id;//动态ID
     private String nickname; // 主播昵称
@@ -17,6 +23,10 @@ public class ActorDynamicVo extends GsonObj<ActorDynamicVo>
     private int price;
     private int pageView; // 动态浏览量
     private List<String> dynamicUrl; // 动态URL，字符串的列表（视频、照片、语音的下载播放地址）
+    /** 声音长度(秒) 单个 */
+    private int    voiceSec = 0;
+    /** 视频首页 单个url */
+    private String   videoFaceUrl = "";
     
     public Integer getId() {
 		return id;
@@ -77,6 +87,25 @@ public class ActorDynamicVo extends GsonObj<ActorDynamicVo>
 	}
 	public void setPrice(int price) {
 		this.price = price;
-	} 
+	}
 
+    public int getVoiceSec()
+    {
+        return voiceSec;
+    }
+
+    public void setVoiceSec(int voiceSec)
+    {
+        this.voiceSec = voiceSec;
+    }
+
+    public String getVideoFaceUrl()
+    {
+        return videoFaceUrl;
+    }
+
+    public void setVideoFaceUrl(String videoFaceUrl)
+    {
+        this.videoFaceUrl = videoFaceUrl;
+    }
 }

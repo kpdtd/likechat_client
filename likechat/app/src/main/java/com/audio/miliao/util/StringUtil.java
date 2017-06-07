@@ -1,7 +1,6 @@
 package com.audio.miliao.util;
 
 
-import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,18 +70,6 @@ public class StringUtil
         }
 
         return null;
-    }
-
-    public static Date getDate(SimpleDateFormat sdf, String strDateTime)
-    {
-        try
-        {
-            return sdf.parse(strDateTime);
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
     }
 
     /**
@@ -174,19 +161,6 @@ public class StringUtil
         }
 
         return false;
-    }
-
-    public static String getURLEncode(String value)
-    {
-        try
-        {
-            return URLEncoder.encode(value, "UTF-8");
-        }
-        catch (Exception e)
-        {
-        }
-
-        return "";
     }
 
     /**

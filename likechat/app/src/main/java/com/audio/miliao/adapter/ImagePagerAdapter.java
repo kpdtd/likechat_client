@@ -15,10 +15,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.photoview.PhotoView;
 import com.audio.miliao.photoview.PhotoViewAttacher.OnViewTapListener;
 import com.audio.miliao.util.ImageLoaderUtil;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.ArrayList;
@@ -28,7 +25,7 @@ public class ImagePagerAdapter extends PagerAdapter
 {
     private LayoutInflater m_inflater = null;
     private Context m_context = null;
-    private DisplayImageOptions m_diOptions = null;
+    //private DisplayImageOptions m_diOptions = null;
     private List<String> m_lstImage = new ArrayList<String>();
     private java.util.Map<String, View> m_mapView = new java.util.HashMap<String, View>();
     private OnViewTapListener m_tapListener = null;
@@ -41,15 +38,15 @@ public class ImagePagerAdapter extends PagerAdapter
             m_lstImage = lstImage;
             m_inflater = ((Activity) context).getLayoutInflater();
 
-            m_diOptions = new DisplayImageOptions.Builder()
-                    .showImageForEmptyUri(R.mipmap.loader_empty)
-                    .showImageOnFail(R.mipmap.loader_error)
-                    .resetViewBeforeLoading(true)
-                    .cacheOnDisc(true)
-                    .imageScaleType(ImageScaleType.EXACTLY)
-                    .bitmapConfig(Bitmap.Config.ARGB_8888)
-                    .displayer(new FadeInBitmapDisplayer(300))
-                    .build();
+//            m_diOptions = new DisplayImageOptions.Builder()
+//                    .showImageForEmptyUri(R.mipmap.loader_empty)
+//                    .showImageOnFail(R.mipmap.loader_error)
+//                    .resetViewBeforeLoading(true)
+//                    .cacheOnDisc(true)
+//                    .imageScaleType(ImageScaleType.EXACTLY)
+//                    .bitmapConfig(Bitmap.Config.ARGB_8888)
+//                    .displayer(new FadeInBitmapDisplayer(300))
+//                    .build();
         }
         catch (Exception e)
         {
@@ -111,7 +108,7 @@ public class ImagePagerAdapter extends PagerAdapter
 
             PhotoView photoView = (PhotoView) imageLayout.findViewById(R.id.pv_image);
             final ProgressBar pbLoading = (ProgressBar) imageLayout.findViewById(R.id.pb_loading);
-            ImageLoaderUtil.displayListPhotoImageFromAsset(photoView, m_lstImage.get(position), new ImageLoadingListener()
+            ImageLoaderUtil.displayListPhotoImage(photoView, m_lstImage.get(position), new ImageLoadingListener()
             {
                 @Override
                 public void onLoadingStarted(String strUrl, View view)

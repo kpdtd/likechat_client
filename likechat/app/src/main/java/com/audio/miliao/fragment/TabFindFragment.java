@@ -2,6 +2,7 @@ package com.audio.miliao.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +14,17 @@ import android.widget.ListView;
 import com.audio.miliao.R;
 import com.audio.miliao.activity.ImageBrowseActivity;
 import com.audio.miliao.activity.WatchVideoActivity;
-import com.audio.miliao.adapter.ZoneAdapter;
+import com.audio.miliao.adapter.ActorDynamicAdapter;
 import com.audio.miliao.algorithm.SortByDate;
 import com.audio.miliao.algorithm.SortByFollow;
 import com.audio.miliao.algorithm.SortByWatch;
-import com.audio.miliao.entity.Zone;
-import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchFindList;
+import com.audio.miliao.util.StringUtil;
+import com.audio.miliao.util.UIUtil;
+import com.audio.miliao.vo.ActorDynamicVo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TabFindFragment extends BaseFragment
@@ -27,13 +32,16 @@ public class TabFindFragment extends BaseFragment
     /** 界面中的root view */
     private View m_root;
     private ListView m_list;
-    private ZoneAdapter m_adapter;
+    private ActorDynamicAdapter m_adapter;
+    private List<ActorDynamicVo> m_actorDynamicVos = new ArrayList<>();
     /** 最新 */
     private SortByDate m_sortByDate = new SortByDate();
     /** 热门 */
     private SortByWatch m_sortByWatch = new SortByWatch();
     /** 关注 */
     private SortByFollow m_sortByFollow = new SortByFollow();
+    /** 默认获取最新动态 */
+    private int mFetchFindListTag = FetchFindList.LATEST;
 
     @Nullable
     @Override
@@ -44,7 +52,8 @@ public class TabFindFragment extends BaseFragment
             m_root = inflater.inflate(R.layout.fragment_tab_find, container, false);
 
             initUI(m_root);
-            updateData();
+            fetchFindList();
+            //updateData();
         }
 
         return m_root;
@@ -125,18 +134,24 @@ public class TabFindFragment extends BaseFragment
                         {
                         // 最新
                         case R.id.rdo_find_latest:
-                            m_adapter.updateData(m_sortByDate.sort(m_adapter.getZones()));
-                            m_adapter.notifyDataSetChanged();
+                            //m_adapter.updateData(m_sortByDate.sort(m_adapter.getZones()));
+                            //m_adapter.notifyDataSetChanged();
+                            mFetchFindListTag = FetchFindList.LATEST;
+                            fetchFindList();
                             break;
                         // 热门
                         case R.id.rdo_find_hot:
-                            m_adapter.updateData(m_sortByWatch.sort(m_adapter.getZones()));
-                            m_adapter.notifyDataSetChanged();
+                            //m_adapter.updateData(m_sortByWatch.sort(m_adapter.getZones()));
+                            //m_adapter.notifyDataSetChanged();
+                            mFetchFindListTag = FetchFindList.HOT;
+                            fetchFindList();
                             break;
                         // 关注
                         case R.id.rdo_find_follow:
-                            m_adapter.updateData(m_sortByFollow.sort(m_adapter.getZones()));
-                            m_adapter.notifyDataSetChanged();
+                            //m_adapter.updateData(m_sortByFollow.sort(m_adapter.getZones()));
+                            //m_adapter.notifyDataSetChanged();
+                            mFetchFindListTag = FetchFindList.FOCUS;
+                            fetchFindList();
                             break;
                         }
                     }
@@ -157,46 +172,56 @@ public class TabFindFragment extends BaseFragment
         }
     }
 
+    private void fetchFindList()
+    {
+        FetchFindList fetchFindList = new FetchFindList(handler(), mFetchFindListTag, "0", null);
+        fetchFindList.send();
+    }
+
     private void updateData()
     {
         try
         {
-            List<Zone> zoneList = DebugUtil.getZonesFind();
+            //List<Zone> zoneList = DebugUtil.getZonesFind();
             if (m_adapter == null)
             {
-                m_adapter = new ZoneAdapter(getActivity(), zoneList);
+                m_adapter = new ActorDynamicAdapter(getActivity(), m_actorDynamicVos);
                 m_list.setAdapter(m_adapter);
 
-                m_adapter.setOnClickListener(new ZoneAdapter.OnClickListener()
+                m_adapter.setOnClickListener(new ActorDynamicAdapter.OnClickListener()
                 {
                     @Override
-                    public void onThumbClick(Zone zone, final int nPosition, final int nSize)
+                    public void onThumbClick(ActorDynamicVo actorDynamicVo, final int nPosition, final int nSize)
                     {
                         int nIndex = nPosition;
                         int nCount = nSize;
                         Intent intentText = new Intent(getActivity(), ImageBrowseActivity.class);
                         intentText.putExtra("pos", nIndex);
                         intentText.putExtra("count", nCount);
-                        intentText.putExtra("urls", zone.photosUrl);
+                        intentText.putExtra("urls", StringUtil.listToArray(actorDynamicVo.getDynamicUrl()));
                         startActivity(intentText);
 
                     }
                     @Override
-                    public void onVoiceClick(Zone zone)
+                    public void onVoiceClick(ActorDynamicVo actorDynamicVo)
                     {
                     }
                     @Override
-                    public void onVideoClick(Zone zone)
+                    public void onVideoClick(ActorDynamicVo actorDynamicVo)
                     {
-                        Intent intentText = new Intent(getActivity(), WatchVideoActivity.class);
-                        intentText.putExtra("url", zone.voiceUrl);
-                        startActivity(intentText);
+                        if (UIUtil.isListNotEmpty(actorDynamicVo.getDynamicUrl()))
+                        {
+                            String videoUrl = actorDynamicVo.getDynamicUrl().get(0);
+                            Intent intentText = new Intent(getActivity(), WatchVideoActivity.class);
+                            intentText.putExtra("url", videoUrl);
+                            startActivity(intentText);
+                        }
                     }
                 });
             }
             else
             {
-                m_adapter.updateData(zoneList);
+                m_adapter.updateData(m_actorDynamicVos);
                 m_adapter.notifyDataSetChanged();
             }
         }
@@ -206,34 +231,19 @@ public class TabFindFragment extends BaseFragment
         }
     }
 
-    /**
-     * 热门（按观看人数排序）
-     */
-    private void sortByWatch()
+    @Override
+    public void handleMessage(Message msg)
     {
-        try
+        switch (msg.what)
         {
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    /**
-     * 按照用户关注的主播发的动态，最新的放最上面
-     */
-    private void sortByFollow()
-    {
-        try
-        {
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+        case HttpUtil.RequestCode.FETCH_FIND_LIST:
+            FetchFindList fetchFindList = (FetchFindList) msg.obj;
+            if (FetchFindList.isSucceed(fetchFindList))
+            {
+                m_actorDynamicVos = fetchFindList.rspActorDynamicVos;
+                updateData();
+            }
+            break;
         }
     }
 }

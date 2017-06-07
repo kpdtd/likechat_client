@@ -8,12 +8,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.adapter.ZoneAdapter;
+import com.audio.miliao.adapter.ActorDynamicAdapter;
 import com.audio.miliao.entity.AppData;
-import com.audio.miliao.entity.Zone;
-import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.util.StringUtil;
+import com.audio.miliao.util.UIUtil;
+import com.audio.miliao.vo.ActorDynamicVo;
 import com.audio.miliao.vo.ActorVo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +25,8 @@ public class UserZoneActivity extends BaseActivity
 {
     private ActorVo m_actor;
     private ListView m_list;
-    private ZoneAdapter m_adapter;
+    private ActorDynamicAdapter m_adapter;
+    private List<ActorDynamicVo> m_actorDynamicVos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -125,45 +128,49 @@ public class UserZoneActivity extends BaseActivity
                 return;
             }
 
-            List<Zone> lstZone = DebugUtil.getZonesByAnchor(m_actor);
+            //List<Zone> lstZone = DebugUtil.getZonesByAnchor(m_actor);
             if (m_adapter == null)
             {
-                m_adapter = new ZoneAdapter(UserZoneActivity.this, lstZone);
+                m_adapter = new ActorDynamicAdapter(UserZoneActivity.this, m_actorDynamicVos);
                 m_list.setAdapter(m_adapter);
 
-                m_adapter.setOnClickListener(new ZoneAdapter.OnClickListener()
+                m_adapter.setOnClickListener(new ActorDynamicAdapter.OnClickListener()
                 {
                     @Override
-                    public void onThumbClick(Zone zone, final int nPosition, final int nSize)
+                    public void onThumbClick(ActorDynamicVo actorDynamicVo, final int nPosition, final int nSize)
                     {
                         int nIndex = nPosition;
                         int nCount = nSize;
                         Intent intentText = new Intent(UserZoneActivity.this, ImageBrowseActivity.class);
                         intentText.putExtra("pos", nIndex);
                         intentText.putExtra("count", nCount);
-                        intentText.putExtra("urls", zone.photosUrl);
+                        intentText.putExtra("urls", StringUtil.listToArray(actorDynamicVo.getDynamicUrl()));
                         startActivity(intentText);
 
                     }
 
                     @Override
-                    public void onVoiceClick(Zone zone)
+                    public void onVoiceClick(ActorDynamicVo actorDynamicVo)
                     {
 
                     }
 
                     @Override
-                    public void onVideoClick(Zone zone)
+                    public void onVideoClick(ActorDynamicVo actorDynamicVo)
                     {
-                        Intent intentText = new Intent(UserZoneActivity.this, WatchVideoActivity.class);
-                        intentText.putExtra("url", zone.voiceUrl);
-                        startActivity(intentText);
+                        if (UIUtil.isListNotEmpty(actorDynamicVo.getDynamicUrl()))
+                        {
+                            String videoUrl = actorDynamicVo.getDynamicUrl().get(0);
+                            Intent intentText = new Intent(UserZoneActivity.this, WatchVideoActivity.class);
+                            intentText.putExtra("url", videoUrl);
+                            startActivity(intentText);
+                        }
                     }
                 });
             }
             else
             {
-                m_adapter.updateData(lstZone);
+                m_adapter.updateData(m_actorDynamicVos);
                 m_adapter.notifyDataSetChanged();
             }
 

@@ -161,7 +161,7 @@ public class ImageLoaderUtil
      * @param imageView
      * @param imageName asset 中图片文件名
      */
-    public static void displayListPhotoImageFromAsset(ImageView imageView, String imageName, ImageLoadingListener listener)
+    public static void displayListPhotoImage(ImageView imageView, String imageName, ImageLoadingListener listener)
     {
         try
         {
@@ -172,7 +172,7 @@ public class ImageLoaderUtil
 
             init();
 
-            String strUrl = "assets://" + imageName;
+            String strUrl = imageName;
             m_imageLoader.displayImage(strUrl, imageView, m_optionsListPhoto, listener);
         }
         catch (Exception e)

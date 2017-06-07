@@ -16,9 +16,7 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.entity.Zone;
 import com.audio.miliao.util.ImageLoaderUtil;
-import com.audio.miliao.util.StringUtil;
-
-import org.json.JSONArray;
+import com.audio.miliao.vo.ActorDynamicVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +24,10 @@ import java.util.List;
 /**
  * 主播动态列表
  */
-
-public class ZoneAdapter extends BaseAdapter
+public class ActorDynamicAdapter extends BaseAdapter
 {
     private Activity m_parent;
-    private List<Zone> m_listZones;
+    private List<ActorDynamicVo> m_listZones;
     /** 列表是否处于滑动状态 */
     private boolean m_bIsScrolling = false;
     /** 是否显示删除按钮 */
@@ -41,13 +38,13 @@ public class ZoneAdapter extends BaseAdapter
     /** 点击监听器 */
     private OnClickListener m_onClickListener  = null;
 
-    public ZoneAdapter(Activity activity, List<Zone> listZones)
+    public ActorDynamicAdapter(Activity activity, List<ActorDynamicVo> listZones)
     {
         m_parent = activity;
         m_listZones = listZones;
     }
 
-    public void updateData(List<Zone> listZones)
+    public void updateData(List<ActorDynamicVo> listZones)
     {
         m_listZones = listZones;
     }
@@ -62,7 +59,7 @@ public class ZoneAdapter extends BaseAdapter
         m_bShowDelete = bShowDelete;
     }
 
-    public List<Zone> getZones()
+    public List<ActorDynamicVo> getZones()
     {
         return m_listZones;
     }
@@ -146,25 +143,26 @@ public class ZoneAdapter extends BaseAdapter
     {
         try
         {
-            final Zone zone = (Zone) getItem(nPosition);
-            if (zone != null)
+            final ActorDynamicVo actorDynamicVo = (ActorDynamicVo) getItem(nPosition);
+            if (actorDynamicVo != null)
             {
-                holder.name.setText(zone.anchorName);
-                holder.date.setText(StringUtil.formatDate(zone.date));
-                holder.sign.setText(zone.anchorSign);
-                holder.text.setText(zone.text);
-                holder.watch.setText(zone.watch + m_parent.getString(R.string.txt_zone_watch));
-                ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, zone.anchorAvatar);
+                holder.name.setText(actorDynamicVo.getNickname());
+                holder.date.setText(actorDynamicVo.getCreateTime());
+                holder.sign.setText(actorDynamicVo.getSignature());
+                holder.text.setText(actorDynamicVo.getContent());
+                holder.watch.setText(actorDynamicVo.getPageView() + m_parent.getString(R.string.txt_zone_watch));
+                ImageLoaderUtil.displayListAvatarImage(holder.avatar, actorDynamicVo.getImgUrl());
                 ImageView vThumb;
 
                 int visibility = (m_bShowDelete ? View.VISIBLE : View.GONE);
                 holder.delete.setVisibility(visibility);
 
-                if (zone.mediaType == Zone.MEDIA_PHOTO)
+                if (actorDynamicVo.getDynamicType() == ActorDynamicVo.MEDIA_PHOTO)
                 {
-                    JSONArray jsonArray = new JSONArray((null == zone.thumbsUrl || "".equals(zone.thumbsUrl)) ? "[]" : zone.thumbsUrl);
+                    List<String> dynamicUrlList = actorDynamicVo.getDynamicUrl();
+                    //JSONArray jsonArray = new JSONArray((null == zone.thumbsUrl || "".equals(zone.thumbsUrl)) ? "[]" : zone.thumbsUrl);
 
-                    final int nSize = jsonArray.length();
+                    final int nSize = dynamicUrlList.size();
                     boolean bWrap = false;
 
                     // 加载缩略图
@@ -180,10 +178,10 @@ public class ZoneAdapter extends BaseAdapter
                         }
 
                         vThumb.setTag(j);
-                        if (j < jsonArray.length())
+                        if (j < nSize)
                         {
-                            String strThumbUrl = jsonArray.getString(j);
-                            ImageLoaderUtil.displayListAvatarImageFromAsset(vThumb, strThumbUrl);
+                            String strThumbUrl = dynamicUrlList.get(j);
+                            ImageLoaderUtil.displayListAvatarImage(vThumb, strThumbUrl);
                             vThumb.setVisibility(View.VISIBLE);
                             vThumb.setOnClickListener(new View.OnClickListener()
                             {
@@ -195,7 +193,7 @@ public class ZoneAdapter extends BaseAdapter
                                         if (null != m_onClickListener)
                                         {
                                             int nPos = (int)v.getTag();
-                                            m_onClickListener.onThumbClick(zone, nPos, nSize);
+                                            m_onClickListener.onThumbClick(actorDynamicVo, nPos, nSize);
                                         }
                                     }
                                     catch (Exception e)
@@ -212,11 +210,11 @@ public class ZoneAdapter extends BaseAdapter
                         }
                     }
 
-                    setViewThumbHeightEquWidth(holder, jsonArray.length());
+                    setViewThumbHeightEquWidth(holder, nSize);
                 }
-                else if (zone.mediaType == Zone.MEDIA_VOICE)
+                else if (actorDynamicVo.getDynamicType() == ActorDynamicVo.MEDIA_VOICE)
                 {
-                    int total = zone.voiceSec;
+                    int total = actorDynamicVo.getVoiceSec();
                     int hour = total / 3600;
                     int minute = (total - hour * 3600) / 60;
                     int second = total - hour * 3600 - minute * 60;
@@ -248,7 +246,7 @@ public class ZoneAdapter extends BaseAdapter
                             {
                                 if (null != m_onClickListener)
                                 {
-                                    m_onClickListener.onVoiceClick(zone);
+                                    m_onClickListener.onVoiceClick(actorDynamicVo);
                                 }
                             }
                             catch (Exception e)
@@ -257,19 +255,19 @@ public class ZoneAdapter extends BaseAdapter
                         }
                     });
                 }
-                else if (zone.mediaType == Zone.MEDIA_VIDEO)
+                else if (actorDynamicVo.getDynamicType() == ActorDynamicVo.MEDIA_VIDEO)
                 {
                     setViewVideoHeightEquWidth(holder.videoThumb);
-                    setViewVideoHeightEquWidth(holder.videoPay);
+                    setViewVideoHeightEquWidth(holder.videoNeedPay);
                     java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
-                    String strPrice = String.format(m_parent.getString(R.string.txt_zone_video_price), df.format(zone.videoPrice));
+                    String strPrice = String.format(m_parent.getString(R.string.txt_zone_video_price), df.format(actorDynamicVo.getPrice()));
                     strPrice = "<font color='#d908ed'>" + strPrice + "</font>";
                     String strPay = String.format(m_parent.getString(R.string.txt_zone_video_pay), strPrice);
-                    holder.videoPay.setText(Html.fromHtml(strPay));
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.videoThumb, zone.videoFaceUrl);
+                    holder.videoNeedPay.setText(Html.fromHtml(strPay));
+                    ImageLoaderUtil.displayListAvatarImage(holder.videoThumb, actorDynamicVo.getVideoFaceUrl());
                     holder.videoThumb.setVisibility(View.VISIBLE);
-                    holder.videoPay.setVisibility((zone.videoPay && zone.videoPrice > 0) ? View.VISIBLE : View.GONE);
-                    holder.videoLoading.setVisibility(!(zone.videoPay || zone.videoPrice == 0) ? View.VISIBLE : View.GONE);
+                    holder.videoNeedPay.setVisibility((actorDynamicVo.getPrice() > 0) ? View.VISIBLE : View.GONE);
+                    holder.videoLoading.setVisibility(View.GONE);
 
                     holder.video.setOnClickListener(new View.OnClickListener()
                     {
@@ -280,7 +278,7 @@ public class ZoneAdapter extends BaseAdapter
                             {
                                 if (null != m_onClickListener)
                                 {
-                                    m_onClickListener.onVideoClick(zone);
+                                    m_onClickListener.onVideoClick(actorDynamicVo);
                                 }
                             }
                             catch (Exception e)
@@ -289,11 +287,11 @@ public class ZoneAdapter extends BaseAdapter
                         }
                     });
                 }
-                android.util.Log.e("mediatype", "" + zone.mediaType);
+                //android.util.Log.e("mediatype", "" + zone.getDynamicType());
 
-                holder.pictures.setVisibility(zone.mediaType == Zone.MEDIA_PHOTO ? View.VISIBLE : View.GONE);
-                holder.voiceLen.setVisibility(zone.mediaType == Zone.MEDIA_VOICE ? View.VISIBLE : View.GONE);
-                holder.video.setVisibility(zone.mediaType == Zone.MEDIA_VIDEO ? View.VISIBLE : View.GONE);
+                holder.pictures.setVisibility(actorDynamicVo.getDynamicType() == ActorDynamicVo.MEDIA_PHOTO ? View.VISIBLE : View.GONE);
+                holder.voiceLen.setVisibility(actorDynamicVo.getDynamicType() == ActorDynamicVo.MEDIA_VOICE ? View.VISIBLE : View.GONE);
+                holder.video.setVisibility(actorDynamicVo.getDynamicType() == ActorDynamicVo.MEDIA_VIDEO ? View.VISIBLE : View.GONE);
             }
         }
         catch (Exception e)
@@ -478,7 +476,7 @@ public class ZoneAdapter extends BaseAdapter
                 video = (FrameLayout) root.findViewById(R.id.lay_video);
                 videoThumb = (ImageView) root.findViewById(R.id.img_video);
                 videoLoading = (ProgressBar) root.findViewById(R.id.pb_loading);
-                videoPay = (TextView) root.findViewById(R.id.txt_video);
+                videoNeedPay = (TextView) root.findViewById(R.id.txt_video);
                 text = (TextView) root.findViewById(R.id.txt_text);
                 delete = (ImageView) root.findViewById(R.id.img_delete_zone);
 
@@ -519,7 +517,7 @@ public class ZoneAdapter extends BaseAdapter
         /** 视频等待图标 */
         public ProgressBar videoLoading;
         /** 视频付款 */
-        public TextView videoPay;
+        public TextView videoNeedPay;
         /** 名字 */
         public TextView name;
         /** 个性签名 */
@@ -540,22 +538,22 @@ public class ZoneAdapter extends BaseAdapter
     {
         /**
          * 点击缩略图
-         * @param zone
+         * @param actorDynamicVo
          * @param nPosition
          * @param nSize
          */
-        public void onThumbClick(Zone zone, final int nPosition, final int nSize);
+        void onThumbClick(ActorDynamicVo actorDynamicVo, final int nPosition, final int nSize);
 
         /**
          * 点击声音
-         * @param zone
+         * @param actorDynamicVo
          */
-        public void onVoiceClick(Zone zone);
+        void onVoiceClick(ActorDynamicVo actorDynamicVo);
 
         /**
          * 点击视频
-         * @param zone
+         * @param actorDynamicVo
          */
-        public void onVideoClick(Zone zone);
+        void onVideoClick(ActorDynamicVo actorDynamicVo);
     }
 }

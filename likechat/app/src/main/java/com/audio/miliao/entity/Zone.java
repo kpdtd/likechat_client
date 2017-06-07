@@ -42,10 +42,10 @@ public class Zone implements Serializable
     public String thumbsUrl = "[]";
     /** 声音 单个url */
     public String voiceUrl = "";
-    /** 声音长度(秒) 单个 */
-    public int    voiceSec = 0;
     /** 视频 单个url */
     public String   videoUrl     = "";
+    /** 声音长度(秒) 单个 */
+    public int    voiceSec = 0;
     /** 视频首页 单个url */
     public String   videoFaceUrl = "";
     /** 视频价格, 0表示免费 单个*/
