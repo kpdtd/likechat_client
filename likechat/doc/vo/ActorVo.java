@@ -14,6 +14,7 @@ public class ActorVo {
 	private String icon;//'头像存放相对地址'
 	private String signature;//个性签名
 	private String age;//年龄，直接填数  db is int（birthday）
+	private String token;//
 	private Integer sex;//1男2女
 	
 	
@@ -58,6 +59,12 @@ public class ActorVo {
 	}
 	public void setSex(Integer sex) {
 		this.sex = sex;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 }
 
