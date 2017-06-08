@@ -43,7 +43,6 @@ public class FetchMineInfo extends BaseReqRsp
         switch (httpStatusCode)
         {
         case 429:
-            // 系统拒绝服务，可能是单个手机号发送次数超限。需要稍候再发送。
             rspResultCode = HttpUtil.Result.ERROR_DENIAL_OF_SERVICE;
             break;
         case 200:
@@ -51,13 +50,20 @@ public class FetchMineInfo extends BaseReqRsp
             try
             {
                 JSONObject jsonObject = new JSONObject(httpBody);
-                JSONObject jsonData = jsonObject.optJSONObject("data");
-                rspActorVo = ActorVo.parse(jsonData.toString(), ActorVo.class);
+                if (jsonObject.optInt("code") == 0)
+                {
+                    JSONObject jsonData = jsonObject.optJSONObject("data");
+                    rspActorVo = ActorVo.parse(jsonData.toString(), ActorVo.class);
+                }
+                else
+                {
+                    rspResultCode = HttpUtil.Result.ERROR_PARSE_ERROR;
+                }
             }
             catch (Exception e)
             {
                 e.printStackTrace();
-                rspResultCode = HttpUtil.Result.ERROR_UNKNOWN;
+                rspResultCode = HttpUtil.Result.ERROR_PARSE_ERROR;
             }
             break;
         default:

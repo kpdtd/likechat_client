@@ -28,7 +28,7 @@ import de.greenrobot.event.EventBus;
  */
 public class Login extends BaseReqRsp
 {
-    private UserRegisterVo reqUserRegisterVo;
+    public UserRegisterVo reqUserRegisterVo;
     public int rspUserId;
 
     /**

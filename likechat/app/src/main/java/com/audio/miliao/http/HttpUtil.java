@@ -30,6 +30,7 @@ public class HttpUtil
         public static final int ERROR_CONNECT_REFUSED = 3;
         public static final int ERROR_CONNECT_TIMEOUT = 4;
         public static final int ERROR_RECEIVING_DATA = 5;
+        public static final int ERROR_PARSE_ERROR = 6;
 
         // 应用逻辑错误（服务器应答）。
         public static final int ERROR_UNKNOWN_STATUS = 9; // 服务器返回未知意义的状态码

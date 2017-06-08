@@ -369,7 +369,6 @@ public class UserInfoActivity extends BaseActivity
             TextView txtIntro = (TextView) findViewById(R.id.txt_intro);
             TextView txtCallRate = (TextView) findViewById(R.id.txt_call_rate);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
-            TextView txtFollow = (TextView) findViewById(R.id.txt_user_info_follow);
 
 
             String icon = m_actorPage.getIcon();

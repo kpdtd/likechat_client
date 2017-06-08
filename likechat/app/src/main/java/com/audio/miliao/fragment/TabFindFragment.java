@@ -243,6 +243,11 @@ public class TabFindFragment extends BaseFragment
                 m_actorDynamicVos = fetchFindList.rspActorDynamicVos;
                 updateData();
             }
+            else
+            {
+                m_actorDynamicVos.clear();
+                updateData();
+            }
             break;
         }
     }
