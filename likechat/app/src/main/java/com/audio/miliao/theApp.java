@@ -47,6 +47,9 @@ public class theApp extends Application
             if (AppData.isLogin())
             {
                 saveCurUser();
+                // Debug
+                AppData.setCurUserId(30);
+                AppData.setOpenId("8A59375AF608856146CDC7CD48FE2319");
             }
         }
         catch (Exception e)
@@ -68,10 +71,11 @@ public class theApp extends Application
                 actor.setSignature("管家就是要有管家的样子，别拿管家不当干部");
                 actor.setIntroduction("我是大管家，我要管好整个家族");
                 actor.setAge("23");
+                actor.setProvince("四川");
                 actor.setCity("成都");
                 actor.setFans("10043");
                 actor.setAttention("205");
-                AppData.saveCurUser(actor);
+                AppData.setCurUser(actor);
             }
         }
         catch (Exception e)

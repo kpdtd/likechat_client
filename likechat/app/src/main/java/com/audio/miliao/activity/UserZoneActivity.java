@@ -146,13 +146,11 @@ public class UserZoneActivity extends BaseActivity
                         intentText.putExtra("count", nCount);
                         intentText.putExtra("urls", StringUtil.listToArray(actorDynamicVo.getDynamicUrl()));
                         startActivity(intentText);
-
                     }
 
                     @Override
                     public void onVoiceClick(ActorDynamicVo actorDynamicVo)
                     {
-
                     }
 
                     @Override
