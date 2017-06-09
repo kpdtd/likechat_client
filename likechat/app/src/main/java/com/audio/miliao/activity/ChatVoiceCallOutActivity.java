@@ -88,10 +88,10 @@ public class ChatVoiceCallOutActivity extends BaseActivity
             imgInfo.setAlpha(0.4f);
             ImageLoaderUtil.displayListAvatarImageFromAsset(imgAvatar, m_actor.getIcon());
             //imgAvatar.setImageResource(m_user.avatar_res);
-            txtAge.setText(String.valueOf(m_actor.getAge()));
+            txtAge.setText(m_actor.getAge());
             txtName.setText(m_actor.getNickname());
             txtTalkTime.setText("09:43");
-            EntityUtil.setAnchorGenderDrawable(txtAge, m_actor, true);
+            EntityUtil.setActorGenderDrawable(txtAge, m_actor, true);
         }
         catch (Exception e)
         {

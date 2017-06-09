@@ -151,7 +151,7 @@ public class TabMeFragment extends BaseFragment
                 {
                     txtName.setText(m_actorVo.getNickname());
                     txtAge.setText(m_actorVo.getAge());
-                    EntityUtil.setAnchorGenderDrawable(txtAge, m_actorVo.getSex(), true);
+                    EntityUtil.setActorGenderDrawable(txtAge, m_actorVo.getSex(), true);
                     String strId = getString(R.string.txt_user_info_like_chat_id) + m_actorVo.getId();
                     txtId.setText(strId);
                     txtSigh.setText(m_actorVo.getSignature());

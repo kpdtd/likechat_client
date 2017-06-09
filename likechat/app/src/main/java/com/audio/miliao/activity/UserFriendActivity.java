@@ -149,7 +149,7 @@ public class UserFriendActivity extends BaseActivity
                 m_adapter.notifyDataSetChanged();
             }
 
-            updateFriendCount();
+            //updateFriendCount();
         }
         catch (Exception e)
         {
@@ -157,16 +157,14 @@ public class UserFriendActivity extends BaseActivity
         }
     }
 
-    private void updateFriendCount()
+    private void updateFriendCount(int follow, int fans)
     {
         try
         {
-            int nFollowCount = 20;
-            int nFansCount = 300;
-            String strFollow = getString(R.string.txt_user_friend_follow) + "(" + nFollowCount + ")";
+            String strFollow = getString(R.string.txt_user_friend_follow) + "(" + follow + ")";
             m_rdoFollow.setText(strFollow);
 
-            String strFans = getString(R.string.txt_user_friend_fans) + "(" + nFansCount + ")";
+            String strFans = getString(R.string.txt_user_friend_fans) + "(" + fans + ")";
             m_rdoFans.setText(strFans);
         }
         catch (Exception e)
@@ -188,6 +186,7 @@ public class UserFriendActivity extends BaseActivity
                 m_bHasNext = fetchMyFriends.rspHasNext;
                 m_nextStamp = fetchMyFriends.rspStamp;
                 updateData(0);
+                updateFriendCount(fetchMyFriends.rspAttentionCount, fetchMyFriends.rspFansCount);
             }
             else
             {
@@ -202,6 +201,7 @@ public class UserFriendActivity extends BaseActivity
                 m_bHasNext = fetchMyFans.rspHasNext;
                 m_nextStamp = fetchMyFans.rspStamp;
                 updateData(1);
+                updateFriendCount(fetchMyFans.rspAttentionCount, fetchMyFans.rspFansCount);
             }
             else
             {

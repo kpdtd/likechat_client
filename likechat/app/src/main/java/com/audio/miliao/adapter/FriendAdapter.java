@@ -116,12 +116,12 @@ public class FriendAdapter extends BaseAdapter
             {
                 holder.name.setText(actor.getNickname());
                 holder.sign.setText(actor.getSignature());
-                holder.gender.setText(String.valueOf(actor.getAge()));
+                holder.gender.setText(actor.getAge());
                 //if (!m_bIsScrolling)
                 {
-                    ImageLoaderUtil.displayListAvatarImageFromAsset(holder.avatar, actor.getIcon());
+                    ImageLoaderUtil.displayListAvatarImage(holder.avatar, actor.getIcon());
                 }
-                EntityUtil.setAnchorGenderDrawable(holder.gender, actor, true);
+                EntityUtil.setActorGenderDrawable(holder.gender, actor, true);
             }
         }
         catch (Exception e)
