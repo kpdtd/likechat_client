@@ -191,10 +191,6 @@ public class UserInfoActivity extends BaseActivity
             int[] viewIds = new int[]{R.id.img_pic1, R.id.img_pic2, R.id.img_pic3,
                                       R.id.img_pic4, R.id.img_pic5, R.id.img_pic6,
                                       R.id.img_pic7, R.id.img_pic8};
-//            for (int viewId : viewIds)
-//            {
-//                findViewById(viewId).setVisibility(View.GONE);
-//            }
 
             List<View> viewList = new ArrayList<>();
             for (int i = 0; i < pootoUrlList.size(); i++)
