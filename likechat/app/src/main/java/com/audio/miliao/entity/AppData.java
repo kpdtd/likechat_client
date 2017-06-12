@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 public class AppData
 {
-    public static void saveCurUser(ActorPageVo actor)
+    public static void setCurUser(ActorPageVo actor)
     {
         //ms_curUser = user;
         PreferUtil.setStringPreference(KEY_ACTOR, actor.toJson().toString());

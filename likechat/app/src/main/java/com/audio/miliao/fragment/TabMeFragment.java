@@ -2,6 +2,7 @@ package com.audio.miliao.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,9 @@ import com.audio.miliao.activity.UserFriendActivity;
 import com.audio.miliao.activity.UserZoneActivity;
 import com.audio.miliao.activity.VipActivity;
 import com.audio.miliao.entity.AppData;
-import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchMineInfo;
+import com.audio.miliao.theApp;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.vo.ActorVo;
 
@@ -27,6 +30,7 @@ public class TabMeFragment extends BaseFragment
      * 界面中的root view
      */
     private View m_root;
+    private ActorVo m_actorVo;
 
     @Nullable
     @Override
@@ -36,7 +40,9 @@ public class TabMeFragment extends BaseFragment
         {
             m_root = inflater.inflate(R.layout.fragment_tab_me, container, false);
             initUI(m_root);
-            updateData();
+            FetchMineInfo fetchMineInfo = new FetchMineInfo(handler(), null);
+            fetchMineInfo.send();
+            //updateData();
         }
 
         return m_root;
@@ -58,7 +64,8 @@ public class TabMeFragment extends BaseFragment
                         case R.id.img_avatar:
                             if (AppData.isLogin())
                             {
-
+                                Intent intentEditUserInfo = new Intent(getActivity(), EditUserInfoActivity.class);
+                                startActivity(intentEditUserInfo);
                             }
                             else
                             {
@@ -139,15 +146,15 @@ public class TabMeFragment extends BaseFragment
                 TextView txtId = (TextView) m_root.findViewById(R.id.txt_id);
                 TextView txtSigh = (TextView) m_root.findViewById(R.id.txt_sign);
 
-                ActorVo actor = DebugUtil.actorPageVo2ActorVo(AppData.getCurUser());
-                if (actor != null)
+                //ActorVo actor = DebugUtil.actorPageVo2ActorVo(AppData.getCurUser());
+                if (m_actorVo != null)
                 {
-                    txtName.setText(actor.getNickname());
-                    txtAge.setText(String.valueOf(actor.getAge()));
-                    EntityUtil.setAnchorGenderDrawable(txtAge, actor.getSex(), true);
-                    String strId = getString(R.string.txt_user_info_like_chat_id) + actor.getId();
+                    txtName.setText(m_actorVo.getNickname());
+                    txtAge.setText(m_actorVo.getAge());
+                    EntityUtil.setActorGenderDrawable(txtAge, m_actorVo.getSex(), true);
+                    String strId = getString(R.string.txt_user_info_like_chat_id) + m_actorVo.getId();
                     txtId.setText(strId);
-                    txtSigh.setText(actor.getSignature());
+                    txtSigh.setText(m_actorVo.getSignature());
                 }
             }
             else
@@ -159,6 +166,26 @@ public class TabMeFragment extends BaseFragment
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_MINE_INFO:
+            FetchMineInfo fetchMineInfo = (FetchMineInfo) msg.obj;
+            if (FetchMineInfo.isSucceed(fetchMineInfo))
+            {
+                m_actorVo = fetchMineInfo.rspActorVo;
+                updateData();
+            }
+            else
+            {
+                theApp.showToast("获取个人信息失败！！！");
+            }
+            break;
         }
     }
 }

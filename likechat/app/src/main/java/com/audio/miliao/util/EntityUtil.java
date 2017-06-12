@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.entity.GsonObj;
+import com.audio.miliao.theApp;
 import com.audio.miliao.vo.ActorVo;
 
 import org.json.JSONArray;
@@ -24,7 +25,7 @@ public class EntityUtil
      * @param actor
      * @param checked 使用的是选择状态的图标还是非选择状态的图标
      */
-    public static void setAnchorGenderDrawable(TextView textView, ActorVo actor, boolean checked)
+    public static void setActorGenderDrawable(TextView textView, ActorVo actor, boolean checked)
     {
         try
         {
@@ -33,7 +34,7 @@ public class EntityUtil
                 return;
             }
 
-            setAnchorGenderDrawable(textView, actor.getSex(), checked);
+            setActorGenderDrawable(textView, actor.getSex(), checked);
         }
         catch (Exception e)
         {
@@ -47,7 +48,7 @@ public class EntityUtil
      * @param gender 性别 1男2女
      * @param checked 使用的是选择状态的图标还是非选择状态的图标
      */
-    public static void setAnchorGenderDrawable(TextView textView, int gender, boolean checked)
+    public static void setActorGenderDrawable(TextView textView, int gender, boolean checked)
     {
         try
         {
@@ -78,7 +79,13 @@ public class EntityUtil
         }
     }
 
-
+    public static void setActorGenderText(TextView textView, int gender)
+    {
+        String strText = (gender == 1 ?
+                theApp.CONTEXT.getString(R.string.txt_male) :
+                theApp.CONTEXT.getString(R.string.txt_female));
+        textView.setText(strText);
+    }
 
     public static <T extends GsonObj<T>> void parseList(JSONArray jsonArray, List<T> list, Class<T> cls)
     {

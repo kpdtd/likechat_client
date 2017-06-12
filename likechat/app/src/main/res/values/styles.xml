@@ -303,7 +303,6 @@
     <style name="user_info_pic_thumb_style">
         <item name="android:layout_width">70dp</item>
         <item name="android:layout_height">70dp</item>
-        <item name="android:src">@mipmap/avatar2</item>
         <item name="android:scaleType">centerCrop</item>
         <item name="android:layout_margin">5dp</item>
     </style>

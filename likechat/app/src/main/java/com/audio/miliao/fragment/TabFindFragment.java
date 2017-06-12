@@ -1,6 +1,7 @@
 package com.audio.miliao.fragment;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -29,18 +30,28 @@ import java.util.List;
 
 public class TabFindFragment extends BaseFragment
 {
-    /** 界面中的root view */
+    /**
+     * 界面中的root view
+     */
     private View m_root;
     private ListView m_list;
     private ActorDynamicAdapter m_adapter;
     private List<ActorDynamicVo> m_actorDynamicVos = new ArrayList<>();
-    /** 最新 */
+    /**
+     * 最新
+     */
     private SortByDate m_sortByDate = new SortByDate();
-    /** 热门 */
+    /**
+     * 热门
+     */
     private SortByWatch m_sortByWatch = new SortByWatch();
-    /** 关注 */
+    /**
+     * 关注
+     */
     private SortByFollow m_sortByFollow = new SortByFollow();
-    /** 默认获取最新动态 */
+    /**
+     * 默认获取最新动态
+     */
     private int mFetchFindListTag = FetchFindList.LATEST;
 
     @Nullable
@@ -202,10 +213,48 @@ public class TabFindFragment extends BaseFragment
                         startActivity(intentText);
 
                     }
+
+                    MediaPlayer mediaPlayer = new MediaPlayer();
+
                     @Override
                     public void onVoiceClick(ActorDynamicVo actorDynamicVo)
                     {
+                        if (UIUtil.isListNotEmpty(actorDynamicVo.getDynamicUrl()))
+                        {
+                            try
+                            {
+                                String voiceUrl = actorDynamicVo.getDynamicUrl().get(0);
+                                if (mediaPlayer.isPlaying())
+                                {
+                                    mediaPlayer.stop();
+                                    //mediaPlayer.release();
+                                }
+                                else
+                                {
+                                    mediaPlayer.reset();
+                                    mediaPlayer.setDataSource(voiceUrl);
+                                    //mediaPlayer.prepare();
+                                    //mediaPlayer.start();
+                                    mediaPlayer.prepareAsync();
+                                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+                                    {
+                                        @Override
+                                        public void onPrepared(MediaPlayer mp)
+                                        {
+                                            // 装载完毕回调
+                                            mediaPlayer.start();
+                                        }
+                                    });
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+
+                        }
                     }
+
                     @Override
                     public void onVideoClick(ActorDynamicVo actorDynamicVo)
                     {
@@ -241,6 +290,11 @@ public class TabFindFragment extends BaseFragment
             if (FetchFindList.isSucceed(fetchFindList))
             {
                 m_actorDynamicVos = fetchFindList.rspActorDynamicVos;
+                updateData();
+            }
+            else
+            {
+                m_actorDynamicVos.clear();
                 updateData();
             }
             break;

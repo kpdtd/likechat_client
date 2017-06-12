@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -14,7 +15,10 @@ import com.audio.miliao.R;
 import com.audio.miliao.dialog.CityPickerActivity;
 import com.audio.miliao.dialog.DatePickerActivity;
 import com.audio.miliao.entity.AppData;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.theApp;
+import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.FileUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
@@ -64,8 +68,12 @@ public class EditUserInfoActivity extends BaseActivity
     private TextView m_txtAge;
     private TextView m_txtCity;
     private TextView m_txtIntro;
-    /** 调用相机拍照后的照片存储的路径 */
+    /**
+     * 调用相机拍照后的照片存储的路径
+     */
     private String mAvatarTempFilePath = "";
+
+    private ActorPageVo m_actorPageVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -76,7 +84,9 @@ public class EditUserInfoActivity extends BaseActivity
         try
         {
             initUI();
-            updateData();
+            //updateData();
+            FetchActorPage fetchActorPage = new FetchActorPage(handler(), AppData.getCurUserId(), null);
+            fetchActorPage.send();
         }
         catch (Exception e)
         {
@@ -218,7 +228,7 @@ public class EditUserInfoActivity extends BaseActivity
     {
         try
         {
-            ActorPageVo actor = AppData.getCurActorPageVo();
+            ActorPageVo actor = m_actorPageVo;
             if (actor == null)
             {
                 return;
@@ -226,8 +236,9 @@ public class EditUserInfoActivity extends BaseActivity
 
             m_txtName.setText(actor.getNickname());
             m_txtIntro.setText(actor.getIntroduction());
-            String strGender = (actor.getSex() == 2 ? getString(R.string.txt_female) : getString(R.string.txt_male));
-            m_txtGender.setText(strGender);
+//            String strGender = (actor.getSex() == 2 ? getString(R.string.txt_female) : getString(R.string.txt_male));
+//            m_txtGender.setText(strGender);
+            EntityUtil.setActorGenderText(m_txtGender, actor.getSex());
             m_txtAge.setText(String.valueOf(actor.getAge()));
             m_txtCity.setText(actor.getCity());
         }
@@ -318,7 +329,7 @@ public class EditUserInfoActivity extends BaseActivity
 
     /**
      * 拍照设置头像
-     * */
+     */
     private void getAvatarFromCamera()
     {
         try
@@ -345,7 +356,7 @@ public class EditUserInfoActivity extends BaseActivity
 
     /**
      * 从手机相册选择图片设置头像
-     * */
+     */
     private void getAvatarFromAlbum()
     {
         try
@@ -556,5 +567,25 @@ public class EditUserInfoActivity extends BaseActivity
         }
 
         return age;
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_ACTOR_PAGE:
+            FetchActorPage fetchActorPage = (FetchActorPage) msg.obj;
+            if (FetchActorPage.isSucceed(fetchActorPage))
+            {
+                m_actorPageVo = fetchActorPage.rspActorPageVo;
+                updateData();
+            }
+            else
+            {
+
+            }
+            break;
+        }
     }
 }

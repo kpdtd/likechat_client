@@ -116,13 +116,13 @@ public class ActorAdapter extends BaseAdapter
             {
                 holder.name.setText(actor.getNickname());
                 holder.intro.setText(actor.getSignature());
-                holder.gender.setText((actor.getSex() == 1 ? "男" : "女"));
-                //holder.avatar.setImageResource(user.avatar_res);
-                if (!m_bIsScrolling)
+                //holder.gender.setText((actor.getSex() == 1 ? "男" : "女"));
+                EntityUtil.setActorGenderText(holder.gender, actor.getSex());
+                //if (!m_bIsScrolling)
                 {
                     ImageLoaderUtil.displayListAvatarImage(holder.avatar, actor.getIcon());
                 }
-                EntityUtil.setAnchorGenderDrawable(holder.gender, actor, false);
+                EntityUtil.setActorGenderDrawable(holder.gender, actor, false);
             }
         }
         catch (Exception e)

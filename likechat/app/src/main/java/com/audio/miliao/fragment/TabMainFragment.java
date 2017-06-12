@@ -19,7 +19,6 @@ import com.audio.miliao.adapter.ActorAdapter;
 import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorListByTag;
-import com.audio.miliao.theApp;
 import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.vo.ActorVo;
 import com.audio.miliao.vo.TagVo;
@@ -42,6 +41,7 @@ public class TabMainFragment extends BaseFragment
     // 标题栏上的tag
     private RadioGroup mRadioGroupTag;
     private List<TagVo> m_tagVoList;
+    private String m_curTag;
 
     @Nullable
     @Override
@@ -202,7 +202,7 @@ public class TabMainFragment extends BaseFragment
                     TagVo tagVo = (TagVo) v.getTag();
                     if (tagVo != null)
                     {
-                        theApp.showToast(tagVo.toString());
+                        //theApp.showToast(tagVo.toString());
                         FetchActorListByTag fetchActorListByTag = new FetchActorListByTag(handler(), tagVo.getIdentifying(), null);
                         fetchActorListByTag.send();
                     }
@@ -219,6 +219,7 @@ public class TabMainFragment extends BaseFragment
                 mRadioGroupTag.addView(radio, params);
             }
 
+            m_curTag = m_tagVoList.get(0).getIdentifying();
             RadioButton radio = (RadioButton) mRadioGroupTag.getChildAt(0);
             radio.setChecked(true);
         }
@@ -252,6 +253,18 @@ public class TabMainFragment extends BaseFragment
                 m_actorVoList = fetchActorListByTag.rspActorVos;
                 updateData();
             }
+            else
+            {
+                if (m_curTag != null &&
+                    !m_curTag.equals(fetchActorListByTag.reqTag))
+                {
+                    // 查看另外的tag，获取失败，显示空白界面
+                    m_actorVoList.clear();
+                    updateData();
+                }
+            }
+
+            m_curTag = fetchActorListByTag.reqTag;
             break;
         }
     }

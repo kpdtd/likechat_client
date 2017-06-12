@@ -2,6 +2,7 @@ package com.audio.miliao.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -9,8 +10,10 @@ import android.widget.RadioButton;
 
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.FriendAdapter;
-import com.audio.miliao.util.DebugUtil;
-import com.audio.miliao.vo.ActorPageVo;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchMyFans;
+import com.audio.miliao.http.cmd.FetchMyFriends;
+import com.audio.miliao.theApp;
 import com.audio.miliao.vo.ActorVo;
 
 import java.util.List;
@@ -24,6 +27,10 @@ public class UserFriendActivity extends BaseActivity
     private RadioButton m_rdoFans;
     private ListView m_list;
     private FriendAdapter m_adapter;
+    private List<ActorVo> m_actorVos;
+    private int m_curCheckId;
+    private String m_nextStamp;
+    private boolean m_bHasNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,7 +41,9 @@ public class UserFriendActivity extends BaseActivity
         try
         {
             initUI();
-            updateData(0);
+            FetchMyFriends fetchMyFriends = new FetchMyFriends(handler(), "", null);
+            fetchMyFriends.send();
+            //updateData(0);
         }
         catch (Exception e)
         {
@@ -81,6 +90,22 @@ public class UserFriendActivity extends BaseActivity
                         case R.id.img_back:
                             finish();
                             break;
+                        case R.id.rdo_follow:
+                            if (m_curCheckId != v.getId())
+                            {
+                                FetchMyFriends fetchMyFriends = new FetchMyFriends(handler(), "", null);
+                                fetchMyFriends.send();
+                            }
+                            m_curCheckId = v.getId();
+                            break;
+                        case R.id.rdo_fans:
+                            if (m_curCheckId != v.getId())
+                            {
+                                FetchMyFans fetchMyFans = new FetchMyFans(handler(), "", null);
+                                fetchMyFans.send();
+                            }
+                            m_curCheckId = v.getId();
+                            break;
                         }
                     }
                     catch (Exception e)
@@ -91,6 +116,8 @@ public class UserFriendActivity extends BaseActivity
             };
 
             findViewById(R.id.img_back).setOnClickListener(clickListener);
+            findViewById(R.id.rdo_follow).setOnClickListener(clickListener);
+            findViewById(R.id.rdo_fans).setOnClickListener(clickListener);
 
             findViewById(R.id.rdo_follow).performClick();
         }
@@ -108,21 +135,21 @@ public class UserFriendActivity extends BaseActivity
     {
         try
         {
-            List<ActorPageVo> actorList = DebugUtil.getUserList();
-            List<ActorVo> actorVos = DebugUtil.actorPageVos2Actors(actorList);
+            //List<ActorPageVo> actorList = DebugUtil.getUserList();
+            //List<ActorVo> actorVos = DebugUtil.actorPageVos2Actors(actorList);
 
             if (m_adapter == null)
             {
-                m_adapter = new FriendAdapter(this, actorVos);
+                m_adapter = new FriendAdapter(this, m_actorVos);
                 m_list.setAdapter(m_adapter);
             }
             else
             {
-                m_adapter.updateData(actorVos);
+                m_adapter.updateData(m_actorVos);
                 m_adapter.notifyDataSetChanged();
             }
 
-            updateFriendCount();
+            //updateFriendCount();
         }
         catch (Exception e)
         {
@@ -130,21 +157,57 @@ public class UserFriendActivity extends BaseActivity
         }
     }
 
-    private void updateFriendCount()
+    private void updateFriendCount(int follow, int fans)
     {
         try
         {
-            int nFollowCount = 20;
-            int nFansCount = 300;
-            String strFollow = getString(R.string.txt_user_friend_follow) + "(" + nFollowCount + ")";
+            String strFollow = getString(R.string.txt_user_friend_follow) + "(" + follow + ")";
             m_rdoFollow.setText(strFollow);
 
-            String strFans = getString(R.string.txt_user_friend_fans) + "(" + nFansCount + ")";
+            String strFans = getString(R.string.txt_user_friend_fans) + "(" + fans + ")";
             m_rdoFans.setText(strFans);
         }
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_MY_FRIENDS:
+            FetchMyFriends fetchMyFriends = (FetchMyFriends) msg.obj;
+            if (FetchMyFriends.isSucceed(fetchMyFriends))
+            {
+                m_actorVos = fetchMyFriends.rspFriends;
+                m_bHasNext = fetchMyFriends.rspHasNext;
+                m_nextStamp = fetchMyFriends.rspStamp;
+                updateData(0);
+                updateFriendCount(fetchMyFriends.rspAttentionCount, fetchMyFriends.rspFansCount);
+            }
+            else
+            {
+                theApp.showToast("获取好友失败！！");
+            }
+            break;
+        case HttpUtil.RequestCode.FETCH_MY_FANS:
+            FetchMyFans fetchMyFans = (FetchMyFans) msg.obj;
+            if (FetchMyFans.isSucceed(fetchMyFans))
+            {
+                m_actorVos = fetchMyFans.rspFanses;
+                m_bHasNext = fetchMyFans.rspHasNext;
+                m_nextStamp = fetchMyFans.rspStamp;
+                updateData(1);
+                updateFriendCount(fetchMyFans.rspAttentionCount, fetchMyFans.rspFansCount);
+            }
+            else
+            {
+                theApp.showToast("获取粉丝失败！！");
+            }
+            break;
         }
     }
 }

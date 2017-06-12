@@ -17,10 +17,10 @@ import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
+import com.audio.miliao.util.StringUtil;
+import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.vo.ActorPageVo;
 import com.audio.miliao.vo.ActorVo;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,33 +70,33 @@ public class UserInfoActivity extends BaseActivity
                     {
                         switch (v.getId())
                         {
-                            // 最新动态
-                            case R.id.txt_latest_news:
-                                Intent intentZone = new Intent(UserInfoActivity.this, UserZoneActivity.class);
-                                intentZone.putExtra("user", m_actorPage);
-                                startActivity(intentZone);
-                                break;
+                        // 最新动态
+                        case R.id.txt_latest_news:
+                            Intent intentZone = new Intent(UserInfoActivity.this, UserZoneActivity.class);
+                            intentZone.putExtra("user", m_actorPage);
+                            startActivity(intentZone);
+                            break;
 
-                            // 嗨聊
-                            case R.id.lay_voice_chat:
-                                Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
-                                intentVoice.putExtra("user", m_actorPage);
-                                startActivity(intentVoice);
-                                break;
-                            // 文字聊天
-                            case R.id.lay_text_chat:
-                                Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
-                                intentText.putExtra("user", m_actorPage);
-                                startActivity(intentText);
-                                break;
-                            // 关注
-                            case R.id.lay_follow:
-                                onFollowClick();
-                                break;
-                            // 关注
-                            case R.id.img_back:
-                                finish();
-                                break;
+                        // 嗨聊
+                        case R.id.lay_voice_chat:
+                            Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
+                            intentVoice.putExtra("user", m_actorPage);
+                            startActivity(intentVoice);
+                            break;
+                        // 文字聊天
+                        case R.id.lay_text_chat:
+                            Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
+                            intentText.putExtra("user", m_actorPage);
+                            startActivity(intentText);
+                            break;
+                        // 关注
+                        case R.id.lay_follow:
+                            onFollowClick();
+                            break;
+                        // 关注
+                        case R.id.img_back:
+                            finish();
+                            break;
                         }
                     }
                     catch (Exception e)
@@ -136,7 +136,8 @@ public class UserInfoActivity extends BaseActivity
             if (text.equals(follow))
             {
                 AddAttention addAttention = new AddAttention(handler(), userId, actorId, null);
-                addAttention.send();;
+                addAttention.send();
+                ;
             }
             else
             {
@@ -155,32 +156,12 @@ public class UserInfoActivity extends BaseActivity
     {
         try
         {
-            if (m_actorPage == null)
+            if (m_actorPage == null || UIUtil.isListEmpty(m_actorPage.getPicList()))
             {
                 return;
             }
 
-            final List<String> lstThumb   = new ArrayList<>();
-            final JSONArray    jArrPhoto = new JSONArray();
-
-            // 这是生成的随机数
-            Random rand = new Random(System.currentTimeMillis());
-            java.util.HashSet<Integer> setExist = new java.util.HashSet<>();
-
-            // 椭机数产生主播
-            for(int i = 0; i < 8; i++)
-            {
-                int nIndex = -1;
-                while(nIndex == -1 || setExist.contains(nIndex))
-                {
-                    nIndex = rand.nextInt(20) + 1;
-                }
-
-                setExist.add(nIndex);
-                lstThumb.add("thumb" + nIndex + ".jpg");
-                jArrPhoto.put("avatar" + nIndex + ".jpg");
-            }
-
+            final List<String> pootoUrlList = m_actorPage.getPicList();
             View.OnClickListener clickListener = new View.OnClickListener()
             {
                 @Override
@@ -191,12 +172,12 @@ public class UserInfoActivity extends BaseActivity
                         // 弹出大图浏览界面
                         if (null != v.getTag())
                         {
-                            int nIndex = (int)v.getTag();
+                            int nIndex = (int) v.getTag();
                             int nCount = 8;
                             Intent intentText = new Intent(UserInfoActivity.this, ImageBrowseActivity.class);
                             intentText.putExtra("pos", nIndex);
                             intentText.putExtra("count", nCount);
-                            intentText.putExtra("urls", jArrPhoto.toString());
+                            intentText.putExtra("urls", StringUtil.listToArray(pootoUrlList));
                             startActivity(intentText);
                         }
                     }
@@ -207,23 +188,25 @@ public class UserInfoActivity extends BaseActivity
                 }
             };
 
-            List<View> viewList = new ArrayList<>();
-            viewList.add(findViewById(R.id.img_pic1));
-            viewList.add(findViewById(R.id.img_pic2));
-            viewList.add(findViewById(R.id.img_pic3));
-            viewList.add(findViewById(R.id.img_pic4));
-            viewList.add(findViewById(R.id.img_pic5));
-            viewList.add(findViewById(R.id.img_pic6));
-            viewList.add(findViewById(R.id.img_pic7));
-            viewList.add(findViewById(R.id.img_pic8));
+            int[] viewIds = new int[]{R.id.img_pic1, R.id.img_pic2, R.id.img_pic3,
+                                      R.id.img_pic4, R.id.img_pic5, R.id.img_pic6,
+                                      R.id.img_pic7, R.id.img_pic8};
 
-            ImageView vThumb;
-            for(int i = 0; i < 8; i++)
+            List<View> viewList = new ArrayList<>();
+            for (int i = 0; i < pootoUrlList.size(); i++)
             {
-                vThumb = (ImageView)viewList.get(i);
-                vThumb.setTag(i);
-                vThumb.setOnClickListener(clickListener);
-                ImageLoaderUtil.displayListAvatarImageFromAsset(vThumb, lstThumb.get(i));
+                View view = findViewById(viewIds[i]);
+                view.setVisibility(View.VISIBLE);
+                viewList.add(view);
+            }
+
+            ImageView imgPhoto;
+            for (int i = 0; i < pootoUrlList.size(); i++)
+            {
+                imgPhoto = (ImageView) viewList.get(i);
+                imgPhoto.setTag(i);
+                imgPhoto.setOnClickListener(clickListener);
+                ImageLoaderUtil.displayListAvatarImage(imgPhoto, pootoUrlList.get(i));
             }
         }
         catch (Exception e)
@@ -257,7 +240,7 @@ public class UserInfoActivity extends BaseActivity
                             // 关闭当前页
                             finish();
 
-                            ActorPageVo actor = (ActorPageVo)v.getTag();
+                            ActorPageVo actor = (ActorPageVo) v.getTag();
                             Intent intentUserInfo = new Intent(UserInfoActivity.this, UserInfoActivity.class);
                             intentUserInfo.putExtra("user", actor);
                             startActivity(intentUserInfo);
@@ -274,7 +257,7 @@ public class UserInfoActivity extends BaseActivity
             List<ActorVo> actorPageVoList = DebugUtil.actorPageVos2Actors(actorList);
 
             // 去掉当前用户
-            for(int i = 0; i < actorPageVoList.size(); i++)
+            for (int i = 0; i < actorPageVoList.size(); i++)
             {
                 if (actorPageVoList.get(i).getNickname().equals(m_actorPage.getNickname()))
                 {
@@ -301,14 +284,14 @@ public class UserInfoActivity extends BaseActivity
             ActorVo actorVo = null;
 
             // 椭机数产生主播
-            for(int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 actorVo = null;
-                layAnchor = (LinearLayout)viewList.get(i);
+                layAnchor = (LinearLayout) viewList.get(i);
                 if (i < nSize)
                 {
                     int nIndex = -1;
-                    while(nIndex == -1 || setExist.contains(nIndex))
+                    while (nIndex == -1 || setExist.contains(nIndex))
                     {
                         nIndex = rand.nextInt(actorList.size());
                     }
@@ -317,30 +300,31 @@ public class UserInfoActivity extends BaseActivity
                     actorVo = actorPageVoList.get(nIndex);
                     layAnchor.setTag(actorVo);
                     layAnchor.setOnClickListener(clickListener);
-                }else
+                }
+                else
                 {
                     layAnchor.setTag(null);
                     layAnchor.setOnClickListener(null);
                 }
 
                 int chSize = layAnchor.getChildCount();
-                for(int j = 0; j < chSize; j++)
+                for (int j = 0; j < chSize; j++)
                 {
                     View vChile = layAnchor.getChildAt(j);
                     if (vChile instanceof ImageView)
                     {
                         if (null == actorVo)
                         {
-                            ((ImageView)vChile).setImageResource(0);
+                            ((ImageView) vChile).setImageResource(0);
                         }
                         else
                         {
-                            ImageLoaderUtil.displayListAvatarImageFromAsset((ImageView)vChile, actorVo.getIcon());
+                            ImageLoaderUtil.displayListAvatarImageFromAsset((ImageView) vChile, actorVo.getIcon());
                         }
                     }
                     else if (vChile instanceof TextView)
                     {
-                        ((TextView)vChile).setText(null == actorVo ? "" : actorVo.getNickname());
+                        ((TextView) vChile).setText(null == actorVo ? "" : actorVo.getNickname());
                     }
                 }
             }
@@ -369,7 +353,6 @@ public class UserInfoActivity extends BaseActivity
             TextView txtIntro = (TextView) findViewById(R.id.txt_intro);
             TextView txtCallRate = (TextView) findViewById(R.id.txt_call_rate);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
-            TextView txtFollow = (TextView) findViewById(R.id.txt_user_info_follow);
 
 
             String icon = m_actorPage.getIcon();
@@ -391,7 +374,7 @@ public class UserInfoActivity extends BaseActivity
 
             updateFollowButtonState(m_actorPage.getIsAttention());
 
-            EntityUtil.setAnchorGenderDrawable(txtAge, m_actorPage.getSex(), true);
+            EntityUtil.setActorGenderDrawable(txtAge, m_actorPage.getSex(), true);
         }
         catch (Exception e)
         {
@@ -432,6 +415,7 @@ public class UserInfoActivity extends BaseActivity
 
     /**
      * 更新关注/取消关注 按钮状态
+     *
      * @param follow 当前是关注还是未关注状态
      */
     private void updateFollowButtonState(boolean follow)
