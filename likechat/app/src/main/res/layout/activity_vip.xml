@@ -43,6 +43,7 @@
                 android:paddingRight="20dp">
 
                 <TextView
+                    android:id="@+id/txt_vip_member_level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -51,6 +52,7 @@
                     android:textSize="@dimen/txt_size_14_dp"/>
 
                 <TextView
+                    android:id="@+id/txt_vip_remain_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"

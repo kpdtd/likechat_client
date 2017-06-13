@@ -1,10 +1,17 @@
 package com.audio.miliao.activity;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchAccountInfo;
+import com.audio.miliao.vo.AccountVo;
+
+import java.util.Date;
 
 /**
  * 会员中心
@@ -15,6 +22,10 @@ public class VipActivity extends BaseActivity
     private CheckBox m_chkGold;
     private CheckBox m_chkDiamond;
     private CheckBox m_chkExtreme;
+    private TextView m_txtVipLevel;
+    private TextView m_txtVipRemainTime;
+
+    private AccountVo m_accountVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,7 +36,9 @@ public class VipActivity extends BaseActivity
         try
         {
             initUI();
-            updateData();
+            //updateData();
+            FetchAccountInfo fetchAccountInfo = new FetchAccountInfo(handler(), null);
+            fetchAccountInfo.send();
         }
         catch (Exception e)
         {
@@ -41,6 +54,8 @@ public class VipActivity extends BaseActivity
             m_chkGold = (CheckBox) findViewById(R.id.chk_level_gold);
             m_chkDiamond = (CheckBox) findViewById(R.id.chk_level_diamond);
             m_chkExtreme = (CheckBox) findViewById(R.id.chk_level_extreme);
+            m_txtVipLevel = (TextView) findViewById(R.id.txt_vip_member_level);
+            m_txtVipRemainTime = (TextView) findViewById(R.id.txt_vip_remain_time);
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -106,7 +121,14 @@ public class VipActivity extends BaseActivity
     {
         try
         {
+            if (m_accountVo == null)
+            {
+                return;
+            }
 
+            m_txtVipLevel.setText(getString(R.string.txt_vip_member_level) + m_accountVo.getGrade());
+            String str = String.format(getString(R.string.txt_vip_remain_time), calcRemainTime());
+            m_txtVipRemainTime.setText(str);
         }
         catch (Exception e)
         {
@@ -129,5 +151,37 @@ public class VipActivity extends BaseActivity
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_ACCOUNT_INFO:
+            FetchAccountInfo fetchAccountInfo = (FetchAccountInfo) msg.obj;
+            if (FetchAccountInfo.isSucceed(fetchAccountInfo))
+            {
+                m_accountVo = fetchAccountInfo.rspAccountVo;
+                updateData();
+            }
+            break;
+        }
+    }
+
+    /**
+     * 计算vip账户剩余时间
+     * @return
+     */
+    private long calcRemainTime()
+    {
+        Date date = m_accountVo.getVipActiveTime();
+        Date today = new Date();
+
+        long diff = date.getTime() - today.getTime();
+        diff = (diff >= 0 ? diff : 0);
+        long diffDay = diff / 24 * 60 * 60 * 1000;
+
+        return diffDay;
     }
 }

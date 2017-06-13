@@ -19,7 +19,7 @@ public class UserRegisterVo extends GsonObj<UserRegisterVo>
 	private String signature;//个性签名
 	private String province;//个性签名
 	private String city;//个性签名
-	private String sex;//1男2女
+	private String sex;//直接填入：男    女
 	
 	public String getOpenId() {
 		return openId;

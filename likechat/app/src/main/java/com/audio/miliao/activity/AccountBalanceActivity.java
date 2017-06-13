@@ -1,11 +1,16 @@
 package com.audio.miliao.activity;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchAccountInfo;
+import com.audio.miliao.vo.AccountVo;
 
 /**
  * 账户余额
@@ -20,6 +25,9 @@ public class AccountBalanceActivity extends BaseActivity
     private CheckBox m_chkInput;
     private RadioButton m_rdoAlipay;
     private RadioButton m_rdoWeixin;
+    private TextView m_txtAccountBalance;
+
+    private AccountVo m_accountVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,7 +36,9 @@ public class AccountBalanceActivity extends BaseActivity
         setContentView(R.layout.activity_account_balance);
 
         initUI();
-        updateData();
+        //updateData();
+        FetchAccountInfo fetchAccountInfo = new FetchAccountInfo(handler(), null);
+        fetchAccountInfo.send();
     }
 
     private void initUI()
@@ -43,6 +53,7 @@ public class AccountBalanceActivity extends BaseActivity
             m_chkInput = (CheckBox) findViewById(R.id.chk_input);
             m_rdoAlipay = (RadioButton) findViewById(R.id.rdo_alipay);
             m_rdoWeixin = (RadioButton) findViewById(R.id.rdo_weixin);
+            m_txtAccountBalance = (TextView) findViewById(R.id.txt_account_balance);
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -97,7 +108,12 @@ public class AccountBalanceActivity extends BaseActivity
     {
         try
         {
+            if (m_accountVo == null)
+            {
+                return;
+            }
 
+            m_txtAccountBalance.setText(String.valueOf(m_accountVo.getMoney()));
         }
         catch (Exception e)
         {
@@ -121,6 +137,22 @@ public class AccountBalanceActivity extends BaseActivity
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_ACCOUNT_INFO:
+            FetchAccountInfo fetchAccountInfo = (FetchAccountInfo) msg.obj;
+            if (FetchAccountInfo.isSucceed(fetchAccountInfo))
+            {
+                m_accountVo = fetchAccountInfo.rspAccountVo;
+                updateData();
+            }
+            break;
         }
     }
 }
