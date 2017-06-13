@@ -5,34 +5,39 @@ import android.os.Handler;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
-import com.audio.miliao.vo.PayInfoVo;
+import com.audio.miliao.util.JSONUtil;
+import com.audio.miliao.vo.WeChatUnifiedOrderReqVo;
+import com.audio.miliao.vo.WeChatUnifiedOrderReturnVo;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
 
 /**
- * 创建支付宝订单
+ * 创建微信支付订单
  * <p>
  * 调用说明：（用户需登录）
  * 在调用支付宝sdk时先向服务器发送消息，创建订单。
  * 主要同步用户openid和订单号这两个重要信息。如果不同步，
  * 最终支付的异步订返回后也无法为用户充值
  */
-public class CreateAlipayOrder extends BaseReqRsp
+public class CreateWXPayOrder extends BaseReqRsp
 {
-    private PayInfoVo reqPayInfoVo;
+    public WeChatUnifiedOrderReqVo reqOrderInfo;
+    public WeChatUnifiedOrderReturnVo rspOrderResult;
 
     /**
      * 增加关注
      *
      * @param handler
-     * @param payInfoVo
+     * @param orderInfo
      * @param tag
      */
-    public CreateAlipayOrder(Handler handler, PayInfoVo payInfoVo, Object tag)
+    public CreateWXPayOrder(Handler handler, WeChatUnifiedOrderReqVo orderInfo, Object tag)
     {
         super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.CREATE_ALIPAY_ORDER, false, tag);
-        this.reqPayInfoVo = payInfoVo;
+        this.reqOrderInfo = orderInfo;
     }
 
     @Override
@@ -46,7 +51,7 @@ public class CreateAlipayOrder extends BaseReqRsp
     @Override
     public String getReqBody()
     {
-        return reqPayInfoVo.toJsonString();
+        return reqOrderInfo.toJsonString();
     }
 
     @Override
@@ -60,9 +65,20 @@ public class CreateAlipayOrder extends BaseReqRsp
             rspResultCode = HttpUtil.Result.ERROR_DENIAL_OF_SERVICE;
             break;
         case 200:
-            rspResultCode = HttpUtil.Result.OK;
             try
             {
+                JSONObject jsonObject = new JSONObject(httpBody);
+                int code = JSONUtil.getInt(jsonObject, "code");
+                if (code == 0)
+                {
+                    rspResultCode = HttpUtil.Result.OK;
+                    JSONObject jsonData = jsonObject.optJSONObject("data");
+                    rspOrderResult = WeChatUnifiedOrderReturnVo.parse(jsonData, WeChatUnifiedOrderReturnVo.class);
+                }
+                else
+                {
+                    rspResultCode = HttpUtil.Result.ERROR_UNKNOWN;
+                }
             }
             catch (Exception e)
             {
