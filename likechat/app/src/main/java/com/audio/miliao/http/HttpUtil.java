@@ -83,6 +83,8 @@ public class HttpUtil
         public static final int WX_PAY_CREATE_ORDER = 14;
         /** 获取账户信息 */
         public static final int FETCH_ACCOUNT_INFO = 15;
+        /** 获取账户余额，付费价格列表 */
+        public static final int FETCH_ACCOUNT_BALANCE = 16;
     }
 
     /** 请求类型 */

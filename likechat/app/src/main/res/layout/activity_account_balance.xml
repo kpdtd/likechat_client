@@ -66,20 +66,20 @@
         <CheckBox
             android:id="@+id/chk_10"
             style="@style/account_balance_item_style"
-            android:text="@string/txt_pay_10"
-            android:checked="true"/>
+            android:checked="true"
+            android:text="@string/txt_pay_10"/>
 
         <CheckBox
             android:id="@+id/chk_50"
             style="@style/account_balance_item_style"
-            android:text="@string/txt_pay_50"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:text="@string/txt_pay_50"/>
 
         <CheckBox
             android:id="@+id/chk_98"
-            android:text="@string/txt_pay_98"
-            style="@style/account_balance_item_style"/>
+            style="@style/account_balance_item_style"
+            android:text="@string/txt_pay_98"/>
     </LinearLayout>
 
     <LinearLayout

@@ -11,7 +11,9 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchAccountInfo;
 import com.audio.miliao.vo.AccountVo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * 会员中心
@@ -173,15 +175,27 @@ public class VipActivity extends BaseActivity
      * 计算vip账户剩余时间
      * @return
      */
-    private long calcRemainTime()
+    private int calcRemainTime()
     {
-        Date date = m_accountVo.getVipActiveTime();
-        Date today = new Date();
+        try
+        {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+            Date date = simpleDateFormat.parse(m_accountVo.getVipActiveTime());
+            Date today = new Date();
 
-        long diff = date.getTime() - today.getTime();
-        diff = (diff >= 0 ? diff : 0);
-        long diffDay = diff / 24 * 60 * 60 * 1000;
+            long diff = date.getTime() - today.getTime();
+            diff = (diff >= 0 ? diff : 0);
+            long diffDay = diff / (24 * 60 * 60 * 1000);
+            int result = (int) diffDay;
 
-        return diffDay;
+            return result;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 }

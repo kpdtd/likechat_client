@@ -30,6 +30,7 @@ public class GsonObj<T> implements Serializable
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             return null;
         }
     }

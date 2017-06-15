@@ -4,7 +4,7 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.vo.AccountVo;
+import com.audio.miliao.vo.AccountBalanceVo;
 
 import org.json.JSONObject;
 
@@ -12,26 +12,28 @@ import java.util.List;
 
 
 /**
- * 获取首页所有内容接口
+ * AccountBalanceVo对象
+ 1、余额：数字
+ 2、产品列表
  */
-public class FetchAccountInfo extends BaseReqRsp
+public class FetchAccountBalance extends BaseReqRsp
 {
-	public AccountVo rspAccountVo;
+	public AccountBalanceVo rspAccountBalanceVo;
 
 	/**
 	 * 获取首页所有内容接口
 	 * @param handler
 	 * @param tag
 	 */
-	public FetchAccountInfo(Handler handler, Object tag)
+	public FetchAccountBalance(Handler handler, Object tag)
 	{
-		super(HttpUtil.Method.GET, handler, HttpUtil.RequestCode.FETCH_ACCOUNT_INFO, false, tag);
+		super(HttpUtil.Method.GET, handler, HttpUtil.RequestCode.FETCH_ACCOUNT_BALANCE, false, tag);
 	}
 
 	@Override
 	public String getReqUrl()
 	{
-		String url = getPrevBaseURL() + "accounting/getAccountInfo";
+		String url = getPrevBaseURL() + "accounting/accountBalance";
 
 		return url;
 	}
@@ -58,7 +60,7 @@ public class FetchAccountInfo extends BaseReqRsp
 			{
 				JSONObject jsonObject = new JSONObject(httpBody);
 				JSONObject jsonData = jsonObject.optJSONObject("data");
-				rspAccountVo = AccountVo.parse(jsonData, AccountVo.class);
+				rspAccountBalanceVo = AccountBalanceVo.parse(jsonData, AccountBalanceVo.class);
 			}
 			catch (Exception e)
 			{

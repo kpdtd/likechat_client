@@ -7,7 +7,7 @@ public class AccountVo extends GsonObj<AccountVo>
     private Integer userId;
     private Integer isvip;//是否是vip会员：0-否  1-是',
     private Integer grade;//用户等级，还未使用
-    private java.util.Date vipActiveTime;//vip有效时间，预留的过期提醒
+    private String vipActiveTime;//vip有效时间，预留的过期提醒
     private Integer money;//余额，嗨币
 
     public void setUserId(Integer value)
@@ -40,12 +40,12 @@ public class AccountVo extends GsonObj<AccountVo>
         return this.grade;
     }
 
-    public void setVipActiveTime(java.util.Date value)
+    public void setVipActiveTime(String value)
     {
         this.vipActiveTime = value;
     }
 
-    public java.util.Date getVipActiveTime()
+    public String getVipActiveTime()
     {
         return this.vipActiveTime;
     }

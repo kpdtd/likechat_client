@@ -9,8 +9,12 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.http.cmd.FetchAccountInfo;
-import com.audio.miliao.vo.AccountVo;
+import com.audio.miliao.http.cmd.FetchAccountBalance;
+import com.audio.miliao.vo.AccountBalanceVo;
+import com.audio.miliao.vo.GoodsVo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 账户余额
@@ -27,7 +31,7 @@ public class AccountBalanceActivity extends BaseActivity
     private RadioButton m_rdoWeixin;
     private TextView m_txtAccountBalance;
 
-    private AccountVo m_accountVo;
+    private AccountBalanceVo m_accountBalanceVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,8 +41,8 @@ public class AccountBalanceActivity extends BaseActivity
 
         initUI();
         //updateData();
-        FetchAccountInfo fetchAccountInfo = new FetchAccountInfo(handler(), null);
-        fetchAccountInfo.send();
+        FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
+        fetchAccountBalance.send();
     }
 
     private void initUI()
@@ -108,12 +112,28 @@ public class AccountBalanceActivity extends BaseActivity
     {
         try
         {
-            if (m_accountVo == null)
+            if (m_accountBalanceVo == null)
             {
                 return;
             }
 
-            m_txtAccountBalance.setText(String.valueOf(m_accountVo.getMoney()));
+            m_txtAccountBalance.setText(String.valueOf(m_accountBalanceVo.getMoney()));
+
+            List<View> goodsViews = new ArrayList<>();
+            goodsViews.add(m_chk10);
+            goodsViews.add(m_chk50);
+            goodsViews.add(m_chk98);
+            goodsViews.add(m_chk598);
+            goodsViews.add(m_chk1598);
+            goodsViews.add(m_chkInput);
+            int i = 0;
+            for(GoodsVo goodsVo : m_accountBalanceVo.getGoods())
+            {
+                TextView view = (TextView) goodsViews.get(i);
+                String strText = goodsVo.getName() + "\n" + goodsVo.getDisplayPrice();
+                view.setText(strText);
+                i++;
+            }
         }
         catch (Exception e)
         {
@@ -145,11 +165,11 @@ public class AccountBalanceActivity extends BaseActivity
     {
         switch (msg.what)
         {
-        case HttpUtil.RequestCode.FETCH_ACCOUNT_INFO:
-            FetchAccountInfo fetchAccountInfo = (FetchAccountInfo) msg.obj;
-            if (FetchAccountInfo.isSucceed(fetchAccountInfo))
+        case HttpUtil.RequestCode.FETCH_ACCOUNT_BALANCE:
+            FetchAccountBalance fetchAccountBalance = (FetchAccountBalance) msg.obj;
+            if (FetchAccountBalance.isSucceed(fetchAccountBalance))
             {
-                m_accountVo = fetchAccountInfo.rspAccountVo;
+                m_accountBalanceVo = fetchAccountBalance.rspAccountBalanceVo;
                 updateData();
             }
             break;
