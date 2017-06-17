@@ -2,6 +2,7 @@ package com.audio.miliao.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
 import com.audio.miliao.widget.NoScrollViewPager;
+import com.netease.nim.uikit.recent.RecentContactsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ public class TabMessageFragment extends BaseFragment
     private View m_root;
 
     /** Fragment 列表 */
-    private List<BaseFragment> m_listFragment;
+    private List<Fragment> m_listFragment;
     /** 切换各个界面 */
     private ViewPager m_pager;
 
@@ -90,7 +92,7 @@ public class TabMessageFragment extends BaseFragment
         try
         {
             m_listFragment = new ArrayList<>();
-            m_listFragment.add(new MessageListFragment());
+            m_listFragment.add(new RecentContactsFragment());
             m_listFragment.add(new CallHistoryListFragment());
             m_pager.setAdapter(new CustomFragmentPageAdapter(getChildFragmentManager(), m_listFragment));
         }

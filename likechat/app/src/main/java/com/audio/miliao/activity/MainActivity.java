@@ -1,12 +1,12 @@
 package com.audio.miliao.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
-import com.audio.miliao.fragment.BaseFragment;
 import com.audio.miliao.fragment.TabFindFragment;
 import com.audio.miliao.fragment.TabMainFragment;
 import com.audio.miliao.fragment.TabMeFragment;
@@ -20,7 +20,7 @@ import java.util.List;
 public class MainActivity extends BaseActivity
 {
     /** Fragment 列表 */
-    private List<BaseFragment> m_listFragment;
+    private List<Fragment> m_listFragment;
     /** 切换各个界面 */
     private ViewPager m_pager;
 

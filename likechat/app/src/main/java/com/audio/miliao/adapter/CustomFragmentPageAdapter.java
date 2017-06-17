@@ -4,8 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.audio.miliao.fragment.BaseFragment;
-
 import java.util.List;
 
 /**
@@ -13,9 +11,9 @@ import java.util.List;
  */
 public class CustomFragmentPageAdapter extends FragmentPagerAdapter
 {
-    private List<BaseFragment> m_listFragment;
+    private List<Fragment> m_listFragment;
 
-    public CustomFragmentPageAdapter(FragmentManager fm, List<BaseFragment> listFragment)
+    public CustomFragmentPageAdapter(FragmentManager fm, List<Fragment> listFragment)
     {
         super(fm);
 
