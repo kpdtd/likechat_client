@@ -24,6 +24,9 @@ import com.audio.miliao.theApp;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.vo.ActorVo;
 
+/**
+ * 主界面中的我的界面
+ */
 public class TabMeFragment extends BaseFragment
 {
     /**

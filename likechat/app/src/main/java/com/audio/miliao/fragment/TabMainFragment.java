@@ -29,6 +29,9 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
+/**
+ * 主界面中的第一个界面
+ */
 public class TabMainFragment extends BaseFragment
 {
     /**

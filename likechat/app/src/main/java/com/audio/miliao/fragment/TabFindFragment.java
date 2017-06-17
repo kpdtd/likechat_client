@@ -28,6 +28,9 @@ import com.audio.miliao.vo.ActorDynamicVo;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 主界面中的发现界面
+ */
 public class TabFindFragment extends BaseFragment
 {
     /**

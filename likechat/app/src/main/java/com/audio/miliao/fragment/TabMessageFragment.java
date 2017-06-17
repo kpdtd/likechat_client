@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
 import com.audio.miliao.widget.NoScrollViewPager;
-import com.netease.nim.uikit.recent.RecentContactsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 主界面中的消息界面
+ */
 public class TabMessageFragment extends BaseFragment
 {
     /** 界面中的root view */
@@ -92,7 +94,7 @@ public class TabMessageFragment extends BaseFragment
         try
         {
             m_listFragment = new ArrayList<>();
-            m_listFragment.add(new RecentContactsFragment());
+            m_listFragment.add(new LikechatRecentContactsFragment());
             m_listFragment.add(new CallHistoryListFragment());
             m_pager.setAdapter(new CustomFragmentPageAdapter(getChildFragmentManager(), m_listFragment));
         }
