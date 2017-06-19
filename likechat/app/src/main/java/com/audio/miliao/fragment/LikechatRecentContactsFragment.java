@@ -33,6 +33,7 @@ import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
@@ -390,7 +391,18 @@ public class LikechatRecentContactsFragment extends TFragment
                         {
                             return;
                         }
-                        loadedRecents = recents;
+
+                        loadedRecents = new ArrayList<>();
+                        for (RecentContact recent : recents)
+                        {
+                            if (recent.getMsgType() != MsgTypeEnum.avchat)
+                            {
+                                // 最近联系人界面除了音视频通话的记录，其他都显示
+                                loadedRecents.add(recent);
+                            }
+                        }
+
+                        //loadedRecents = recents;
                         // 初次加载，更新离线的消息中是否有@我的消息
                         for (RecentContact loadedRecent : loadedRecents)
                         {
