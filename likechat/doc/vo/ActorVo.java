@@ -12,10 +12,13 @@ public class ActorVo {
 	private String idcard;//'固定8位，不重复，无规则的数字。用于标识唯一用户（类似于房间号）'
 	private String nickname;// '昵称'
 	private String icon;//'头像存放相对地址'
+	private String iconName;//注意--名称+后缀：仅用于头像更新使用，服务器会获取后缀作为存储格式。（客户端应限制有限几种图片格式，或者我们只支持jpg这一种格式。）
 	private String signature;//个性签名
-	private String age;//年龄，直接填数  db is int（birthday）
-	private String token;//
 	private Integer sex;//1男2女
+	private String token;//
+	//新增
+	private String age;//年龄，在更新个人信息时，这个字段传“YYYY-MM-DD” ，在获取个人信息时，这个字段是一个年龄数字
+	private String city;//
 	
 	
 	public Integer getId() {
@@ -65,6 +68,18 @@ public class ActorVo {
 	}
 	public void setToken(String token) {
 		this.token = token;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getIconName() {
+		return iconName;
+	}
+	public void setIconName(String iconName) {
+		this.iconName = iconName;
 	}
 }
 

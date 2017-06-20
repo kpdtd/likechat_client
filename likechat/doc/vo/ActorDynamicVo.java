@@ -13,7 +13,11 @@ public class ActorDynamicVo {
     private int dynamicType; // 动态类型（1、视频2、照片3、语音）
     private int price;
     private int pageView; // 动态浏览量
+    // 新增
+    private int voiceSec;//音视频的时长-秒；
+    private String videoFaceUrl;//视频封面地址
     private List<String> dynamicUrl; // 动态URL，字符串的列表（视频、照片、语音的下载播放地址）
+    
     
     public Integer getId() {
 		return id;
@@ -74,6 +78,19 @@ public class ActorDynamicVo {
 	}
 	public void setPrice(int price) {
 		this.price = price;
-	} 
+	}
+	public int getVoiceSec() {
+		return voiceSec;
+	}
+	public void setVoiceSec(int voiceSec) {
+		this.voiceSec = voiceSec;
+	}
+	public String getVideoFaceUrl() {
+		return videoFaceUrl;
+	}
+	public void setVideoFaceUrl(String videoFaceUrl) {
+		this.videoFaceUrl = videoFaceUrl;
+	}
+
 
 }
