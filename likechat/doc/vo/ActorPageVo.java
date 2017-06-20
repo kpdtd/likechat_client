@@ -22,6 +22,8 @@ public class ActorPageVo {
 	private String signature;//个性签名
 	private String introduction;//自我介绍
 	
+	private Integer voiceSec;//
+	
 	private String price;//资费价格（整数）转成 --》 1.5币/分
 	private String callTime;//通话时长
 	
@@ -166,6 +168,14 @@ public class ActorPageVo {
 
 	public void setIsAttention(Boolean isAttention) {
 		this.isAttention = isAttention;
+	}
+
+	public Integer getVoiceSec() {
+		return voiceSec;
+	}
+
+	public void setVoiceSec(Integer voiceSec) {
+		this.voiceSec = voiceSec;
 	}
 	
 }
