@@ -13,7 +13,7 @@ public class ActorDynamicVo extends GsonObj<ActorDynamicVo>
     /** 声音 */
     public final static int MEDIA_VOICE = 3;
 
-	private Integer id;//动态ID
+    private Integer id;//动态ID
     private String nickname; // 主播昵称
     private String imgUrl;// 主播图片URL
     private String signature;// 主播个性签名
@@ -22,19 +22,19 @@ public class ActorDynamicVo extends GsonObj<ActorDynamicVo>
     private int dynamicType; // 动态类型（1、视频2、照片3、语音）
     private int price;
     private int pageView; // 动态浏览量
+    // 新增
+    private int voiceSec;//音视频的时长-秒；
+    private String videoFaceUrl;//视频封面地址
     private List<String> dynamicUrl; // 动态URL，字符串的列表（视频、照片、语音的下载播放地址）
-    /** 声音长度(秒) 单个 */
-    private int    voiceSec = 0;
-    /** 视频首页 单个url */
-    private String   videoFaceUrl = "";
-    
+
+
     public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public String getNickname() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public String getNickname() {
         return nickname;
     }
     public void setNickname(String nickname) {
@@ -70,42 +70,34 @@ public class ActorDynamicVo extends GsonObj<ActorDynamicVo>
     public void setDynamicUrl(List<String> dynamicUrl) {
         this.dynamicUrl = dynamicUrl;
     }
-	public int getPageView() {
-		return pageView;
-	}
-	public void setPageView(int pageView) {
-		this.pageView = pageView;
-	}
-	public String getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-    public int getVoiceSec()
-    {
+    public int getPageView() {
+        return pageView;
+    }
+    public void setPageView(int pageView) {
+        this.pageView = pageView;
+    }
+    public String getCreateTime() {
+        return createTime;
+    }
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    public int getVoiceSec() {
         return voiceSec;
     }
-
-    public void setVoiceSec(int voiceSec)
-    {
+    public void setVoiceSec(int voiceSec) {
         this.voiceSec = voiceSec;
     }
-
-    public String getVideoFaceUrl()
-    {
+    public String getVideoFaceUrl() {
         return videoFaceUrl;
     }
-
-    public void setVideoFaceUrl(String videoFaceUrl)
-    {
+    public void setVideoFaceUrl(String videoFaceUrl) {
         this.videoFaceUrl = videoFaceUrl;
     }
 }

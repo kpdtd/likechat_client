@@ -8,12 +8,9 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.http.cmd.FetchAccountInfo;
-import com.audio.miliao.vo.AccountVo;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import com.audio.miliao.http.cmd.FetchVipMember;
+import com.audio.miliao.vo.GoodsVo;
+import com.audio.miliao.vo.VipMemberVo;
 
 /**
  * 会员中心
@@ -21,13 +18,22 @@ import java.util.TimeZone;
 public class VipActivity extends BaseActivity
 {
     private CheckBox m_chkSilver;
+    private TextView m_txtNameSilver;
+    private TextView m_txtSubnameSilver;
     private CheckBox m_chkGold;
+    private TextView m_txtNameGold;
+    private TextView m_txtSubnameGold;
     private CheckBox m_chkDiamond;
+    private TextView m_txtNameDiamond;
+    private TextView m_txtSubnameDiamond;
     private CheckBox m_chkExtreme;
+    private TextView m_txtNameExtreme;
+    private TextView m_txtSubnameExtreme;
     private TextView m_txtVipLevel;
     private TextView m_txtVipRemainTime;
 
-    private AccountVo m_accountVo;
+    //private AccountVo m_accountVo;
+    private VipMemberVo m_vipMemberVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,8 +45,9 @@ public class VipActivity extends BaseActivity
         {
             initUI();
             //updateData();
-            FetchAccountInfo fetchAccountInfo = new FetchAccountInfo(handler(), null);
-            fetchAccountInfo.send();
+
+            FetchVipMember fetchVipMember = new FetchVipMember(handler(), null);
+            fetchVipMember.send();
         }
         catch (Exception e)
         {
@@ -53,9 +60,17 @@ public class VipActivity extends BaseActivity
         try
         {
             m_chkSilver = (CheckBox) findViewById(R.id.chk_level_silver);
+            m_txtNameSilver = (TextView) findViewById(R.id.txt_name_level_silver);
+            m_txtSubnameSilver = (TextView) findViewById(R.id.txt_subname_level_silver);
             m_chkGold = (CheckBox) findViewById(R.id.chk_level_gold);
+            m_txtNameGold = (TextView) findViewById(R.id.txt_name_level_gold);
+            m_txtSubnameGold = (TextView) findViewById(R.id.txt_subname_level_gold);
             m_chkDiamond = (CheckBox) findViewById(R.id.chk_level_diamond);
+            m_txtNameDiamond = (TextView) findViewById(R.id.txt_name_level_diamond);
+            m_txtSubnameDiamond = (TextView) findViewById(R.id.txt_subname_level_diamond);
             m_chkExtreme = (CheckBox) findViewById(R.id.chk_level_extreme);
+            m_txtNameExtreme = (TextView) findViewById(R.id.txt_name_level_extreme);
+            m_txtSubnameExtreme = (TextView) findViewById(R.id.txt_subname_level_extreme);
             m_txtVipLevel = (TextView) findViewById(R.id.txt_vip_member_level);
             m_txtVipRemainTime = (TextView) findViewById(R.id.txt_vip_remain_time);
 
@@ -123,19 +138,30 @@ public class VipActivity extends BaseActivity
     {
         try
         {
-            if (m_accountVo == null)
+            if (m_vipMemberVo == null)
             {
                 return;
             }
 
-            m_txtVipLevel.setText(getString(R.string.txt_vip_member_level) + m_accountVo.getGrade());
-            String str = String.format(getString(R.string.txt_vip_remain_time), calcRemainTime());
+            m_txtVipLevel.setText(getString(R.string.txt_vip_member_level) + m_vipMemberVo.getGrade());
+            String str = String.format(getString(R.string.txt_vip_remain_time), m_vipMemberVo.getVipActiveTime());
             m_txtVipRemainTime.setText(str);
+
+            setGoodsInfo(m_txtNameSilver, m_txtSubnameSilver, m_vipMemberVo.getGoods().get(0));
+            setGoodsInfo(m_txtNameGold, m_txtSubnameGold, m_vipMemberVo.getGoods().get(1));
+            setGoodsInfo(m_txtNameDiamond, m_txtSubnameDiamond, m_vipMemberVo.getGoods().get(2));
+            setGoodsInfo(m_txtNameExtreme, m_txtSubnameExtreme, m_vipMemberVo.getGoods().get(3));
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    private void setGoodsInfo(TextView txtName, TextView txtSubname, GoodsVo goods)
+    {
+        txtName.setText(goods.getName());
+        txtSubname.setText(goods.getSubname());
     }
 
     private void setPriceCheck(CheckBox check)
@@ -160,42 +186,14 @@ public class VipActivity extends BaseActivity
     {
         switch (msg.what)
         {
-        case HttpUtil.RequestCode.FETCH_ACCOUNT_INFO:
-            FetchAccountInfo fetchAccountInfo = (FetchAccountInfo) msg.obj;
-            if (FetchAccountInfo.isSucceed(fetchAccountInfo))
+        case HttpUtil.RequestCode.FETCH_VIP_MEMBER:
+            FetchVipMember fetchVipMember = (FetchVipMember) msg.obj;
+            if (FetchVipMember.isSucceed(fetchVipMember))
             {
-                m_accountVo = fetchAccountInfo.rspAccountVo;
+                m_vipMemberVo = fetchVipMember.rspVipMember;
                 updateData();
             }
             break;
         }
-    }
-
-    /**
-     * 计算vip账户剩余时间
-     * @return
-     */
-    private int calcRemainTime()
-    {
-        try
-        {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-            Date date = simpleDateFormat.parse(m_accountVo.getVipActiveTime());
-            Date today = new Date();
-
-            long diff = date.getTime() - today.getTime();
-            diff = (diff >= 0 ? diff : 0);
-            long diffDay = diff / (24 * 60 * 60 * 1000);
-            int result = (int) diffDay;
-
-            return result;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return 0;
     }
 }

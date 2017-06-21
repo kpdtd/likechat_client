@@ -86,7 +86,7 @@
     <string name="txt_user_friend_follow">关注</string>
     <string name="txt_user_friend_fans">粉丝</string>
     <string name="txt_vip_member_level">会员等级：</string>
-    <string name="txt_vip_remain_time">剩余时间：%d天</string>
+    <string name="txt_vip_remain_time">剩余时间：%s天</string>
     <string name="txt_vip_member_level_silver">白银会员（1个月¥99）</string>
     <string name="txt_vip_member_level_silver_give">赠送99个币</string>
     <string name="txt_vip_member_level_gold">黄金会员（3个月¥199）</string>

@@ -80,10 +80,12 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txt_name_level_silver"
                         style="@style/vip_charge_text1_style"
                         android:text="@string/txt_vip_member_level_silver"/>
 
                     <TextView
+                        android:id="@+id/txt_subname_level_silver"
                         style="@style/vip_charge_text2_style"
                         android:text="@string/txt_vip_member_level_silver_give"/>
                 </LinearLayout>
@@ -112,10 +114,12 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txt_name_level_gold"
                         style="@style/vip_charge_text1_style"
                         android:text="@string/txt_vip_member_level_gold"/>
 
                     <TextView
+                        android:id="@+id/txt_subname_level_gold"
                         style="@style/vip_charge_text2_style"
                         android:text="@string/txt_vip_member_level_gold_give"/>
                 </LinearLayout>
@@ -144,10 +148,12 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txt_name_level_diamond"
                         style="@style/vip_charge_text1_style"
                         android:text="@string/txt_vip_member_level_diamond"/>
 
                     <TextView
+                        android:id="@+id/txt_subname_level_diamond"
                         style="@style/vip_charge_text2_style"
                         android:text="@string/txt_vip_member_level_diamond_give"/>
                 </LinearLayout>
@@ -176,10 +182,12 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txt_name_level_extreme"
                         style="@style/vip_charge_text1_style"
                         android:text="@string/txt_vip_member_level_extreme"/>
 
                     <TextView
+                        android:id="@+id/txt_subname_level_extreme"
                         style="@style/vip_charge_text2_style"
                         android:text="@string/txt_vip_member_level_extreme_give"/>
                 </LinearLayout>

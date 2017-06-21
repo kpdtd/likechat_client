@@ -24,14 +24,16 @@ public class ActorPageVo extends GsonObj<ActorPageVo>
 	private String attention;//'关注数（冗余字段，应该是实时计算）'
 	private String signature;//个性签名
 	private String introduction;//自我介绍
-	
+
+	private Integer voiceSec;//
+
 	private String price;//资费价格（整数）转成 --》 1.5币/分
 	private String callTime;//通话时长
-	
+
 	private Boolean isAttention;//是否已经关注，如果未登陆，点击关注应该进入登陆页面。如果已经登陆，当此属性为true，图标应显示红色
-	
-	
-	
+
+
+
 	private String videoUrl;//音频地址
 	private List<String> picList;//主播相册地址列表
 
@@ -169,6 +171,14 @@ public class ActorPageVo extends GsonObj<ActorPageVo>
 
 	public void setIsAttention(Boolean isAttention) {
 		this.isAttention = isAttention;
+	}
+
+	public Integer getVoiceSec() {
+		return voiceSec;
+	}
+
+	public void setVoiceSec(Integer voiceSec) {
+		this.voiceSec = voiceSec;
 	}
 	
 }
