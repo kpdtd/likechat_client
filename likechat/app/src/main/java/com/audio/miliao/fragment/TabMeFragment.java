@@ -1,5 +1,6 @@
 package com.audio.miliao.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
@@ -22,6 +24,7 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchMineInfo;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.EntityUtil;
+import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.vo.ActorVo;
 
 /**
@@ -29,6 +32,7 @@ import com.audio.miliao.vo.ActorVo;
  */
 public class TabMeFragment extends BaseFragment
 {
+    private static final int REQ_EDIT_USER_INFO = 1;
     /**
      * 界面中的root view
      */
@@ -51,6 +55,19 @@ public class TabMeFragment extends BaseFragment
         return m_root;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == REQ_EDIT_USER_INFO)
+        {
+            if (resultCode == Activity.RESULT_OK)
+            {
+                FetchMineInfo fetchMineInfo = new FetchMineInfo(handler(), null);
+                fetchMineInfo.send();
+            }
+        }
+    }
+
     private void initUI(final View root)
     {
         try
@@ -68,7 +85,7 @@ public class TabMeFragment extends BaseFragment
                             if (AppData.isLogin())
                             {
                                 Intent intentEditUserInfo = new Intent(getActivity(), EditUserInfoActivity.class);
-                                startActivity(intentEditUserInfo);
+                                startActivityForResult(intentEditUserInfo, REQ_EDIT_USER_INFO);
                             }
                             else
                             {
@@ -80,7 +97,7 @@ public class TabMeFragment extends BaseFragment
                             if (AppData.isLogin())
                             {
                                 Intent intentEditUserInfo = new Intent(getActivity(), EditUserInfoActivity.class);
-                                startActivity(intentEditUserInfo);
+                                startActivityForResult(intentEditUserInfo, REQ_EDIT_USER_INFO);
                             }
                             else
                             {
@@ -144,6 +161,7 @@ public class TabMeFragment extends BaseFragment
                 layInfo.setVisibility(View.VISIBLE);
                 txtLogin.setVisibility(View.GONE);
 
+                ImageView imgAvatar = (ImageView) m_root.findViewById(R.id.img_avatar);
                 TextView txtName = (TextView) m_root.findViewById(R.id.txt_name);
                 TextView txtAge = (TextView) m_root.findViewById(R.id.txt_age);
                 TextView txtId = (TextView) m_root.findViewById(R.id.txt_id);
@@ -152,6 +170,7 @@ public class TabMeFragment extends BaseFragment
                 //ActorVo actor = DebugUtil.actorPageVo2ActorVo(AppData.getCurUser());
                 if (m_actorVo != null)
                 {
+                    ImageLoaderUtil.displayListAvatarImage(imgAvatar, m_actorVo.getIcon());
                     txtName.setText(m_actorVo.getNickname());
                     txtAge.setText(m_actorVo.getAge());
                     EntityUtil.setActorGenderDrawable(txtAge, m_actorVo.getSex(), true);

@@ -4,7 +4,6 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.theApp;
 import com.audio.miliao.vo.ActorVo;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class UpdateUserInfo extends BaseReqRsp
      */
     public UpdateUserInfo(Handler handler, ActorVo actorVo, Object tag)
     {
-        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.UPDATE, false, tag);
+        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.UPDATE_USER_INFO, false, tag);
         reqActorVo = actorVo;
     }
 
@@ -46,7 +45,6 @@ public class UpdateUserInfo extends BaseReqRsp
     @Override
     public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
     {
-        theApp.showToast("Login;" + httpStatusCode + ":" + httpBody);
         switch (httpStatusCode)
         {
         case 429:

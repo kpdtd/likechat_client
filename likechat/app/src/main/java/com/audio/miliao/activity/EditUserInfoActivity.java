@@ -14,15 +14,19 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.dialog.CityPickerActivity;
 import com.audio.miliao.dialog.DatePickerActivity;
+import com.audio.miliao.dialog.LoadingDialog;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
+import com.audio.miliao.http.cmd.UpdateUserInfo;
+import com.audio.miliao.pay.alipay.Base64;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.FileUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.vo.ActorPageVo;
+import com.audio.miliao.vo.ActorVo;
 import com.audio.miliao.widget.CircleImageView;
 
 import java.io.File;
@@ -73,7 +77,10 @@ public class EditUserInfoActivity extends BaseActivity
      */
     private String mAvatarTempFilePath = "";
 
+    /** 用于显示个人信息 */
     private ActorPageVo m_actorPageVo;
+    /** 用于编辑个人信息 */
+    private ActorVo m_actorVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -134,8 +141,15 @@ public class EditUserInfoActivity extends BaseActivity
             case REQ_CROP_AVATAR:
                 if (data != null)
                 {
-                    String cropAvatarPath = saveCropAvatar(data);
-                    ImageLoaderUtil.displayFromFile(m_imgAvatar, cropAvatarPath);
+                    File cropAvatar = saveCropAvatar(data);
+                    if (cropAvatar != null)
+                    {
+                        String filePath = cropAvatar.getAbsolutePath();
+                        ImageLoaderUtil.displayFromFile(m_imgAvatar, filePath);
+                        String fileContent = FileUtil.readFile(filePath);
+                        m_actorVo.setIcon(Base64.encode(fileContent.getBytes()));
+                        m_actorVo.setIconName(filePath);
+                    }
                 }
                 break;
             }
@@ -234,6 +248,7 @@ public class EditUserInfoActivity extends BaseActivity
                 return;
             }
 
+            ImageLoaderUtil.displayListAvatarImage(m_imgAvatar, m_actorPageVo.getIcon());
             m_txtName.setText(actor.getNickname());
             m_txtIntro.setText(actor.getIntroduction());
 //            String strGender = (actor.getSex() == 2 ? getString(R.string.txt_female) : getString(R.string.txt_male));
@@ -256,6 +271,7 @@ public class EditUserInfoActivity extends BaseActivity
             if (StringUtil.isNotEmpty(strInput))
             {
                 m_txtName.setText(strInput);
+                m_actorVo.setNickname(strInput);
             }
         }
         catch (Exception e)
@@ -272,6 +288,7 @@ public class EditUserInfoActivity extends BaseActivity
             if (StringUtil.isNotEmpty(strInput))
             {
                 m_txtIntro.setText(strInput);
+                m_actorVo.setSignature(strInput);
             }
         }
         catch (Exception e)
@@ -289,6 +306,8 @@ public class EditUserInfoActivity extends BaseActivity
             int nDay = data.getIntExtra("day", 0);
             int nAge = getAgeByBirthday(nYear, nMonth, nDay);
             m_txtAge.setText(String.valueOf(nAge));
+            String strAge = String.format("%4d-%02d-%02d", nYear, nMonth, nDay);
+            m_actorVo.setAge(strAge);
         }
         catch (Exception e)
         {
@@ -304,6 +323,7 @@ public class EditUserInfoActivity extends BaseActivity
             String city = data.getStringExtra("city");
             String district = data.getStringExtra("district");
             m_txtCity.setText(provice + "/" + city);
+            m_actorVo.setCity(provice + "/" + city);
         }
         catch (Exception e)
         {
@@ -315,11 +335,14 @@ public class EditUserInfoActivity extends BaseActivity
     {
         try
         {
-            ActorPageVo actor = AppData.getCurActorPageVo();
-            actor.setNickname(m_txtName.getText().toString());
-            actor.setIntroduction(m_txtIntro.getText().toString());
+//            ActorPageVo actor = AppData.getCurActorPageVo();
+//            actor.setNickname(m_txtName.getText().toString());
+//            actor.setIntroduction(m_txtIntro.getText().toString());
 
-            finish();
+            UpdateUserInfo updateUserInfo = new UpdateUserInfo(handler(), m_actorVo, null);
+            updateUserInfo.send();
+            LoadingDialog.show(this, getString(R.string.notice_update_user_info));
+            //finish();
         }
         catch (Exception e)
         {
@@ -430,7 +453,7 @@ public class EditUserInfoActivity extends BaseActivity
      *
      * @param picdata
      */
-    private String saveCropAvatar(Intent picdata)
+    private File saveCropAvatar(Intent picdata)
     {
         try
         {
@@ -465,10 +488,7 @@ public class EditUserInfoActivity extends BaseActivity
 
                     FileUtil.deleteFile(mAvatarTempFilePath);
 
-                    if (cropAvatar != null)
-                    {
-                        return cropAvatar.getAbsolutePath();
-                    }
+                    return cropAvatar;
                 }
             }
         }
@@ -477,7 +497,7 @@ public class EditUserInfoActivity extends BaseActivity
             e.printStackTrace();
         }
 
-        return "";
+        return null;
     }
 
     private void showSelectGenderDialog()
@@ -492,6 +512,7 @@ public class EditUserInfoActivity extends BaseActivity
                 public void onClick(DialogInterface dialog, int item)
                 {
                     m_txtGender.setText(items[item]);
+                    m_actorVo.setSex(item + 1);
                 }
             });
             AlertDialog alert = builder.create();
@@ -579,11 +600,31 @@ public class EditUserInfoActivity extends BaseActivity
             if (FetchActorPage.isSucceed(fetchActorPage))
             {
                 m_actorPageVo = fetchActorPage.rspActorPageVo;
+                m_actorVo = new ActorVo();
+//                m_actorVo.setNickname(m_actorPageVo.getNickname());
+//                m_actorVo.setSex(m_actorPageVo.getSex());
+//                m_actorVo.setAge(m_actorPageVo.getAge());
+//                m_actorVo.setCity(m_actorPageVo.getCity());
+//                m_actorVo.setSignature(m_actorPageVo.getSignature());
                 updateData();
             }
             else
             {
 
+            }
+            break;
+        case HttpUtil.RequestCode.UPDATE_USER_INFO:
+            LoadingDialog.dismiss();
+            UpdateUserInfo updateUserInfo = (UpdateUserInfo) msg.obj;
+            if (UpdateUserInfo.isSucceed(updateUserInfo))
+            {
+                theApp.showToast(getString(R.string.toast_update_user_info_succeed));
+                setResult(RESULT_OK);
+                finish();
+            }
+            else
+            {
+                theApp.showToast(getString(R.string.toast_update_user_info_failed));
             }
             break;
         }

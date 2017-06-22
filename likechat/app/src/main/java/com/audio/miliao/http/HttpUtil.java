@@ -87,6 +87,8 @@ public class HttpUtil
         public static final int FETCH_ACCOUNT_BALANCE = 16;
         /** 获取Vip信息 */
         public static final int FETCH_VIP_MEMBER = 17;
+        /** 修改用户信息 */
+        public static final int UPDATE_USER_INFO = 18;
     }
 
     /** 请求类型 */
