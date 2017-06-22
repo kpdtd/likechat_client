@@ -167,10 +167,10 @@ public class FileUtil
 		return byteSize;
 	}
 
-	public static String readFile(String fileName)
+	public static byte[] readFileByte(String fileName)
 	{
-		String content = "";
 		BufferedReader reader = null;
+		byte[] buf = null;
 		try
 		{
 			File file = new File(fileName);
@@ -182,11 +182,8 @@ public class FileUtil
 			// content += line;
 			// }
 			int length = inputStream.available();
-			byte[] buf = new byte[length];
+			buf = new byte[length];
 			inputStream.read(buf);
-			// content = new String(AESUtil.getInstance().decryptBytes(buf,
-			// buf.length));
-			content = new String(buf);
 		}
 		catch (Exception e)
 		{
@@ -204,7 +201,52 @@ public class FileUtil
 			{
 			}
 		}
+
+		return buf;
+	}
+
+	public static String readFile(String fileName)
+	{
+		byte[] buf = readFileByte(fileName);
+		String content = new String(buf);
 		return content;
+
+//		String content = "";
+//		BufferedReader reader = null;
+//		try
+//		{
+//			File file = new File(fileName);
+//			InputStream inputStream = new FileInputStream(file);
+//			// reader = new BufferedReader(new InputStreamReader(inputStream));
+//			// String line;
+//			// while ((line = reader.readLine()) != null)
+//			// {
+//			// content += line;
+//			// }
+//			int length = inputStream.available();
+//			byte[] buf = new byte[length];
+//			inputStream.read(buf);
+//			// content = new String(AESUtil.getInstance().decryptBytes(buf,
+//			// buf.length));
+//			content = new String(buf);
+//		}
+//		catch (Exception e)
+//		{
+//		}
+//		finally
+//		{
+//			try
+//			{
+//				if (reader != null)
+//				{
+//					reader.close();
+//				}
+//			}
+//			catch (IOException e)
+//			{
+//			}
+//		}
+//		return content;
 	}
 
 	public static boolean writeFile(String text, String filename)
