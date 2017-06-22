@@ -138,4 +138,9 @@
             android:gravity="left"
             android:text="@string/edt_hint_edit_user_info_self_intro"/>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

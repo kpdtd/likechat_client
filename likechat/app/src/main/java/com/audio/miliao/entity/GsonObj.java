@@ -1,6 +1,7 @@
 package com.audio.miliao.entity;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
@@ -8,7 +9,11 @@ import java.io.Serializable;
 
 public class GsonObj<T> implements Serializable
 {
-    public static final Gson gson = new Gson();
+    //public static final Gson gson = new Gson();
+    public static final Gson gson = new GsonBuilder()
+            //.setPrettyPrinting()
+            .disableHtmlEscaping()
+            .create();
 
     public static <T> T parse(String strJson, Class<T> cls)
     {

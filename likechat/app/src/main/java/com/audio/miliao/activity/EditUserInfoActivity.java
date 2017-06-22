@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,7 +20,6 @@ import com.audio.miliao.entity.AppData;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.UpdateUserInfo;
-import com.audio.miliao.pay.alipay.Base64;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.FileUtil;
@@ -146,8 +146,9 @@ public class EditUserInfoActivity extends BaseActivity
                     {
                         String filePath = cropAvatar.getAbsolutePath();
                         ImageLoaderUtil.displayFromFile(m_imgAvatar, filePath);
-                        String fileContent = FileUtil.readFile(filePath);
-                        m_actorVo.setIcon(Base64.encode(fileContent.getBytes()));
+                        byte[] fileBytes = FileUtil.getFileBytes(filePath);
+
+                        m_actorVo.setIcon(Base64.encodeToString(fileBytes, Base64.NO_WRAP));
                         m_actorVo.setIconName(filePath);
                     }
                 }
