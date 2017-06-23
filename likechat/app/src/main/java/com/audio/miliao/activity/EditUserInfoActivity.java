@@ -146,8 +146,9 @@ public class EditUserInfoActivity extends BaseActivity
                     {
                         String filePath = cropAvatar.getAbsolutePath();
                         ImageLoaderUtil.displayFromFile(m_imgAvatar, filePath);
-                        byte[] buf = FileUtil.readFileByte(filePath);
-                        m_actorVo.setIcon(Base64.encodeToString(buf, Base64.DEFAULT));
+                        byte[] fileBytes = FileUtil.getFileBytes(filePath);
+
+                        m_actorVo.setIcon(Base64.encodeToString(fileBytes, Base64.NO_WRAP));
                         m_actorVo.setIconName(filePath);
                     }
                 }
