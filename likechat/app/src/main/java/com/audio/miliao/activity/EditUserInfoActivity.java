@@ -80,7 +80,7 @@ public class EditUserInfoActivity extends BaseActivity
     /** 用于显示个人信息 */
     private ActorPageVo m_actorPageVo;
     /** 用于编辑个人信息 */
-    private ActorVo m_actorVo;
+    private ActorVo m_actorVo = new ActorVo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -251,12 +251,10 @@ public class EditUserInfoActivity extends BaseActivity
 
             ImageLoaderUtil.displayListAvatarImage(m_imgAvatar, m_actorPageVo.getIcon());
             m_txtName.setText(actor.getNickname());
-            m_txtIntro.setText(actor.getIntroduction());
-//            String strGender = (actor.getSex() == 2 ? getString(R.string.txt_female) : getString(R.string.txt_male));
-//            m_txtGender.setText(strGender);
             EntityUtil.setActorGenderText(m_txtGender, actor.getSex());
             m_txtAge.setText(String.valueOf(actor.getAge()));
             m_txtCity.setText(actor.getCity());
+            m_txtIntro.setText(actor.getSignature());
         }
         catch (Exception e)
         {
@@ -601,7 +599,6 @@ public class EditUserInfoActivity extends BaseActivity
             if (FetchActorPage.isSucceed(fetchActorPage))
             {
                 m_actorPageVo = fetchActorPage.rspActorPageVo;
-                m_actorVo = new ActorVo();
 //                m_actorVo.setNickname(m_actorPageVo.getNickname());
 //                m_actorVo.setSex(m_actorPageVo.getSex());
 //                m_actorVo.setAge(m_actorPageVo.getAge());

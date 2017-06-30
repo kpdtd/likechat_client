@@ -199,7 +199,7 @@ public class PhotoSelectorAdapter extends BaseAdapter
                 final String strPath = m_listPhotos.get(nPosition - 1);
                 if (!strCurr.equals(strPath))
                 {
-                    ImageLoaderUtil.displayPhotoFromFile(holder.photo, strPath);
+                    ImageLoaderUtil.displayListPhotoImage(holder.photo, strPath, null);
                 }
 
                 boolean bSel = m_listSelect.contains(strPath);

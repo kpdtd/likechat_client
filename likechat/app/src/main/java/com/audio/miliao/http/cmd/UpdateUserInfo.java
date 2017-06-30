@@ -6,8 +6,6 @@ import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.vo.ActorVo;
 
-import org.json.JSONObject;
-
 import java.util.List;
 
 
@@ -41,18 +39,7 @@ public class UpdateUserInfo extends BaseReqRsp
     @Override
     public String getReqBody()
     {
-        //String str = reqActorVo.toJsonString();
-        JSONObject jsonObject = new JSONObject();
-        try
-        {
-            jsonObject.put("icon", reqActorVo.getIcon());
-            jsonObject.put("iconName", reqActorVo.getIconName());
-        }
-        catch (Exception e)
-        {
-
-        }
-        return jsonObject.toString();
+        return reqActorVo.toJsonString();
     }
 
     @Override

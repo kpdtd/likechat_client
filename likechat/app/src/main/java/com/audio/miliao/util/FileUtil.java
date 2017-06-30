@@ -167,47 +167,9 @@ public class FileUtil
 		return byteSize;
 	}
 
-	public static byte[] readFileByte(String fileName)
-	{
-		BufferedReader reader = null;
-		byte[] buf = null;
-		try
-		{
-			File file = new File(fileName);
-			InputStream inputStream = new FileInputStream(file);
-			// reader = new BufferedReader(new InputStreamReader(inputStream));
-			// String line;
-			// while ((line = reader.readLine()) != null)
-			// {
-			// content += line;
-			// }
-			int length = inputStream.available();
-			buf = new byte[length];
-			inputStream.read(buf);
-		}
-		catch (Exception e)
-		{
-		}
-		finally
-		{
-			try
-			{
-				if (reader != null)
-				{
-					reader.close();
-				}
-			}
-			catch (IOException e)
-			{
-			}
-		}
-
-		return buf;
-	}
-
 	public static String readFile(String fileName)
 	{
-		byte[] buf = readFileByte(fileName);
+		byte[] buf = getFileBytes(fileName);
 		String content = new String(buf);
 		return content;
 
