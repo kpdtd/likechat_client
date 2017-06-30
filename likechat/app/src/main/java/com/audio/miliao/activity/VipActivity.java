@@ -4,13 +4,17 @@ import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.CreateWXPayOrder;
 import com.audio.miliao.http.cmd.FetchVipMember;
+import com.audio.miliao.theApp;
 import com.audio.miliao.vo.GoodsVo;
 import com.audio.miliao.vo.VipMemberVo;
+import com.audio.miliao.vo.WeChatUnifiedOrderReqVo;
 
 /**
  * 会员中心
@@ -31,9 +35,13 @@ public class VipActivity extends BaseActivity
     private TextView m_txtSubnameExtreme;
     private TextView m_txtVipLevel;
     private TextView m_txtVipRemainTime;
+    private TextView m_txtPayNow;
+    private RadioButton m_rdoAlipay;
+    private RadioButton m_rdoWeixin;
 
     //private AccountVo m_accountVo;
     private VipMemberVo m_vipMemberVo;
+    private WeChatUnifiedOrderReqVo m_weChatUnifiedOrderReqVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,6 +81,9 @@ public class VipActivity extends BaseActivity
             m_txtSubnameExtreme = (TextView) findViewById(R.id.txt_subname_level_extreme);
             m_txtVipLevel = (TextView) findViewById(R.id.txt_vip_member_level);
             m_txtVipRemainTime = (TextView) findViewById(R.id.txt_vip_remain_time);
+            m_rdoAlipay = (RadioButton) findViewById(R.id.rdo_alipay);
+            m_rdoWeixin = (RadioButton) findViewById(R.id.rdo_weixin);
+            m_txtPayNow = (TextView) findViewById(R.id.txt_pay_now);
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -103,7 +114,17 @@ public class VipActivity extends BaseActivity
                             finish();
                             break;
                         case R.id.txt_pay_now:
-                            finish();
+                            Integer nGoodsNo = m_txtPayNow.getTag() == null ? -1 : Integer.valueOf(m_txtPayNow.getTag().toString());
+                            if (nGoodsNo > 0){
+                                if (m_rdoAlipay.isChecked())
+                                {
+                                    onAlipay(nGoodsNo);
+                                }
+                                else if (m_rdoWeixin.isChecked())
+                                {
+                                    onWxPay(nGoodsNo);
+                                }
+                            }
                             break;
                         }
                     }
@@ -147,10 +168,10 @@ public class VipActivity extends BaseActivity
             String str = String.format(getString(R.string.txt_vip_remain_time), m_vipMemberVo.getVipActiveTime());
             m_txtVipRemainTime.setText(str);
 
-            setGoodsInfo(m_txtNameSilver, m_txtSubnameSilver, m_vipMemberVo.getGoods().get(0));
-            setGoodsInfo(m_txtNameGold, m_txtSubnameGold, m_vipMemberVo.getGoods().get(1));
-            setGoodsInfo(m_txtNameDiamond, m_txtSubnameDiamond, m_vipMemberVo.getGoods().get(2));
-            setGoodsInfo(m_txtNameExtreme, m_txtSubnameExtreme, m_vipMemberVo.getGoods().get(3));
+            setGoodsInfo(m_txtNameSilver, m_txtSubnameSilver, m_chkSilver, m_vipMemberVo.getGoods().get(0));
+            setGoodsInfo(m_txtNameGold, m_txtSubnameGold, m_chkGold, m_vipMemberVo.getGoods().get(1));
+            setGoodsInfo(m_txtNameDiamond, m_txtSubnameDiamond, m_chkDiamond, m_vipMemberVo.getGoods().get(2));
+            setGoodsInfo(m_txtNameExtreme, m_txtSubnameExtreme, m_chkExtreme, m_vipMemberVo.getGoods().get(3));
         }
         catch (Exception e)
         {
@@ -158,10 +179,14 @@ public class VipActivity extends BaseActivity
         }
     }
 
-    private void setGoodsInfo(TextView txtName, TextView txtSubname, GoodsVo goods)
+    private void setGoodsInfo(TextView txtName, TextView txtSubname, CheckBox check, GoodsVo goods)
     {
         txtName.setText(goods.getName());
         txtSubname.setText(goods.getSubname());
+
+        txtName.setTag(goods.getId());
+        txtSubname.setTag(goods.getId());
+        check.setTag(goods.getId());
     }
 
     private void setPriceCheck(CheckBox check)
@@ -174,6 +199,43 @@ public class VipActivity extends BaseActivity
             m_chkExtreme.setChecked(false);
 
             check.setChecked(true);
+            m_txtPayNow.setTag(check.getTag());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 支付宝支付
+     * @param nGoodsNo
+     */
+    private void onAlipay(Integer nGoodsNo)
+    {
+        try
+        {
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 微信支付
+     * @param nGoodsNo
+     *
+     */
+    public void onWxPay(Integer nGoodsNo)
+    {
+        try
+        {
+            theApp.showToast("获取订单中...");
+            m_weChatUnifiedOrderReqVo = new WeChatUnifiedOrderReqVo();
+            m_weChatUnifiedOrderReqVo.setGoods_no(nGoodsNo);
+            CreateWXPayOrder createOrder = new CreateWXPayOrder(handler(), m_weChatUnifiedOrderReqVo,  null);
+            createOrder.send();
         }
         catch (Exception e)
         {

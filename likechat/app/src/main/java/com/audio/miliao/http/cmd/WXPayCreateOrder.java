@@ -32,7 +32,10 @@ public class WXPayCreateOrder extends BaseReqRsp
 	@Override
 	public String getReqUrl()
 	{
-		return "https://api.mch.weixin.qq.com/pay/unifiedorder";
+		// return "https://api.mch.weixin.qq.com/pay/unifiedorder";
+		String url = getPrevBaseURL() + "/wechat/unifiedOrder";
+
+		return url;
 	}
 
 	@Override
@@ -41,7 +44,16 @@ public class WXPayCreateOrder extends BaseReqRsp
 		JSONObject json = new JSONObject();
 		try
 		{
-			json.put("", "");
+			json.put("appid", WXUtil.app_id());
+			json.put("mch_id", WXUtil.mch_di());
+			json.put("device_info", "WEB"); // 非必须
+			json.put("nonce_str", "" + System.currentTimeMillis()); // 随机字符串
+			json.put("body", "充值"); // 商品描述
+			json.put("out_trade_no", ""); // 商户订单号
+			json.put("total_fee", ""); // 总金额
+			json.put("spbill_create_ip", ""); // 终端IP
+			json.put("notify_url", ""); // 通知地址
+			json.put("trade_type", ""); // 交易类型
 		}
 		catch (Exception e)
 		{

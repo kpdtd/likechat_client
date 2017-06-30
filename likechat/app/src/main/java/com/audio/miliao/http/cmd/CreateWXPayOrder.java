@@ -1,13 +1,16 @@
 package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.JSONUtil;
+import com.audio.miliao.util.WXUtil;
 import com.audio.miliao.vo.WeChatUnifiedOrderReqVo;
 import com.audio.miliao.vo.WeChatUnifiedOrderReturnVo;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import org.json.JSONObject;
 
@@ -18,7 +21,7 @@ import java.util.List;
  * 创建微信支付订单
  * <p>
  * 调用说明：（用户需登录）
- * 在调用支付宝sdk时先向服务器发送消息，创建订单。
+ * 在调用微信sdk时先向服务器发送消息，创建订单。
  * 主要同步用户openid和订单号这两个重要信息。如果不同步，
  * 最终支付的异步订返回后也无法为用户充值
  */
@@ -36,14 +39,14 @@ public class CreateWXPayOrder extends BaseReqRsp
      */
     public CreateWXPayOrder(Handler handler, WeChatUnifiedOrderReqVo orderInfo, Object tag)
     {
-        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.CREATE_ALIPAY_ORDER, false, tag);
+        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.WX_PAY_CREATE_ORDER, false, tag);
         this.reqOrderInfo = orderInfo;
     }
 
     @Override
     public String getReqUrl()
     {
-        String url = getPrevBaseURL() + "accounting/createOder";
+        String url = getPrevBaseURL() + "/wechat/unifiedOrder";
 
         return url;
     }
@@ -57,7 +60,7 @@ public class CreateWXPayOrder extends BaseReqRsp
     @Override
     public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
     {
-        theApp.showToast("Login;" + httpStatusCode + ":" + httpBody);
+        theApp.showToast(httpStatusCode + ":" + httpBody);
         switch (httpStatusCode)
         {
         case 429:
@@ -65,19 +68,32 @@ public class CreateWXPayOrder extends BaseReqRsp
             rspResultCode = HttpUtil.Result.ERROR_DENIAL_OF_SERVICE;
             break;
         case 200:
+            rspResultCode = HttpUtil.Result.OK;
             try
             {
-                JSONObject jsonObject = new JSONObject(httpBody);
-                int code = JSONUtil.getInt(jsonObject, "code");
-                if (code == 0)
+                JSONObject json = new JSONObject(httpBody);
+
+                if (null != json && !json.has("retcode"))
                 {
-                    rspResultCode = HttpUtil.Result.OK;
-                    JSONObject jsonData = jsonObject.optJSONObject("data");
-                    rspOrderResult = WeChatUnifiedOrderReturnVo.parse(jsonData, WeChatUnifiedOrderReturnVo.class);
+                    PayReq req = new PayReq();
+                    // req.appId = "wxf8b4f85f3a794e77"; // 测试用appId
+                    req.appId = json.getString("appid");
+                    req.partnerId = json.getString("partnerid");
+                    req.prepayId = json.getString("prepayid");
+                    req.nonceStr = json.getString("noncestr");
+                    req.timeStamp = json.getString("timestamp");
+                    req.packageValue = json.getString("package");
+                    req.sign = json.getString("sign");
+                    req.extData = "app data"; // optional
+                    //Toast.makeText(PayActivity.this, "正常调起支付", Toast.LENGTH_SHORT).show();
+                    // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                    WXUtil.api().sendReq(req);
                 }
                 else
                 {
-                    rspResultCode = HttpUtil.Result.ERROR_UNKNOWN;
+                    Log.d("PAY_GET", "返回错误" + json.getString("retmsg"));
+                    //Toast.makeText(PayActivity.this, "返回错误" + json.getString("retmsg"), Toast.LENGTH_SHORT).show();
+                    rspResultCode = HttpUtil.Result.ERROR_INVALID_CODE;
                 }
             }
             catch (Exception e)

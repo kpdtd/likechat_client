@@ -27,6 +27,14 @@ public class WXUtil
     {
         return api;
     }
+    public static String app_id()
+    {
+        return APP_ID;
+    }
+    public static String mch_di()
+    {
+        return MCH_ID;
+    }
 
     private static void init()
     {

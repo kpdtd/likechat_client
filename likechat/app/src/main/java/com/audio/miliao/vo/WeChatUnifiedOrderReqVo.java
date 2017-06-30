@@ -1,6 +1,7 @@
 package com.audio.miliao.vo;
 
 import com.audio.miliao.entity.GsonObj;
+import com.audio.miliao.util.WXUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

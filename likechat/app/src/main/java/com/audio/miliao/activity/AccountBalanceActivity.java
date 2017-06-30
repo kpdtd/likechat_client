@@ -10,8 +10,11 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchAccountBalance;
+import com.audio.miliao.http.cmd.CreateWXPayOrder;
+import com.audio.miliao.theApp;
 import com.audio.miliao.vo.AccountBalanceVo;
 import com.audio.miliao.vo.GoodsVo;
+import com.audio.miliao.vo.WeChatUnifiedOrderReqVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +32,11 @@ public class AccountBalanceActivity extends BaseActivity
     private CheckBox m_chkInput;
     private RadioButton m_rdoAlipay;
     private RadioButton m_rdoWeixin;
+    private TextView m_txtPayNow;
     private TextView m_txtAccountBalance;
 
-    private AccountBalanceVo m_accountBalanceVo;
+    private AccountBalanceVo        m_accountBalanceVo;
+    private WeChatUnifiedOrderReqVo m_weChatUnifiedOrderReqVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,6 +62,7 @@ public class AccountBalanceActivity extends BaseActivity
             m_chkInput = (CheckBox) findViewById(R.id.chk_input);
             m_rdoAlipay = (RadioButton) findViewById(R.id.rdo_alipay);
             m_rdoWeixin = (RadioButton) findViewById(R.id.rdo_weixin);
+            m_txtPayNow = (TextView) findViewById(R.id.txt_pay_now);
             m_txtAccountBalance = (TextView) findViewById(R.id.txt_account_balance);
 
             View.OnClickListener clickListener = new View.OnClickListener()
@@ -80,7 +86,17 @@ public class AccountBalanceActivity extends BaseActivity
                             finish();
                             break;
                         case R.id.txt_pay_now:
-                            finish();
+                            Integer nGoodsNo = m_txtPayNow.getTag() == null ? -1 : Integer.valueOf(m_txtPayNow.getTag().toString());
+                            if (nGoodsNo > 0){
+                                if (m_rdoAlipay.isChecked())
+                                {
+                                    onAlipay(nGoodsNo);
+                                }
+                                else if (m_rdoWeixin.isChecked())
+                                {
+                                    onWxPay(nGoodsNo);
+                                }
+                            }
                             break;
                         }
                     }
@@ -132,6 +148,7 @@ public class AccountBalanceActivity extends BaseActivity
                 TextView view = (TextView) goodsViews.get(i);
                 String strText = goodsVo.getName() + "\n" + goodsVo.getDisplayPrice();
                 view.setText(strText);
+                view.setTag(goodsVo.getId());
                 i++;
             }
         }
@@ -153,6 +170,43 @@ public class AccountBalanceActivity extends BaseActivity
             m_chkInput.setChecked(false);
 
             checkBox.setChecked(true);
+            m_txtPayNow.setTag(checkBox.getTag());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 支付宝支付
+     * @param nGoodsNo
+     */
+    private void onAlipay(Integer nGoodsNo)
+    {
+        try
+        {
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 微信支付
+     * @param nGoodsNo
+     *
+     */
+    public void onWxPay(Integer nGoodsNo)
+    {
+        try
+        {
+            theApp.showToast("获取订单中...");
+            m_weChatUnifiedOrderReqVo = new WeChatUnifiedOrderReqVo();
+            m_weChatUnifiedOrderReqVo.setGoods_no(nGoodsNo);
+            CreateWXPayOrder createOrder = new CreateWXPayOrder(handler(), m_weChatUnifiedOrderReqVo,  null);
+            createOrder.send();
         }
         catch (Exception e)
         {
@@ -165,14 +219,23 @@ public class AccountBalanceActivity extends BaseActivity
     {
         switch (msg.what)
         {
-        case HttpUtil.RequestCode.FETCH_ACCOUNT_BALANCE:
-            FetchAccountBalance fetchAccountBalance = (FetchAccountBalance) msg.obj;
-            if (FetchAccountBalance.isSucceed(fetchAccountBalance))
-            {
-                m_accountBalanceVo = fetchAccountBalance.rspAccountBalanceVo;
-                updateData();
-            }
-            break;
+            case HttpUtil.RequestCode.FETCH_ACCOUNT_BALANCE:
+                FetchAccountBalance fetchAccountBalance = (FetchAccountBalance) msg.obj;
+                if (FetchAccountBalance.isSucceed(fetchAccountBalance))
+                {
+                    m_accountBalanceVo = fetchAccountBalance.rspAccountBalanceVo;
+                    updateData();
+                }
+                break;
+            case HttpUtil.RequestCode.WX_PAY_CREATE_ORDER:
+                CreateWXPayOrder createOrder = (CreateWXPayOrder) msg.obj;
+                if (CreateWXPayOrder.isSucceed(createOrder))
+                {
+                    theApp.showToast("创建订单成功");
+                } else {
+                    theApp.showToast("创建订单失败");
+                }
+                break;
         }
     }
 }
