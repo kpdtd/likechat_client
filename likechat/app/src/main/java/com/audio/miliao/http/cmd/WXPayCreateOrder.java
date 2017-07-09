@@ -45,7 +45,7 @@ public class WXPayCreateOrder extends BaseReqRsp
 		try
 		{
 			json.put("appid", WXUtil.app_id());
-			json.put("mch_id", WXUtil.mch_di());
+			json.put("mch_id", WXUtil.mch_id());
 			json.put("device_info", "WEB"); // 非必须
 			json.put("nonce_str", "" + System.currentTimeMillis()); // 随机字符串
 			json.put("body", "充值"); // 商品描述

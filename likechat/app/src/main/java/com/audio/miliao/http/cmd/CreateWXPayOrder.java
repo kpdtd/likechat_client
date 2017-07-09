@@ -73,20 +73,22 @@ public class CreateWXPayOrder extends BaseReqRsp
             {
                 JSONObject json = new JSONObject(httpBody);
 
-                if (null != json && !json.has("retcode"))
+                if (null != json && !json.has("retcode") && json.has("data"))
                 {
+                    json = json.getJSONObject("data");
+
                     PayReq req = new PayReq();
-                    // req.appId = "wxf8b4f85f3a794e77"; // 测试用appId
                     req.appId = json.getString("appid");
                     req.partnerId = json.getString("partnerid");
-                    req.prepayId = json.getString("prepayid");
+                    req.prepayId = json.getString("prepay_id");
                     req.nonceStr = json.getString("noncestr");
                     req.timeStamp = json.getString("timestamp");
-                    req.packageValue = json.getString("package");
                     req.sign = json.getString("sign");
+                    req.packageValue = "Sign=WXPay";// json.getString("package");
                     req.extData = "app data"; // optional
                     //Toast.makeText(PayActivity.this, "正常调起支付", Toast.LENGTH_SHORT).show();
                     // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+
                     WXUtil.api().sendReq(req);
                 }
                 else

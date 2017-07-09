@@ -25,13 +25,23 @@ public class WXUtil
 
     public static IWXAPI api()
     {
+        try
+        {
+            if (null == api)
+                init();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         return api;
     }
     public static String app_id()
     {
         return APP_ID;
     }
-    public static String mch_di()
+    public static String mch_id()
     {
         return MCH_ID;
     }

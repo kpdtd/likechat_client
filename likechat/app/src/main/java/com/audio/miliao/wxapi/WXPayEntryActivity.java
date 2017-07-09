@@ -38,6 +38,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         theApp.showToast("handleIntent : " + resp.errCode);
         if (resp.errCode == BaseResp.ErrCode.ERR_OK)
         {
+            finish();
         }
         else if (resp.errCode == BaseResp.ErrCode.ERR_AUTH_DENIED ||
                 resp.errCode == BaseResp.ErrCode.ERR_USER_CANCEL)
@@ -48,18 +49,21 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX)
         {
             theApp.showToast("onPayFinish,errCode=" + resp.errCode);
+            finish();
         }
     }
 
     @Override
     public void onReq(BaseReq baseReq)
     {
-
     }
 
     @Override
     public void onResp(BaseResp baseResp)
     {
-
+        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX)
+        {
+            finish();
+        }
     }
 }
