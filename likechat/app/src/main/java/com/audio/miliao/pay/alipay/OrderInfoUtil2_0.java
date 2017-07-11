@@ -68,13 +68,17 @@ public class OrderInfoUtil2_0
      * @param app_id
      * @return
      */
-    public static Map<String, String> buildOrderParamMap(String app_id, boolean rsa2)
+    public static Map<String, String> buildOrderParamMap(String app_id, boolean rsa2, AlipayReq alipayReq)
     {
-        Map<String, String> keyValues = new HashMap<String, String>();
+        Map<String, String> keyValues = new HashMap<>();
 
         keyValues.put("app_id", app_id);
 
-        keyValues.put("biz_content", "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"0.01\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + getOutTradeNo() + "\"}");
+        if (alipayReq != null)
+        {
+            //keyValues.put("biz_content", "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"0.01\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + getOutTradeNo() + "\"}");
+            keyValues.put("biz_content", alipayReq.toJsonString());
+        }
 
         keyValues.put("charset", "utf-8");
 
@@ -193,7 +197,7 @@ public class OrderInfoUtil2_0
      *
      * @return
      */
-    private static String getOutTradeNo()
+    public static String getOutTradeNo()
     {
         SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
         Date date = new Date();

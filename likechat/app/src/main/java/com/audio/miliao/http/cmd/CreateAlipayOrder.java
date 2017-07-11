@@ -20,7 +20,8 @@ import java.util.List;
  */
 public class CreateAlipayOrder extends BaseReqRsp
 {
-    private PayInfoVo reqPayInfoVo;
+    public PayInfoVo reqPayInfoVo;
+//    public string
 
     /**
      * 增加关注

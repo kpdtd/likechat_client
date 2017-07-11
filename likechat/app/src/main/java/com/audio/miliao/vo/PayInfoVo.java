@@ -5,7 +5,7 @@ import com.audio.miliao.entity.GsonObj;
 public class PayInfoVo extends GsonObj<PayInfoVo>
 {
 	private Integer actorId;//用户id（主播和用户同一张表。）
-	private String openId;//用户的oponId
+	private String openId;//用户的openId
 	private String payType;//支付类型 1- 微信  2-支付宝
 	private String goodsType;//1-购买嗨币  2-购买会员
 	private String goodsCode;//商品号：如果type=1是嗨币，即金额*10（1：10）  如果type=2 则给出商品号或商品id。商品号是协商定义出来，商品不变，商品号不变。

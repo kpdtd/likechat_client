@@ -6,11 +6,8 @@ import android.util.Log;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.JSONUtil;
-import com.audio.miliao.util.WXUtil;
 import com.audio.miliao.vo.WeChatUnifiedOrderReqVo;
 import com.audio.miliao.vo.WeChatUnifiedOrderReturnVo;
-import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import org.json.JSONObject;
 
@@ -77,19 +74,21 @@ public class CreateWXPayOrder extends BaseReqRsp
                 {
                     json = json.getJSONObject("data");
 
-                    PayReq req = new PayReq();
-                    req.appId = json.getString("appid");
-                    req.partnerId = json.getString("partnerid");
-                    req.prepayId = json.getString("prepay_id");
-                    req.nonceStr = json.getString("noncestr");
-                    req.timeStamp = json.getString("timestamp");
-                    req.sign = json.getString("sign");
-                    req.packageValue = "Sign=WXPay";// json.getString("package");
-                    req.extData = "app data"; // optional
-                    //Toast.makeText(PayActivity.this, "正常调起支付", Toast.LENGTH_SHORT).show();
-                    // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                    rspOrderResult = WeChatUnifiedOrderReturnVo.parse(json, WeChatUnifiedOrderReturnVo.class);
 
-                    WXUtil.api().sendReq(req);
+//                    PayReq req = new PayReq();
+//                    req.appId = json.getString("appid");
+//                    req.partnerId = json.getString("partnerid");
+//                    req.prepayId = json.getString("prepay_id");
+//                    req.nonceStr = json.getString("noncestr");
+//                    req.timeStamp = json.getString("timestamp");
+//                    req.sign = json.getString("sign");
+//                    req.packageValue = "Sign=WXPay";// json.getString("package");
+//                    req.extData = "app data"; // optional
+//                    //Toast.makeText(PayActivity.this, "正常调起支付", Toast.LENGTH_SHORT).show();
+//                    // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+//
+//                    WXUtil.api().sendReq(req);
                 }
                 else
                 {
