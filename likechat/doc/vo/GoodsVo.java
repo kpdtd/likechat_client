@@ -7,7 +7,8 @@ public class GoodsVo {
 	private String name;//商品名称  如：10金币
 	private String subname;//商品子名称：预留
 	private String pic;//商品图片
-	private String displayPrice;//商品显示价格：根据身份，等级等，每个人显示价格不一致。后台控制
+	private String displayPrice;//商品显示价格--如：1元：根据身份，等级等，每个人显示价格不一致。后台控制
+	private Integer realPrice;//新增：这里是参与扣款的实际金额。--单位分
 	
 	public Integer getId() {
 		return id;
@@ -38,6 +39,12 @@ public class GoodsVo {
 	}
 	public void setDisplayPrice(String displayPrice) {
 		this.displayPrice = displayPrice;
+	}
+	public Integer getRealPrice() {
+		return realPrice;
+	}
+	public void setRealPrice(Integer realPrice) {
+		this.realPrice = realPrice;
 	}
 }
 
