@@ -3,15 +3,17 @@ package com.audio.miliao.util;
 
 import android.content.Intent;
 
+import com.audio.miliao.http.cmd.CreateWXPayOrder;
+import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
+import com.audio.miliao.vo.GoodsVo;
+import com.audio.miliao.vo.WeChatUnifiedOrderReqVo;
 import com.audio.miliao.vo.WeChatUnifiedOrderReturnVo;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
-import org.json.JSONObject;
 
 /**
  * 微信登录相关工具类
@@ -39,10 +41,12 @@ public class WXUtil
 
         return api;
     }
+
     public static String app_id()
     {
         return APP_ID;
     }
+
     public static String mch_id()
     {
         return MCH_ID;
@@ -101,7 +105,51 @@ public class WXUtil
         return sb.toString();
     }
 
-    public static PayReq genWxPayReq(WeChatUnifiedOrderReturnVo wxOrderReturn)
+    /**
+     * 支付
+     *
+     * @param goodsVo 商品信息
+     * @param payListener 支付监听
+     * @return
+     */
+    public static void pay(final GoodsVo goodsVo, final PayListener payListener)
+    {
+        Runnable runnable = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    WeChatUnifiedOrderReqVo weChatUnifiedOrderReqVo = new WeChatUnifiedOrderReqVo();
+                    weChatUnifiedOrderReqVo.setGoods_no(goodsVo.getRealPrice());
+                    CreateWXPayOrder createOrder = new CreateWXPayOrder(null, weChatUnifiedOrderReqVo, null);
+                    createOrder.sendSync();
+                    if (CreateWXPayOrder.isSucceed(createOrder))
+                    {
+                        PayReq payReq = WXUtil.genWxPayReq(createOrder.rspOrderResult);
+                        WXUtil.api().sendReq(payReq);
+                        if (payListener != null)
+                        {
+                            payListener.onSucceed();
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    if (payListener != null)
+                    {
+                        payListener.onFailed("");
+                    }
+                }
+            }
+        };
+
+        new Thread(runnable).start();
+    }
+
+    private static PayReq genWxPayReq(WeChatUnifiedOrderReturnVo wxOrderReturn)
     {
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
         PayReq payReq = new PayReq();
@@ -115,30 +163,5 @@ public class WXUtil
         payReq.extData = wxOrderReturn.getExtData(); // 可选择
 
         return payReq;
-    }
-
-    public static String gengerateWXPayCreateOrderParams()
-    {
-        JSONObject json = new JSONObject();
-        try
-        {
-            json.put("appid", APP_ID);
-            json.put("mch_id", MCH_ID);
-            json.put("device_info", "WEB"); // 非必须
-            json.put("nonce_str", "" + System.currentTimeMillis()); // 随机字符串
-            json.put("body", ""); // 商品描述
-            json.put("out_trade_no", ""); // 商户订单号
-            json.put("total_fee", ""); // 总金额
-            json.put("spbill_create_ip", ""); // 终端IP
-            json.put("notify_url", ""); // 通知地址
-            json.put("trade_type", ""); // 交易类型
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return json.toString();
     }
 }

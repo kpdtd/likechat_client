@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.http.cmd.CreateWXPayOrder;
 import com.audio.miliao.http.cmd.FetchVipMember;
+import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
+import com.audio.miliao.util.AlipayUtil;
 import com.audio.miliao.util.WXUtil;
 import com.audio.miliao.vo.GoodsVo;
 import com.audio.miliao.vo.VipMemberVo;
 import com.audio.miliao.vo.WeChatUnifiedOrderReqVo;
-import com.tencent.mm.opensdk.modelpay.PayReq;
 
 /**
  * 会员中心
@@ -116,16 +116,16 @@ public class VipActivity extends BaseActivity
                             finish();
                             break;
                         case R.id.txt_pay_now:
-                            Integer nGoodsNo = m_txtPayNow.getTag() == null ? -1 : Integer.valueOf(m_txtPayNow.getTag().toString());
-                            if (nGoodsNo > 0)
+                            GoodsVo goodsVo = (GoodsVo) m_txtPayNow.getTag();
+                            if (goodsVo != null)
                             {
                                 if (m_rdoAlipay.isChecked())
                                 {
-                                    onAlipay(nGoodsNo);
+                                    onAlipay(goodsVo);
                                 }
                                 else if (m_rdoWeixin.isChecked())
                                 {
-                                    onWxPay(nGoodsNo);
+                                    onWxPay(goodsVo);
                                 }
                             }
                             break;
@@ -175,6 +175,8 @@ public class VipActivity extends BaseActivity
             setGoodsInfo(m_txtNameGold, m_txtSubnameGold, m_chkGold, m_vipMemberVo.getGoods().get(1));
             setGoodsInfo(m_txtNameDiamond, m_txtSubnameDiamond, m_chkDiamond, m_vipMemberVo.getGoods().get(2));
             setGoodsInfo(m_txtNameExtreme, m_txtSubnameExtreme, m_chkExtreme, m_vipMemberVo.getGoods().get(3));
+
+            setPriceCheck(m_chkSilver);
         }
         catch (Exception e)
         {
@@ -189,7 +191,7 @@ public class VipActivity extends BaseActivity
 
         txtName.setTag(goods.getId());
         txtSubname.setTag(goods.getId());
-        check.setTag(goods.getId());
+        check.setTag(goods);
     }
 
     private void setPriceCheck(CheckBox check)
@@ -213,12 +215,30 @@ public class VipActivity extends BaseActivity
     /**
      * 支付宝支付
      *
-     * @param nGoodsNo
+     * @param goodsVo
      */
-    private void onAlipay(Integer nGoodsNo)
+    private void onAlipay(GoodsVo goodsVo)
     {
         try
         {
+            String goodsId = ""; // 购买hi币，goodsId 根据价格生成
+            m_txtPayNow.setEnabled(false);
+            AlipayUtil.pay(this, "1", goodsId, goodsVo, new PayListener()
+            {
+                @Override
+                public void onSucceed()
+                {
+                    m_txtPayNow.setEnabled(true);
+                    theApp.showToast("支付成功");
+                }
+
+                @Override
+                public void onFailed(String error)
+                {
+                    m_txtPayNow.setEnabled(true);
+                    theApp.showToast("支付失败");
+                }
+            });
         }
         catch (Exception e)
         {
@@ -229,17 +249,29 @@ public class VipActivity extends BaseActivity
     /**
      * 微信支付
      *
-     * @param nGoodsNo
+     * @param goodsVo
      */
-    public void onWxPay(Integer nGoodsNo)
+    public void onWxPay(GoodsVo goodsVo)
     {
         try
         {
-            theApp.showToast("获取订单中...");
-            m_weChatUnifiedOrderReqVo = new WeChatUnifiedOrderReqVo();
-            m_weChatUnifiedOrderReqVo.setGoods_no(nGoodsNo);
-            CreateWXPayOrder createOrder = new CreateWXPayOrder(handler(), m_weChatUnifiedOrderReqVo, null);
-            createOrder.send();
+            m_txtPayNow.setEnabled(false);
+            WXUtil.pay(goodsVo, new PayListener()
+            {
+                @Override
+                public void onSucceed()
+                {
+                    m_txtPayNow.setEnabled(true);
+                    theApp.showToast("支付成功");
+                }
+
+                @Override
+                public void onFailed(String error)
+                {
+                    m_txtPayNow.setEnabled(true);
+                    theApp.showToast("支付失败");
+                }
+            });
         }
         catch (Exception e)
         {
@@ -260,19 +292,19 @@ public class VipActivity extends BaseActivity
                 updateData();
             }
             break;
-        case HttpUtil.RequestCode.WX_PAY_CREATE_ORDER:
-            CreateWXPayOrder createOrder = (CreateWXPayOrder) msg.obj;
-            if (CreateWXPayOrder.isSucceed(createOrder))
-            {
-                theApp.showToast("创建订单成功");
-                PayReq payReq = WXUtil.genWxPayReq(createOrder.rspOrderResult);
-                WXUtil.api().sendReq(payReq);
-            }
-            else
-            {
-                theApp.showToast("创建订单失败");
-            }
-            break;
+//        case HttpUtil.RequestCode.WX_PAY_CREATE_ORDER:
+//            CreateWXPayOrder createOrder = (CreateWXPayOrder) msg.obj;
+//            if (CreateWXPayOrder.isSucceed(createOrder))
+//            {
+//                theApp.showToast("创建订单成功");
+//                PayReq payReq = WXUtil.genWxPayReq(createOrder.rspOrderResult);
+//                WXUtil.api().sendReq(payReq);
+//            }
+//            else
+//            {
+//                theApp.showToast("创建订单失败");
+//            }
+//            break;
         }
     }
 }
