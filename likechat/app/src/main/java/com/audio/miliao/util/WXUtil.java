@@ -4,7 +4,9 @@ package com.audio.miliao.util;
 import android.content.Intent;
 
 import com.audio.miliao.theApp;
+import com.audio.miliao.vo.WeChatUnifiedOrderReturnVo;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -97,6 +99,22 @@ public class WXUtil
         sb.append(code);
         sb.append("&grant_type=authorization_code");
         return sb.toString();
+    }
+
+    public static PayReq genWxPayReq(WeChatUnifiedOrderReturnVo wxOrderReturn)
+    {
+        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+        PayReq payReq = new PayReq();
+        payReq.appId = wxOrderReturn.getAppid();
+        payReq.partnerId = wxOrderReturn.getPartnerid();
+        payReq.prepayId = wxOrderReturn.getPrepay_id();
+        payReq.nonceStr = wxOrderReturn.getNoncestr();
+        payReq.timeStamp = wxOrderReturn.getTimestamp();
+        payReq.sign = wxOrderReturn.getSign();
+        payReq.packageValue = wxOrderReturn.getPackageValue(); // 固定值
+        payReq.extData = wxOrderReturn.getExtData(); // 可选择
+
+        return payReq;
     }
 
     public static String gengerateWXPayCreateOrderParams()

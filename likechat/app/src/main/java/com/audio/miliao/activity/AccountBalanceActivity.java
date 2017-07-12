@@ -2,6 +2,7 @@ package com.audio.miliao.activity;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -9,21 +10,31 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.http.cmd.FetchAccountBalance;
+import com.audio.miliao.http.cmd.CreateAlipayOrder;
 import com.audio.miliao.http.cmd.CreateWXPayOrder;
+import com.audio.miliao.http.cmd.FetchAccountBalance;
+import com.audio.miliao.pay.alipay.AlipayReq;
+import com.audio.miliao.pay.alipay.PayResult;
 import com.audio.miliao.theApp;
+import com.audio.miliao.util.AlipayUtil;
+import com.audio.miliao.util.WXUtil;
 import com.audio.miliao.vo.AccountBalanceVo;
 import com.audio.miliao.vo.GoodsVo;
+import com.audio.miliao.vo.PayInfoVo;
 import com.audio.miliao.vo.WeChatUnifiedOrderReqVo;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 账户余额
  */
 public class AccountBalanceActivity extends BaseActivity
 {
+    private static final int MSG_ALIPAY = 1000;
+
     private CheckBox m_chk10;
     private CheckBox m_chk50;
     private CheckBox m_chk98;
@@ -35,7 +46,7 @@ public class AccountBalanceActivity extends BaseActivity
     private TextView m_txtPayNow;
     private TextView m_txtAccountBalance;
 
-    private AccountBalanceVo        m_accountBalanceVo;
+    private AccountBalanceVo m_accountBalanceVo;
     private WeChatUnifiedOrderReqVo m_weChatUnifiedOrderReqVo;
 
     @Override
@@ -86,15 +97,16 @@ public class AccountBalanceActivity extends BaseActivity
                             finish();
                             break;
                         case R.id.txt_pay_now:
-                            Integer nGoodsNo = m_txtPayNow.getTag() == null ? -1 : Integer.valueOf(m_txtPayNow.getTag().toString());
-                            if (nGoodsNo > 0){
+                            GoodsVo goodsVo = (GoodsVo) m_txtPayNow.getTag();
+                            if (goodsVo != null)
+                            {
                                 if (m_rdoAlipay.isChecked())
                                 {
-                                    onAlipay(nGoodsNo);
+                                    onAlipay(goodsVo);
                                 }
                                 else if (m_rdoWeixin.isChecked())
                                 {
-                                    onWxPay(nGoodsNo);
+                                    onWxPay(goodsVo);
                                 }
                             }
                             break;
@@ -143,12 +155,12 @@ public class AccountBalanceActivity extends BaseActivity
             goodsViews.add(m_chk1598);
             goodsViews.add(m_chkInput);
             int i = 0;
-            for(GoodsVo goodsVo : m_accountBalanceVo.getGoods())
+            for (GoodsVo goodsVo : m_accountBalanceVo.getGoods())
             {
                 TextView view = (TextView) goodsViews.get(i);
                 String strText = goodsVo.getName() + "\n" + goodsVo.getDisplayPrice();
                 view.setText(strText);
-                view.setTag(goodsVo.getId());
+                view.setTag(goodsVo);
                 i++;
             }
         }
@@ -180,12 +192,17 @@ public class AccountBalanceActivity extends BaseActivity
 
     /**
      * 支付宝支付
-     * @param nGoodsNo
+     *
+     * @param goodsVo
      */
-    private void onAlipay(Integer nGoodsNo)
+    private void onAlipay(GoodsVo goodsVo)
     {
         try
         {
+            String goodsCode = ""; // 购买hi币，goodsCode 根据价格生成
+            PayInfoVo payInfoVo = AlipayUtil.createPayInfoVo("1", goodsCode, Integer.valueOf(goodsVo.getDisplayPrice()));
+            CreateAlipayOrder createAlipayOrder = new CreateAlipayOrder(handler(), payInfoVo, null);
+            createAlipayOrder.send();
         }
         catch (Exception e)
         {
@@ -195,17 +212,17 @@ public class AccountBalanceActivity extends BaseActivity
 
     /**
      * 微信支付
-     * @param nGoodsNo
      *
+     * @param goodsVo
      */
-    public void onWxPay(Integer nGoodsNo)
+    public void onWxPay(GoodsVo goodsVo)
     {
         try
         {
             theApp.showToast("获取订单中...");
             m_weChatUnifiedOrderReqVo = new WeChatUnifiedOrderReqVo();
-            m_weChatUnifiedOrderReqVo.setGoods_no(nGoodsNo);
-            CreateWXPayOrder createOrder = new CreateWXPayOrder(handler(), m_weChatUnifiedOrderReqVo,  null);
+            m_weChatUnifiedOrderReqVo.setGoods_no(goodsVo.getId());
+            CreateWXPayOrder createOrder = new CreateWXPayOrder(handler(), m_weChatUnifiedOrderReqVo, null);
             createOrder.send();
         }
         catch (Exception e)
@@ -219,23 +236,63 @@ public class AccountBalanceActivity extends BaseActivity
     {
         switch (msg.what)
         {
-            case HttpUtil.RequestCode.FETCH_ACCOUNT_BALANCE:
-                FetchAccountBalance fetchAccountBalance = (FetchAccountBalance) msg.obj;
-                if (FetchAccountBalance.isSucceed(fetchAccountBalance))
-                {
-                    m_accountBalanceVo = fetchAccountBalance.rspAccountBalanceVo;
-                    updateData();
-                }
-                break;
-            case HttpUtil.RequestCode.WX_PAY_CREATE_ORDER:
-                CreateWXPayOrder createOrder = (CreateWXPayOrder) msg.obj;
-                if (CreateWXPayOrder.isSucceed(createOrder))
-                {
-                    theApp.showToast("创建订单成功");
-                } else {
-                    theApp.showToast("创建订单失败");
-                }
-                break;
+        case HttpUtil.RequestCode.FETCH_ACCOUNT_BALANCE:
+            FetchAccountBalance fetchAccountBalance = (FetchAccountBalance) msg.obj;
+            if (FetchAccountBalance.isSucceed(fetchAccountBalance))
+            {
+                m_accountBalanceVo = fetchAccountBalance.rspAccountBalanceVo;
+                updateData();
+            }
+            break;
+        case HttpUtil.RequestCode.WX_PAY_CREATE_ORDER:
+            CreateWXPayOrder createOrder = (CreateWXPayOrder) msg.obj;
+            if (CreateWXPayOrder.isSucceed(createOrder))
+            {
+                theApp.showToast("创建订单成功");
+                PayReq payReq = WXUtil.genWxPayReq(createOrder.rspOrderResult);
+                WXUtil.api().sendReq(payReq);
+            }
+            else
+            {
+                theApp.showToast("创建订单失败");
+            }
+            break;
+
+        case HttpUtil.RequestCode.CREATE_ALIPAY_ORDER:
+            CreateAlipayOrder createAlipayOrder = (CreateAlipayOrder) msg.obj;
+            if (CreateAlipayOrder.isSucceed(createAlipayOrder))
+            {
+                AlipayReq alipayReq = new AlipayReq();
+                PayInfoVo payInfoVo = createAlipayOrder.reqPayInfoVo;
+                float money = payInfoVo.getMoney() * 0.01f;
+                alipayReq.total_amount = String.valueOf(money);
+                alipayReq.subject = "hi"; // 购买hi币
+                alipayReq.body = "hi"; // 购买hi币
+                alipayReq.out_trade_no = payInfoVo.getOutTradeNo();
+                AlipayUtil.pay(this, handler(), MSG_ALIPAY, alipayReq);
+            }
+            break;
+        case MSG_ALIPAY:
+            PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+            /**
+             * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+             */
+            String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+            String resultStatus = payResult.getResultStatus();
+            // 判断resultStatus 为9000则代表支付成功
+            if (TextUtils.equals(resultStatus, "9000"))
+            {
+                // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                //Toast.makeText(getApplicationContext(), "支付成功", Toast.LENGTH_SHORT).show();
+                theApp.showToast("支付成功");
+            }
+            else
+            {
+                // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                //Toast.makeText(getApplicationContext(), "支付失败", Toast.LENGTH_SHORT).show();
+                theApp.showToast("支付失败");
+            }
+            break;
         }
     }
 }
