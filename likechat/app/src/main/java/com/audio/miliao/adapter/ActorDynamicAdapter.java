@@ -181,7 +181,7 @@ public class ActorDynamicAdapter extends BaseAdapter
                         if (j < nSize)
                         {
                             String strThumbUrl = dynamicUrlList.get(j);
-                            ImageLoaderUtil.displayListAvatarImage(vThumb, strThumbUrl);
+                            ImageLoaderUtil.displayListImage(vThumb, strThumbUrl);
                             vThumb.setVisibility(View.VISIBLE);
                             vThumb.setOnClickListener(new View.OnClickListener()
                             {
@@ -264,7 +264,7 @@ public class ActorDynamicAdapter extends BaseAdapter
                     strPrice = "<font color='#d908ed'>" + strPrice + "</font>";
                     String strPay = String.format(m_parent.getString(R.string.txt_zone_video_pay), strPrice);
                     holder.videoNeedPay.setText(Html.fromHtml(strPay));
-                    ImageLoaderUtil.displayListAvatarImage(holder.videoThumb, actorDynamicVo.getVideoFaceUrl());
+                    ImageLoaderUtil.displayListImage(holder.videoThumb, actorDynamicVo.getVideoFaceUrl());
                     holder.videoThumb.setVisibility(View.VISIBLE);
                     holder.videoNeedPay.setVisibility((actorDynamicVo.getPrice() > 0) ? View.VISIBLE : View.GONE);
                     holder.videoLoading.setVisibility(View.GONE);

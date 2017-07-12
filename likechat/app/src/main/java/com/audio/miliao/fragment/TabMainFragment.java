@@ -168,7 +168,18 @@ public class TabMainFragment extends BaseFragment
             if (m_adapter == null)
             {
                 View headerView = View.inflate(getActivity(), R.layout.list_header_main_banner, null);
+                //View footerView = View.inflate(getActivity(), R.layout.footer_load_more, null);
+//                footerView.findViewById(R.id.btn_click_load_more).setOnClickListener(new View.OnClickListener()
+//                {
+//                    @Override
+//                    public void onClick(View v)
+//                    {
+//                        v.setVisibility(View.GONE);
+//                    }
+//                });
+
                 m_gridView.addHeaderView(headerView);
+                //m_gridView.addFooterView(footerView);
 
                 m_adapter = new ActorAdapter(getActivity(), m_actorVoList);
                 m_gridView.setAdapter(m_adapter);

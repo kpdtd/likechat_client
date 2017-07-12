@@ -5,6 +5,7 @@ import android.os.Handler;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.util.EntityUtil;
+import com.audio.miliao.util.JSONUtil;
 import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.vo.ActorDynamicVo;
 
@@ -21,9 +22,9 @@ import java.util.List;
  */
 public class FetchFindList extends BaseReqRsp
 {
-    public static int LATEST = 1; // 最新
-    public static int HOT = 2; // 热门
-    public static int FOCUS = 3; // 关注
+    public static final int LATEST = 1; // 最新
+    public static final int HOT = 2; // 热门
+    public static final int FOCUS = 3; // 关注
 
     // 最新-1  热门-2  关注-3
     public int reqTag;
@@ -33,6 +34,13 @@ public class FetchFindList extends BaseReqRsp
     public String reqStamp;
 
     public List<ActorDynamicVo> rspActorDynamicVos;
+
+    // 分页戳，第一次传0或null。访问接口后服务器会返回下一次分页数字。
+    // 当用户下拉取新数据时带上回传的stamp
+    // JSON示例：{"tag":1,"stamp":"N"}
+    public String rspStamp;
+
+    public boolean rspHasNextPage = false;
 
     /**
      * 获取发现页内容：
@@ -94,8 +102,13 @@ public class FetchFindList extends BaseReqRsp
             {
                 JSONObject jsonObject = new JSONObject(httpBody);
                 JSONArray jsonArray = jsonObject.optJSONArray("data");
+                rspStamp = JSONUtil.getString(jsonObject, "stamp");
+                rspHasNextPage = JSONUtil.getBoolean(jsonObject, "nextPage", false);
                 rspActorDynamicVos = new ArrayList<>();
-                EntityUtil.parseList(jsonArray, rspActorDynamicVos, ActorDynamicVo.class);
+                if (jsonArray != null)
+                {
+                    EntityUtil.parseList(jsonArray, rspActorDynamicVos, ActorDynamicVo.class);
+                }
             }
             catch (Exception e)
             {

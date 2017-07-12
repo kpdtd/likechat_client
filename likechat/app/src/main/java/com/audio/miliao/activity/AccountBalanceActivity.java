@@ -199,14 +199,28 @@ public class AccountBalanceActivity extends BaseActivity
                 @Override
                 public void onSucceed()
                 {
-                    m_txtPayNow.setEnabled(true);
+                    handler().post(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            m_txtPayNow.setEnabled(true);
+                        }
+                    });
                     theApp.showToast("支付成功");
                 }
 
                 @Override
                 public void onFailed(String error)
                 {
-                    m_txtPayNow.setEnabled(true);
+                    handler().post(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            m_txtPayNow.setEnabled(true);
+                        }
+                    });
                     theApp.showToast("支付失败");
                 }
             });
@@ -232,14 +246,28 @@ public class AccountBalanceActivity extends BaseActivity
                 @Override
                 public void onSucceed()
                 {
-                    m_txtPayNow.setEnabled(true);
+                    handler().post(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            m_txtPayNow.setEnabled(true);
+                        }
+                    });
                     theApp.showToast("支付成功");
                 }
 
                 @Override
                 public void onFailed(String error)
                 {
-                    m_txtPayNow.setEnabled(true);
+                    handler().post(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            m_txtPayNow.setEnabled(true);
+                        }
+                    });
                     theApp.showToast("支付失败");
                 }
             });

@@ -1,6 +1,5 @@
 package com.audio.miliao.util;
 
-import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.CallHistory;
 import com.audio.miliao.entity.ChatMessage;
@@ -15,7 +14,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import static com.audio.miliao.R.mipmap.avatar1;
 
 
 /**
@@ -27,28 +25,6 @@ public class DebugUtil
     {
         try
         {
-            int[] avatars = new int[]{
-                    avatar1,
-                    R.mipmap.avatar2,
-                    R.mipmap.avatar3,
-                    R.mipmap.avatar4,
-                    R.mipmap.avatar5,
-                    R.mipmap.avatar6,
-                    R.mipmap.avatar7,
-                    R.mipmap.avatar8,
-                    R.mipmap.avatar9,
-                    R.mipmap.avatar10,
-                    R.mipmap.avatar11,
-                    R.mipmap.avatar12,
-                    R.mipmap.avatar13,
-                    R.mipmap.avatar14,
-                    R.mipmap.avatar15,
-                    R.mipmap.avatar16,
-                    R.mipmap.avatar17,
-                    R.mipmap.avatar18,
-                    R.mipmap.avatar19,
-                    R.mipmap.avatar20
-            };
             String[] titles = new String[]
                     {
                             "安安心",

@@ -21,9 +21,11 @@ import com.audio.miliao.algorithm.SortByFollow;
 import com.audio.miliao.algorithm.SortByWatch;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchFindList;
+import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.vo.ActorDynamicVo;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ public class TabFindFragment extends BaseFragment
      */
     private View m_root;
     private ListView m_list;
+    private View m_footer;
     private ActorDynamicAdapter m_adapter;
     private List<ActorDynamicVo> m_actorDynamicVos = new ArrayList<>();
     /**
@@ -52,10 +55,13 @@ public class TabFindFragment extends BaseFragment
      * 关注
      */
     private SortByFollow m_sortByFollow = new SortByFollow();
+
     /**
      * 默认获取最新动态
      */
     private int mFetchFindListTag = FetchFindList.LATEST;
+    private boolean mHasNextPage = false;
+    private String mStamp = "0";
 
     @Nullable
     @Override
@@ -188,7 +194,7 @@ public class TabFindFragment extends BaseFragment
 
     private void fetchFindList()
     {
-        FetchFindList fetchFindList = new FetchFindList(handler(), mFetchFindListTag, "0", null);
+        FetchFindList fetchFindList = new FetchFindList(handler(), mFetchFindListTag, mStamp, null);
         fetchFindList.send();
     }
 
@@ -199,8 +205,25 @@ public class TabFindFragment extends BaseFragment
             //List<Zone> zoneList = DebugUtil.getZonesFind();
             if (m_adapter == null)
             {
+                m_footer = View.inflate(getActivity(), R.layout.footer_load_more, null);
+                m_footer.findViewById(R.id.lay_footer).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        v.findViewById(R.id.btn_click_load_more).setVisibility(View.GONE);
+                        v.findViewById(R.id.loading).setVisibility(View.VISIBLE);
+                        fetchFindList();
+                    }
+                });
+
+                m_list.addFooterView(m_footer);
+
                 m_adapter = new ActorDynamicAdapter(getActivity(), m_actorDynamicVos);
                 m_list.setAdapter(m_adapter);
+                boolean pauseOnScroll = true, pauseOnFling = true;
+                AbsListView.OnScrollListener scrollListener = new PauseOnScrollListener(ImageLoaderUtil.getInstance(), pauseOnScroll, pauseOnFling);
+                m_list.setOnScrollListener(scrollListener);
 
                 m_adapter.setOnClickListener(new ActorDynamicAdapter.OnClickListener()
                 {
@@ -275,6 +298,17 @@ public class TabFindFragment extends BaseFragment
             {
                 m_adapter.updateData(m_actorDynamicVos);
                 m_adapter.notifyDataSetChanged();
+
+                if (mHasNextPage)
+                {
+                    m_footer.findViewById(R.id.btn_click_load_more).setVisibility(View.VISIBLE);
+                    m_footer.findViewById(R.id.loading).setVisibility(View.GONE);
+                }
+                else
+                {
+                    m_footer.findViewById(R.id.btn_click_load_more).setVisibility(View.GONE);
+                    m_footer.findViewById(R.id.loading).setVisibility(View.GONE);
+                }
             }
         }
         catch (Exception e)
@@ -292,13 +326,15 @@ public class TabFindFragment extends BaseFragment
             FetchFindList fetchFindList = (FetchFindList) msg.obj;
             if (FetchFindList.isSucceed(fetchFindList))
             {
-                m_actorDynamicVos = fetchFindList.rspActorDynamicVos;
+                mStamp = fetchFindList.rspStamp;
+                mHasNextPage = fetchFindList.rspHasNextPage;
+                m_actorDynamicVos.addAll(fetchFindList.rspActorDynamicVos);
                 updateData();
             }
             else
             {
-                m_actorDynamicVos.clear();
-                updateData();
+//                m_actorDynamicVos.clear();
+//                updateData();
             }
             break;
         }

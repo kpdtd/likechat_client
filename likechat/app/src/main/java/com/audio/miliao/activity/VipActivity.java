@@ -221,22 +221,36 @@ public class VipActivity extends BaseActivity
     {
         try
         {
-            String goodsId = ""; // 购买hi币，goodsId 根据价格生成
+            String goodsId = "" + goodsVo.getId(); // 购买会员
             m_txtPayNow.setEnabled(false);
-            AlipayUtil.pay(this, "1", goodsId, goodsVo, new PayListener()
+            AlipayUtil.pay(this, "2", goodsId, goodsVo, new PayListener()
             {
                 @Override
                 public void onSucceed()
                 {
-                    m_txtPayNow.setEnabled(true);
-                    theApp.showToast("支付成功");
+                    handler().post(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            m_txtPayNow.setEnabled(true);
+                        }
+                    });
+                    //theApp.showToast("支付成功");
                 }
 
                 @Override
                 public void onFailed(String error)
                 {
-                    m_txtPayNow.setEnabled(true);
-                    theApp.showToast("支付失败");
+                    handler().post(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            m_txtPayNow.setEnabled(true);
+                        }
+                    });
+                    //theApp.showToast("支付失败");
                 }
             });
         }
@@ -261,14 +275,28 @@ public class VipActivity extends BaseActivity
                 @Override
                 public void onSucceed()
                 {
-                    m_txtPayNow.setEnabled(true);
+                    handler().post(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            m_txtPayNow.setEnabled(true);
+                        }
+                    });
                     theApp.showToast("支付成功");
                 }
 
                 @Override
                 public void onFailed(String error)
                 {
-                    m_txtPayNow.setEnabled(true);
+                    handler().post(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            m_txtPayNow.setEnabled(true);
+                        }
+                    });
                     theApp.showToast("支付失败");
                 }
             });

@@ -1,17 +1,22 @@
 package com.audio.miliao.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.theApp;
 import com.bumptech.glide.Glide;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.utils.StorageUtils;
+
+import java.io.File;
 
 /**
  * 加载图片工具类<br/>
@@ -38,32 +43,40 @@ public class ImageLoaderUtil
             if (m_imageLoader == null)
             {
                 Context context = theApp.CONTEXT;
+                File cacheDir = StorageUtils.getCacheDirectory(context);
                 // Configuration(ImageLoaderConfiguration) 是相对于整个应用的配置
                 ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                         .threadPriority(Thread.NORM_PRIORITY - 2)
+                        .threadPoolSize(5) // 线程池大小
                         .denyCacheImageMultipleSizesInMemory()
                         .tasksProcessingOrder(QueueProcessingType.FIFO) // default
                         //.memoryCacheExtraOptions(360, 360) // default = device screen dimensions
                         .memoryCache(new UsingFreqLimitedMemoryCache(4 * 1024 * 1024))
+                        .diskCache(new UnlimitedDiskCache(cacheDir))
+                        //.memoryCache(new WeakMemoryCache())
                         .build();
 
                 m_imageLoader = ImageLoader.getInstance();
                 m_imageLoader.init(config);
 
                 m_optionsListItem = new DisplayImageOptions.Builder()
-                        .showImageForEmptyUri(R.mipmap.ic_user) // 设置图片Uri为空或是错误的时候显示的图片
-                        .showImageOnFail(R.mipmap.ic_user) // 设置图片加载/解码过程中错误时候显示的图片
+                        .showImageOnLoading(R.mipmap.loader_empty)// 设置图片在下载期间显示的图片
+                        .showImageForEmptyUri(R.mipmap.loader_empty) // 设置图片Uri为空或是错误的时候显示的图片
+                        .showImageOnFail(R.mipmap.loader_error) // 设置图片加载/解码过程中错误时候显示的图片
                         .delayBeforeLoading(300)
-                        //.showStubImage(R.mipmap.ic_user) // 设置图片在下载期间显示的图片
+                        .bitmapConfig(Bitmap.Config.RGB_565) // Bitmaps in RGB_565 consume 2 times less memory than in ARGB_8888
+                        .cacheOnDisk(true)
                         //.cacheInMemory()
                         //.cacheOnDisc()
                         // .displayer(new RoundedBitmapDisplayer(20))
                         .build();
 
                 m_optionsAvatar = new DisplayImageOptions.Builder()
-                        .showImageForEmptyUri(R.mipmap.ic_user)
+                        .showImageForEmptyUri(R.drawable.avatar_def)
                         // 设置图片在下载期间显示的图片
-                        .showImageOnFail(R.mipmap.ic_user)
+                        .showImageOnLoading(R.drawable.avatar_def)// 在ImageView加载过程中显示图片
+                        .showImageOnFail(R.drawable.avatar_def)
+                        .bitmapConfig(Bitmap.Config.RGB_565)
                         // 设置图片Uri为空或是错误的时候显示的图片
                         //.showStubImage(R.mipmap.ic_user)
                         // 设置图片加载/解码过程中错误时候显示的图片
@@ -74,9 +87,13 @@ public class ImageLoaderUtil
                         .build();
 
                 m_optionsListAvatar = new DisplayImageOptions.Builder()
-                        .showImageForEmptyUri(R.mipmap.ic_user)
                         // 设置图片在下载期间显示的图片
-                        .showImageOnFail(R.mipmap.loader_empty)
+                        .showImageOnLoading(R.drawable.avatar_def)// 在ImageView加载过程中显示图片
+                        .showImageOnFail(R.drawable.avatar_def)
+                        .showImageForEmptyUri(R.drawable.avatar_def)
+                        .bitmapConfig(Bitmap.Config.RGB_565)
+                        .cacheInMemory(true)
+                        .cacheOnDisk(true)
                         // 设置图片Uri为空或是错误的时候显示的图片
                         //.showStubImage(R.mipmap.ic_user)
                         // 设置图片加载/解码过程中错误时候显示的图片
@@ -90,6 +107,7 @@ public class ImageLoaderUtil
                         .showImageForEmptyUri(R.mipmap.loader_empty) // 设置图片Uri为空或是错误的时候显示的图片
                         .showImageOnFail(R.mipmap.loader_error) // 设置图片加载/解码过程中错误时候显示的图片
                         .resetViewBeforeLoading(true)
+                        .bitmapConfig(Bitmap.Config.RGB_565)
                         .delayBeforeLoading(300)
                         //.showStubImage(R.mipmap.ic_user) // 设置图片在下载期间显示的图片
                         //.cacheInMemory()
@@ -97,6 +115,36 @@ public class ImageLoaderUtil
                         // .displayer(new RoundedBitmapDisplayer(20))
                         .build();
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static ImageLoader getInstance()
+    {
+        return m_imageLoader;
+    }
+
+    /**
+     * 在列表中显示头像
+     * @param imageView
+     * @param url
+     */
+    public static void displayListImage(ImageView imageView, String url)
+    {
+        try
+        {
+            if (imageView == null)
+            {
+                return;
+            }
+
+            init();
+
+            String strUrl = (url == null ? "" : url);
+            m_imageLoader.displayImage(strUrl, imageView, m_optionsListItem);
         }
         catch (Exception e)
         {
