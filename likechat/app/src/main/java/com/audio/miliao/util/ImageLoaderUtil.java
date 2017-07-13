@@ -2,6 +2,7 @@ package com.audio.miliao.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 
 import com.audio.miliao.R;
@@ -14,6 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
@@ -53,6 +55,8 @@ public class ImageLoaderUtil
                         //.memoryCacheExtraOptions(360, 360) // default = device screen dimensions
                         .memoryCache(new UsingFreqLimitedMemoryCache(4 * 1024 * 1024))
                         .diskCache(new UnlimitedDiskCache(cacheDir))
+                        .diskCacheSize(50 * 1024 * 1024)
+                        .diskCacheFileCount(100)
                         //.memoryCache(new WeakMemoryCache())
                         .build();
 
@@ -63,7 +67,7 @@ public class ImageLoaderUtil
                         .showImageOnLoading(R.mipmap.loader_empty)// 设置图片在下载期间显示的图片
                         .showImageForEmptyUri(R.mipmap.loader_empty) // 设置图片Uri为空或是错误的时候显示的图片
                         .showImageOnFail(R.mipmap.loader_error) // 设置图片加载/解码过程中错误时候显示的图片
-                        .delayBeforeLoading(300)
+                        //.delayBeforeLoading(300)
                         .bitmapConfig(Bitmap.Config.RGB_565) // Bitmaps in RGB_565 consume 2 times less memory than in ARGB_8888
                         .cacheOnDisk(true)
                         //.cacheInMemory()
@@ -104,11 +108,12 @@ public class ImageLoaderUtil
                         .build();
 
                 m_optionsListPhoto = new DisplayImageOptions.Builder()
+                        //.showImageOnLoading(R.mipmap.loader_empty)// 设置图片在下载期间显示的图片
                         .showImageForEmptyUri(R.mipmap.loader_empty) // 设置图片Uri为空或是错误的时候显示的图片
                         .showImageOnFail(R.mipmap.loader_error) // 设置图片加载/解码过程中错误时候显示的图片
                         .resetViewBeforeLoading(true)
                         .bitmapConfig(Bitmap.Config.RGB_565)
-                        .delayBeforeLoading(300)
+                        //.delayBeforeLoading(300)
                         //.showStubImage(R.mipmap.ic_user) // 设置图片在下载期间显示的图片
                         //.cacheInMemory()
                         //.cacheOnDisc()
@@ -125,6 +130,12 @@ public class ImageLoaderUtil
     public static ImageLoader getInstance()
     {
         return m_imageLoader;
+    }
+
+    public static AbsListView.OnScrollListener getPauseListener()
+    {
+        boolean pauseOnScroll = true, pauseOnFling = true;
+        return new PauseOnScrollListener(ImageLoaderUtil.getInstance(), pauseOnScroll, pauseOnFling);
     }
 
     /**

@@ -181,8 +181,10 @@ public class TabMainFragment extends BaseFragment
                 m_gridView.addHeaderView(headerView);
                 //m_gridView.addFooterView(footerView);
 
+
                 m_adapter = new ActorAdapter(getActivity(), m_actorVoList);
                 m_gridView.setAdapter(m_adapter);
+                //m_gridView.setOnScrollListener(ImageLoaderUtil.getPauseListener());
             }
             else
             {

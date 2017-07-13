@@ -25,7 +25,6 @@ import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.vo.ActorDynamicVo;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,9 +220,7 @@ public class TabFindFragment extends BaseFragment
 
                 m_adapter = new ActorDynamicAdapter(getActivity(), m_actorDynamicVos);
                 m_list.setAdapter(m_adapter);
-                boolean pauseOnScroll = true, pauseOnFling = true;
-                AbsListView.OnScrollListener scrollListener = new PauseOnScrollListener(ImageLoaderUtil.getInstance(), pauseOnScroll, pauseOnFling);
-                m_list.setOnScrollListener(scrollListener);
+                m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
 
                 m_adapter.setOnClickListener(new ActorDynamicAdapter.OnClickListener()
                 {
