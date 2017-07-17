@@ -3,11 +3,11 @@ package com.audio.miliao.adapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.fragment.BaseFootableFragment;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.vo.ActorVo;
@@ -18,7 +18,7 @@ import java.util.List;
  * 好友列表
  */
 
-public class FriendAdapter extends BaseAdapter
+public class FriendAdapter extends BaseFootableFragment.BaseUpdateAdapter<ActorVo>
 {
     private Activity m_parent;
     private List<ActorVo> m_listActors;
@@ -31,7 +31,7 @@ public class FriendAdapter extends BaseAdapter
         m_listActors = listActors;
     }
 
-    public void updateData(List<ActorVo> listActors)
+    public void updateData(List listActors)
     {
         m_listActors = listActors;
     }

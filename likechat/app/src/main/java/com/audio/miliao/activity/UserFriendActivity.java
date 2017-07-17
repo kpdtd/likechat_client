@@ -1,21 +1,18 @@
 package com.audio.miliao.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.RadioButton;
 
 import com.audio.miliao.R;
-import com.audio.miliao.adapter.FriendAdapter;
-import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.http.cmd.FetchMyFans;
-import com.audio.miliao.http.cmd.FetchMyFriends;
-import com.audio.miliao.theApp;
-import com.audio.miliao.vo.ActorVo;
+import com.audio.miliao.adapter.CustomFragmentPageAdapter;
+import com.audio.miliao.fragment.FansFragment;
+import com.audio.miliao.fragment.FriendsFragment;
+import com.audio.miliao.widget.NoScrollViewPager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,12 +22,9 @@ public class UserFriendActivity extends BaseActivity
 {
     private RadioButton m_rdoFollow;
     private RadioButton m_rdoFans;
-    private ListView m_list;
-    private FriendAdapter m_adapter;
-    private List<ActorVo> m_actorVos;
-    private int m_curCheckId;
-    private String m_nextStamp;
-    private boolean m_bHasNext;
+
+    /** 切换各个界面 */
+    private ViewPager m_pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,9 +35,6 @@ public class UserFriendActivity extends BaseActivity
         try
         {
             initUI();
-            FetchMyFriends fetchMyFriends = new FetchMyFriends(handler(), "", null);
-            fetchMyFriends.send();
-            //updateData(0);
         }
         catch (Exception e)
         {
@@ -57,26 +48,7 @@ public class UserFriendActivity extends BaseActivity
         {
             m_rdoFollow = (RadioButton) findViewById(R.id.rdo_follow);
             m_rdoFans = (RadioButton) findViewById(R.id.rdo_fans);
-            m_list = (ListView) findViewById(R.id.list);
-
-            m_list.setOnItemClickListener(new AdapterView.OnItemClickListener()
-            {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-                {
-                    try
-                    {
-                        ActorVo actor = (ActorVo) m_adapter.getItem(position);
-                        Intent intentUserInfo = new Intent(UserFriendActivity.this, UserInfoActivity.class);
-                        intentUserInfo.putExtra("user", actor);
-                        startActivity(intentUserInfo);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            });
+            m_pager = (NoScrollViewPager) findViewById(R.id.view_pager);
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -91,20 +63,10 @@ public class UserFriendActivity extends BaseActivity
                             finish();
                             break;
                         case R.id.rdo_follow:
-                            if (m_curCheckId != v.getId())
-                            {
-                                FetchMyFriends fetchMyFriends = new FetchMyFriends(handler(), "", null);
-                                fetchMyFriends.send();
-                            }
-                            m_curCheckId = v.getId();
+                            m_pager.setCurrentItem(0, false);
                             break;
                         case R.id.rdo_fans:
-                            if (m_curCheckId != v.getId())
-                            {
-                                FetchMyFans fetchMyFans = new FetchMyFans(handler(), "", null);
-                                fetchMyFans.send();
-                            }
-                            m_curCheckId = v.getId();
+                            m_pager.setCurrentItem(1, false);
                             break;
                         }
                     }
@@ -114,6 +76,8 @@ public class UserFriendActivity extends BaseActivity
                     }
                 }
             };
+
+            initPager();
 
             findViewById(R.id.img_back).setOnClickListener(clickListener);
             findViewById(R.id.rdo_follow).setOnClickListener(clickListener);
@@ -128,28 +92,16 @@ public class UserFriendActivity extends BaseActivity
     }
 
     /**
-     * 更新列表数据
-     * @param index 0:关注；1：粉丝
+     * 初始化ViewPager
      */
-    private void updateData(int index)
+    private void initPager()
     {
         try
         {
-            //List<ActorPageVo> actorList = DebugUtil.getUserList();
-            //List<ActorVo> actorVos = DebugUtil.actorPageVos2Actors(actorList);
-
-            if (m_adapter == null)
-            {
-                m_adapter = new FriendAdapter(this, m_actorVos);
-                m_list.setAdapter(m_adapter);
-            }
-            else
-            {
-                m_adapter.updateData(m_actorVos);
-                m_adapter.notifyDataSetChanged();
-            }
-
-            //updateFriendCount();
+            List<Fragment> fragments = new ArrayList<>();
+            fragments.add(new FriendsFragment());
+            fragments.add(new FansFragment());
+            m_pager.setAdapter(new CustomFragmentPageAdapter(getSupportFragmentManager(), fragments));
         }
         catch (Exception e)
         {
@@ -157,7 +109,7 @@ public class UserFriendActivity extends BaseActivity
         }
     }
 
-    private void updateFriendCount(int follow, int fans)
+    public void updateFriendCount(int follow, int fans)
     {
         try
         {
@@ -170,44 +122,6 @@ public class UserFriendActivity extends BaseActivity
         catch (Exception e)
         {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void handleMessage(Message msg)
-    {
-        switch (msg.what)
-        {
-        case HttpUtil.RequestCode.FETCH_MY_FRIENDS:
-            FetchMyFriends fetchMyFriends = (FetchMyFriends) msg.obj;
-            if (FetchMyFriends.isSucceed(fetchMyFriends))
-            {
-                m_actorVos = fetchMyFriends.rspFriends;
-                m_bHasNext = fetchMyFriends.rspHasNext;
-                m_nextStamp = fetchMyFriends.rspStamp;
-                updateData(0);
-                updateFriendCount(fetchMyFriends.rspAttentionCount, fetchMyFriends.rspFansCount);
-            }
-            else
-            {
-                theApp.showToast("获取好友失败！！");
-            }
-            break;
-        case HttpUtil.RequestCode.FETCH_MY_FANS:
-            FetchMyFans fetchMyFans = (FetchMyFans) msg.obj;
-            if (FetchMyFans.isSucceed(fetchMyFans))
-            {
-                m_actorVos = fetchMyFans.rspFanses;
-                m_bHasNext = fetchMyFans.rspHasNext;
-                m_nextStamp = fetchMyFans.rspStamp;
-                updateData(1);
-                updateFriendCount(fetchMyFans.rspAttentionCount, fetchMyFans.rspFansCount);
-            }
-            else
-            {
-                theApp.showToast("获取粉丝失败！！");
-            }
-            break;
         }
     }
 }

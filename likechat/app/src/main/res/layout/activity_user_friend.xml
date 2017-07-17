@@ -39,11 +39,15 @@
             android:text="@string/txt_user_friend_fans"/>
     </RadioGroup>
 
-    <ListView
-        android:id="@+id/list"
+    <View
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="match_parent">
+        android:layout_height="1px"
+        android:background="#838383"/>
 
-    </ListView>
+    <com.audio.miliao.widget.NoScrollViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </com.audio.miliao.widget.NoScrollViewPager>
 </LinearLayout>

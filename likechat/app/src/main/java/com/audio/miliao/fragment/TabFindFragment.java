@@ -20,6 +20,7 @@ import com.audio.miliao.algorithm.SortByDate;
 import com.audio.miliao.algorithm.SortByFollow;
 import com.audio.miliao.algorithm.SortByWatch;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.AddDynamicPageView;
 import com.audio.miliao.http.cmd.FetchFindList;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
@@ -235,12 +236,14 @@ public class TabFindFragment extends BaseFragment
                         intentText.putExtra("urls", StringUtil.listToArray(actorDynamicVo.getDynamicUrl()));
                         startActivity(intentText);
 
+                        AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
+                        addDynamicPageView.send();
                     }
 
                     MediaPlayer mediaPlayer = new MediaPlayer();
 
                     @Override
-                    public void onVoiceClick(ActorDynamicVo actorDynamicVo)
+                    public void onVoiceClick(final ActorDynamicVo actorDynamicVo)
                     {
                         if (UIUtil.isListNotEmpty(actorDynamicVo.getDynamicUrl()))
                         {
@@ -266,6 +269,9 @@ public class TabFindFragment extends BaseFragment
                                         {
                                             // 装载完毕回调
                                             mediaPlayer.start();
+
+                                            AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
+                                            addDynamicPageView.send();
                                         }
                                     });
                                 }
@@ -287,6 +293,9 @@ public class TabFindFragment extends BaseFragment
                             Intent intentText = new Intent(getActivity(), WatchVideoActivity.class);
                             intentText.putExtra("url", videoUrl);
                             startActivity(intentText);
+
+                            AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
+                            addDynamicPageView.send();
                         }
                     }
                 });

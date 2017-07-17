@@ -5,15 +5,16 @@ import android.os.Message;
 import com.audio.miliao.R;
 import com.audio.miliao.activity.UserFriendActivity;
 import com.audio.miliao.adapter.FriendAdapter;
+import com.audio.miliao.event.CancelAttentionEvent;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.http.cmd.FetchMyFans;
+import com.audio.miliao.http.cmd.FetchMyFriends;
 import com.audio.miliao.theApp;
 import com.audio.miliao.vo.ActorVo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FansFragment extends BaseFootableFragment<ActorVo>
+public class FriendsFragment extends BaseFootableFragment<ActorVo>
 {
     private List<ActorVo> m_actorVos = new ArrayList<>();
     private FriendAdapter mAdapter = null;
@@ -21,7 +22,7 @@ public class FansFragment extends BaseFootableFragment<ActorVo>
     @Override
     public int getLayoutId()
     {
-        return R.layout.fragment_fans;
+        return R.layout.fragment_friends;
     }
 
     /**
@@ -32,8 +33,8 @@ public class FansFragment extends BaseFootableFragment<ActorVo>
     @Override
     public void fetchData(String stamp)
     {
-        FetchMyFans fetchMyFans = new FetchMyFans(handler(), stamp, null);
-        fetchMyFans.send();
+        FetchMyFriends fetchMyFriends = new FetchMyFriends(handler(), stamp, null);
+        fetchMyFriends.send();
     }
 
     /**
@@ -67,23 +68,23 @@ public class FansFragment extends BaseFootableFragment<ActorVo>
     {
         switch (msg.what)
         {
-        case HttpUtil.RequestCode.FETCH_MY_FANS:
-            FetchMyFans fetchMyFans = (FetchMyFans) msg.obj;
-            if (FetchMyFans.isSucceed(fetchMyFans))
+        case HttpUtil.RequestCode.FETCH_MY_FRIENDS:
+            FetchMyFriends fetchMyFriends = (FetchMyFriends) msg.obj;
+            if (FetchMyFriends.isSucceed(fetchMyFriends))
             {
-                m_actorVos.addAll(fetchMyFans.rspFanses);
-                setHasNextPage(fetchMyFans.rspHasNext);
-                setStamp(fetchMyFans.rspStamp);
+                m_actorVos.addAll(fetchMyFriends.rspFriends);
+                setHasNextPage(fetchMyFriends.rspHasNext);
+                setStamp(fetchMyFriends.rspStamp);
                 updateData();
                 UserFriendActivity activity = (UserFriendActivity) getActivity();
                 if (activity != null)
                 {
-                    activity.updateFriendCount(fetchMyFans.rspAttentionCount, fetchMyFans.rspFansCount);
+                    activity.updateFriendCount(fetchMyFriends.rspAttentionCount, fetchMyFriends.rspFansCount);
                 }
             }
             else
             {
-                theApp.showToast(getString(R.string.toast_fetch_fans_failed));
+                theApp.showToast(getString(R.string.toast_fetch_friends_failed));
             }
             break;
         }

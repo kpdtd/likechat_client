@@ -150,6 +150,8 @@
     <string name="toast_no_album">错误</string>
     <string name="toast_update_user_info_succeed">修改个人信息成功</string>
     <string name="toast_update_user_info_failed">修改个人信息失败</string>
+    <string name="toast_fetch_friends_failed">获取好友失败！！</string>
+    <string name="toast_fetch_fans_failed">获取粉丝失败！！</string>
 
     <string name="notice_update_user_info">正在提交数据，请稍后</string>
 </resources>

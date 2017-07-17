@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
+import com.audio.miliao.event.CancelAttentionEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddAttention;
 import com.audio.miliao.http.cmd.CancelAttention;
@@ -26,12 +27,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * 用户信息
  */
 public class UserInfoActivity extends BaseActivity
 {
     private int mActorVoId;
+    private ActorVo m_actorVo;
     private ActorPageVo m_actorPage;
 
     @Override
@@ -41,8 +45,8 @@ public class UserInfoActivity extends BaseActivity
         setContentView(R.layout.activity_user_info);
         try
         {
-            ActorVo actorVo = (ActorVo) getIntent().getSerializableExtra("user");
-            mActorVoId = actorVo.getId();
+            m_actorVo = (ActorVo) getIntent().getSerializableExtra("user");
+            mActorVoId = m_actorVo.getId();
             FetchActorPage fetchActor = new FetchActorPage(handler(), mActorVoId, null);
             fetchActor.send();
 
@@ -408,6 +412,7 @@ public class UserInfoActivity extends BaseActivity
             if (CancelAttention.isSucceed(cancelAttention))
             {
                 updateFollowButtonState(false);
+                EventBus.getDefault().post(new CancelAttentionEvent(m_actorVo));
             }
             break;
         }

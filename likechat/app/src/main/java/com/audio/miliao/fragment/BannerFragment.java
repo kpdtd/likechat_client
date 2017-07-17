@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 
 import com.audio.miliao.R;
 import com.audio.miliao.event.FetchHomeContentEvent;
+import com.audio.miliao.theApp;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.vo.BannerVo;
@@ -152,6 +153,7 @@ public class BannerFragment extends BaseFragment
                         {
                             BannerVo bannerVo = mBannerList.get(position);
                             ImageView view = (ImageView) mViewList.get(position);
+                            view.setTag(bannerVo);
                             String icon = bannerVo.getIcon().trim();
                             ImageLoaderUtil.displayListAvatarImage(view, icon);
 
@@ -196,6 +198,22 @@ public class BannerFragment extends BaseFragment
             for (int i = 0; i < mBannerList.size(); i++)
             {
                 ImageView imageView = (ImageView) View.inflate(getContext(), R.layout.layout_banner, null);
+                imageView.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        BannerVo bannerVo = (BannerVo) v.getTag();
+                        if (bannerVo != null)
+                        {
+//                            Intent intentUserInfo = new Intent(getActivity(), UserInfoActivity.class);
+//                            ActorVo actor = (ActorVo) m_adapter.getItem(position);
+//                            intentUserInfo.putExtra("user", actor);
+//                            startActivity(intentUserInfo);
+                            theApp.showToast(bannerVo.toJsonString());
+                        }
+                    }
+                });
                 mViewList.add(imageView);
                 RadioButton radio = (RadioButton) View.inflate(getContext(), R.layout.layout_indicator, null);
                 mRadioList.add(radio);
