@@ -8,10 +8,10 @@ import android.util.Log;
 
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.receiver.PhoneCallStateObserver;
+import com.audio.miliao.util.LogUtil;
 import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.vo.ActorPageVo;
 import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -26,7 +26,6 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
 import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
-import com.uikit.loader.LoaderApp;
 import com.uikit.loader.avchat.AVChatActivity;
 import com.uikit.loader.avchat.AVChatProfile;
 import com.uikit.loader.session.SessionHelper;
@@ -61,12 +60,12 @@ public class theApp extends Application
         }
     }
 
-    public static void init(Context context)
+    public VOID init(Context context)
     {
         try
         {
             //YunXinUtil.init();
-            LoaderApp.init(context);
+            //LoaderApp.init(context);
             NIMClient.init(context, null, null);
 
             // 初始化云信
@@ -96,6 +95,7 @@ public class theApp extends Application
                 AppData.setOpenId("8A59375AF608856146CDC7CD48FE2319");
 
                 onYunXinLogin("liu1501134", "e10adc3949ba59abbe56e057f20f883e");
+                //onYunXinLogin("18178619319", "e10adc3949ba59abbe56e057f20f883e");
             }
         }
         catch (Exception e)
@@ -160,7 +160,7 @@ public class theApp extends Application
     /**
      * 通知消息过滤器（如果过滤则该消息不存储不上报）
      */
-    private static void registerIMMessageFilter()
+    private void registerIMMessageFilter()
     {
         NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter()
         {
@@ -195,7 +195,7 @@ public class theApp extends Application
      *
      * @param register
      */
-    private static void registerAVChatIncomingCallObserver(boolean register)
+    private void registerAVChatIncomingCallObserver(boolean register)
     {
         AVChatManager.getInstance().observeIncomingCall(new Observer<AVChatData>()
         {

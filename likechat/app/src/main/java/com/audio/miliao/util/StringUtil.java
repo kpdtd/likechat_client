@@ -1,6 +1,8 @@
 package com.audio.miliao.util;
 
 
+import android.text.TextUtils;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,6 +52,23 @@ public class StringUtil
     public static boolean isNotEmpty(String value, String ignore)
     {
         return !isEmpty(value, ignore);
+    }
+
+    /**
+     * join collection to string, separator is ""
+     *
+     * <pre>
+     * join(null)      =   "";
+     * join({})        =   "";
+     * join({a,b})     =   "a,b";
+     * </pre>
+     *
+     * @param collection
+     * @return join collection to string, separator is "". if collection is empty, return
+     *         ""
+     */
+    public static String join(Iterable collection) {
+        return collection == null ? "" : TextUtils.join("", collection);
     }
 
     /**

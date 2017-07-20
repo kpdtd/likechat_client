@@ -64,7 +64,8 @@ public class LogUtil
 	// you must call it at the LAUNCHER class
 	public static void init(Context context)
 	{
-		log_tag = context.getPackageName();
+		//log_tag = context.getPackageName();
+		log_tag = "miliao_uu";
 		if (LOG_ENABLED && WRITE_TO_FILE_ENABLED)
 		{
 			File sdRoot = getSDPath(context);
