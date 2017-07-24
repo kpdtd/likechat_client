@@ -146,7 +146,7 @@ public class LoaderApp extends Application
             public void onEvent(AVChatData data)
             {
                 String extra = data.getExtra();
-                Log.e("Extra", "Extra Message->" + extra);
+                Log.e("Extra uuu_uuu", "Extra Message->" + extra);
                 if (PhoneCallStateObserver.getInstance().getPhoneCallState() != PhoneCallStateObserver.PhoneCallStateEnum.IDLE
                         || AVChatProfile.getInstance().isAVChatting()
                         || AVChatManager.getInstance().getCurrentChatId() != 0)

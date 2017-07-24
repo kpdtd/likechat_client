@@ -26,9 +26,9 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
 import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
+import com.uikit.loader.LoaderApp;
 import com.uikit.loader.avchat.AVChatActivity;
 import com.uikit.loader.avchat.AVChatProfile;
-import com.uikit.loader.session.SessionHelper;
 import com.uikit.loader.util.sys.SystemUtil;
 
 import java.util.Map;
@@ -50,57 +50,37 @@ public class theApp extends Application
     {
         super.onCreate();
 
-        try
+        CONTEXT = this;
+        LoaderApp.init(this);
+//        NIMClient.init(this, YunXinUtil.loginInfo(), YunXinUtil.options(this));
+//        // 初始化云信
+//        if (inMainProcess(this))
+//        {
+//            //YunXinUtil.init();
+//            NimUIKit.init(this);
+//
+//            // 会话窗口的定制初始化。
+//            SessionHelper.init();
+//
+//            // 注册通知消息过滤器
+//            registerIMMessageFilter();
+//
+//            // 初始化消息提醒
+//            NIMClient.toggleNotification(true);
+//
+//            // 注册网络通话来电
+//            registerAVChatIncomingCallObserver(true);
+//        }
+
+        if (AppData.isLogin())
         {
-            CONTEXT = this;
-            init(this);
-        }
-        catch (Exception e)
-        {
-        }
-    }
+            saveCurUser();
+            // Debug
+            AppData.setCurUserId(30);
+            AppData.setOpenId("8A59375AF608856146CDC7CD48FE2319");
 
-    public VOID init(Context context)
-    {
-        try
-        {
-            //YunXinUtil.init();
-            //LoaderApp.init(context);
-            NIMClient.init(context, null, null);
-
-            // 初始化云信
-            if (inMainProcess(context))
-            {
-                //YunXinUtil.init();
-                NimUIKit.init(context);
-
-                // 会话窗口的定制初始化。
-                SessionHelper.init();
-
-                // 注册通知消息过滤器
-                registerIMMessageFilter();
-
-                // 初始化消息提醒
-                NIMClient.toggleNotification(true);
-
-                // 注册网络通话来电
-                registerAVChatIncomingCallObserver(true);
-            }
-
-            if (AppData.isLogin())
-            {
-                saveCurUser();
-                // Debug
-                AppData.setCurUserId(30);
-                AppData.setOpenId("8A59375AF608856146CDC7CD48FE2319");
-
-                onYunXinLogin("liu1501134", "e10adc3949ba59abbe56e057f20f883e");
-                //onYunXinLogin("18178619319", "e10adc3949ba59abbe56e057f20f883e");
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+            onYunXinLogin("liu1501134", "e10adc3949ba59abbe56e057f20f883e");
+            //onYunXinLogin("18178619319", "e10adc3949ba59abbe56e057f20f883e");
         }
     }
 
@@ -149,7 +129,7 @@ public class theApp extends Application
         }
     }
 
-    public static boolean inMainProcess(Context context)
+    public boolean inMainProcess(Context context)
     {
         String packageName = context.getPackageName();
         String processName = SystemUtil.getProcessName(context);
