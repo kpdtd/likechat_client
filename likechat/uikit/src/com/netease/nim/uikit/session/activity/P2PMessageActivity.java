@@ -3,7 +3,8 @@ package com.netease.nim.uikit.session.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -36,6 +37,7 @@ import java.util.Set;
 public class P2PMessageActivity extends BaseMessageActivity {
 
     private boolean isResume = false;
+    private TextView mTitleTv;
 
     public static void start(Context context, String contactId, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
@@ -53,6 +55,8 @@ public class P2PMessageActivity extends BaseMessageActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initUI();
 
         // 单聊特例话数据，包括个人信息，
         requestUserInfo();
@@ -80,8 +84,61 @@ public class P2PMessageActivity extends BaseMessageActivity {
         isResume = false;
     }
 
+    private void initUI()
+    {
+        mTitleTv = (TextView) findViewById(R.id.txt_title);
+
+        View.OnClickListener clickListener = new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (v.getId() == R.id.img_back)
+                {
+                    finish();
+                }
+                else if (v.getId() == R.id.img_voice_chat)
+                {
+                    if (getCustomization() != null && getCustomization().buttons != null)
+                    {
+                        getCustomization().buttons.get(0).onClick(P2PMessageActivity.this, v, sessionId);
+                    }
+                }
+                else if (v.getId() == R.id.img_user_info)
+                {
+                    try
+                    {
+                        Intent intent = new Intent("com.audio.miliao.action_user_info");
+                        intent.putExtra("sessionId", sessionId);
+                        startActivity(intent);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    //EventBus.getDefault().post("action_user_info");
+                }
+            }
+        };
+
+        findViewById(R.id.img_back).setOnClickListener(clickListener);
+        findViewById(R.id.img_voice_chat).setOnClickListener(clickListener);
+        findViewById(R.id.img_user_info).setOnClickListener(clickListener);
+    }
+
     private void requestUserInfo() {
-        setTitle(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+        String strTitle = UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P);
+        setTitle(strTitle);
+    }
+
+    @Override
+    public void setTitle(CharSequence title)
+    {
+        super.setTitle(title);
+        if (mTitleTv != null)
+        {
+            mTitleTv.setText(title);
+        }
     }
 
     private void registerObservers(boolean register) {
@@ -193,9 +250,9 @@ public class P2PMessageActivity extends BaseMessageActivity {
             int id = json.getIntValue("id");
             if (id == 1) {
                 // 正在输入
-                Toast.makeText(P2PMessageActivity.this, "对方正在输入...", Toast.LENGTH_LONG).show();
+                //Toast.makeText(P2PMessageActivity.this, "对方正在输入...", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(P2PMessageActivity.this, "command: " + content, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(P2PMessageActivity.this, "command: " + content, Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {

@@ -177,7 +177,9 @@ public class YXService
         sessionCustomization.backgroundUri = "android.resource://com.netease.nim.demo/drawable/bk";
 //        sessionCustomization.backgroundUri = "android.resource://com.audio.miliao/drawable/avchat_call_bg";
 
-        // 定制加号点开后可以包含的操作，默认已经有图片，视频等消息了，如果要去掉默认的操作，请修改MessageFragment的getActionList函数
+        // 定制加号点开后可以包含的操作，默认已经有图片，视频等消息了，
+        // 如果需要定制，可以修改Sessionhelper的getP2pCustomization函数
+        // 如果要去掉默认的操作，请修改MessageFragment的getActionList函数
         ArrayList<BaseAction> actions = new ArrayList<>();
 //        actions.add(new AVChatAction(AVChatType.AUDIO));
 //        actions.add(new AVChatAction(AVChatType.VIDEO));

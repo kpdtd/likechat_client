@@ -86,7 +86,7 @@
                 android:scrollHorizontally="true"
                 android:textColor="@color/color_aaaaaa_content_text"
                 android:gravity="center_vertical"
-                android:textSize="14sp"/>
+                android:textSize="12dp"/>
         </LinearLayout>
         <TextView
             android:id="@+id/tv_date_time"

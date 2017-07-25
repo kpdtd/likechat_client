@@ -45,8 +45,16 @@ public class UserInfoActivity extends BaseActivity
         setContentView(R.layout.activity_user_info);
         try
         {
-            m_actorVo = (ActorVo) getIntent().getSerializableExtra("user");
-            mActorVoId = m_actorVo.getId();
+            if (getIntent().hasExtra("user"))
+            {
+                m_actorVo = (ActorVo) getIntent().getSerializableExtra("user");
+                mActorVoId = m_actorVo.getId();
+            }
+            else if (getIntent().hasExtra("sessionId"))
+            {
+                String sessionId = getIntent().getStringExtra("sessionId");
+                mActorVoId = Integer.valueOf(sessionId);
+            }
             FetchActorPage fetchActor = new FetchActorPage(handler(), mActorVoId, null);
             fetchActor.send();
 

@@ -37,10 +37,9 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.uikit.loader.LoaderApp;
 import com.uikit.loader.R;
-import com.uikit.loader.session.action.AVChatAction;
+import com.uikit.loader.avchat.AVChatActivity;
 import com.uikit.loader.session.action.FileAction;
 import com.uikit.loader.session.action.GuessAction;
-import com.uikit.loader.session.action.RTSAction;
 import com.uikit.loader.session.action.SnapChatAction;
 import com.uikit.loader.session.action.TipAction;
 import com.uikit.loader.session.viewholder.MsgViewHolderAVChat;
@@ -157,16 +156,19 @@ public class SessionHelper
             ArrayList<BaseAction> actions = new ArrayList<>();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
             {
-                actions.add(new AVChatAction(AVChatType.AUDIO));
-                actions.add(new AVChatAction(AVChatType.VIDEO));
+//                actions.add(new AVChatAction(AVChatType.AUDIO));
+//                actions.add(new AVChatAction(AVChatType.VIDEO));
             }
-            actions.add(new RTSAction());
-            actions.add(new SnapChatAction());
-            actions.add(new GuessAction());
-            actions.add(new FileAction());
-            actions.add(new TipAction());
+//            actions.add(new RTSAction());
+//            actions.add(new SnapChatAction());
+//            actions.add(new GuessAction());
+//            actions.add(new FileAction());
+//            actions.add(new TipAction());
             p2pCustomization.actions = actions;
             p2pCustomization.withSticker = true;
+
+//            Container container = new Container(get, null, SessionTypeEnum.P2P, null);
+//            final BaseAction action = new AVChatAction(AVChatType.AUDIO);
 
             // 定制ActionBar右边的按钮，可以加多个
             ArrayList<SessionCustomization.OptionsButton> buttons = new ArrayList<>();
@@ -175,7 +177,9 @@ public class SessionHelper
                 @Override
                 public void onClick(Context context, View view, String sessionId)
                 {
-                    initPopuptWindow(context, view, sessionId, SessionTypeEnum.P2P);
+                    //initPopuptWindow(context, view, sessionId, SessionTypeEnum.P2P);
+                    //action.onClick();
+                    AVChatActivity.launch(context, sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
                 }
             };
             cloudMsgButton.iconId = R.drawable.nim_ic_messge_history;

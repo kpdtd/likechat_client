@@ -1,6 +1,7 @@
 package com.audio.miliao.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.audio.miliao.adapter.LikechatRecentMessageAdapter;
+import com.audio.miliao.theApp;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.OnlineStateChangeListener;
 import com.netease.nim.uikit.cache.FriendDataCache;
@@ -50,6 +52,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import de.greenrobot.event.EventBus;
+
 import static com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog.onSeparateItemClickListener;
 
 /**
@@ -83,9 +87,15 @@ public class LikechatRecentContactsFragment extends TFragment
     private UserInfoObservable.UserInfoObserver userInfoObserver;
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onActivityCreated(savedInstanceState);
+        return inflater.inflate(com.netease.nim.uikit.R.layout.nim_recent_contacts, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
 
         findViews();
         initMessageList();
@@ -93,12 +103,16 @@ public class LikechatRecentContactsFragment extends TFragment
         registerObservers(true);
         registerDropCompletedListener(true);
         registerOnlineStateChangeListener(true);
+
+        EventBus.getDefault().register(this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    /**
+     * @param event
+     */
+    public void onEventMainThread(String event)
     {
-        return inflater.inflate(com.netease.nim.uikit.R.layout.nim_recent_contacts, container, false);
+        theApp.showToast(event);
     }
 
     private void notifyDataSetChanged()
@@ -110,9 +124,9 @@ public class LikechatRecentContactsFragment extends TFragment
     }
 
     @Override
-    public void onDestroy()
+    public void onDestroyView()
     {
-        super.onDestroy();
+        super.onDestroyView();
         registerObservers(false);
         registerDropCompletedListener(false);
         registerOnlineStateChangeListener(false);
@@ -135,6 +149,7 @@ public class LikechatRecentContactsFragment extends TFragment
     {
         items = new ArrayList<>();
         cached = new HashMap<>(3);
+        msgLoaded = false;
 
         // adapter
         adapter = new LikechatRecentMessageAdapter(recyclerView, items);
@@ -394,9 +409,13 @@ public class LikechatRecentContactsFragment extends TFragment
                         loadedRecents = new ArrayList<>();
                         for (RecentContact recent : recents)
                         {
-                            if (recent.getMsgType() != MsgTypeEnum.avchat)
+                            if (recent.getMsgType() == MsgTypeEnum.avchat ||
+                                    recent.getSessionType() == SessionTypeEnum.Team)
                             {
-                                // 最近联系人界面除了音视频通话的记录，其他都显示
+                                // 最近联系人界面除了音视频通话的记录，群聊、其他都显示
+                            }
+                            else
+                            {
                                 loadedRecents.add(recent);
                             }
                         }
@@ -410,8 +429,8 @@ public class LikechatRecentContactsFragment extends TFragment
                                 updateOfflineContactAited(loadedRecent);
                             }
                         }
-                        // 此处如果是界面刚初始化，为了防止界面卡顿，可先在后台把需要显示的用户资料和群组资料在后台加载好，然后再刷新界面
-                        //
+                        // 此处如果是界面刚初始化，为了防止界面卡顿，
+                        // 可先在后台把需要显示的用户资料和群组资料在后台加载好，然后再刷新界面
                         msgLoaded = true;
                         if (isAdded())
                         {
@@ -448,15 +467,13 @@ public class LikechatRecentContactsFragment extends TFragment
         {
 
             // 方式一：累加每个最近联系人的未读（快）
-            /*
             int unreadNum = 0;
             for (RecentContact r : items) {
                 unreadNum += r.getUnreadCount();
             }
-            */
 
             // 方式二：直接从SDK读取（相对慢）
-            int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+            //int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
 
             if (callback != null)
             {

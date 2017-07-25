@@ -7,8 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
-import com.uikit.loader.R;
 import com.netease.nim.uikit.cache.NimUserInfoCache;
+import com.uikit.loader.R;
 
 /**
  * 音视频聊天通知栏
@@ -62,12 +62,12 @@ public class AVChatNotification
     {
 //        if (missCallNotification == null)
 //        {
-//            Intent notifyIntent = new Intent(context, WelcomeActivity.class);
+//            Intent notifyIntent = new Intent(context, AVChatActivity.class);
 //            Intent data = new Intent(context, P2PMessageActivity.class);
 //            data.putExtra(Extras.EXTRA_ACCOUNT, account);
-//            data.putExtra(Extras.EXTRA_FROM, Extras.EXTRA_FROM_NOTIFICATION);
+//            //data.putExtra(Extras.EXTRA_FROM, Extras.EXTRA_FROM_NOTIFICATION);
 //            notifyIntent.putExtra(Extras.EXTRA_DATA, data);
-//            notifyIntent.putExtra(Extras.EXTRA_JUMP_P2P, true);
+//            //notifyIntent.putExtra(Extras.EXTRA_JUMP_P2P, true);
 //            notifyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //            notifyIntent.setAction(Intent.ACTION_VIEW);
 //            notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -108,33 +108,33 @@ public class AVChatNotification
 
     public void activeCallingNotification(boolean active)
     {
-        if (notificationManager != null)
-        {
-            if (active)
-            {
-                buildCallingNotification();
-                notificationManager.notify(CALLING_NOTIFY_ID, callingNotification);
-            }
-            else
-            {
-                notificationManager.cancel(CALLING_NOTIFY_ID);
-            }
-        }
+//        if (notificationManager != null)
+//        {
+//            if (active)
+//            {
+//                buildCallingNotification();
+//                notificationManager.notify(CALLING_NOTIFY_ID, callingNotification);
+//            }
+//            else
+//            {
+//                notificationManager.cancel(CALLING_NOTIFY_ID);
+//            }
+//        }
     }
 
     public void activeMissCallNotification(boolean active)
     {
-        if (notificationManager != null)
-        {
-            if (active)
-            {
-                buildMissCallNotification();
-                notificationManager.notify(MISS_CALL_NOTIFY_ID, missCallNotification);
-            }
-            else
-            {
-                notificationManager.cancel(MISS_CALL_NOTIFY_ID);
-            }
-        }
+//        if (notificationManager != null)
+//        {
+//            if (active)
+//            {
+//                buildMissCallNotification();
+//                notificationManager.notify(MISS_CALL_NOTIFY_ID, missCallNotification);
+//            }
+//            else
+//            {
+//                notificationManager.cancel(MISS_CALL_NOTIFY_ID);
+//            }
+//        }
     }
 }
