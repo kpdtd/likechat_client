@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <com.audio.miliao.widget.CircleImageView
+        <com.netease.nim.uikit.common.ui.widget.CircleImageView
             android:id="@+id/img_avatar"
             style="@style/center_crop"
             android:layout_width="50dp"

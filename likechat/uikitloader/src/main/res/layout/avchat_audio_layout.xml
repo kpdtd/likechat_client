@@ -36,7 +36,7 @@
                 android:text="@string/avchat_switch_to_video"
                 android:textColor="@color/white"
                 android:textSize="13sp"
-                android:visibility="visible" />
+                android:visibility="invisible" />
             <!--</FrameLayout>-->
         </RelativeLayout>
 

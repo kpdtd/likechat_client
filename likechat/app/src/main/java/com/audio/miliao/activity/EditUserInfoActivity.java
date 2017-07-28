@@ -27,7 +27,7 @@ import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.vo.ActorPageVo;
 import com.audio.miliao.vo.ActorVo;
-import com.audio.miliao.widget.CircleImageView;
+import com.netease.nim.uikit.common.ui.widget.CircleImageView;
 
 import java.io.File;
 import java.util.Calendar;

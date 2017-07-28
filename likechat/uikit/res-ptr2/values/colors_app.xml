@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="transparent">#00000000</color>
+    <!--<color name="transparent">#00000000</color>-->
     <color name="half_transparent">#4C000000</color>
     <color name="half_black">#7f000000</color>
     <color name="half_more_black">#bf000000</color>
-    <color name="black">#FF000000</color>
+    <!--<color name="black">#FF000000</color>-->
     <color name="gold">#b89766</color>
     <color name="blue">#0096d6</color>
     <color name="orange">#F77142</color>
@@ -22,7 +22,7 @@
     <color name="gray">#989898</color>
     
     <!-- 白色和按下时候的灰色 -->
-    <color name="white">#FFFFFF</color>
+    <!--<color name="white">#FFFFFF</color>-->
     <color name="white_p">#b3b3b3</color>
     <color name="white_d">#838383</color>
     

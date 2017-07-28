@@ -1,4 +1,4 @@
-package com.audio.miliao.widget;
+package com.netease.nim.uikit.common.ui.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,37 +8,42 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 /**
- * 圆形图片
+ * 圆角矩形 Imageview
  */
-public class CircleImageView extends android.support.v7.widget.AppCompatImageView
+
+public class RoundCornerImageView extends android.support.v7.widget.AppCompatImageView
 {
-    //    private Path path;
-//    private PaintFlagsDrawFilter mPaintFlagsDrawFilter;// 毛边过滤
+    /** 画笔 */
     private Paint m_paint;
+    /**  */
     private Rect m_rectSrc, m_rectDest;
-    private Rect m_rectCircle;
+    /** 绘制出来的图片矩形 */
+    private Rect m_rectRound;
+    /** 绘制圆角矩形 */
+    private RectF m_rectFRoundCorner;
     /** 临时的画布 */
     private Canvas m_canvasTemp;
 
-    public CircleImageView(Context context)
+    public RoundCornerImageView(Context context)
     {
         super(context);
         init();
     }
 
-    public CircleImageView(Context context, @Nullable AttributeSet attrs)
+    public RoundCornerImageView(Context context, @Nullable AttributeSet attrs)
     {
         super(context, attrs);
         init();
     }
 
-    public CircleImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr)
+    public RoundCornerImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
         init();
@@ -50,54 +55,67 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
 
         m_rectSrc = new Rect();
         m_rectDest = new Rect();
+        m_rectRound = new Rect();
 
-        m_rectCircle = new Rect();
+        m_rectFRoundCorner = new RectF();
 
         m_canvasTemp = new Canvas();
     }
 
+    /**
+     * 绘制圆角矩形图片
+     */
     @Override
-    protected void onDraw(Canvas cns)
+    protected void onDraw(Canvas canvas)
     {
         Drawable drawable = getDrawable();
         if (null != drawable)
         {
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-            Bitmap b = circleDraw(bitmap);
+            Bitmap b = roundBitmap(bitmap, 14);
             m_rectSrc.set(0, 0, b.getWidth(), b.getHeight());
-            m_rectDest.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+            m_rectDest.set(0, 0, getWidth(), getHeight());
             m_paint.reset();
-            cns.drawBitmap(b, m_rectSrc, m_rectDest, m_paint);
+            canvas.drawBitmap(b, m_rectSrc, m_rectDest, m_paint);
             b.recycle();
         }
         else
         {
-            super.onDraw(cns);
+            super.onDraw(canvas);
         }
     }
 
-    private Bitmap circleDraw(Bitmap bitmap)
+    /**
+     * 获取圆角矩形图片方法
+     *
+     * @param bitmap
+     * @param roundPx,一般设置成14
+     * @return Bitmap
+     */
+    private Bitmap roundBitmap(Bitmap bitmap, int roundPx)
     {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
-        int r = (width > height ? height : width);
+        int min = (width < height ? width : height);
 
         //创建一个图片对象
-        Bitmap output = Bitmap.createBitmap(r, r, Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(min, min, Bitmap.Config.ARGB_8888);
         //创建一个图片游标
         //Canvas canvas = new Canvas(output);
         m_canvasTemp.setBitmap(output);
-        //final Rect rect = new Rect(0, 0, r, r);
-        m_rectCircle.set(0, 0, r, r);
+        m_rectRound.set(0, 0, min, min);
+        m_rectFRoundCorner.set(0, 0, min, min);
         /* 设置取消锯齿效果 */
         m_paint.setAntiAlias(true);
         m_canvasTemp.drawARGB(0, 0, 0, 0);
         m_paint.setColor(Color.WHITE);
-        /* 绘画一个圆图形 */
-        m_canvasTemp.drawCircle(r / 2, r / 2, r / 2, m_paint);
+        //int x = bitmap.getWidth();
+        /* 绘画一个圆角矩形 */
+        m_canvasTemp.drawRoundRect(m_rectFRoundCorner, roundPx, roundPx, m_paint);
         m_paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        m_canvasTemp.drawBitmap(bitmap, m_rectCircle, m_rectCircle, m_paint);
+        m_canvasTemp.drawBitmap(bitmap, m_rectRound, m_rectRound, m_paint);
 
         return output;
+
     }
 }

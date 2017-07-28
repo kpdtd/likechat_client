@@ -45,7 +45,7 @@
             android:layout_weight="1"
             android:text="@string/txt_edit_user_info_avatar"/>
 
-        <com.audio.miliao.widget.CircleImageView
+        <com.netease.nim.uikit.common.ui.widget.CircleImageView
             android:id="@+id/img_avatar"
             style="@style/center_crop"
             android:layout_width="40dp"

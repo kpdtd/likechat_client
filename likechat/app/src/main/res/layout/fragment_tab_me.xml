@@ -29,7 +29,7 @@
             android:orientation="horizontal"
             android:paddingLeft="30dp">
 
-            <com.audio.miliao.widget.CircleImageView
+            <com.netease.nim.uikit.common.ui.widget.CircleImageView
                 android:id="@+id/img_avatar"
                 android:layout_width="75dp"
                 android:layout_height="75dp"

@@ -89,6 +89,8 @@ public class HttpUtil
         public static final int FETCH_VIP_MEMBER = 17;
         /** 修改用户信息 */
         public static final int UPDATE_USER_INFO = 18;
+        /** 获取云信Token */
+        public static final int FETCH_YX_TOKEN = 19;
     }
 
     /** 请求类型 */
