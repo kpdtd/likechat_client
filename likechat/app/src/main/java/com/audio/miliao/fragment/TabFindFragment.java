@@ -24,7 +24,7 @@ import com.audio.miliao.http.cmd.AddDynamicPageView;
 import com.audio.miliao.http.cmd.FetchFindList;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
-import com.audio.miliao.util.UIUtil;
+import com.netease.nim.uikit.util.UIUtil;
 import com.audio.miliao.vo.ActorDynamicVo;
 
 import java.util.ArrayList;

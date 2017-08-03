@@ -8,15 +8,18 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nim.uikit.cache.NimUserInfoCache;
+import com.netease.nim.uikit.common.ui.imageview.HeadImageView;
+import com.netease.nim.uikit.common.util.sys.NetworkUtil;
+import com.netease.nim.uikit.util.ViewsUtil;
+import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.uikit.loader.LoaderApp;
 import com.uikit.loader.R;
 import com.uikit.loader.avchat.widget.ToggleListener;
 import com.uikit.loader.avchat.widget.ToggleState;
 import com.uikit.loader.avchat.widget.ToggleView;
 import com.uikit.loader.constant.CallStateEnum;
-import com.uikit.loader.LoaderApp;
-import com.netease.nim.uikit.cache.NimUserInfoCache;
-import com.netease.nim.uikit.common.ui.imageview.HeadImageView;
-import com.netease.nim.uikit.common.util.sys.NetworkUtil;
 
 /**
  * 音频管理器， 音频界面初始化和管理
@@ -34,6 +37,7 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
     private View switchVideo;
     private HeadImageView headImg;
     private TextView nickNameTV;
+    private TextView ageTv;
     private Chronometer time;
     private TextView wifiUnavailableNotifyTV;
     private TextView notifyTV;
@@ -153,6 +157,7 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
 
         headImg = (HeadImageView) rootView.findViewById(R.id.avchat_audio_head);
         nickNameTV = (TextView) rootView.findViewById(R.id.avchat_audio_nickname);
+        ageTv = (TextView) rootView.findViewById(R.id.txt_age);
         time = (Chronometer) rootView.findViewById(R.id.avchat_audio_time);
         wifiUnavailableNotifyTV = (TextView) rootView.findViewById(R.id.avchat_audio_wifi_unavailable);
         notifyTV = (TextView) rootView.findViewById(R.id.avchat_audio_notify);
@@ -196,6 +201,17 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
         String account = manager.getAccount();
         headImg.loadBuddyAvatar(account);
         nickNameTV.setText(NimUserInfoCache.getInstance().getUserDisplayName(account));
+        try
+        {
+            NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(account);
+            int sex = (userInfo.getGenderEnum() == GenderEnum.FEMALE ? 2 : 1);
+            ViewsUtil.setActorGenderDrawable(ageTv, sex, true);
+            ageTv.setText(userInfo.getBirthday());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**

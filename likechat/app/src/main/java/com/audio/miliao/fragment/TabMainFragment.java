@@ -19,7 +19,7 @@ import com.audio.miliao.adapter.ActorAdapter;
 import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorListByTag;
-import com.audio.miliao.util.UIUtil;
+import com.netease.nim.uikit.util.UIUtil;
 import com.audio.miliao.vo.ActorVo;
 import com.audio.miliao.vo.TagVo;
 import com.audio.miliao.widget.GridViewWithHeaderAndFooter;

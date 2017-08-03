@@ -1,4 +1,4 @@
-package com.audio.miliao.util;
+package com.netease.nim.uikit.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

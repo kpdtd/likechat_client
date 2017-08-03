@@ -383,7 +383,6 @@ public class LikechatCallHistoryFragment extends TFragment
                 // 查询最近联系人列表数据
                 NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>()
                 {
-
                     @Override
                     public void onResult(int code, List<RecentContact> recents, Throwable exception)
                     {

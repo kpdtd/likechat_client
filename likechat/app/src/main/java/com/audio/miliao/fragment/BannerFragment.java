@@ -15,7 +15,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.ImageLoaderUtil;
-import com.audio.miliao.util.UIUtil;
+import com.netease.nim.uikit.util.UIUtil;
 import com.audio.miliao.vo.BannerVo;
 
 import java.util.ArrayList;

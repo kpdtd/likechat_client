@@ -5,15 +5,15 @@
         <layer-list>
             <item>
                 <shape android:shape="oval">
-                    <solid android:color="#04a6f9" />
-                    <padding android:left="5dp"
-                             android:top="5dp"
+                    <solid android:color="#04a6f9"/>
+                    <padding android:bottom="5dp"
+                             android:left="5dp"
                              android:right="5dp"
-                             android:bottom="5dp"/>
+                             android:top="5dp"/>
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/ic_speaker" />
+                <bitmap android:src="@drawable/ic_speaker"/>
             </item>
         </layer-list>
     </item>
@@ -21,15 +21,15 @@
         <layer-list>
             <item>
                 <shape android:shape="oval">
-                    <solid android:color="@color/gray" />
-                    <padding android:left="5dp"
-                             android:top="5dp"
+                    <solid android:color="@color/gray"/>
+                    <padding android:bottom="5dp"
+                             android:left="5dp"
                              android:right="5dp"
-                             android:bottom="5dp"/>
+                             android:top="5dp"/>
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/ic_speaker" />
+                <bitmap android:src="@drawable/ic_speaker"/>
             </item>
         </layer-list>
     </item>

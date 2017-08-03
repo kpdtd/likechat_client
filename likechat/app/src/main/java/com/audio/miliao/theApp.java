@@ -9,7 +9,7 @@ import android.util.Log;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.receiver.PhoneCallStateObserver;
 import com.audio.miliao.util.LogUtil;
-import com.audio.miliao.util.UIUtil;
+import com.netease.nim.uikit.util.UIUtil;
 import com.audio.miliao.vo.ActorPageVo;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
@@ -79,8 +79,8 @@ public class theApp extends Application
             AppData.setCurUserId(30);
             AppData.setOpenId("8A59375AF608856146CDC7CD48FE2319");
 
-            //onYunXinLogin("liu1501134", "e10adc3949ba59abbe56e057f20f883e");
-            onYunXinLogin("18178619319", "e10adc3949ba59abbe56e057f20f883e");
+            onYunXinLogin("liu1501134", "e10adc3949ba59abbe56e057f20f883e");
+            //onYunXinLogin("18178619319", "e10adc3949ba59abbe56e057f20f883e");
         }
     }
 

@@ -23,9 +23,9 @@ import com.audio.miliao.entity.AppData;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchMineInfo;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.vo.ActorVo;
+import com.netease.nim.uikit.util.ViewsUtil;
 
 /**
  * 主界面中的我的界面
@@ -173,7 +173,7 @@ public class TabMeFragment extends BaseFragment
                     ImageLoaderUtil.displayListAvatarImage(imgAvatar, m_actorVo.getIcon());
                     txtName.setText(m_actorVo.getNickname());
                     txtAge.setText(m_actorVo.getAge());
-                    EntityUtil.setActorGenderDrawable(txtAge, m_actorVo.getSex(), true);
+                    ViewsUtil.setActorGenderDrawable(txtAge, m_actorVo.getSex(), true);
                     String strId = getString(R.string.txt_user_info_like_chat_id) + m_actorVo.getId();
                     txtId.setText(strId);
                     txtSigh.setText(m_actorVo.getSignature());

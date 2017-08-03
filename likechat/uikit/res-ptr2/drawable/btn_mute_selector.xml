@@ -1,51 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:state_enabled="false">
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@color/gray"/>
+                    <padding android:bottom="5dp"
+                             android:left="5dp"
+                             android:right="5dp"
+                             android:top="5dp"/>
+                </shape>
+            </item>
+            <item>
+                <bitmap android:src="@drawable/avchat_mute_icon_disable"/>
+            </item>
+        </layer-list>
+    </item>
     <item android:state_pressed="true">
         <layer-list>
             <item>
                 <shape android:shape="oval">
-                    <solid android:color="@color/white_p" />
-                    <padding android:left="5dp"
-                             android:top="5dp"
+                    <solid android:color="@color/white_p"/>
+                    <padding android:bottom="5dp"
+                             android:left="5dp"
                              android:right="5dp"
-                             android:bottom="5dp"/>
+                             android:top="5dp"/>
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/ic_mute_checked" />
+                <bitmap android:src="@drawable/avchat_mute_icon_pressed"/>
             </item>
         </layer-list>
     </item>
-    <item android:state_checked="true">
+    <item android:state_selected="true">
         <layer-list>
             <item>
                 <shape android:shape="oval">
-                    <solid android:color="@color/gray" />
-                    <padding android:left="5dp"
-                             android:top="5dp"
+                    <solid android:color="@color/gray"/>
+                    <padding android:bottom="5dp"
+                             android:left="5dp"
                              android:right="5dp"
-                             android:bottom="5dp"/>
+                             android:top="5dp"/>
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/ic_mute_checked" />
+                <bitmap android:src="@drawable/avchat_mute_icon_checked"/>
             </item>
         </layer-list>
     </item>
-    <item android:state_checked="false">
+    <item>
         <layer-list>
             <item>
                 <shape android:shape="oval">
-                    <solid android:color="@color/gray" />
-                    <padding android:left="5dp"
-                             android:top="5dp"
+                    <solid android:color="@color/gray"/>
+                    <padding android:bottom="5dp"
+                             android:left="5dp"
                              android:right="5dp"
-                             android:bottom="5dp"/>
+                             android:top="5dp"/>
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/ic_mute_normal" />
+                <bitmap android:src="@drawable/avchat_mute_icon_normal"/>
             </item>
         </layer-list>
     </item>

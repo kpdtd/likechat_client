@@ -38,10 +38,10 @@
         <com.netease.nim.uikit.common.ui.widget.CircleImageView
             android:id="@+id/img_avatar"
             style="@style/center_crop"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="70dp"
             android:layout_width="100dp"
-            android:layout_height="100dp"/>
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"/>
 
         <TextView
             android:id="@+id/txt_age"
@@ -49,8 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/img_avatar"
             android:layout_centerHorizontal="true"
-            android:drawableLeft="@drawable/ic_female_checked"
             android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/ic_female_checked"
             android:drawablePadding="5dp"
             android:gravity="center"
             android:text="24"
@@ -62,10 +62,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_age"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="@string/txt_call_out_ont_the_phone2"
-            android:layout_centerHorizontal="true"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_14_dp"/>
 

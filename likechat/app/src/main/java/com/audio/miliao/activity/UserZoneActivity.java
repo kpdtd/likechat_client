@@ -11,7 +11,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.adapter.ActorDynamicAdapter;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.util.StringUtil;
-import com.audio.miliao.util.UIUtil;
+import com.netease.nim.uikit.util.UIUtil;
 import com.audio.miliao.vo.ActorDynamicVo;
 import com.audio.miliao.vo.ActorVo;
 

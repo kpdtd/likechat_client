@@ -16,18 +16,19 @@ import com.audio.miliao.http.cmd.AddAttention;
 import com.audio.miliao.http.cmd.CancelAttention;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.util.DebugUtil;
-import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
-import com.audio.miliao.util.UIUtil;
 import com.audio.miliao.vo.ActorPageVo;
 import com.audio.miliao.vo.ActorVo;
+import com.netease.nim.uikit.util.UIUtil;
+import com.netease.nim.uikit.util.ViewsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import de.greenrobot.event.EventBus;
+
 
 /**
  * 用户信息
@@ -386,7 +387,7 @@ public class UserInfoActivity extends BaseActivity
 
             updateFollowButtonState(m_actorPage.getIsAttention());
 
-            EntityUtil.setActorGenderDrawable(txtAge, m_actorPage.getSex(), true);
+            ViewsUtil.setActorGenderDrawable(txtAge, m_actorPage.getSex(), true);
         }
         catch (Exception e)
         {
