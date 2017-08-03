@@ -107,6 +107,7 @@ public class LikechatRecentContactsFragment extends TFragment
         EventBus.getDefault().register(this);
     }
 
+
     /**
      * @param event
      */
@@ -130,6 +131,7 @@ public class LikechatRecentContactsFragment extends TFragment
         registerObservers(false);
         registerDropCompletedListener(false);
         registerOnlineStateChangeListener(false);
+        EventBus.getDefault().unregister(this);
     }
 
     /**

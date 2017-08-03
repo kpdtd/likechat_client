@@ -5,6 +5,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 
 import com.audio.miliao.handler.WeakHandler;
+import com.audio.miliao.util.LogUtil;
 
 public class BaseFragment extends Fragment implements WeakHandler.MessageHandler
 {
@@ -19,5 +20,38 @@ public class BaseFragment extends Fragment implements WeakHandler.MessageHandler
     public Handler handler()
     {
         return mHandler;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        log("onResume");
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        log("onStop");
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        log("onDestroyView");
+    }
+
+    public void log(String strLog)
+    {
+        try
+        {
+            LogUtil.d(getClass().getSimpleName() + " : " + strLog);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
