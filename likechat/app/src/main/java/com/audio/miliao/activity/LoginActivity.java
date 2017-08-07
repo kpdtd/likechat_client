@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.alipay.sdk.app.PayTask;
 import com.audio.miliao.R;
+import com.audio.miliao.entity.AppData;
 import com.audio.miliao.event.LoginEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.WXPayCreateOrder;
@@ -20,10 +21,10 @@ import com.audio.miliao.theApp;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.WXUtil;
 import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.uikit.loader.LoaderApp;
+import com.uikit.loader.entity.Account;
 import com.uikit.loader.entity.LoaderAppData;
 import com.uikit.loader.service.YXService;
 
@@ -156,11 +157,17 @@ public class LoginActivity extends BaseActivity
                         case R.id.img_back:
                             finish();
                             break;
-                        case R.id.btn_pay_alipay:
-                            onAlipay();
+                        case R.id.btn_login_debug1:
+                            AppData.setYunXinAccount("liu1501134");
+                            AppData.setYunXinToken("e10adc3949ba59abbe56e057f20f883e");
+                            LoaderApp.setCurAccount(new Account("liu1501134", "e10adc3949ba59abbe56e057f20f883e"));
+                            onYunXinLogin();
                             break;
-                        case R.id.btn_pay_wx:
-                            onWxPay();
+                        case R.id.btn_login_debug2:
+                            AppData.setYunXinAccount("18178619319");
+                            AppData.setYunXinToken("e10adc3949ba59abbe56e057f20f883e");
+                            LoaderApp.setCurAccount(new Account("18178619319", "e10adc3949ba59abbe56e057f20f883e"));
+                            onYunXinLogin();
                             break;
                         }
                     }
@@ -175,8 +182,8 @@ public class LoginActivity extends BaseActivity
             findViewById(R.id.txt_qq_login).setOnClickListener(clickListener);
             findViewById(R.id.btn_yunxin_login).setOnClickListener(clickListener);
             findViewById(R.id.img_back).setOnClickListener(clickListener);
-            findViewById(R.id.btn_pay_alipay).setOnClickListener(clickListener);
-            findViewById(R.id.btn_pay_wx).setOnClickListener(clickListener);
+            findViewById(R.id.btn_login_debug1).setOnClickListener(clickListener);
+            findViewById(R.id.btn_login_debug2).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
@@ -207,20 +214,25 @@ public class LoginActivity extends BaseActivity
                 LoaderAppData.setYunXinAccount(loginInfo.getAccount());
                 LoaderAppData.setYunXinToken(loginInfo.getToken());
 
-                String strAccount;
-                if (loginInfo.getAccount().equals(LoaderApp.TEST3.getAccount()))
-                {
-                    strAccount = LoaderApp.TEST4.getAccount();
-                }
-                else
-                {
-                    strAccount = LoaderApp.TEST3.getAccount();
-                }
-//                mService.chat(strAccount);
-
-                Intent intent = new Intent(LoginActivity.this, P2PChatActivity.class);
-                intent.putExtra(Extras.EXTRA_ACCOUNT, strAccount);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+                
+                finish();
+
+//                String strAccount;
+//                if (loginInfo.getAccount().equals(LoaderApp.TEST3.getAccount()))
+//                {
+//                    strAccount = LoaderApp.TEST4.getAccount();
+//                }
+//                else
+//                {
+//                    strAccount = LoaderApp.TEST3.getAccount();
+//                }
+////                mService.chat(strAccount);
+//
+//                Intent intent = new Intent(LoginActivity.this, P2PChatActivity.class);
+//                intent.putExtra(Extras.EXTRA_ACCOUNT, strAccount);
+//                startActivity(intent);
             }
 
             @Override

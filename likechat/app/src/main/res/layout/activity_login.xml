@@ -55,16 +55,16 @@
                 android:text="YunXin Login"/>
 
             <Button
-                android:id="@+id/btn_pay_alipay"
+                android:id="@+id/btn_login_debug1"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:text="支付宝支付"/>
+                android:text="liu1501134登录"/>
 
             <Button
-                android:id="@+id/btn_pay_wx"
+                android:id="@+id/btn_login_debug2"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:text="微信支付"/>
+                android:text="18178619319登录"/>
 
             <ScrollView
                 android:layout_width="match_parent"
