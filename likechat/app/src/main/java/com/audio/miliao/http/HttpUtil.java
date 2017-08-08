@@ -91,6 +91,10 @@ public class HttpUtil
         public static final int UPDATE_USER_INFO = 18;
         /** 获取云信Token */
         public static final int FETCH_YX_TOKEN = 19;
+        /** 云信开始计费 */
+        public static final int YUNXIN_CHARGE = 20;
+        /** 云信聊天挂断 */
+        public static final int YUNXIN_HANG_UP = 21;
     }
 
     /** 请求类型 */

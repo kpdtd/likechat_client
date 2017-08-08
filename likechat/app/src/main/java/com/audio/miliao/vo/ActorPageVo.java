@@ -28,6 +28,8 @@ public class ActorPageVo extends GsonObj<ActorPageVo>
 	private Integer voiceSec;//
 
 	private String price;//资费价格（整数）转成 --》 1.5币/分
+	private String platformPrice;//平台费用，用于点击连线时显示的平台价格；
+	private String totalPrice;//总计费用
 	private String callTime;//通话时长
 
 	private Boolean isAttention;//是否已经关注，如果未登陆，点击关注应该进入登陆页面。如果已经登陆，当此属性为true，图标应显示红色
@@ -179,6 +181,22 @@ public class ActorPageVo extends GsonObj<ActorPageVo>
 
 	public void setVoiceSec(Integer voiceSec) {
 		this.voiceSec = voiceSec;
+	}
+
+	public String getPlatformPrice() {
+		return platformPrice;
+	}
+
+	public void setPlatformPrice(String platformPrice) {
+		this.platformPrice = platformPrice;
+	}
+
+	public String getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(String totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 	
 }

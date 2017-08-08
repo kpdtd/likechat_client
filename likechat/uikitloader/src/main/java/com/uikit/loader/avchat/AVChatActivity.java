@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.netease.nim.uikit.event.VoiceChatEstablishedEvent;
+import com.netease.nim.uikit.event.VoiceChatHangUpEvent;
 import com.uikit.loader.R;
 import com.uikit.loader.avchat.receiver.PhoneCallStateObserver;
 import com.uikit.loader.constant.CallStateEnum;
@@ -35,6 +37,8 @@ import com.netease.nimlib.sdk.avchat.model.AVChatOnlineAckEvent;
 import com.netease.nimlib.sdk.avchat.model.AVChatVideoFrame;
 
 import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by liujiye on 17/5/6.
@@ -359,6 +363,8 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
             {
                 activeMissCallNotifier();
             }
+
+            EventBus.getDefault().post(new VoiceChatHangUpEvent());
         }
     };
 
@@ -673,6 +679,9 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
             avChatUI.onCallStateChange(CallStateEnum.VIDEO);
         }
         isCallEstablished = true;
+
+        // 语音通话接通
+        EventBus.getDefault().post(new VoiceChatEstablishedEvent());
     }
 
     @Override
