@@ -141,41 +141,41 @@ public class AppData
         return userInfo;
     }
 
-    /**
-     * 登录后返回的用户id
-     * @param userId
-     */
-    public static void setCurUserId(int userId)
-    {
-        PreferUtil.setIntPreference(KEY_USER_ID, userId);
-    }
-
-    /**
-     * 登录后返回的用户id
-     * @return
-     */
-    public static int getCurUserId()
-    {
-        return PreferUtil.getIntPreference(KEY_USER_ID, -1);
-    }
-
-    /**
-     * qq或者微信登录后返回的openid
-     * @param openId
-     */
-    public static void setOpenId(String openId)
-    {
-        PreferUtil.setStringPreference(KEY_OPEN_ID, openId);
-    }
-
-    /**
-     * qq或者微信登录后返回的openid
-     * @return
-     */
-    public static String getOpenId()
-    {
-        return PreferUtil.getStringPreference(KEY_OPEN_ID);
-    }
+//    /**
+//     * 登录后返回的用户id
+//     * @param userId
+//     */
+//    public static void setCurUserId(int userId)
+//    {
+//        PreferUtil.setIntPreference(KEY_USER_ID, userId);
+//    }
+//
+//    /**
+//     * 登录后返回的用户id
+//     * @return
+//     */
+//    public static int getCurUserId()
+//    {
+//        return PreferUtil.getIntPreference(KEY_USER_ID, -1);
+//    }
+//
+//    /**
+//     * qq或者微信登录后返回的openid
+//     * @param openId
+//     */
+//    public static void setOpenId(String openId)
+//    {
+//        PreferUtil.setStringPreference(KEY_OPEN_ID, openId);
+//    }
+//
+//    /**
+//     * qq或者微信登录后返回的openid
+//     * @return
+//     */
+//    public static String getOpenId()
+//    {
+//        return PreferUtil.getStringPreference(KEY_OPEN_ID);
+//    }
 
     private final static String KEY_YUNXIN_ACCOUNT = "key_yunxin_account";
     private final static String KEY_YUNXIN_TOKEN = "key_yunxin_token";

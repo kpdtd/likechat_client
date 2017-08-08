@@ -16,7 +16,6 @@ import com.audio.miliao.R;
 import com.audio.miliao.dialog.CityPickerActivity;
 import com.audio.miliao.dialog.DatePickerActivity;
 import com.audio.miliao.dialog.LoadingDialog;
-import com.audio.miliao.entity.AppData;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.UpdateUserInfo;
@@ -28,6 +27,7 @@ import com.audio.miliao.util.StringUtil;
 import com.audio.miliao.vo.ActorPageVo;
 import com.audio.miliao.vo.ActorVo;
 import com.netease.nim.uikit.common.ui.widget.CircleImageView;
+import com.uikit.loader.entity.LoaderAppData;
 
 import java.io.File;
 import java.util.Calendar;
@@ -92,7 +92,7 @@ public class EditUserInfoActivity extends BaseActivity
         {
             initUI();
             //updateData();
-            FetchActorPage fetchActorPage = new FetchActorPage(handler(), AppData.getCurUserId(), null);
+            FetchActorPage fetchActorPage = new FetchActorPage(handler(), LoaderAppData.getCurUserId(), null);
             fetchActorPage.send();
         }
         catch (Exception e)

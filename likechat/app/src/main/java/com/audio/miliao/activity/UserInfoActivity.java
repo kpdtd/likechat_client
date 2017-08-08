@@ -22,6 +22,7 @@ import com.audio.miliao.vo.ActorPageVo;
 import com.audio.miliao.vo.ActorVo;
 import com.netease.nim.uikit.util.UIUtil;
 import com.netease.nim.uikit.util.ViewsUtil;
+import com.uikit.loader.entity.LoaderAppData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +144,7 @@ public class UserInfoActivity extends BaseActivity
             TextView textFollow = (TextView) findViewById(R.id.txt_user_info_follow);
             String text = textFollow.getText().toString();
 
-            int userId = AppData.getCurUserId();
+            int userId = LoaderAppData.getCurUserId();
             int actorId = mActorVoId;
 
             if (text.equals(follow))

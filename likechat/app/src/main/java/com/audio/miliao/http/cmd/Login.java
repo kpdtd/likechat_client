@@ -7,6 +7,7 @@ import com.audio.miliao.event.LoginEvent;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.vo.UserRegisterVo;
+import com.uikit.loader.entity.LoaderAppData;
 
 import org.json.JSONObject;
 
@@ -96,8 +97,8 @@ public class Login extends BaseReqRsp
         if (rspResultCode == HttpUtil.Result.OK)
         {
             AppData.setUserInfo(reqUserRegisterVo);
-            AppData.setOpenId(reqUserRegisterVo.getOpenId());
-            AppData.setCurUserId(rspUserId);
+            LoaderAppData.setOpenId(reqUserRegisterVo.getOpenId());
+            LoaderAppData.setCurUserId(rspUserId);
 
             event.setIsSucceed(true);
         }

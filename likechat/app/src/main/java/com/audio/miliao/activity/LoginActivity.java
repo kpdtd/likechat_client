@@ -216,23 +216,8 @@ public class LoginActivity extends BaseActivity
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
-                
-                finish();
 
-//                String strAccount;
-//                if (loginInfo.getAccount().equals(LoaderApp.TEST3.getAccount()))
-//                {
-//                    strAccount = LoaderApp.TEST4.getAccount();
-//                }
-//                else
-//                {
-//                    strAccount = LoaderApp.TEST3.getAccount();
-//                }
-////                mService.chat(strAccount);
-//
-//                Intent intent = new Intent(LoginActivity.this, P2PChatActivity.class);
-//                intent.putExtra(Extras.EXTRA_ACCOUNT, strAccount);
-//                startActivity(intent);
+                finish();
             }
 
             @Override
