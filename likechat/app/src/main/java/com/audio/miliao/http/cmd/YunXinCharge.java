@@ -22,6 +22,8 @@ public class YunXinCharge extends BaseReqRsp
     public long reqActorId;
     /** 本次通话在服务器产生的记录id，第一次传0即可，可从结果得到余额和计费记录id。后面每到一分钟实时扣费传入这个id */
     public long reqRecordId;
+    /** 本次通话在服务器产生的记录id，第一次传0即可，可从结果得到余额和计费记录id。后面每到一分钟实时扣费传入这个id */
+    public long rspRecordId;
 
     /**
      * 在接通主播后，应立即调用此接口进行计费<br/>
