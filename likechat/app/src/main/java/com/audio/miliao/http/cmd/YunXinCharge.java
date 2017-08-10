@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.util.JSONUtil;
 
 import org.json.JSONObject;
 
@@ -24,6 +25,8 @@ public class YunXinCharge extends BaseReqRsp
     public long reqRecordId;
     /** 本次通话在服务器产生的记录id，第一次传0即可，可从结果得到余额和计费记录id。后面每到一分钟实时扣费传入这个id */
     public long rspRecordId;
+    /** 余额 */
+    public long rspBalance;
 
     /**
      * 在接通主播后，应立即调用此接口进行计费<br/>
@@ -81,6 +84,10 @@ public class YunXinCharge extends BaseReqRsp
             rspResultCode = HttpUtil.Result.OK;
             try
             {
+                JSONObject json = new JSONObject(httpBody);
+                JSONObject jsonData = json.optJSONObject("data");
+                rspRecordId = JSONUtil.getLong(jsonData, "recordId");
+                rspBalance = JSONUtil.getLong(jsonData, "balance");
             }
             catch (Exception e)
             {

@@ -1,6 +1,7 @@
 package com.audio.miliao.fragment;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.YunXinCharge;
 import com.audio.miliao.http.cmd.YunXinHangUp;
 import com.audio.miliao.theApp;
+import com.audio.miliao.util.LogUtil;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.OnlineStateChangeListener;
 import com.netease.nim.uikit.cache.FriendDataCache;
@@ -94,6 +96,10 @@ public class LikechatRecentContactsFragment extends TFragment
 
     private UserInfoObservable.UserInfoObserver userInfoObserver;
 
+    /** 服务器产生的通话id */
+    private long mRecordId = 0;
+    private CountDownTimer mCountDownTimer;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -131,9 +137,7 @@ public class LikechatRecentContactsFragment extends TFragment
      */
     public void onEventMainThread(VoiceChatEstablishedEvent event)
     {
-        long actorId = LoaderAppData.getCurUserId();
-        YunXinCharge yunXinCharge = new YunXinCharge(handler, actorId, 0, null);
-        yunXinCharge.send();
+        chargeYunXin(0);
     }
 
     /**
@@ -143,6 +147,7 @@ public class LikechatRecentContactsFragment extends TFragment
      */
     public void onEventMainThread(VoiceChatHangUpEvent event)
     {
+        hangUpYunXin();
     }
 
     private void notifyDataSetChanged()
@@ -941,23 +946,67 @@ public class LikechatRecentContactsFragment extends TFragment
         @Override
         public void handleMessage(Message msg)
         {
-            switch (msg.what)
+            try
             {
-            case HttpUtil.RequestCode.YUNXIN_CHARGE:
-                YunXinCharge yunXinCharge = (YunXinCharge) msg.obj;
-                if (YunXinCharge.isSucceed(yunXinCharge))
+                switch (msg.what)
                 {
+                case HttpUtil.RequestCode.YUNXIN_CHARGE:
+                    YunXinCharge yunXinCharge = (YunXinCharge) msg.obj;
+                    if (YunXinCharge.isSucceed(yunXinCharge))
+                    {
+                        mRecordId = yunXinCharge.rspRecordId;
+                        if (mCountDownTimer == null)
+                        {
+                            mCountDownTimer = new CountDownTimer(55 * 1000, 1000)
+                            {
+                                @Override
+                                public void onTick(long millisUntilFinished)
+                                {
 
-                }
-                break;
-            case HttpUtil.RequestCode.YUNXIN_HANG_UP:
-                YunXinHangUp yunXinHangUp = (YunXinHangUp) msg.obj;
-                if (YunXinHangUp.isSucceed(yunXinHangUp))
-                {
+                                }
 
+                                @Override
+                                public void onFinish()
+                                {
+                                    chargeYunXin(mRecordId);
+                                }
+                            };
+                        }
+
+                        mCountDownTimer.start();
+                    }
+                    break;
+                case HttpUtil.RequestCode.YUNXIN_HANG_UP:
+                    YunXinHangUp yunXinHangUp = (YunXinHangUp) msg.obj;
+                    if (YunXinHangUp.isSucceed(yunXinHangUp))
+                    {
+                        if (mCountDownTimer != null)
+                        {
+                            mCountDownTimer.cancel();
+                            mCountDownTimer = null;
+                        }
+
+                        mRecordId = 0;
+                    }
+                    break;
                 }
-                break;
+            }
+            catch (Exception e)
+            {
+                LogUtil.d(e.toString());
             }
         }
     };
+
+    private void chargeYunXin(long recordId)
+    {
+        YunXinCharge yunXinCharge = new YunXinCharge(handler, LoaderAppData.getCurUserId(), recordId, null);
+        yunXinCharge.send();
+    }
+
+    private void hangUpYunXin()
+    {
+        YunXinHangUp yunXinHangUp = new YunXinHangUp(handler, mRecordId, null);
+        yunXinHangUp.send();
+    }
 }
