@@ -45,6 +45,9 @@ public class TabMainFragment extends BaseFragment
     private RadioGroup mRadioGroupTag;
     private List<TagVo> m_tagVoList;
     private String m_curTag;
+    private View m_footer;
+
+
 
     @Nullable
     @Override
@@ -165,22 +168,24 @@ public class TabMainFragment extends BaseFragment
     {
         try
         {
+
             if (m_adapter == null)
             {
                 View headerView = View.inflate(getActivity(), R.layout.list_header_main_banner, null);
-                //View footerView = View.inflate(getActivity(), R.layout.footer_load_more, null);
-//                footerView.findViewById(R.id.btn_click_load_more).setOnClickListener(new View.OnClickListener()
-//                {
-//                    @Override
-//                    public void onClick(View v)
-//                    {
-//                        v.setVisibility(View.GONE);
-//                    }
-//                });
+                m_footer = View.inflate(getActivity(), R.layout.footer_load_more, null);
+                m_footer.findViewById(R.id.lay_footer).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        v.findViewById(R.id.btn_click_load_more).setVisibility(View.GONE);
+                        v.findViewById(R.id.loading).setVisibility(View.VISIBLE);
+                        fetchHomeList();
+                    }
+                });
 
                 m_gridView.addHeaderView(headerView);
-                //m_gridView.addFooterView(footerView);
-
+                m_gridView.addFooterView(m_footer);
 
                 m_adapter = new ActorAdapter(getActivity(), m_actorVoList);
                 m_gridView.setAdapter(m_adapter);
@@ -190,8 +195,13 @@ public class TabMainFragment extends BaseFragment
             {
                 m_adapter.updateData(m_actorVoList);
                 m_adapter.notifyDataSetChanged();
+
+                m_footer.findViewById(R.id.btn_click_load_more).setVisibility(View.VISIBLE);
+                m_footer.findViewById(R.id.loading).setVisibility(View.GONE);
             }
         }
+
+
         catch (Exception e)
         {
             e.printStackTrace();
@@ -215,6 +225,7 @@ public class TabMainFragment extends BaseFragment
                 @Override
                 public void onClick(View v)
                 {
+                    m_actorVoList=new ArrayList<>();
                     TagVo tagVo = (TagVo) v.getTag();
                     if (tagVo != null)
                     {
@@ -266,7 +277,7 @@ public class TabMainFragment extends BaseFragment
             FetchActorListByTag fetchActorListByTag = (FetchActorListByTag) msg.obj;
             if (FetchActorListByTag.isSucceed(fetchActorListByTag))
             {
-                m_actorVoList = fetchActorListByTag.rspActorVos;
+                m_actorVoList.addAll(fetchActorListByTag.rspActorVos);
                 updateData();
             }
             else
@@ -283,5 +294,12 @@ public class TabMainFragment extends BaseFragment
             m_curTag = fetchActorListByTag.reqTag;
             break;
         }
+    }
+
+    private void fetchHomeList()
+    {
+        //看当前是哪个tag
+        FetchActorListByTag fetchActorListByTag = new FetchActorListByTag(handler(), m_curTag, null);
+        fetchActorListByTag.send();
     }
 }
