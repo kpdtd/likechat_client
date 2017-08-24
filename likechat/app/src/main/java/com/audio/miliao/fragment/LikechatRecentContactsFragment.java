@@ -1,6 +1,9 @@
 package com.audio.miliao.fragment;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.audio.miliao.adapter.LikechatRecentMessageAdapter;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.YunXinCharge;
+import com.audio.miliao.http.cmd.YunXinHangUp;
 import com.audio.miliao.theApp;
+import com.audio.miliao.util.LogUtil;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.OnlineStateChangeListener;
 import com.netease.nim.uikit.cache.FriendDataCache;
@@ -22,6 +29,8 @@ import com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog;
 import com.netease.nim.uikit.common.ui.drop.DropCover;
 import com.netease.nim.uikit.common.ui.drop.DropManager;
 import com.netease.nim.uikit.common.ui.recyclerview.listener.SimpleClickListener;
+import com.netease.nim.uikit.event.VoiceChatEstablishedEvent;
+import com.netease.nim.uikit.event.VoiceChatHangUpEvent;
 import com.netease.nim.uikit.recent.AitHelper;
 import com.netease.nim.uikit.recent.RecentContactsCallback;
 import com.netease.nim.uikit.recent.adapter.RecentContactAdapter;
@@ -42,6 +51,7 @@ import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
+import com.uikit.loader.entity.LoaderAppData;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,6 +96,10 @@ public class LikechatRecentContactsFragment extends TFragment
 
     private UserInfoObservable.UserInfoObserver userInfoObserver;
 
+    /** 服务器产生的通话id */
+    private long mRecordId = 0;
+    private CountDownTimer mCountDownTimer;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -114,6 +128,26 @@ public class LikechatRecentContactsFragment extends TFragment
     public void onEventMainThread(String event)
     {
         theApp.showToast(event);
+    }
+
+    /**
+     * 语音接通消息
+     *
+     * @param event
+     */
+    public void onEventMainThread(VoiceChatEstablishedEvent event)
+    {
+        chargeYunXin(0);
+    }
+
+    /**
+     * 语音挂断消息
+     *
+     * @param event
+     */
+    public void onEventMainThread(VoiceChatHangUpEvent event)
+    {
+        hangUpYunXin();
     }
 
     private void notifyDataSetChanged()
@@ -905,6 +939,74 @@ public class LikechatRecentContactsFragment extends TFragment
                 }
             }
         });
+    }
 
+    private Handler handler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            try
+            {
+                switch (msg.what)
+                {
+                case HttpUtil.RequestCode.YUNXIN_CHARGE:
+                    YunXinCharge yunXinCharge = (YunXinCharge) msg.obj;
+                    if (YunXinCharge.isSucceed(yunXinCharge))
+                    {
+                        mRecordId = yunXinCharge.rspRecordId;
+                        if (mCountDownTimer == null)
+                        {
+                            mCountDownTimer = new CountDownTimer(55 * 1000, 1000)
+                            {
+                                @Override
+                                public void onTick(long millisUntilFinished)
+                                {
+
+                                }
+
+                                @Override
+                                public void onFinish()
+                                {
+                                    chargeYunXin(mRecordId);
+                                }
+                            };
+                        }
+
+                        mCountDownTimer.start();
+                    }
+                    break;
+                case HttpUtil.RequestCode.YUNXIN_HANG_UP:
+                    YunXinHangUp yunXinHangUp = (YunXinHangUp) msg.obj;
+                    if (YunXinHangUp.isSucceed(yunXinHangUp))
+                    {
+                        if (mCountDownTimer != null)
+                        {
+                            mCountDownTimer.cancel();
+                            mCountDownTimer = null;
+                        }
+
+                        mRecordId = 0;
+                    }
+                    break;
+                }
+            }
+            catch (Exception e)
+            {
+                LogUtil.d(e.toString());
+            }
+        }
+    };
+
+    private void chargeYunXin(long recordId)
+    {
+        YunXinCharge yunXinCharge = new YunXinCharge(handler, LoaderAppData.getCurUserId(), recordId, null);
+        yunXinCharge.send();
+    }
+
+    private void hangUpYunXin()
+    {
+        YunXinHangUp yunXinHangUp = new YunXinHangUp(handler, mRecordId, null);
+        yunXinHangUp.send();
     }
 }
