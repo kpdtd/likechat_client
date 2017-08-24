@@ -24,8 +24,8 @@ import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.FileUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
-import com.audio.miliao.vo.ActorPageVo;
-import com.audio.miliao.vo.ActorVo;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
+import com.netease.nim.uikit.miliao.vo.ActorVo;
 import com.netease.nim.uikit.common.ui.widget.CircleImageView;
 import com.uikit.loader.entity.LoaderAppData;
 

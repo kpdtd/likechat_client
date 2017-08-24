@@ -5,11 +5,10 @@ import android.os.Message;
 import com.audio.miliao.R;
 import com.audio.miliao.activity.UserFriendActivity;
 import com.audio.miliao.adapter.FriendAdapter;
-import com.audio.miliao.event.CancelAttentionEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchMyFriends;
 import com.audio.miliao.theApp;
-import com.audio.miliao.vo.ActorVo;
+import com.netease.nim.uikit.miliao.vo.ActorVo;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.audio.miliao.R;
 import com.audio.miliao.activity.UserInfoActivity;
 import com.audio.miliao.event.CancelAttentionEvent;
-import com.audio.miliao.vo.ActorVo;
+import com.netease.nim.uikit.miliao.vo.ActorVo;
 
 import java.util.List;
 

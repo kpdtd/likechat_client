@@ -14,8 +14,8 @@ import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.AlipayUtil;
 import com.audio.miliao.util.WXUtil;
-import com.audio.miliao.vo.AccountBalanceVo;
-import com.audio.miliao.vo.GoodsVo;
+import com.netease.nim.uikit.miliao.vo.AccountBalanceVo;
+import com.netease.nim.uikit.miliao.vo.GoodsVo;
 
 import java.util.ArrayList;
 import java.util.List;

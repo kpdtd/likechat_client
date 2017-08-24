@@ -1,6 +1,10 @@
 package com.uikit.loader.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -179,5 +183,71 @@ public class UIUtil
 		catch (Exception e)
 		{
 		}
+	}
+
+	/**
+	 * 模糊背景<br/>这个操作最好放在线程中执行
+	 *
+	 * @param bitmap 需要模糊的图片
+	 * @param width 模糊后图片的宽
+	 * @param height 模糊后图片的高
+	 * @param fastBlur 是否快速模糊
+	 */
+	public static Bitmap blurView(final Bitmap bitmap, int width, int height, final boolean fastBlur)
+	{
+		try
+		{
+			float scaleFactor = 1;
+			float radius = 20;
+			if (fastBlur)
+			{
+				scaleFactor = 4;
+				radius = 5;
+			}
+
+//			int width = (int) (view.getMeasuredWidth() / scaleFactor);
+//			int height = (int) (view.getMeasuredHeight() / scaleFactor);
+			if (width == 0 || height == 0)
+			{
+				return null;
+			}
+			Bitmap overlay = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+			int color = Color.parseColor("#FbFbFb");
+			for (int i = 0; i < width; i++)
+			{
+				for (int j = 0; j < height; j++)
+				{
+					overlay.setPixel(i, j, color);
+				}
+			}
+			Canvas canvas = new Canvas(overlay);
+			//canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);
+			canvas.translate(0, 0);
+			canvas.scale(1 / scaleFactor, 1 / scaleFactor);
+			Paint paint = new Paint();
+			paint.setFlags(Paint.FILTER_BITMAP_FLAG);
+			canvas.drawBitmap(bitmap, 0, 0, paint);
+
+			overlay = FastBlur.doBlur(overlay, (int) radius, true);
+			Bitmap bluredBitmap = overlay;
+			return bluredBitmap;
+//			m_handler.post(new Runnable()
+//			{
+//				@Override
+//				public void run()
+//				{
+//					if (view != null)
+//					{
+//						view.setBackgroundDrawable(new BitmapDrawable(getActivity().getResources(), bluredBitmap));
+//					}
+//				}
+//			});
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }

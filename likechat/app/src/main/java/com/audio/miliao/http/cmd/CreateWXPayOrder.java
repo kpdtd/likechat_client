@@ -6,8 +6,8 @@ import android.util.Log;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
-import com.audio.miliao.vo.WeChatUnifiedOrderReqVo;
-import com.audio.miliao.vo.WeChatUnifiedOrderReturnVo;
+import com.netease.nim.uikit.miliao.vo.WeChatUnifiedOrderReqVo;
+import com.netease.nim.uikit.miliao.vo.WeChatUnifiedOrderReturnVo;
 
 import org.json.JSONObject;
 

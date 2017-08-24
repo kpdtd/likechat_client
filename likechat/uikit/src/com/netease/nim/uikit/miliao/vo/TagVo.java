@@ -1,6 +1,7 @@
-package com.audio.miliao.vo;
+package com.netease.nim.uikit.miliao.vo;
 
-import com.audio.miliao.entity.GsonObj;
+
+import com.netease.nim.uikit.miliao.entity.GsonObj;
 
 public class TagVo extends GsonObj<TagVo>
 {

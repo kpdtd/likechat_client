@@ -148,6 +148,11 @@ public class LikechatRecentContactsFragment extends TFragment
     public void onEventMainThread(VoiceChatHangUpEvent event)
     {
         hangUpYunXin();
+        if (mCountDownTimer != null)
+        {
+            mCountDownTimer.cancel();
+            mCountDownTimer = null;
+        }
     }
 
     private void notifyDataSetChanged()
@@ -968,6 +973,7 @@ public class LikechatRecentContactsFragment extends TFragment
                                 @Override
                                 public void onFinish()
                                 {
+                                    // 倒计时结束，再次扣费
                                     chargeYunXin(mRecordId);
                                 }
                             };
@@ -975,17 +981,15 @@ public class LikechatRecentContactsFragment extends TFragment
 
                         mCountDownTimer.start();
                     }
+                    else
+                    {
+
+                    }
                     break;
                 case HttpUtil.RequestCode.YUNXIN_HANG_UP:
                     YunXinHangUp yunXinHangUp = (YunXinHangUp) msg.obj;
                     if (YunXinHangUp.isSucceed(yunXinHangUp))
                     {
-                        if (mCountDownTimer != null)
-                        {
-                            mCountDownTimer.cancel();
-                            mCountDownTimer = null;
-                        }
-
                         mRecordId = 0;
                     }
                     break;

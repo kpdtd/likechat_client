@@ -18,10 +18,13 @@ import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
-import com.audio.miliao.vo.ActorPageVo;
-import com.audio.miliao.vo.ActorVo;
-import com.netease.nim.uikit.util.UIUtil;
-import com.netease.nim.uikit.util.ViewsUtil;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.miliao.util.UIUtil;
+import com.netease.nim.uikit.miliao.util.ViewsUtil;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
+import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
+import com.uikit.loader.avchat.AVChatActivity;
 import com.uikit.loader.entity.LoaderAppData;
 
 import java.util.ArrayList;
@@ -36,7 +39,7 @@ import de.greenrobot.event.EventBus;
  */
 public class UserInfoActivity extends BaseActivity
 {
-    private int mActorVoId;
+    private int m_actorVoId;
     private ActorVo m_actorVo;
     private ActorPageVo m_actorPage;
 
@@ -50,14 +53,14 @@ public class UserInfoActivity extends BaseActivity
             if (getIntent().hasExtra("user"))
             {
                 m_actorVo = (ActorVo) getIntent().getSerializableExtra("user");
-                mActorVoId = m_actorVo.getId();
+                m_actorVoId = m_actorVo.getId();
             }
             else if (getIntent().hasExtra("sessionId"))
             {
                 String sessionId = getIntent().getStringExtra("sessionId");
-                mActorVoId = Integer.valueOf(sessionId);
+                m_actorVoId = Integer.valueOf(sessionId);
             }
-            FetchActorPage fetchActor = new FetchActorPage(handler(), mActorVoId, null);
+            FetchActorPage fetchActor = new FetchActorPage(handler(), m_actorVoId, null);
             fetchActor.send();
 
             initUI();
@@ -93,15 +96,33 @@ public class UserInfoActivity extends BaseActivity
 
                         // 嗨聊
                         case R.id.lay_voice_chat:
-                            Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
-                            intentVoice.putExtra("user", m_actorPage);
-                            startActivity(intentVoice);
+//                            Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
+//                            intentVoice.putExtra("user", m_actorPage);
+//                            startActivity(intentVoice);
+                            if (m_actorVo != null)
+                            {
+                                //NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken());
+                                AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                            }
+                            else
+                            {
+                                //NimUIKit.startP2PSession(UserInfoActivity.this, String.valueOf(m_actorVoId));
+                                AVChatActivity.launch(UserInfoActivity.this, String.valueOf(m_actorVoId), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                            }
                             break;
                         // 文字聊天
                         case R.id.lay_text_chat:
-                            Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
-                            intentText.putExtra("user", m_actorPage);
-                            startActivity(intentText);
+//                            Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
+//                            intentText.putExtra("user", m_actorPage);
+//                            startActivity(intentText);
+                            if (m_actorVo != null)
+                            {
+                                NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken());
+                            }
+                            else
+                            {
+                                NimUIKit.startP2PSession(UserInfoActivity.this, String.valueOf(m_actorVoId));
+                            }
                             break;
                         // 关注
                         case R.id.lay_follow:
@@ -145,7 +166,7 @@ public class UserInfoActivity extends BaseActivity
             String text = textFollow.getText().toString();
 
             int userId = LoaderAppData.getCurUserId();
-            int actorId = mActorVoId;
+            int actorId = m_actorVoId;
 
             if (text.equals(follow))
             {
@@ -375,7 +396,7 @@ public class UserInfoActivity extends BaseActivity
             txtName.setText(m_actorPage.getNickname());
             txtAge.setText(String.valueOf(m_actorPage.getAge()));
             String strId = getString(R.string.txt_user_info_like_chat_id);
-            txtId.setText(strId + mActorVoId);
+            txtId.setText(strId + m_actorVoId);
             txtCity.setText(m_actorPage.getCity());
             String strFansFollow = getString(R.string.txt_user_info_fans_count);
             strFansFollow += m_actorPage.getFans() + "  ";

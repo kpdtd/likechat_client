@@ -1,4 +1,4 @@
-package com.netease.nim.uikit.util;
+package com.netease.nim.uikit.miliao.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

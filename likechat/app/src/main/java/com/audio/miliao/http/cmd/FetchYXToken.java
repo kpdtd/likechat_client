@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.netease.nim.uikit.miliao.vo.YunxinTokenVo;
 
 import org.json.JSONObject;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class FetchYXToken extends BaseReqRsp
 {
     public String reqOpenId;
+    public YunxinTokenVo rspYxToken;
 
     /**
      * 获取云信Token<br/>
@@ -72,6 +74,9 @@ public class FetchYXToken extends BaseReqRsp
             rspResultCode = HttpUtil.Result.OK;
             try
             {
+                JSONObject jsonObject = new JSONObject(httpBody);
+                JSONObject jsonData = jsonObject.optJSONObject("data");
+                rspYxToken = YunxinTokenVo.parse(jsonData, YunxinTokenVo.class);
             }
             catch (Exception e)
             {

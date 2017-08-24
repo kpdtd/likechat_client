@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.entity.Zone;
 import com.audio.miliao.util.ImageLoaderUtil;
-import com.audio.miliao.vo.ActorDynamicVo;
+import com.netease.nim.uikit.miliao.vo.ActorDynamicVo;
 
 import java.util.ArrayList;
 import java.util.List;

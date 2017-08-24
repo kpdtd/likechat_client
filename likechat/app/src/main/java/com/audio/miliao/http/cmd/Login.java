@@ -6,7 +6,7 @@ import com.audio.miliao.entity.AppData;
 import com.audio.miliao.event.LoginEvent;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.vo.UserRegisterVo;
+import com.netease.nim.uikit.miliao.vo.UserRegisterVo;
 import com.uikit.loader.entity.LoaderAppData;
 
 import org.json.JSONObject;

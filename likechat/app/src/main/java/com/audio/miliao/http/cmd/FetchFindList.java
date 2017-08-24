@@ -7,7 +7,7 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.JSONUtil;
 import com.audio.miliao.util.StringUtil;
-import com.audio.miliao.vo.ActorDynamicVo;
+import com.netease.nim.uikit.miliao.vo.ActorDynamicVo;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

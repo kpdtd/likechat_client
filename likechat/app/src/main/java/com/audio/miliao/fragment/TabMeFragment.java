@@ -24,8 +24,8 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchMineInfo;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.ImageLoaderUtil;
-import com.audio.miliao.vo.ActorVo;
-import com.netease.nim.uikit.util.ViewsUtil;
+import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.netease.nim.uikit.miliao.util.ViewsUtil;
 
 /**
  * 主界面中的我的界面

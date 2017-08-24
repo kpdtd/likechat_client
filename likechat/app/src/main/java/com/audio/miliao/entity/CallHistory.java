@@ -1,6 +1,6 @@
 package com.audio.miliao.entity;
 
-import com.audio.miliao.vo.ActorVo;
+import com.netease.nim.uikit.miliao.vo.ActorVo;
 
 import java.io.Serializable;
 

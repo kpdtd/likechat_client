@@ -1,6 +1,6 @@
 package com.audio.miliao.pay.alipay;
 
-import com.audio.miliao.entity.GsonObj;
+import com.netease.nim.uikit.miliao.entity.GsonObj;
 
 /**
  * Created by liujiye-pc on 2017/7/11.

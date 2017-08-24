@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.netease.nim.uikit.cache.NimUserInfoCache;
 import com.netease.nim.uikit.common.ui.imageview.HeadImageView;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
-import com.netease.nim.uikit.util.ViewsUtil;
+import com.netease.nim.uikit.miliao.util.ViewsUtil;
 import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.uikit.loader.LoaderApp;

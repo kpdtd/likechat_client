@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.audio.miliao.util.DbFieldUtil;
-import com.audio.miliao.vo.ActorVo;
+import com.netease.nim.uikit.miliao.vo.ActorVo;
 
 import org.json.JSONObject;
 

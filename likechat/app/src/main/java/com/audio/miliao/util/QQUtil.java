@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.audio.miliao.http.cmd.Login;
 import com.audio.miliao.theApp;
-import com.audio.miliao.vo.UserRegisterVo;
+import com.netease.nim.uikit.miliao.vo.UserRegisterVo;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQToken;
 import com.tencent.tauth.IUiListener;

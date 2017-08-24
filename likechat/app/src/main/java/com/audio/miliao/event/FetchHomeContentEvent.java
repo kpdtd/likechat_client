@@ -1,8 +1,8 @@
 package com.audio.miliao.event;
 
-import com.audio.miliao.vo.ActorVo;
-import com.audio.miliao.vo.BannerVo;
-import com.audio.miliao.vo.TagVo;
+import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.netease.nim.uikit.miliao.vo.BannerVo;
+import com.netease.nim.uikit.miliao.vo.TagVo;
 
 import java.util.List;
 

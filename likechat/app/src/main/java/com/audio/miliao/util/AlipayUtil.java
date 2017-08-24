@@ -13,8 +13,8 @@ import com.audio.miliao.pay.alipay.AlipayReq;
 import com.audio.miliao.pay.alipay.Constant;
 import com.audio.miliao.pay.alipay.OrderInfoUtil2_0;
 import com.audio.miliao.pay.alipay.PayResult;
-import com.audio.miliao.vo.GoodsVo;
-import com.audio.miliao.vo.PayInfoVo;
+import com.netease.nim.uikit.miliao.vo.GoodsVo;
+import com.netease.nim.uikit.miliao.vo.PayInfoVo;
 import com.uikit.loader.entity.LoaderAppData;
 
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.audio.miliao.entity;
+package com.netease.nim.uikit.miliao.entity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
