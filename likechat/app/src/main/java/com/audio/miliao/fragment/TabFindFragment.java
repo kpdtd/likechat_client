@@ -72,7 +72,7 @@ public class TabFindFragment extends BaseFragment
             m_root = inflater.inflate(R.layout.fragment_tab_find, container, false);
 
             initUI(m_root);
-            fetchFindList();
+            fetchFindList("header");
             //updateData();
         }
 
@@ -157,21 +157,21 @@ public class TabFindFragment extends BaseFragment
                             //m_adapter.updateData(m_sortByDate.sort(m_adapter.getZones()));
                             //m_adapter.notifyDataSetChanged();
                             mFetchFindListTag = FetchFindList.LATEST;
-                            fetchFindList();
+                            fetchFindList("header");
                             break;
                         // 热门
                         case R.id.rdo_find_hot:
                             //m_adapter.updateData(m_sortByWatch.sort(m_adapter.getZones()));
                             //m_adapter.notifyDataSetChanged();
                             mFetchFindListTag = FetchFindList.HOT;
-                            fetchFindList();
+                            fetchFindList("header");
                             break;
                         // 关注
                         case R.id.rdo_find_follow:
                             //m_adapter.updateData(m_sortByFollow.sort(m_adapter.getZones()));
                             //m_adapter.notifyDataSetChanged();
                             mFetchFindListTag = FetchFindList.FOCUS;
-                            fetchFindList();
+                            fetchFindList("header");
                             break;
                         }
                     }
@@ -192,9 +192,13 @@ public class TabFindFragment extends BaseFragment
         }
     }
 
-    private void fetchFindList()
+    /**
+     *
+     * @param strFrom 是点击哪个按钮触发的获取列表 (点击标题栏上的最新、热关注或者点击加载更多)
+     */
+    private void fetchFindList(String strFrom)
     {
-        FetchFindList fetchFindList = new FetchFindList(handler(), mFetchFindListTag, mStamp, null);
+        FetchFindList fetchFindList = new FetchFindList(handler(), mFetchFindListTag, mStamp, strFrom);
         fetchFindList.send();
     }
 
@@ -213,7 +217,7 @@ public class TabFindFragment extends BaseFragment
                     {
                         v.findViewById(R.id.btn_click_load_more).setVisibility(View.GONE);
                         v.findViewById(R.id.loading).setVisibility(View.VISIBLE);
-                        fetchFindList();
+                        fetchFindList("footer");
                     }
                 });
 
@@ -332,10 +336,25 @@ public class TabFindFragment extends BaseFragment
             FetchFindList fetchFindList = (FetchFindList) msg.obj;
             if (FetchFindList.isSucceed(fetchFindList))
             {
-                mStamp = fetchFindList.rspStamp;
-                mHasNextPage = fetchFindList.rspHasNextPage;
-                m_actorDynamicVos.addAll(fetchFindList.rspActorDynamicVos);
-                updateData();
+                if (fetchFindList.rspCallBackTag != null)
+                {
+                    String strCallbackTag = (String) fetchFindList.rspCallBackTag;
+                    if (strCallbackTag.equals("header"))
+                    {
+                        mStamp = fetchFindList.rspStamp;
+                        mHasNextPage = fetchFindList.rspHasNextPage;
+                        m_actorDynamicVos.clear();
+                        m_actorDynamicVos.addAll(fetchFindList.rspActorDynamicVos);
+                        updateData();
+                    }
+                    else if (strCallbackTag.equalsIgnoreCase("footer"))
+                    {
+                        mStamp = fetchFindList.rspStamp;
+                        mHasNextPage = fetchFindList.rspHasNextPage;
+                        m_actorDynamicVos.addAll(fetchFindList.rspActorDynamicVos);
+                        updateData();
+                    }
+                }
             }
             else
             {

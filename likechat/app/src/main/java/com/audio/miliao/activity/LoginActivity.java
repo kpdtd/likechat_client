@@ -238,6 +238,10 @@ public class LoginActivity extends BaseActivity
     {
         try
         {
+            // 云信的account和token都是openId
+            LoaderAppData.setYunXinAccount(AppData.getUserInfo().getOpenId());
+            LoaderAppData.setYunXinToken(AppData.getUserInfo().getOpenId());
+
             Intent intentMain = new Intent(this, MainActivity.class);
             startActivity(intentMain);
 
