@@ -186,6 +186,17 @@ public class UserZoneActivity extends BaseActivity
                             startActivity(intentText);
                         }
                     }
+
+                    /**
+                     * 点击头像
+                     *
+                     * @param actorDynamicVo
+                     */
+                    @Override
+                    public void onAvatarClick(ActorDynamicVo actorDynamicVo)
+                    {
+
+                    }
                 });
             }
             else

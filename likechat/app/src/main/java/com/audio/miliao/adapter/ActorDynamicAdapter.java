@@ -152,6 +152,18 @@ public class ActorDynamicAdapter extends BaseAdapter
                 holder.text.setText(actorDynamicVo.getContent());
                 holder.watch.setText(actorDynamicVo.getPageView() + m_parent.getString(R.string.txt_zone_watch));
                 ImageLoaderUtil.displayListAvatarImage(holder.avatar, actorDynamicVo.getImgUrl());
+                holder.avatar.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        if (null != m_onClickListener)
+                        {
+                            m_onClickListener.onAvatarClick(actorDynamicVo);
+                        }
+                    }
+                });
+
                 ImageView vThumb;
 
                 int visibility = (m_bShowDelete ? View.VISIBLE : View.GONE);
@@ -555,5 +567,11 @@ public class ActorDynamicAdapter extends BaseAdapter
          * @param actorDynamicVo
          */
         void onVideoClick(ActorDynamicVo actorDynamicVo);
+
+        /**
+         * 点击头像
+         * @param actorDynamicVo
+         */
+        void onAvatarClick(ActorDynamicVo actorDynamicVo);
     }
 }

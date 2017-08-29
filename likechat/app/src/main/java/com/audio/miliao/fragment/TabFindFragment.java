@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.activity.ImageBrowseActivity;
+import com.audio.miliao.activity.UserInfoActivity;
 import com.audio.miliao.activity.WatchVideoActivity;
 import com.audio.miliao.adapter.ActorDynamicAdapter;
 import com.audio.miliao.algorithm.SortByDate;
@@ -304,6 +305,19 @@ public class TabFindFragment extends BaseFragment
                             AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
                             addDynamicPageView.send();
                         }
+                    }
+
+                    /**
+                     * 点击头像
+                     *
+                     * @param actorDynamicVo
+                     */
+                    @Override
+                    public void onAvatarClick(ActorDynamicVo actorDynamicVo)
+                    {
+                        Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                        intent.putExtra("sessionId", String.valueOf(actorDynamicVo.getActorId()));
+                        startActivity(intent);
                     }
                 });
             }
