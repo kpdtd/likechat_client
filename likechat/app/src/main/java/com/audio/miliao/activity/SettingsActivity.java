@@ -1,9 +1,13 @@
 package com.audio.miliao.activity;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
+import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchCustomerService;
 import com.audio.miliao.http.cmd.FetchHomeContent;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.ImageLoaderUtil;
@@ -13,6 +17,8 @@ import com.audio.miliao.util.ImageLoaderUtil;
  */
 public class SettingsActivity extends BaseActivity
 {
+    private TextView mTxtCustomInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -22,6 +28,9 @@ public class SettingsActivity extends BaseActivity
         try
         {
             initUI();
+
+            FetchCustomerService fetchCustomerService = new FetchCustomerService(handler(), null);
+            fetchCustomerService.send();
         }
         catch (Exception e)
         {
@@ -33,6 +42,8 @@ public class SettingsActivity extends BaseActivity
     {
         try
         {
+            mTxtCustomInfo = (TextView) findViewById(R.id.txt_settings_q_group);
+
             View.OnClickListener clickListener = new View.OnClickListener()
             {
                 @Override
@@ -92,5 +103,20 @@ public class SettingsActivity extends BaseActivity
     private void clearCache()
     {
         ImageLoaderUtil.getInstance().clearDiskCache();
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_CUSTOM_SERVICE:
+            FetchCustomerService fetchCustomerService = (FetchCustomerService) msg.obj;
+            if (FetchCustomerService.isSucceed(fetchCustomerService))
+            {
+                mTxtCustomInfo.setText(fetchCustomerService.rspCustomInfo);
+            }
+            break;
+        }
     }
 }

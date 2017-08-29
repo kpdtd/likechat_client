@@ -97,6 +97,8 @@ public class HttpUtil
         public static final int YUNXIN_HANG_UP = 21;
         /** 获取主播动态 */
         public static final int FETCH_ACTOR_DYNAMIC_LIST = 22;
+        /** 获取客服信息 */
+        public static final int FETCH_CUSTOM_SERVICE = 23;
     }
 
     /** 请求类型 */
