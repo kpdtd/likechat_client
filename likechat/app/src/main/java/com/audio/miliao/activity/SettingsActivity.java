@@ -3,9 +3,11 @@ package com.audio.miliao.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.audio.miliao.R;
 import com.audio.miliao.http.cmd.FetchHomeContent;
+import com.audio.miliao.util.PreferUtil;
 
 /**
  * 设置
@@ -39,19 +41,22 @@ public class SettingsActivity extends BaseActivity
                 {
                     switch (v.getId())
                     {
+                        case R.id.img_back:
+                            finish();
+                            break;
                     case R.id.lay_contact_us:
                         FetchHomeContent addAttention = new FetchHomeContent(null, null);
                         addAttention.send();
                         break;
                     case R.id.txt_settings_clear_cache:
-                        Intent intentText = new Intent(SettingsActivity.this, PhotoSelectorActivity.class);
-                        intentText.putExtra("urls", "[]");
-                        startActivity(intentText);
+                        PreferUtil.clearAll();
+                        Toast.makeText(SettingsActivity.this, "缓存已清空", Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }
             };
 
+            findViewById(R.id.img_back).setOnClickListener(clickListener);
             findViewById(R.id.txt_settings_clear_cache).setOnClickListener(clickListener);
             findViewById(R.id.lay_contact_us).setOnClickListener(clickListener);
         }
