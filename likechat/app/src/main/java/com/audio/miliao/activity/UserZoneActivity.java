@@ -2,6 +2,7 @@ package com.audio.miliao.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -9,11 +10,13 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.ActorDynamicAdapter;
-import com.audio.miliao.entity.AppData;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchActorDynamicList;
+import com.audio.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
 import com.netease.nim.uikit.miliao.util.UIUtil;
 import com.netease.nim.uikit.miliao.vo.ActorDynamicVo;
-import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +26,14 @@ import java.util.List;
  */
 public class UserZoneActivity extends BaseActivity
 {
-    private ActorVo m_actor;
+    private ActorPageVo m_actorPage;
     private ListView m_list;
+    private View m_footer;
     private ActorDynamicAdapter m_adapter;
     private List<ActorDynamicVo> m_actorDynamicVos = new ArrayList<>();
+
+    private boolean mHasNextPage = false;
+    private String mStamp = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,10 +42,11 @@ public class UserZoneActivity extends BaseActivity
         setContentView(R.layout.activity_user_zone);
         try
         {
-            m_actor = (ActorVo) getIntent().getSerializableExtra("user");
+            m_actorPage = (ActorPageVo) getIntent().getSerializableExtra("actor_page");
 
             initUI();
-            updateData();
+            //updateData();
+            fetchData();
         }
         catch (Exception e)
         {
@@ -59,10 +67,10 @@ public class UserZoneActivity extends BaseActivity
                     {
                         switch (v.getId())
                         {
-                            // 关注
-                            case R.id.img_back:
-                                finish();
-                                break;
+                        // 关注
+                        case R.id.img_back:
+                            finish();
+                            break;
                         }
                     }
                     catch (Exception e)
@@ -85,19 +93,19 @@ public class UserZoneActivity extends BaseActivity
                     {
                         switch (scrollState)
                         {
-                            //停止滚动
-                            case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                                m_adapter.setScrolling(false);
-                                m_adapter.notifyDataSetChanged();
-                                break;
-                            //滚动做出了抛的动作
-                            case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                                m_adapter.setScrolling(true);
-                                break;
-                            //正在滚动
-                            case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                                m_adapter.setScrolling(true);
-                                break;
+                        //停止滚动
+                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                            m_adapter.setScrolling(false);
+                            m_adapter.notifyDataSetChanged();
+                            break;
+                        //滚动做出了抛的动作
+                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                            m_adapter.setScrolling(true);
+                            break;
+                        //正在滚动
+                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                            m_adapter.setScrolling(true);
+                            break;
                         }
                     }
                     catch (Exception e)
@@ -123,16 +131,30 @@ public class UserZoneActivity extends BaseActivity
     {
         try
         {
-            if (m_actor == null)
+            if (m_actorPage == null)
             {
                 return;
             }
 
-            //List<Zone> lstZone = DebugUtil.getZonesByAnchor(m_actor);
+            //List<Zone> lstZone = DebugUtil.getZonesByAnchor(m_actorPage);
             if (m_adapter == null)
             {
+                m_footer = View.inflate(this, R.layout.footer_load_more, null);
+                m_footer.findViewById(R.id.lay_footer).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        v.findViewById(R.id.btn_click_load_more).setVisibility(View.GONE);
+                        v.findViewById(R.id.loading).setVisibility(View.VISIBLE);
+                        fetchData();
+                    }
+                });
+
+                m_list.addFooterView(m_footer);
                 m_adapter = new ActorDynamicAdapter(UserZoneActivity.this, m_actorDynamicVos);
                 m_list.setAdapter(m_adapter);
+                m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
 
                 m_adapter.setOnClickListener(new ActorDynamicAdapter.OnClickListener()
                 {
@@ -172,23 +194,58 @@ public class UserZoneActivity extends BaseActivity
                 m_adapter.notifyDataSetChanged();
             }
 
-            TextView txtTitle = (TextView) findViewById(R.id.txt_title);
-            String strTitle = getString(R.string.title_user_zone_at);
-            if (AppData.isCurUser(m_actor))
+            if (mHasNextPage)
             {
-                String strMe = getString(R.string.txt_zone_me);
-                txtTitle.setText(strMe + strTitle);
-                m_adapter.setShowDelete(true);
+                m_footer.findViewById(R.id.btn_click_load_more).setVisibility(View.VISIBLE);
+                m_footer.findViewById(R.id.loading).setVisibility(View.GONE);
             }
             else
             {
-                txtTitle.setText(m_actor.getNickname() + strTitle);
+                m_footer.findViewById(R.id.btn_click_load_more).setVisibility(View.GONE);
+                m_footer.findViewById(R.id.loading).setVisibility(View.GONE);
+            }
+
+            TextView txtTitle = (TextView) findViewById(R.id.txt_title);
+            String strTitle = getString(R.string.title_user_zone_at);
+//            if (AppData.isCurUser(m_actorPage))
+//            {
+//                String strMe = getString(R.string.txt_zone_me);
+//                txtTitle.setText(strMe + strTitle);
+//                m_adapter.setShowDelete(true);
+//            }
+//            else
+            {
+                txtTitle.setText(m_actorPage.getNickname() + strTitle);
                 m_adapter.setShowDelete(false);
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    private void fetchData()
+    {
+        FetchActorDynamicList fetchActorDynamicList = new FetchActorDynamicList(handler(), m_actorPage.getId(), mStamp, null);
+        fetchActorDynamicList.send();
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_ACTOR_DYNAMIC_LIST:
+            FetchActorDynamicList fetchActorDynamicList = (FetchActorDynamicList) msg.obj;
+            if (FetchActorDynamicList.isSucceed(fetchActorDynamicList))
+            {
+                mStamp = fetchActorDynamicList.rspStamp;
+                mHasNextPage = fetchActorDynamicList.rspHasNextPage;
+                m_actorDynamicVos.addAll(fetchActorDynamicList.rspActorDynamicVos);
+                updateData();
+            }
+            break;
         }
     }
 }

@@ -95,6 +95,8 @@ public class HttpUtil
         public static final int YUNXIN_CHARGE = 20;
         /** 云信聊天挂断 */
         public static final int YUNXIN_HANG_UP = 21;
+        /** 获取主播动态 */
+        public static final int FETCH_ACTOR_DYNAMIC_LIST = 22;
     }
 
     /** 请求类型 */

@@ -90,7 +90,7 @@ public class UserInfoActivity extends BaseActivity
                         // 最新动态
                         case R.id.txt_latest_news:
                             Intent intentZone = new Intent(UserInfoActivity.this, UserZoneActivity.class);
-                            intentZone.putExtra("user", m_actorPage);
+                            intentZone.putExtra("actor_page", m_actorPage);
                             startActivity(intentZone);
                             break;
 
@@ -427,6 +427,7 @@ public class UserInfoActivity extends BaseActivity
             if (FetchActorPage.isSucceed(fetchActorPage))
             {
                 m_actorPage = fetchActorPage.rspActorPageVo;
+                m_actorPage.setId(fetchActorPage.reqActorId);
                 updateData();
                 updatePhoto();
             }
