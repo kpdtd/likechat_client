@@ -1,13 +1,12 @@
 package com.audio.miliao.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.audio.miliao.R;
 import com.audio.miliao.http.cmd.FetchHomeContent;
-import com.audio.miliao.util.PreferUtil;
+import com.audio.miliao.theApp;
+import com.audio.miliao.util.ImageLoaderUtil;
 
 /**
  * 设置
@@ -49,8 +48,29 @@ public class SettingsActivity extends BaseActivity
                         addAttention.send();
                         break;
                     case R.id.txt_settings_clear_cache:
-                        PreferUtil.clearAll();
-                        Toast.makeText(SettingsActivity.this, "缓存已清空", Toast.LENGTH_SHORT).show();
+                        //PreferUtil.clearAll();
+                        //Toast.makeText(SettingsActivity.this, "缓存已清空", Toast.LENGTH_SHORT).show();
+                        final View view = v;
+                        view.setEnabled(false);
+                        Runnable runnable = new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                clearCache();
+                                runOnUiThread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        view.setEnabled(true);
+                                    }
+                                });
+
+                                theApp.showToast("缓存已清空");
+                            }
+                        };
+                        new Thread(runnable).start();
                         break;
                     }
                 }
@@ -64,5 +84,13 @@ public class SettingsActivity extends BaseActivity
         {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 清空缓存
+     */
+    private void clearCache()
+    {
+        ImageLoaderUtil.getInstance().clearDiskCache();
     }
 }

@@ -157,6 +157,7 @@ public class TabFindFragment extends BaseFragment
                             //m_adapter.updateData(m_sortByDate.sort(m_adapter.getZones()));
                             //m_adapter.notifyDataSetChanged();
                             mFetchFindListTag = FetchFindList.LATEST;
+                            mStamp = "0";
                             fetchFindList("header");
                             break;
                         // 热门
@@ -164,6 +165,7 @@ public class TabFindFragment extends BaseFragment
                             //m_adapter.updateData(m_sortByWatch.sort(m_adapter.getZones()));
                             //m_adapter.notifyDataSetChanged();
                             mFetchFindListTag = FetchFindList.HOT;
+                            mStamp = "0";
                             fetchFindList("header");
                             break;
                         // 关注
@@ -171,6 +173,7 @@ public class TabFindFragment extends BaseFragment
                             //m_adapter.updateData(m_sortByFollow.sort(m_adapter.getZones()));
                             //m_adapter.notifyDataSetChanged();
                             mFetchFindListTag = FetchFindList.FOCUS;
+                            mStamp = "0";
                             fetchFindList("header");
                             break;
                         }
