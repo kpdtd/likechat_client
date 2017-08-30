@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
+import com.audio.miliao.event.LogoutEvent;
 import com.audio.miliao.fragment.TabFindFragment;
 import com.audio.miliao.fragment.TabMainFragment;
 import com.audio.miliao.fragment.TabMeFragment;
@@ -16,6 +17,8 @@ import com.audio.miliao.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class MainActivity extends BaseActivity
 {
@@ -33,6 +36,7 @@ public class MainActivity extends BaseActivity
             setContentView(R.layout.activity_main);
             initUI();
             initPager();
+            EventBus.getDefault().register(this);
 
             FetchHomeContent fetchHomeContent = new FetchHomeContent(null, null);
             fetchHomeContent.send();
@@ -41,6 +45,13 @@ public class MainActivity extends BaseActivity
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     /**
@@ -121,5 +132,15 @@ public class MainActivity extends BaseActivity
         {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * EventBus 在主线程的响应事件
+     *
+     * @param event 切换账户（退出登录）
+     */
+    public void onEventMainThread(LogoutEvent event)
+    {
+        finish();
     }
 }

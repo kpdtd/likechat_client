@@ -1,16 +1,20 @@
 package com.audio.miliao.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.event.LogoutEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchCustomerService;
-import com.audio.miliao.http.cmd.FetchHomeContent;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.ImageLoaderUtil;
+import com.audio.miliao.util.PreferUtil;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 设置
@@ -51,12 +55,17 @@ public class SettingsActivity extends BaseActivity
                 {
                     switch (v.getId())
                     {
-                        case R.id.img_back:
-                            finish();
-                            break;
-                    case R.id.lay_contact_us:
-                        FetchHomeContent addAttention = new FetchHomeContent(null, null);
-                        addAttention.send();
+                    case R.id.img_back:
+                        finish();
+                        break;
+                    // 切换账户
+                    case R.id.txt_switch_account:
+                        PreferUtil.clearAll();
+                        Intent intentLogin = new Intent(SettingsActivity.this, LoginActivity.class);
+                        startActivity(intentLogin);
+
+                        EventBus.getDefault().post(new LogoutEvent());
+                        finish();
                         break;
                     case R.id.txt_settings_clear_cache:
                         //PreferUtil.clearAll();
@@ -89,7 +98,7 @@ public class SettingsActivity extends BaseActivity
 
             findViewById(R.id.img_back).setOnClickListener(clickListener);
             findViewById(R.id.txt_settings_clear_cache).setOnClickListener(clickListener);
-            findViewById(R.id.lay_contact_us).setOnClickListener(clickListener);
+            findViewById(R.id.txt_switch_account).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
