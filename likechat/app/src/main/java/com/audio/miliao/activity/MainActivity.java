@@ -14,6 +14,7 @@ import com.audio.miliao.fragment.TabMeFragment;
 import com.audio.miliao.fragment.TabMessageFragment;
 import com.audio.miliao.http.cmd.FetchHomeContent;
 import com.audio.miliao.widget.NoScrollViewPager;
+import com.netease.nim.uikit.event.QueryActorVoEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,5 +143,15 @@ public class MainActivity extends BaseActivity
     public void onEventMainThread(LogoutEvent event)
     {
         finish();
+    }
+
+    /**
+     * EventBus 在主线程的响应事件
+     *
+     * @param event uikit发来的请求查询ActorVo的事件
+     */
+    public void onEventMainThread(QueryActorVoEvent event)
+    {
+
     }
 }

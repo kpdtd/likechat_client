@@ -34,6 +34,10 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="标题"
+            android:paddingLeft="90dp"
+            android:paddingRight="90dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="#fff"/>
 
         <ImageView

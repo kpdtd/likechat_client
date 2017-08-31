@@ -20,7 +20,6 @@ import com.audio.miliao.util.YunXinUtil;
 import com.uikit.loader.LoaderApp;
 import com.uikit.loader.entity.Account;
 import com.uikit.loader.entity.LoaderAppData;
-import com.uikit.loader.service.YXService;
 
 import java.util.Map;
 
@@ -35,7 +34,7 @@ public class LoginActivity extends BaseActivity
     private static final int CODE_ALIPAY_SDK_PAY_FLAG = 3;
 
     private EditText mEdittext;
-    private YXService mService;
+    //private YXService mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,7 +44,7 @@ public class LoginActivity extends BaseActivity
 
         initUI();
 
-        mService = new YXService(this);
+        //mService = new YXService(this);
         EventBus.getDefault().register(this);
     }
 
