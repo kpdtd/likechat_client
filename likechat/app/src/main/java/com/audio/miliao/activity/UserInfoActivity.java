@@ -17,6 +17,7 @@ import com.audio.miliao.http.cmd.CancelAttention;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.ImageLoaderUtil;
+import com.audio.miliao.util.MediaPlayerUtil;
 import com.audio.miliao.util.StringUtil;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.miliao.util.UIUtil;
@@ -93,7 +94,17 @@ public class UserInfoActivity extends BaseActivity
                             intentZone.putExtra("actor_page", m_actorPage);
                             startActivity(intentZone);
                             break;
-
+                        // 语音
+                        case R.id.lay_voice:
+                            if (MediaPlayerUtil.isPlaying())
+                            {
+                                MediaPlayerUtil.stopVoice();
+                            }
+                            else
+                            {
+                                MediaPlayerUtil.playVoice(m_actorPage.getVideoUrl(), null);
+                            }
+                            break;
                         // 嗨聊
                         case R.id.lay_voice_chat:
 //                            Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
@@ -117,7 +128,7 @@ public class UserInfoActivity extends BaseActivity
 //                            startActivity(intentText);
                             if (m_actorVo != null)
                             {
-                                NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken());
+                                NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken().toLowerCase());
                             }
                             else
                             {
@@ -143,6 +154,7 @@ public class UserInfoActivity extends BaseActivity
 
             findViewById(R.id.txt_latest_news).setOnClickListener(clickListener);
             findViewById(R.id.img_back).setOnClickListener(clickListener);
+            findViewById(R.id.lay_voice).setOnClickListener(clickListener);
             findViewById(R.id.lay_voice_chat).setOnClickListener(clickListener);
             findViewById(R.id.lay_text_chat).setOnClickListener(clickListener);
             findViewById(R.id.lay_follow).setOnClickListener(clickListener);
@@ -388,7 +400,7 @@ public class UserInfoActivity extends BaseActivity
             TextView txtIntro = (TextView) findViewById(R.id.txt_intro);
             TextView txtCallRate = (TextView) findViewById(R.id.txt_call_rate);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
-
+            TextView txtVoiceSec = (TextView) findViewById(R.id.txt_voice_intro);
 
             String icon = m_actorPage.getIcon();
             ImageLoaderUtil.displayListAvatarImage(imgAvatar, icon);
@@ -406,6 +418,15 @@ public class UserInfoActivity extends BaseActivity
             txtIntro.setText(m_actorPage.getIntroduction());
             txtCallRate.setText(m_actorPage.getPrice());
             txtTalkTime.setText(m_actorPage.getCallTime());
+            if (m_actorPage.getVoiceSec() != null && m_actorPage.getVoiceSec() > 0)
+            {
+                findViewById(R.id.lay_voice).setVisibility(View.VISIBLE);
+                txtVoiceSec.setText(formatVoiceSec(m_actorPage.getVoiceSec()));
+            }
+            else
+            {
+                findViewById(R.id.lay_voice).setVisibility(View.INVISIBLE);
+            }
 
             updateFollowButtonState(m_actorPage.getIsAttention());
 
@@ -415,6 +436,24 @@ public class UserInfoActivity extends BaseActivity
         {
             e.printStackTrace();
         }
+    }
+
+    private String formatVoiceSec(int voiceSec)
+    {
+        if (voiceSec > 0 && voiceSec < 60)
+        {
+            return voiceSec + "″";
+        }
+        else if (voiceSec > 60 && voiceSec < 3600)
+        {
+            return String.valueOf(voiceSec / 60) + "'" + String.valueOf(voiceSec % 60) + "″";
+        }
+        else if (voiceSec > 3600 && voiceSec < 24 * 3600)
+        {
+            return String.valueOf(voiceSec / 3600) + "h";
+        }
+
+        return "60'+";
     }
 
     @Override

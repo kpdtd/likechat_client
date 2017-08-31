@@ -24,6 +24,7 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddDynamicPageView;
 import com.audio.miliao.http.cmd.FetchFindList;
 import com.audio.miliao.util.ImageLoaderUtil;
+import com.audio.miliao.util.MediaPlayerUtil;
 import com.audio.miliao.util.StringUtil;
 import com.netease.nim.uikit.miliao.util.UIUtil;
 import com.netease.nim.uikit.miliao.vo.ActorDynamicVo;
@@ -248,7 +249,7 @@ public class TabFindFragment extends BaseFragment
                         addDynamicPageView.send();
                     }
 
-                    MediaPlayer mediaPlayer = new MediaPlayer();
+                    //MediaPlayer mediaPlayer = new MediaPlayer();
 
                     @Override
                     public void onVoiceClick(final ActorDynamicVo actorDynamicVo)
@@ -258,30 +259,39 @@ public class TabFindFragment extends BaseFragment
                             try
                             {
                                 String voiceUrl = actorDynamicVo.getDynamicUrl().get(0);
-                                if (mediaPlayer.isPlaying())
+                                if (MediaPlayerUtil.isPlaying())
                                 {
-                                    mediaPlayer.stop();
+                                    MediaPlayerUtil.stopVoice();
                                     //mediaPlayer.release();
                                 }
                                 else
                                 {
-                                    mediaPlayer.reset();
-                                    mediaPlayer.setDataSource(voiceUrl);
-                                    //mediaPlayer.prepare();
-                                    //mediaPlayer.start();
-                                    mediaPlayer.prepareAsync();
-                                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+                                    MediaPlayerUtil.playVoice(voiceUrl, new MediaPlayer.OnPreparedListener()
                                     {
                                         @Override
                                         public void onPrepared(MediaPlayer mp)
                                         {
-                                            // 装载完毕回调
-                                            mediaPlayer.start();
-
                                             AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
                                             addDynamicPageView.send();
                                         }
                                     });
+//                                    mediaPlayer.reset();
+//                                    mediaPlayer.setDataSource(voiceUrl);
+//                                    //mediaPlayer.prepare();
+//                                    //mediaPlayer.start();
+//                                    mediaPlayer.prepareAsync();
+//                                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+//                                    {
+//                                        @Override
+//                                        public void onPrepared(MediaPlayer mp)
+//                                        {
+//                                            // 装载完毕回调
+//                                            mediaPlayer.start();
+//
+//                                            AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
+//                                            addDynamicPageView.send();
+//                                        }
+//                                    });
                                 }
                             }
                             catch (Exception e)

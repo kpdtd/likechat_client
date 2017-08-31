@@ -1,6 +1,7 @@
 package com.audio.miliao.activity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.ActorDynamicAdapter;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.AddDynamicPageView;
 import com.audio.miliao.http.cmd.FetchActorDynamicList;
 import com.audio.miliao.util.ImageLoaderUtil;
+import com.audio.miliao.util.MediaPlayerUtil;
 import com.audio.miliao.util.StringUtil;
 import com.netease.nim.uikit.miliao.util.UIUtil;
 import com.netease.nim.uikit.miliao.vo.ActorDynamicVo;
@@ -171,8 +174,35 @@ public class UserZoneActivity extends BaseActivity
                     }
 
                     @Override
-                    public void onVoiceClick(ActorDynamicVo actorDynamicVo)
+                    public void onVoiceClick(final ActorDynamicVo actorDynamicVo)
                     {
+                        if (UIUtil.isListNotEmpty(actorDynamicVo.getDynamicUrl()))
+                        {
+                            try
+                            {
+                                String voiceUrl = actorDynamicVo.getDynamicUrl().get(0);
+                                if (MediaPlayerUtil.isPlaying())
+                                {
+                                    MediaPlayerUtil.stopVoice();
+                                }
+                                else
+                                {
+                                    MediaPlayerUtil.playVoice(voiceUrl, new MediaPlayer.OnPreparedListener()
+                                    {
+                                        @Override
+                                        public void onPrepared(MediaPlayer mp)
+                                        {
+                                            AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
+                                            addDynamicPageView.send();
+                                        }
+                                    });
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override

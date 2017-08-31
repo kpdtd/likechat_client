@@ -67,8 +67,7 @@
                             <TextView
                                 android:id="@+id/txt_name"
                                 style="@style/user_info_info_style"
-                                android:textSize="@dimen/txt_size_16_dp"
-                                android:text="小甜甜"/>
+                                android:textSize="@dimen/txt_size_16_dp"/>
                             <TextView
                                 android:id="@+id/txt_age"
                                 android:layout_marginLeft="5dp"

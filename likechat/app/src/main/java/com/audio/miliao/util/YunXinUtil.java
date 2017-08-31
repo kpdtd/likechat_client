@@ -1,117 +1,64 @@
 package com.audio.miliao.util;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.os.Environment;
-import android.text.TextUtils;
-
-import com.audio.miliao.R;
-import com.audio.miliao.activity.MainActivity;
-import com.audio.miliao.entity.AppData;
-import com.netease.nimlib.sdk.SDKOptions;
-import com.netease.nimlib.sdk.StatusBarNotificationConfig;
+import com.audio.miliao.theApp;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
-
+import com.uikit.loader.entity.LoaderAppData;
+import com.uikit.loader.util.YXConfig;
 
 /**
  * 网易云信相关操作
  */
 public class YunXinUtil
 {
-    // 这是likechat的appkey
-    //public static final String APP_KEY = "fa0f2219206b8a2e1be41fb9382cd0f4";
-    // 这是云信Demo的appkay
-    public static final String APP_KEY = "45c6af3c98409b18a84451215d0bdd6e";
-
-    // 如果返回值为 null，则全部使用默认参数。
-    public static SDKOptions options(Context context)
+    /**
+     * 云信登录
+     * @param username 云信账户account
+     * @param token 云信账户token
+     */
+    public static void login(final String username, final String token)
     {
-        SDKOptions options = new SDKOptions();
-
-        // 如果将新消息通知提醒托管给 SDK 完成，需要添加以下配置。否则无需设置。
-        StatusBarNotificationConfig config = new StatusBarNotificationConfig();
-        config.notificationEntrance = MainActivity.class; // 点击通知栏跳转到该Activity
-        config.notificationSmallIconId = R.drawable.ic_stat_notify_msg;
-        // 呼吸灯配置
-        config.ledARGB = Color.GREEN;
-        config.ledOnMs = 1000;
-        config.ledOffMs = 1500;
-        // 通知铃声的uri字符串
-        config.notificationSound = "android.resource://com.netease.nim.demo/raw/msg";
-        options.statusBarNotificationConfig = config;
-
-        options.appKey = APP_KEY;
-
-        // 配置保存图片，文件，log 等数据的目录
-        // 如果 options 中没有设置这个值，SDK 会使用下面代码示例中的位置作为 SDK 的数据目录。
-        // 该目录目前包含 log, file, image, audio, video, thumb 这6个目录。
-        // 如果第三方 APP 需要缓存清理功能， 清理这个目录下面个子目录的内容即可。
-        String sdkPath = Environment.getExternalStorageDirectory() + "/" +
-                context.getPackageName() + "/nim";
-        options.sdkStorageRootPath = sdkPath;
-
-        // 配置是否需要预下载附件缩略图，默认为 true
-        options.preloadAttach = true;
-
-        // 配置附件缩略图的尺寸大小。表示向服务器请求缩略图文件的大小
-        // 该值一般应根据屏幕尺寸来确定， 默认值为 Screen.width / 2
-        // options.thumbnailSize = ${Screen.width} /2;
-
-        // 用户资料提供者, 目前主要用于提供用户资料，用于新消息通知栏中显示消息来源的头像和昵称
-        options.userInfoProvider = new UserInfoProvider()
+        try
         {
-            @Override
-            public UserInfo getUserInfo(String account)
-            {
-                return null;
-            }
+            // String strToken = MD5.getStringMD5("123456");
+            String strAccount = username;
+            String strToken = token;
+            LoginInfo info = new LoginInfo(strAccount, strToken, YXConfig.APP_KEY); // config...
+            RequestCallback<LoginInfo> callback =
+                    new RequestCallback<LoginInfo>()
+                    {
+                        @Override
+                        public void onSuccess(LoginInfo loginInfo)
+                        {
+                            theApp.showToast("onSuccess");
 
-            @Override
-            public int getDefaultIconResId()
-            {
-                return R.drawable.avatar_def;
-            }
+                            // 可以在此保存LoginInfo到本地，下次启动APP做自动登录用
+                            NimUIKit.setAccount(loginInfo.getAccount());
+                            LoaderAppData.setYunXinAccount(loginInfo.getAccount());
+                            LoaderAppData.setYunXinToken(loginInfo.getToken());
+                        }
 
-            @Override
-            public Bitmap getTeamIcon(String tid)
-            {
-                return null;
-            }
+                        @Override
+                        public void onFailed(int i)
+                        {
+                            theApp.showToast("onFailed " + i);
+                        }
 
-            @Override
-            public Bitmap getAvatarForMessageNotifier(String account)
-            {
-                return null;
-            }
-
-            @Override
-            public String getDisplayNameForMessageNotifier(String account, String sessionId,
-                                                           SessionTypeEnum sessionType)
-            {
-                return null;
-            }
-        };
-        return options;
-    }
-
-    // 如果已经存在用户登录信息，返回LoginInfo，否则返回null即可
-    public static LoginInfo loginInfo()
-    {
-        // 从本地读取上次登录成功时保存的用户登录信息
-        String account = AppData.getYunXinAccount();
-        String token = AppData.getYunXinToken();
-
-        if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(token))
-        {
-            AppData.setYunXinAccount(account.toLowerCase());
-            return new LoginInfo(account, token);
+                        @Override
+                        public void onException(Throwable throwable)
+                        {
+                            theApp.showToast("onException " + throwable.toString());
+                        }
+                    };
+            NIMClient.getService(AuthService.class).login(info).setCallback(callback);
         }
-        else
+        catch (Exception e)
         {
-            return null;
+            e.printStackTrace();
+            theApp.showToast("Exception " + e.toString());
         }
     }
 }

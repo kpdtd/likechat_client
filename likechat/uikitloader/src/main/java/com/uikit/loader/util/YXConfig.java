@@ -19,9 +19,9 @@ import com.uikit.loader.entity.LoaderAppData;
 public class YXConfig
 {
     // 这是likechat的appkey
-    //public static final String APP_KEY = "fa0f2219206b8a2e1be41fb9382cd0f4";
+    public static final String APP_KEY = "fa0f2219206b8a2e1be41fb9382cd0f4";
     // 这是云信Demo的appkay
-    public static final String APP_KEY = "45c6af3c98409b18a84451215d0bdd6e";
+    //public static final String APP_KEY = "45c6af3c98409b18a84451215d0bdd6e";
     //public static YXService mService;
 
     /**
