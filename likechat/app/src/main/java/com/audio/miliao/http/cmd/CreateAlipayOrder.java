@@ -5,7 +5,10 @@ import android.os.Handler;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.theApp;
+import com.audio.miliao.util.JSONUtil;
 import com.netease.nim.uikit.miliao.vo.PayInfoVo;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -21,7 +24,7 @@ import java.util.List;
 public class CreateAlipayOrder extends BaseReqRsp
 {
     public PayInfoVo reqPayInfoVo;
-//    public string
+    public String rspNotifyUrl;
 
     /**
      * 增加关注
@@ -64,6 +67,9 @@ public class CreateAlipayOrder extends BaseReqRsp
             rspResultCode = HttpUtil.Result.OK;
             try
             {
+                JSONObject jsonObject = new JSONObject(httpBody);
+                JSONObject jsonData = jsonObject.optJSONObject("data");
+                rspNotifyUrl = JSONUtil.getString(jsonData, "notifyUrl");
             }
             catch (Exception e)
             {

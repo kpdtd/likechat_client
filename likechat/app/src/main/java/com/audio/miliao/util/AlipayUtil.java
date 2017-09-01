@@ -1,10 +1,7 @@
 package com.audio.miliao.util;
 
 import android.app.Activity;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
 import com.audio.miliao.http.cmd.CreateAlipayOrder;
@@ -33,7 +30,8 @@ public class AlipayUtil
      * @return
      */
     public static void pay(final Activity activity, final String goodsType,
-                           final String goodsId, final GoodsVo goodsVo, final PayListener payListener)
+                           final String goodsId, final GoodsVo goodsVo,
+                           final PayListener payListener)
     {
         Runnable runnable = new Runnable()
         {
@@ -57,7 +55,7 @@ public class AlipayUtil
                         alipayReq.body = goodsVo.getSubname(); // body
                         alipayReq.out_trade_no = payInfoVo.getOutTradeNo();
 
-                        paySync(activity, alipayReq, payListener);
+                        paySync(activity, alipayReq, createAlipayOrder.rspNotifyUrl, payListener);
                     }
                 }
                 catch (Exception e)
@@ -73,7 +71,7 @@ public class AlipayUtil
         new Thread(runnable).start();
     }
 
-    private static void paySync(Activity activity, AlipayReq alipayReq, PayListener payListener)
+    private static void paySync(Activity activity, AlipayReq alipayReq, String notifyUrl, PayListener payListener)
     {
         try
         {
@@ -85,7 +83,7 @@ public class AlipayUtil
              * orderInfo的获取必须来自服务端；
              */
             boolean rsa2 = (Constant.RSA2_PRIVATE.length() > 0);
-            Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constant.APP_ID, rsa2, alipayReq);
+            Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constant.APP_ID, rsa2, alipayReq, notifyUrl);
             String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
 
             String privateKey = rsa2 ? Constant.RSA2_PRIVATE : Constant.RSA_PRIVATE;
@@ -135,48 +133,48 @@ public class AlipayUtil
         }
     }
 
-    /**
-     * 支付宝支付
-     * @param alipayReq 支付宝支付请求
-     */
-    private static void pay(final Activity activity, final Handler handler, final int notifyCode, AlipayReq alipayReq)
-    {
-        /**
-         * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
-         * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
-         * 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
-         *
-         * orderInfo的获取必须来自服务端；
-         */
-        boolean rsa2 = (Constant.RSA2_PRIVATE.length() > 0);
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constant.APP_ID, rsa2, alipayReq);
-        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
-
-        String privateKey = rsa2 ? Constant.RSA2_PRIVATE : Constant.RSA_PRIVATE;
-        String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
-        final String orderInfo = orderParam + "&" + sign;
-
-        Runnable payRunnable = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                // 使用沙箱环境
-                //EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
-                PayTask alipay = new PayTask(activity);
-                Map<String, String> result = alipay.payV2(orderInfo, true);
-                Log.i("msp", result.toString());
-
-                Message msg = new Message();
-                msg.what = notifyCode;
-                msg.obj = result;
-                handler.sendMessage(msg);
-            }
-        };
-
-        Thread payThread = new Thread(payRunnable);
-        payThread.start();
-    }
+//    /**
+//     * 支付宝支付
+//     * @param alipayReq 支付宝支付请求
+//     */
+//    private static void pay(final Activity activity, final Handler handler, final int notifyCode, AlipayReq alipayReq)
+//    {
+//        /**
+//         * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
+//         * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
+//         * 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
+//         *
+//         * orderInfo的获取必须来自服务端；
+//         */
+//        boolean rsa2 = (Constant.RSA2_PRIVATE.length() > 0);
+//        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constant.APP_ID, rsa2, alipayReq);
+//        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+//
+//        String privateKey = rsa2 ? Constant.RSA2_PRIVATE : Constant.RSA_PRIVATE;
+//        String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
+//        final String orderInfo = orderParam + "&" + sign;
+//
+//        Runnable payRunnable = new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                // 使用沙箱环境
+//                //EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+//                PayTask alipay = new PayTask(activity);
+//                Map<String, String> result = alipay.payV2(orderInfo, true);
+//                Log.i("msp", result.toString());
+//
+//                Message msg = new Message();
+//                msg.what = notifyCode;
+//                msg.obj = result;
+//                handler.sendMessage(msg);
+//            }
+//        };
+//
+//        Thread payThread = new Thread(payRunnable);
+//        payThread.start();
+//    }
 
     /**
      *

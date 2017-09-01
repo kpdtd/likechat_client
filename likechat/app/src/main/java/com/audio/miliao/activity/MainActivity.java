@@ -1,6 +1,7 @@
 package com.audio.miliao.activity;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -12,9 +13,12 @@ import com.audio.miliao.fragment.TabFindFragment;
 import com.audio.miliao.fragment.TabMainFragment;
 import com.audio.miliao.fragment.TabMeFragment;
 import com.audio.miliao.fragment.TabMessageFragment;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchHomeContent;
 import com.audio.miliao.widget.NoScrollViewPager;
 import com.netease.nim.uikit.event.QueryActorVoEvent;
+import com.netease.nim.uikit.event.QueryActorVoResultEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,6 +156,22 @@ public class MainActivity extends BaseActivity
      */
     public void onEventMainThread(QueryActorVoEvent event)
     {
+        FetchActorPage fetchActorPage = new FetchActorPage(handler(), event.getYunxinId(), null);
+        fetchActorPage.send();
+    }
 
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_ACTOR_PAGE:
+            FetchActorPage fetchActorPage = (FetchActorPage) msg.obj;
+            if (FetchActorPage.isSucceed(fetchActorPage))
+            {
+                EventBus.getDefault().post(new QueryActorVoResultEvent(fetchActorPage.rspActorPageVo));
+            }
+            break;
+        }
     }
 }

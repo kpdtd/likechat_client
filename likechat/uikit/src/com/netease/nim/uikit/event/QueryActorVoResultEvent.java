@@ -1,6 +1,6 @@
 package com.netease.nim.uikit.event;
 
-import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 
 /**
  * 查询主播信息结果事件
@@ -8,14 +8,14 @@ import com.netease.nim.uikit.miliao.vo.ActorVo;
  */
 public class QueryActorVoResultEvent
 {
-    private ActorVo actorVo;
-    public QueryActorVoResultEvent(ActorVo actorVo)
+    private ActorPageVo actorPageVo;
+    public QueryActorVoResultEvent(ActorPageVo actorPageVo)
     {
-        this.actorVo = actorVo;
+        this.actorPageVo = actorPageVo;
     }
 
-    public ActorVo getActorVo()
+    public ActorPageVo getActorPageVo()
     {
-        return actorVo;
+        return actorPageVo;
     }
 }
