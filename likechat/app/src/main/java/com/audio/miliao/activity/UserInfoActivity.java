@@ -40,7 +40,7 @@ import de.greenrobot.event.EventBus;
  */
 public class UserInfoActivity extends BaseActivity
 {
-    private int m_actorVoId;
+    private String m_sessionId;
     private ActorVo m_actorVo;
     private ActorPageVo m_actorPage;
 
@@ -54,15 +54,15 @@ public class UserInfoActivity extends BaseActivity
             if (getIntent().hasExtra("user"))
             {
                 m_actorVo = (ActorVo) getIntent().getSerializableExtra("user");
-                m_actorVoId = m_actorVo.getId();
+                FetchActorPage fetchActor = new FetchActorPage(handler(), m_actorVo.getId(), null);
+                fetchActor.send();
             }
             else if (getIntent().hasExtra("sessionId"))
             {
-                String sessionId = getIntent().getStringExtra("sessionId");
-                m_actorVoId = Integer.valueOf(sessionId);
+                m_sessionId = getIntent().getStringExtra("sessionId");
+                FetchActorPage fetchActor = new FetchActorPage(handler(), m_sessionId, null);
+                fetchActor.send();
             }
-            FetchActorPage fetchActor = new FetchActorPage(handler(), m_actorVoId, null);
-            fetchActor.send();
 
             initUI();
             //updateData();
@@ -117,8 +117,8 @@ public class UserInfoActivity extends BaseActivity
                             }
                             else
                             {
-                                //NimUIKit.startP2PSession(UserInfoActivity.this, String.valueOf(m_actorVoId));
-                                AVChatActivity.launch(UserInfoActivity.this, String.valueOf(m_actorVoId), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                                //NimUIKit.startP2PSession(UserInfoActivity.this, String.valueOf(m_sessionId));
+                                AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
                             }
                             break;
                         // 文字聊天
@@ -132,7 +132,7 @@ public class UserInfoActivity extends BaseActivity
                             }
                             else
                             {
-                                NimUIKit.startP2PSession(UserInfoActivity.this, String.valueOf(m_actorVoId));
+                                NimUIKit.startP2PSession(UserInfoActivity.this, m_sessionId);
                             }
                             break;
                         // 关注
@@ -178,7 +178,7 @@ public class UserInfoActivity extends BaseActivity
             String text = textFollow.getText().toString();
 
             int userId = LoaderAppData.getCurUserId();
-            int actorId = m_actorVoId;
+            int actorId = m_actorPage.getId();
 
             if (text.equals(follow))
             {
@@ -408,7 +408,7 @@ public class UserInfoActivity extends BaseActivity
             txtName.setText(m_actorPage.getNickname());
             txtAge.setText(String.valueOf(m_actorPage.getAge()));
             String strId = getString(R.string.txt_user_info_like_chat_id);
-            txtId.setText(strId + m_actorVoId);
+            txtId.setText(strId + m_actorPage.getId());
             txtCity.setText(m_actorPage.getCity());
             String strFansFollow = getString(R.string.txt_user_info_fans_count);
             strFansFollow += m_actorPage.getFans() + "  ";

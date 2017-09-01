@@ -68,7 +68,8 @@ public class OrderInfoUtil2_0
      * @param app_id
      * @return
      */
-    public static Map<String, String> buildOrderParamMap(String app_id, boolean rsa2, AlipayReq alipayReq, String notifyUrl)
+    public static Map<String, String> buildOrderParamMap(String app_id, boolean rsa2,
+                                                         AlipayReq alipayReq, String notifyUrl)
     {
         Map<String, String> keyValues = new HashMap<>();
 
@@ -86,7 +87,7 @@ public class OrderInfoUtil2_0
 
         keyValues.put("sign_type", rsa2 ? "RSA2" : "RSA");
 
-        keyValues.put("notify_url", notifyUrl);
+        keyValues.put("notify_url", URLEncoder.encode(notifyUrl));
 
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());

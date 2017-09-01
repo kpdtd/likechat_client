@@ -268,8 +268,11 @@ public class UserZoneActivity extends BaseActivity
 
     private void fetchData()
     {
-        FetchActorDynamicList fetchActorDynamicList = new FetchActorDynamicList(handler(), m_actorPage.getId(), mStamp, null);
-        fetchActorDynamicList.send();
+        if (m_actorPage != null)
+        {
+            FetchActorDynamicList fetchActorDynamicList = new FetchActorDynamicList(handler(), m_actorPage.getId(), mStamp, null);
+            fetchActorDynamicList.send();
+        }
     }
 
     @Override
