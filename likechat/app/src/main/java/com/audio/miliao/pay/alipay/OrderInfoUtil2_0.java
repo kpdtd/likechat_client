@@ -87,7 +87,7 @@ public class OrderInfoUtil2_0
 
         keyValues.put("sign_type", rsa2 ? "RSA2" : "RSA");
 
-        keyValues.put("notify_url", URLEncoder.encode(notifyUrl));
+        keyValues.put("notify_url", notifyUrl);
 
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
