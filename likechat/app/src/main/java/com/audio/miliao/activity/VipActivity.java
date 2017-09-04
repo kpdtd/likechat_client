@@ -221,7 +221,7 @@ public class VipActivity extends BaseActivity
     {
         try
         {
-            String goodsId = "" + goodsVo.getId(); // 购买会员
+            int goodsId = goodsVo.getId(); // 购买会员
             m_txtPayNow.setEnabled(false);
             AlipayUtil.pay(this, "2", goodsId, goodsVo, new PayListener()
             {

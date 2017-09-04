@@ -194,7 +194,7 @@ public class AccountBalanceActivity extends BaseActivity
         {
             String goodsId = ""; // 购买hi币，goodsId 根据价格生成
             m_txtPayNow.setEnabled(false);
-            AlipayUtil.pay(this, "1", goodsId, goodsVo, new PayListener()
+            AlipayUtil.pay(this, "1", goodsVo.getId(), goodsVo, new PayListener()
             {
                 @Override
                 public void onSucceed()
