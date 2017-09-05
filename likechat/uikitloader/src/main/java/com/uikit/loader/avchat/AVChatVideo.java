@@ -8,15 +8,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nim.uikit.cache.NimUserInfoCache;
+import com.netease.nim.uikit.common.ui.imageview.HeadImageView;
+import com.uikit.loader.LoaderApp;
 import com.uikit.loader.R;
 import com.uikit.loader.avchat.widget.ToggleListener;
 import com.uikit.loader.avchat.widget.ToggleState;
 import com.uikit.loader.avchat.widget.ToggleView;
 import com.uikit.loader.constant.CallStateEnum;
-import com.uikit.loader.LoaderApp;
-import com.netease.nim.uikit.cache.NimUserInfoCache;
-import com.netease.nim.uikit.common.ui.imageview.HeadImageView;
-import com.netease.nimlib.sdk.avchat.AVChatManager;
 
 /**
  * 视频管理器， 视频界面初始化和相关管理
@@ -248,34 +247,34 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener
      */
     private void enableToggle()
     {
-        if (shouldEnableToggle)
-        {
-            //boolean canSwitchCamera = manager.canSwitchCamera();
-            boolean canSwitchCamera = true;
-            boolean hasMutilpleCamera = AVChatManager.getInstance().hasMultipleCameras();
-            if (canSwitchCamera && hasMutilpleCamera)
-            {
-                switchCameraToggle.enable();
-            }
-            closeCameraToggle.enable();
-            muteToggle.enable();
-            recordToggle.setEnabled(true);
-            shouldEnableToggle = false;
-        }
+//        if (shouldEnableToggle)
+//        {
+//            //boolean canSwitchCamera = manager.canSwitchCamera();
+//            boolean canSwitchCamera = true;
+//            boolean hasMutilpleCamera = AVChatManager.getInstance().hasMultipleCameras();
+//            if (canSwitchCamera && hasMutilpleCamera)
+//            {
+//                switchCameraToggle.enable();
+//            }
+//            closeCameraToggle.enable();
+//            muteToggle.enable();
+//            recordToggle.setEnabled(true);
+//            shouldEnableToggle = false;
+//        }
     }
 
     private void enableCameraToggle()
     {
-        if (shouldEnableToggle)
-        {
-            //boolean canSwitchCamera = manager.canSwitchCamera();
-            boolean canSwitchCamera = true;
-            boolean hasMutilpleCamera = AVChatManager.getInstance().hasMultipleCameras();
-            if (canSwitchCamera && hasMutilpleCamera)
-            {
-                switchCameraToggle.enable();
-            }
-        }
+//        if (shouldEnableToggle)
+//        {
+//            //boolean canSwitchCamera = manager.canSwitchCamera();
+//            boolean canSwitchCamera = true;
+//            boolean hasMutilpleCamera = AVChatManager.getInstance().hasMultipleCameras();
+//            if (canSwitchCamera && hasMutilpleCamera)
+//            {
+//                switchCameraToggle.enable();
+//            }
+//        }
     }
 
     @Override

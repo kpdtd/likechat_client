@@ -19,7 +19,7 @@ import com.uikit.loader.LoaderApp;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
 import com.netease.nimlib.sdk.avchat.constant.AVChatVideoScalingType;
-import com.netease.nimlib.sdk.avchat.model.AVChatVideoRender;
+import com.netease.nimlib.sdk.avchat.model.AVChatSurfaceViewRenderer;
 
 /**
  * 视频绘制管理
@@ -47,8 +47,8 @@ public class AVChatSurface
     private View largeSizePreviewCoverLayout;//stands for peer or local close camera
 
     //render
-    private AVChatVideoRender smallRender;
-    private AVChatVideoRender largeRender;
+    private AVChatSurfaceViewRenderer smallRender;
+    private AVChatSurfaceViewRenderer largeRender;
 
     // state
     private boolean init = false;
@@ -71,8 +71,8 @@ public class AVChatSurface
         this.manager = manager;
         this.surfaceRoot = surfaceRoot;
         this.uiHandler = new Handler(context.getMainLooper());
-        this.smallRender = new AVChatVideoRender(context);
-        this.largeRender = new AVChatVideoRender(context);
+        this.smallRender = new AVChatSurfaceViewRenderer(context);
+        this.largeRender = new AVChatSurfaceViewRenderer(context);
     }
 
     private void findViews()
@@ -455,8 +455,8 @@ public class AVChatSurface
         //交换画布
         //如果存在多个用户,建议用Map维护account,render关系.
         //目前只有两个用户,并且认为这两个account肯定是对的
-        AVChatVideoRender render1;
-        AVChatVideoRender render2;
+        AVChatSurfaceViewRenderer render1;
+        AVChatSurfaceViewRenderer render2;
         if (user1.equals(smallAccount))
         {
             render1 = largeRender;

@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.netease.nim.uikit.event.VoiceChatEstablishedEvent;
 import com.netease.nim.uikit.event.VoiceChatHangUpEvent;
+import com.netease.nimlib.sdk.avchat.model.AVChatNetworkStats;
+import com.netease.nimlib.sdk.avchat.model.AVChatSessionStats;
 import com.uikit.loader.R;
 import com.uikit.loader.avchat.receiver.PhoneCallStateObserver;
 import com.uikit.loader.constant.CallStateEnum;
@@ -619,15 +621,27 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
     }
 
     @Override
-    public void onJoinedChannel(int code, String audioFile, String videoFile)
+    public boolean onVideoFrameFilter(AVChatVideoFrame avChatVideoFrame, boolean b)
     {
-        handleWithConnectServerResult(code);
+        return false;
     }
+
+//    @Override
+//    public void onJoinedChannel(int code, String audioFile, String videoFile)
+//    {
+//        handleWithConnectServerResult(code);
+//    }
 
     @Override
     public void onLeaveChannel()
     {
 
+    }
+
+    @Override
+    public void onJoinedChannel(int code, String audioFile, String videoFile, int elapsed)
+    {
+        handleWithConnectServerResult(code);
     }
 
     @Override
@@ -657,10 +671,16 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
     }
 
     @Override
-    public void onNetworkQuality(String s, int i)
+    public void onNetworkQuality(String s, int i, AVChatNetworkStats avChatNetworkStats)
     {
 
     }
+
+//    @Override
+//    public void onNetworkQuality(String s, int i)
+//    {
+//
+//    }
 
     @Override
     public void onCallEstablished()
@@ -702,11 +722,11 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
 
     }
 
-    @Override
-    public boolean onVideoFrameFilter(AVChatVideoFrame avChatVideoFrame)
-    {
-        return true;
-    }
+//    @Override
+//    public boolean onVideoFrameFilter(AVChatVideoFrame avChatVideoFrame)
+//    {
+//        return true;
+//    }
 
     @Override
     public boolean onAudioFrameFilter(AVChatAudioFrame avChatAudioFrame)
@@ -728,6 +748,18 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
 
     @Override
     public void onAudioMixingEvent(int i)
+    {
+
+    }
+
+    @Override
+    public void onSessionStats(AVChatSessionStats avChatSessionStats)
+    {
+
+    }
+
+    @Override
+    public void onLiveEvent(int i)
     {
 
     }
