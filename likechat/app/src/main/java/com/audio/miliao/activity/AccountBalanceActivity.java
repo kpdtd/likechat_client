@@ -192,7 +192,7 @@ public class AccountBalanceActivity extends BaseActivity
     {
         try
         {
-            String goodsId = ""; // 购买hi币，goodsId 根据价格生成
+            //String goodsId = ""; // 购买hi币，goodsId 根据价格生成
             m_txtPayNow.setEnabled(false);
             AlipayUtil.pay(this, "1", goodsVo.getId(), goodsVo, new PayListener()
             {
@@ -207,6 +207,8 @@ public class AccountBalanceActivity extends BaseActivity
                             m_txtPayNow.setEnabled(true);
                         }
                     });
+                    FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
+                    fetchAccountBalance.send();
                     theApp.showToast("支付成功");
                 }
 

@@ -43,6 +43,8 @@ public class AVChatExitCode
 
     public static final int LOCAL_CALL_BUSY = 21; // 正在进行本地通话
 
+    public static final int CHARGE_FAILED = 22; // 扣费失败
+
     public static String getExitString(int code){
         switch (code){
             case PEER_HANGUP:

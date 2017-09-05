@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.netease.nim.uikit.event.VoiceChatChargeFailedEvent;
 import com.netease.nim.uikit.event.VoiceChatEstablishedEvent;
 import com.netease.nim.uikit.event.VoiceChatHangUpEvent;
 import com.netease.nimlib.sdk.avchat.model.AVChatNetworkStats;
@@ -154,6 +155,8 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
         isCallEstablished = false;
         //放到所有UI的基类里面注册，所有的UI实现onKickOut接口
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, true);
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -187,11 +190,26 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
     protected void onDestroy()
     {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
+
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, false);
         AVChatProfile.getInstance().setAVChatting(false);
         registerNetCallObserver(false);
         cancelCallingNotifier();
         needFinish = true;
+
+        AVChatSoundPlayer.instance().stop();
+        avChatUI.closeSessions(AVChatExitCode.HANGUP);
+    }
+
+    /**
+     * 语音扣费失败
+     *
+     * @param event
+     */
+    public void onEventMainThread(VoiceChatChargeFailedEvent event)
+    {
+        avChatUI.onHangUp();
     }
 
     /**
@@ -701,7 +719,7 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
         isCallEstablished = true;
 
         // 语音通话接通
-        EventBus.getDefault().post(new VoiceChatEstablishedEvent());
+        EventBus.getDefault().post(new VoiceChatEstablishedEvent(mIsInComingCall));
     }
 
     @Override

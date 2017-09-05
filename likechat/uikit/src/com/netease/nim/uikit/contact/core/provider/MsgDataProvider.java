@@ -7,8 +7,6 @@ import com.netease.nim.uikit.contact.core.item.AbsContactItem;
 import com.netease.nim.uikit.contact.core.item.MsgItem;
 import com.netease.nim.uikit.contact.core.query.TextQuery;
 import com.netease.nim.uikit.contact.core.util.ContactHelper;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.lucene.LuceneService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.search.model.MsgIndexRecord;
 
@@ -60,24 +58,25 @@ public final class MsgDataProvider {
     private static List<MsgIndexRecord> searchSession(String query, SessionTypeEnum sessionType, String sessionId, MsgIndexRecord anchor) {
         long startTime = System.currentTimeMillis();
 
-        List<MsgIndexRecord> result;
-        if (anchor != null) {
-            result = NIMClient.getService(LuceneService.class).searchSessionNextPageBlock(query, sessionType, sessionId, anchor, 50);
-        } else {
-            result = NIMClient.getService(LuceneService.class).searchSessionBlock(query, sessionType, sessionId);
-        }
-
-        log(true, result, System.currentTimeMillis() - startTime);
+        List<MsgIndexRecord> result = null;
+//        if (anchor != null) {
+//            result = NIMClient.getService(LuceneService.class).searchSessionNextPageBlock(query, sessionType, sessionId, anchor, 50);
+//        } else {
+//            result = NIMClient.getService(LuceneService.class).searchSessionBlock(query, sessionType, sessionId);
+//        }
+//
+//        log(true, result, System.currentTimeMillis() - startTime);
 
         return result;
     }
 
     private static List<MsgIndexRecord> searchAllSession(String query) {
-        long startTime = System.currentTimeMillis();
-        List<MsgIndexRecord> result = NIMClient.getService(LuceneService.class).searchAllSessionBlock(query, -1);
-        log(false, result, System.currentTimeMillis() - startTime);
-
-        return result;
+//        long startTime = System.currentTimeMillis();
+//        List<MsgIndexRecord> result = NIMClient.getService(LuceneService.class).searchAllSessionBlock(query, -1);
+//        log(false, result, System.currentTimeMillis() - startTime);
+//
+//        return result;
+        return null;
     }
 
     private static void log(boolean searchSession, List<MsgIndexRecord> result, long cost) {

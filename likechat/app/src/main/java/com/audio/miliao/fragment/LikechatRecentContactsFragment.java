@@ -29,6 +29,7 @@ import com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog;
 import com.netease.nim.uikit.common.ui.drop.DropCover;
 import com.netease.nim.uikit.common.ui.drop.DropManager;
 import com.netease.nim.uikit.common.ui.recyclerview.listener.SimpleClickListener;
+import com.netease.nim.uikit.event.VoiceChatChargeFailedEvent;
 import com.netease.nim.uikit.event.VoiceChatEstablishedEvent;
 import com.netease.nim.uikit.event.VoiceChatHangUpEvent;
 import com.netease.nim.uikit.recent.AitHelper;
@@ -137,7 +138,11 @@ public class LikechatRecentContactsFragment extends TFragment
      */
     public void onEventMainThread(VoiceChatEstablishedEvent event)
     {
-        chargeYunXin(0);
+        if (!event.isInComingCall())
+        {
+            // 呼出的才收费
+            chargeYunXin(0);
+        }
     }
 
     /**
@@ -914,7 +919,6 @@ public class LikechatRecentContactsFragment extends TFragment
         NIMClient.getService(MsgService.class).queryMessageListEx(anchor, QueryDirectionEnum.QUERY_OLD,
                 recentContact.getUnreadCount() - 1, false).setCallback(new RequestCallbackWrapper<List<IMMessage>>()
         {
-
             @Override
             public void onResult(int code, List<IMMessage> result, Throwable exception)
             {
@@ -957,12 +961,14 @@ public class LikechatRecentContactsFragment extends TFragment
                 {
                 case HttpUtil.RequestCode.YUNXIN_CHARGE:
                     YunXinCharge yunXinCharge = (YunXinCharge) msg.obj;
-                    if (YunXinCharge.isSucceed(yunXinCharge))
+                    boolean isSucceed = YunXinCharge.isSucceed(yunXinCharge);
+                    LogUtil.d((isSucceed ? "扣费成功" : "扣费失败"));
+                    if (isSucceed)
                     {
                         mRecordId = yunXinCharge.rspRecordId;
                         if (mCountDownTimer == null)
                         {
-                            mCountDownTimer = new CountDownTimer(55 * 1000, 1000)
+                            mCountDownTimer = new CountDownTimer(59 * 1000, 1000)
                             {
                                 @Override
                                 public void onTick(long millisUntilFinished)
@@ -983,7 +989,7 @@ public class LikechatRecentContactsFragment extends TFragment
                     }
                     else
                     {
-
+                        EventBus.getDefault().post(new VoiceChatChargeFailedEvent());
                     }
                     break;
                 case HttpUtil.RequestCode.YUNXIN_HANG_UP:
@@ -1002,10 +1008,14 @@ public class LikechatRecentContactsFragment extends TFragment
         }
     };
 
+    private long sm_log_time = 0;
     private void chargeYunXin(long recordId)
     {
         YunXinCharge yunXinCharge = new YunXinCharge(handler, LoaderAppData.getCurUserId(), recordId, null);
         yunXinCharge.send();
+
+        LogUtil.d("扣费 " + (System.currentTimeMillis() - sm_log_time) / 1000);
+        sm_log_time = System.currentTimeMillis();
     }
 
     private void hangUpYunXin()

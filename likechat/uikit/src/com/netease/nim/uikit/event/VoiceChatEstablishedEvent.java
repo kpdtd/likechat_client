@@ -7,4 +7,15 @@ package com.netease.nim.uikit.event;
  */
 public class VoiceChatEstablishedEvent
 {
+    public boolean mIsInComingCall;
+
+    public VoiceChatEstablishedEvent(boolean isInComingCall)
+    {
+        mIsInComingCall = isInComingCall;
+    }
+
+    public boolean isInComingCall()
+    {
+        return mIsInComingCall;
+    }
 }
