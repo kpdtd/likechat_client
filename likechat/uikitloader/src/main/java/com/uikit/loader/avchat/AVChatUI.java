@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
 import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 import com.netease.nim.uikit.permission.BaseMPermission;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.avchat.AVChatCallback;
@@ -354,6 +355,11 @@ public class AVChatUI implements AVChatUIListener
         {
             onCallStateChange(CallStateEnum.OUTGOING_VIDEO_CALLING);
         }
+    }
+
+    public void setActorPageVo(ActorPageVo actorPageVo)
+    {
+        avChatAudio.setActorPageVo(actorPageVo);
     }
 
     /**

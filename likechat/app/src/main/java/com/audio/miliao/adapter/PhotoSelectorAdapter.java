@@ -10,7 +10,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.util.ImageLoaderUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 
 import java.util.ArrayList;
 import java.util.List;

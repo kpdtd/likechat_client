@@ -8,6 +8,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.event.WXPayResultEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchVipMember;
 import com.audio.miliao.listener.PayListener;
@@ -17,6 +18,8 @@ import com.audio.miliao.util.WXUtil;
 import com.netease.nim.uikit.miliao.vo.GoodsVo;
 import com.netease.nim.uikit.miliao.vo.VipMemberVo;
 import com.netease.nim.uikit.miliao.vo.WeChatUnifiedOrderReqVo;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 会员中心
@@ -63,6 +66,15 @@ public class VipActivity extends BaseActivity
         {
             e.printStackTrace();
         }
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initUI()
@@ -228,29 +240,14 @@ public class VipActivity extends BaseActivity
                 @Override
                 public void onSucceed()
                 {
-                    handler().post(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            m_txtPayNow.setEnabled(true);
-                        }
-                    });
-                    //theApp.showToast("支付成功");
+                    onPaySucceed();
                 }
 
                 @Override
                 public void onFailed(String error)
                 {
-                    handler().post(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            m_txtPayNow.setEnabled(true);
-                        }
-                    });
-                    //theApp.showToast("支付失败");
+                    setPayEnabled(true);
+                    theApp.showToast("支付失败");
                 }
             });
         }
@@ -270,41 +267,46 @@ public class VipActivity extends BaseActivity
         try
         {
             m_txtPayNow.setEnabled(false);
-            WXUtil.pay(goodsVo, new PayListener()
-            {
-                @Override
-                public void onSucceed()
-                {
-                    handler().post(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            m_txtPayNow.setEnabled(true);
-                        }
-                    });
-                    theApp.showToast("支付成功");
-                }
-
-                @Override
-                public void onFailed(String error)
-                {
-                    handler().post(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            m_txtPayNow.setEnabled(true);
-                        }
-                    });
-                    theApp.showToast("支付失败");
-                }
-            });
+            // 微信支付的返回结果需要通过eventbus异步返回，listener返回的结果不准确
+            WXUtil.pay(goodsVo, null);
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    private void setPayEnabled(final boolean enabled)
+    {
+        handler().post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                m_txtPayNow.setEnabled(enabled);
+            }
+        });
+    }
+
+    public void onEventMainThread(final WXPayResultEvent event)
+    {
+        switch (event.getPayResult())
+        {
+        // 支付成功
+        case 0:
+            onPaySucceed();
+            break;
+        default:
+            setPayEnabled(true);
+            theApp.showToast("支付失败");
+            break;
+        }
+    }
+
+    private void onPaySucceed()
+    {
+        setPayEnabled(true);
+        theApp.showToast("支付成功");
     }
 
     @Override

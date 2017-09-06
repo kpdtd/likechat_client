@@ -14,7 +14,7 @@ import com.audio.miliao.adapter.ActorDynamicAdapter;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddDynamicPageView;
 import com.audio.miliao.http.cmd.FetchActorDynamicList;
-import com.audio.miliao.util.ImageLoaderUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.MediaPlayerUtil;
 import com.audio.miliao.util.StringUtil;
 import com.netease.nim.uikit.miliao.util.UIUtil;

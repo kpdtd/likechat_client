@@ -16,7 +16,7 @@ import com.audio.miliao.http.cmd.AddAttention;
 import com.audio.miliao.http.cmd.CancelAttention;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.util.DebugUtil;
-import com.audio.miliao.util.ImageLoaderUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.MediaPlayerUtil;
 import com.audio.miliao.util.StringUtil;
 import com.netease.nim.uikit.NimUIKit;
@@ -113,12 +113,12 @@ public class UserInfoActivity extends BaseActivity
                             if (m_actorVo != null)
                             {
                                 //NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken());
-                                AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                                AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
                             }
                             else
                             {
                                 //NimUIKit.startP2PSession(UserInfoActivity.this, String.valueOf(m_sessionId));
-                                AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                                AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
                             }
                             break;
                         // 文字聊天

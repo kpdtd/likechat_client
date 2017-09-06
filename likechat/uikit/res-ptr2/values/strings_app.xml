@@ -59,9 +59,9 @@
     <string name="txt_call_in_state_on_the_phone">通话中…</string>
     <string name="txt_call_in_hang_up">挂断</string>
     <string name="txt_call_in_answer">接听</string>
-    <string name="txt_call_out_bill_1">1.5嗨币\n通话资费（每分钟）</string>
-    <string name="txt_call_out_bill_2">0.3嗨币\n平台维护费（每分钟）</string>
-    <string name="txt_call_out_bill_3">1.8嗨币\n合计</string>
+    <string name="txt_call_out_bill_1">\n通话资费（每分钟）</string>
+    <string name="txt_call_out_bill_2">\n平台维护费（每分钟）</string>
+    <string name="txt_call_out_bill_3">\n合计</string>
     <string name="txt_call_out_ont_the_phone1">系统将呼叫对方建立通话连接</string>
     <string name="txt_call_out_ont_the_phone2">正在等待对方…</string>
     <string name="txt_edit_user_info_save">保存</string>

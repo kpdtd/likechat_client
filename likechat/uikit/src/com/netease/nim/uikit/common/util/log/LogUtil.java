@@ -66,6 +66,6 @@ public class LogUtil {
 	}
 
 	private static String buildMessage(String msg) {
-		return "uuu_uuu " + msg;
+		return "mmm_lll " + msg;
 	}
 }

@@ -11,7 +11,7 @@ import com.audio.miliao.event.LogoutEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchCustomerService;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.ImageLoaderUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.PreferUtil;
 
 import de.greenrobot.event.EventBus;

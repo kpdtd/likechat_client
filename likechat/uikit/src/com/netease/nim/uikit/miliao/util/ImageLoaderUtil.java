@@ -1,13 +1,11 @@
-package com.audio.miliao.util;
+package com.netease.nim.uikit.miliao.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 
-import com.audio.miliao.R;
-import com.audio.miliao.theApp;
-import com.bumptech.glide.Glide;
+import com.netease.nim.uikit.R;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -27,6 +25,7 @@ import java.io.File;
  */
 public class ImageLoaderUtil
 {
+    private static Context m_context;
     private static ImageLoader m_imageLoader;
 
     /** 列表中的图片（没有圆角） */
@@ -38,13 +37,20 @@ public class ImageLoaderUtil
     /** 用于显示大图浏览 */
     private static DisplayImageOptions m_optionsListPhoto;
 
+
     private static void init()
+    {
+        init(m_context);
+    }
+
+    public static void init(Context context)
     {
         try
         {
             if (m_imageLoader == null)
             {
-                Context context = theApp.CONTEXT;
+                m_context = context;
+                //Context context = theApp.CONTEXT;
                 File cacheDir = StorageUtils.getCacheDirectory(context);
                 // Configuration(ImageLoaderConfiguration) 是相对于整个应用的配置
                 ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
@@ -266,31 +272,31 @@ public class ImageLoaderUtil
         }
     }
 
-    /**
-     * 在列表中显示图片<br/>
-     * 加载asset中的图片
-     * @param imageView
-     * @param imageName asset 中图片文件名
-     */
-    public static void displayPhotoFromFile(ImageView imageView, String imageName)
-    {
-        try
-        {
-            if (imageView == null)
-            {
-                return;
-            }
-
-            String strUrl = "file:///" + imageName;
-            Glide.with(theApp.CONTEXT)
-                    .load(strUrl)
-                    //.placeholder(com.yancy.imageselector.R.mipmap.imageselector_photo)
-                    .centerCrop()
-                    .into(imageView);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+//    /**
+//     * 在列表中显示图片<br/>
+//     * 加载asset中的图片
+//     * @param imageView
+//     * @param imageName asset 中图片文件名
+//     */
+//    public static void displayPhotoFromFile(ImageView imageView, String imageName)
+//    {
+//        try
+//        {
+//            if (imageView == null)
+//            {
+//                return;
+//            }
+//
+//            String strUrl = "file:///" + imageName;
+//            Glide.with(theApp.CONTEXT)
+//                    .load(strUrl)
+//                    //.placeholder(com.yancy.imageselector.R.mipmap.imageselector_photo)
+//                    .centerCrop()
+//                    .into(imageView);
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
 }

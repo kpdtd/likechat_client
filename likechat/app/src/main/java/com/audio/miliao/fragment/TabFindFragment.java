@@ -23,7 +23,7 @@ import com.audio.miliao.algorithm.SortByWatch;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddDynamicPageView;
 import com.audio.miliao.http.cmd.FetchFindList;
-import com.audio.miliao.util.ImageLoaderUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.MediaPlayerUtil;
 import com.audio.miliao.util.StringUtil;
 import com.netease.nim.uikit.miliao.util.UIUtil;

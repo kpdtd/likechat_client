@@ -22,7 +22,7 @@ import com.audio.miliao.http.cmd.UpdateUserInfo;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.FileUtil;
-import com.audio.miliao.util.ImageLoaderUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
 import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 import com.netease.nim.uikit.miliao.vo.ActorVo;

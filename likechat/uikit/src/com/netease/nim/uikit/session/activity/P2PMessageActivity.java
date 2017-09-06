@@ -123,6 +123,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
                 {
                     if (getCustomization() != null && getCustomization().buttons != null)
                     {
+                        v.setTag(mActorPageVo);
                         getCustomization().buttons.get(0).onClick(P2PMessageActivity.this, v, sessionId);
                     }
                 }

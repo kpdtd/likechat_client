@@ -10,6 +10,7 @@ import com.audio.miliao.entity.AppData;
 import com.audio.miliao.receiver.PhoneCallStateObserver;
 import com.audio.miliao.util.LogUtil;
 import com.audio.miliao.util.YunXinUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.netease.nim.uikit.miliao.util.UIUtil;
 import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 import com.netease.nimlib.sdk.NIMClient;
@@ -84,6 +85,8 @@ public class theApp extends Application
             //onYunXinLogin(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
             YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
         }
+
+        ImageLoaderUtil.init(CONTEXT);
     }
 
     public boolean inMainProcess(Context context)

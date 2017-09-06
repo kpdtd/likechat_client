@@ -8,12 +8,11 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.netease.nim.uikit.cache.NimUserInfoCache;
 import com.netease.nim.uikit.common.ui.imageview.HeadImageView;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.netease.nim.uikit.miliao.util.ViewsUtil;
-import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
-import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 import com.uikit.loader.LoaderApp;
 import com.uikit.loader.R;
 import com.uikit.loader.avchat.widget.ToggleListener;
@@ -59,6 +58,11 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
     private View recordTip;
     private View recordWarning;
 
+    // 资费价格
+    private TextView priceTv; // 通话资费
+    private TextView platformPriceTv; // 平台维护费
+    private TextView totalPriceTv; // 合计
+
     // data
     private AVChatUI manager;
     private AVChatUIListener listener;
@@ -69,12 +73,20 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
     // is in switch
     private boolean isInSwitch = false;
 
+    private ActorPageVo mActorPageVo;
+
     public AVChatAudio(Context context, View root, AVChatUIListener listener, AVChatUI manager)
     {
         this.context = context;
         this.rootView = root;
         this.listener = listener;
         this.manager = manager;
+    }
+
+    public void setActorPageVo(ActorPageVo actorPageVo)
+    {
+        mActorPageVo = actorPageVo;
+        showActorPageVo();
     }
 
     /**
@@ -109,7 +121,7 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
             setWifiUnavailableNotifyTV(false);
             showNetworkCondition(1);
             showProfile();
-            setSwitchVideo(true);
+            setSwitchVideo(false);
             setTime(true);
             hideNotify();
             setMuteSpeakerHangupControl(true);
@@ -186,6 +198,10 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
         recordTip = rootView.findViewById(R.id.avchat_record_tip);
         recordWarning = rootView.findViewById(R.id.avchat_record_warning);
 
+        priceTv = (TextView) rootView.findViewById(R.id.txt_call_rate1);
+        platformPriceTv = (TextView) rootView.findViewById(R.id.txt_call_rate2);
+        totalPriceTv = (TextView) rootView.findViewById(R.id.txt_call_rate3);
+
         init = true;
     }
 
@@ -198,15 +214,47 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
      */
     private void showProfile()
     {
-        String account = manager.getAccount();
-        headImg.loadBuddyAvatar(account);
-        nickNameTV.setText(NimUserInfoCache.getInstance().getUserDisplayName(account));
         try
         {
-            NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(account);
-            int sex = (userInfo.getGenderEnum() == GenderEnum.FEMALE ? 2 : 1);
-            ViewsUtil.setActorGenderDrawable(ageTv, sex, true);
-            ageTv.setText(userInfo.getBirthday());
+            //String account = manager.getAccount();
+            // headImg.loadBuddyAvatar(account);
+            // nickNameTV.setText(NimUserInfoCache.getInstance().getUserDisplayName(account));
+
+//            NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(account);
+//            int sex = (userInfo.getGenderEnum() == GenderEnum.FEMALE ? 2 : 1);
+//            ViewsUtil.setActorGenderDrawable(ageTv, sex, true);
+//            ageTv.setText(userInfo.getBirthday());
+
+            showActorPageVo();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void showActorPageVo()
+    {
+        try
+        {
+            if (mActorPageVo != null)
+            {
+                String str = context.getString(R.string.txt_call_out_bill_1);
+                priceTv.setText(mActorPageVo.getPrice() + str);
+
+                str = context.getString(R.string.txt_call_out_bill_2);
+                platformPriceTv.setText(mActorPageVo.getPlatformPrice() + str);
+
+                str = context.getString(R.string.txt_call_out_bill_3);
+                totalPriceTv.setText(mActorPageVo.getTotalPrice() + str);
+
+                ImageLoaderUtil.displayListAvatarImage(headImg, mActorPageVo.getIcon());
+
+                nickNameTV.setText(mActorPageVo.getNickname());
+
+                ViewsUtil.setActorGenderDrawable(ageTv, mActorPageVo.getSex(), true);
+                ageTv.setText(mActorPageVo.getAge());
+            }
         }
         catch (Exception e)
         {

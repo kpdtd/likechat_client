@@ -8,6 +8,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
+import com.audio.miliao.event.WXPayResultEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchAccountBalance;
 import com.audio.miliao.listener.PayListener;
@@ -19,6 +20,8 @@ import com.netease.nim.uikit.miliao.vo.GoodsVo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 账户余额
@@ -50,6 +53,15 @@ public class AccountBalanceActivity extends BaseActivity
         //updateData();
         FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
         fetchAccountBalance.send();
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initUI()
@@ -199,30 +211,13 @@ public class AccountBalanceActivity extends BaseActivity
                 @Override
                 public void onSucceed()
                 {
-                    handler().post(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            m_txtPayNow.setEnabled(true);
-                        }
-                    });
-                    FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
-                    fetchAccountBalance.send();
-                    theApp.showToast("支付成功");
+                    onPaySucceed();
                 }
 
                 @Override
                 public void onFailed(String error)
                 {
-                    handler().post(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            m_txtPayNow.setEnabled(true);
-                        }
-                    });
+                    setPayEnabled(true);
                     theApp.showToast("支付失败");
                 }
             });
@@ -243,41 +238,49 @@ public class AccountBalanceActivity extends BaseActivity
         try
         {
             m_txtPayNow.setEnabled(false);
-            WXUtil.pay(goodsVo, new PayListener()
-            {
-                @Override
-                public void onSucceed()
-                {
-                    handler().post(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            m_txtPayNow.setEnabled(true);
-                        }
-                    });
-                    theApp.showToast("支付成功");
-                }
-
-                @Override
-                public void onFailed(String error)
-                {
-                    handler().post(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            m_txtPayNow.setEnabled(true);
-                        }
-                    });
-                    theApp.showToast("支付失败");
-                }
-            });
+            // 微信支付的返回结果需要通过eventbus异步返回，listener返回的结果不准确
+            WXUtil.pay(goodsVo, null);
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    private void setPayEnabled(final boolean enabled)
+    {
+        handler().post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                m_txtPayNow.setEnabled(enabled);
+            }
+        });
+    }
+
+    public void onEventMainThread(final WXPayResultEvent event)
+    {
+        switch (event.getPayResult())
+        {
+        // 支付成功
+        case 0:
+            onPaySucceed();
+            break;
+        default:
+            setPayEnabled(true);
+            theApp.showToast("支付失败");
+            break;
+        }
+    }
+
+    private void onPaySucceed()
+    {
+        setPayEnabled(true);
+
+        FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
+        fetchAccountBalance.send();
+        theApp.showToast("支付成功");
     }
 
     @Override

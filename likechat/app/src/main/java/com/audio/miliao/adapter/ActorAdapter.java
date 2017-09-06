@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.util.EntityUtil;
-import com.audio.miliao.util.ImageLoaderUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.netease.nim.uikit.miliao.vo.ActorVo;
 
 import java.util.List;

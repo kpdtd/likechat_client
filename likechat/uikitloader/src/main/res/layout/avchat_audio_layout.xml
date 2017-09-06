@@ -23,6 +23,7 @@
                 android:layout_marginTop="18dp"
                 android:background="@drawable/video_audio_mode_switch_bg"
                 android:clickable="true"
+                android:visibility="invisible"
                 android:descendantFocusability="blocksDescendants">
 
                 <Button

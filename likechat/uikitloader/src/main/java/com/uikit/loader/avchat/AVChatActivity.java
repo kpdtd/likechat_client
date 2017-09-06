@@ -11,9 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.netease.nim.uikit.event.QueryActorVoEvent;
+import com.netease.nim.uikit.event.QueryActorVoResultEvent;
 import com.netease.nim.uikit.event.VoiceChatChargeFailedEvent;
 import com.netease.nim.uikit.event.VoiceChatEstablishedEvent;
 import com.netease.nim.uikit.event.VoiceChatHangUpEvent;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 import com.netease.nimlib.sdk.avchat.model.AVChatNetworkStats;
 import com.netease.nimlib.sdk.avchat.model.AVChatSessionStats;
 import com.uikit.loader.R;
@@ -91,7 +94,9 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
     // notification
     private AVChatNotification notifier;
 
-    public static void launch(Context context, String account, int callType, int source)
+    private ActorPageVo mActorPageVo;
+
+    public static void launch(Context context, String account, int callType, int source, ActorPageVo actorPageVo)
     {
         needFinish = false;
         Intent intent = new Intent();
@@ -100,6 +105,7 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
         intent.putExtra(KEY_IN_CALLING, false);
         intent.putExtra(KEY_CALL_TYPE, callType);
         intent.putExtra(KEY_SOURCE, source);
+        intent.putExtra("actor_page_vo", actorPageVo);
         context.startActivity(intent);
     }
 
@@ -140,6 +146,17 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
             return;
         }
 
+        if (getIntent().hasExtra("actor_page_vo"))
+        {
+            mActorPageVo = (ActorPageVo) getIntent().getSerializableExtra("actor_page_vo");
+        }
+        else
+        {
+            // 向app获取ActorPageVo信息
+            EventBus.getDefault().post(new QueryActorVoEvent(avChatData.getAccount()));
+        }
+
+        avChatUI.setActorPageVo(mActorPageVo);
         registerNetCallObserver(true);
         if (mIsInComingCall)
         {
@@ -210,6 +227,17 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
     public void onEventMainThread(VoiceChatChargeFailedEvent event)
     {
         avChatUI.onHangUp();
+    }
+
+    /**
+     * 获取到ActorPageVo信息
+     *
+     * @param event
+     */
+    public void onEventMainThread(QueryActorVoResultEvent event)
+    {
+        mActorPageVo = event.getActorPageVo();
+        avChatUI.setActorPageVo(mActorPageVo);
     }
 
     /**
