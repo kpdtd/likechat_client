@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
     // view
     private View rootView;
     private View switchVideo;
+    private ImageView outgoingCallBg;
     private HeadImageView headImg;
     private TextView nickNameTV;
     private TextView ageTv;
@@ -57,6 +59,12 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
     private View recordView;
     private View recordTip;
     private View recordWarning;
+
+    // 呼入背景
+    private View layContent;
+    private View layPrice;
+    private View divider;
+    private View callState;
 
     // 资费价格
     private TextView priceTv; // 通话资费
@@ -86,7 +94,7 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
     public void setActorPageVo(ActorPageVo actorPageVo)
     {
         mActorPageVo = actorPageVo;
-        showActorPageVo();
+        showProfile();
     }
 
     /**
@@ -104,9 +112,11 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
             setSwitchVideo(false);
             showProfile();//对方的详细信息
             showNotify(R.string.avchat_wait_recieve);
-            setWifiUnavailableNotifyTV(true);
+            setWifiUnavailableNotifyTV(false);
             setMuteSpeakerHangupControl(true);
             setRefuseReceive(false);
+            showIncomeCallBg(false);
+            setPriceVisiable(true);
             break;
         case INCOMING_AUDIO_CALLING://免费通话请求
             setSwitchVideo(false);
@@ -114,6 +124,8 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
             showNotify(R.string.avchat_audio_call_request);
             setMuteSpeakerHangupControl(false);
             setRefuseReceive(true);
+            showIncomeCallBg(true);
+            setPriceVisiable(false);
             receiveTV.setText(R.string.avchat_pickup);
             break;
         case AUDIO:
@@ -126,6 +138,8 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
             hideNotify();
             setMuteSpeakerHangupControl(true);
             setRefuseReceive(false);
+            showIncomeCallBg(true);
+            setPriceVisiable(false);
             enableToggle();
             break;
         case AUDIO_CONNECTING:
@@ -167,6 +181,12 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
         switchVideo = rootView.findViewById(R.id.avchat_audio_switch_video);
         switchVideo.setOnClickListener(this);
 
+        layContent = rootView.findViewById(R.id.lay_content);
+        layPrice = rootView.findViewById(R.id.lay_price);
+        divider = rootView.findViewById(R.id.divider);
+        callState = rootView.findViewById(R.id.txt_call_state);
+
+        outgoingCallBg = (ImageView) rootView.findViewById(R.id.img_info_bg);
         headImg = (HeadImageView) rootView.findViewById(R.id.avchat_audio_head);
         nickNameTV = (TextView) rootView.findViewById(R.id.avchat_audio_nickname);
         ageTv = (TextView) rootView.findViewById(R.id.txt_age);
@@ -225,18 +245,6 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
 //            ViewsUtil.setActorGenderDrawable(ageTv, sex, true);
 //            ageTv.setText(userInfo.getBirthday());
 
-            showActorPageVo();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void showActorPageVo()
-    {
-        try
-        {
             if (mActorPageVo != null)
             {
                 String str = context.getString(R.string.txt_call_out_bill_1);
@@ -248,6 +256,7 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
                 str = context.getString(R.string.txt_call_out_bill_3);
                 totalPriceTv.setText(mActorPageVo.getTotalPrice() + str);
 
+                ImageLoaderUtil.displayListAvatarImage(outgoingCallBg, mActorPageVo.getIcon());
                 ImageLoaderUtil.displayListAvatarImage(headImg, mActorPageVo.getIcon());
 
                 nickNameTV.setText(mActorPageVo.getNickname());
@@ -324,7 +333,9 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
                 drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
                 netUnstableTV.setCompoundDrawables(null, null, drawable, null);
             }
-            netUnstableTV.setVisibility(View.VISIBLE);
+            // 2017-9-10 11:54:54
+            // UI上暂时不需要显示网络状态
+            //netUnstableTV.setVisibility(View.VISIBLE);
         }
     }
 
@@ -396,6 +407,54 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
         {
             time.setBase(manager.getTimeBase());
             time.start();
+        }
+    }
+
+    /**
+     * 显示呼入背景
+     * @param show
+     */
+    private void showIncomeCallBg(boolean show)
+    {
+        try
+        {
+            if (show)
+            {
+                layContent.setBackgroundResource(R.drawable.call_in_bg);
+                outgoingCallBg.setVisibility(View.INVISIBLE);
+                callState.setVisibility(View.INVISIBLE);
+            }
+            else
+            {
+                layContent.setBackground(null);
+                callState.setVisibility(View.VISIBLE);
+                if (mActorPageVo != null)
+                {
+                    outgoingCallBg.setVisibility(View.VISIBLE);
+                    ImageLoaderUtil.displayListAvatarImage(outgoingCallBg, mActorPageVo.getIcon());
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 设置通话费用是否可见
+     * @param visiable
+     */
+    private void setPriceVisiable(boolean visiable)
+    {
+        try
+        {
+            layPrice.setVisibility((visiable ? View.VISIBLE : View.GONE));
+            divider.setVisibility((visiable ? View.VISIBLE : View.GONE));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 

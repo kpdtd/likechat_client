@@ -13,22 +13,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/avchat_refuse_bg_selector"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/btn_hang_up_selector"
         android:gravity="center"
         android:text="@string/avchat_refuse"
         android:textColor="@color/white"
-        android:textSize="17sp"/>
+        android:textSize="14dp"/>
 
     <TextView
         android:id="@+id/receive"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
         android:layout_weight="1"
-        android:background="@drawable/avchat_receive_bg_selector"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/btn_answer_selector"
         android:gravity="center"
         android:text="@string/avchat_receive"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_17"/>
+        android:textSize="14dp"/>
 
 </LinearLayout>

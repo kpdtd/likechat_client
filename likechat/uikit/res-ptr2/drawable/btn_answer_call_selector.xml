@@ -5,7 +5,7 @@
         <layer-list>
             <item>
                 <shape android:shape="oval">
-                    <solid android:color="#e74948"/>
+                    <solid android:color="#04a6f9"/>
                     <padding android:bottom="5dp"
                              android:left="5dp"
                              android:right="5dp"
@@ -13,7 +13,7 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/ic_hang_up"/>
+                <bitmap android:src="@drawable/ic_answer"/>
             </item>
         </layer-list>
     </item>
@@ -21,7 +21,7 @@
         <layer-list>
             <item>
                 <shape android:shape="oval">
-                    <solid android:color="#7C1817"/>
+                    <solid android:color="#0272B5"/>
                     <padding android:bottom="5dp"
                              android:left="5dp"
                              android:right="5dp"
@@ -29,7 +29,7 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/ic_hang_up"/>
+                <bitmap android:src="@drawable/ic_answer"/>
             </item>
         </layer-list>
     </item>
