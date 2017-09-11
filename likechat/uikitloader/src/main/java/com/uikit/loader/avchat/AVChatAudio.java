@@ -138,8 +138,8 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener
             hideNotify();
             setMuteSpeakerHangupControl(true);
             setRefuseReceive(false);
-            showIncomeCallBg(true);
-            setPriceVisiable(false);
+            //showIncomeCallBg(true);
+            //setPriceVisiable(false);
             enableToggle();
             break;
         case AUDIO_CONNECTING:
