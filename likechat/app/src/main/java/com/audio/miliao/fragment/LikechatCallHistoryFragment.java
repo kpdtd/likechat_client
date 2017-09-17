@@ -59,7 +59,6 @@ import static com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog.onSeparat
  */
 public class LikechatCallHistoryFragment extends TFragment
 {
-
     // 置顶功能可直接使用，也可作为思路，供开发者充分利用RecentContact的tag字段
     public static final long RECENT_TAG_STICKY = 1; // 联系人置顶tag
 

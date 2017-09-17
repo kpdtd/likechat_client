@@ -118,7 +118,7 @@
                 android:paddingRight="35dp"
                 android:text="@string/avchat_video_call_request"
                 android:textColor="@color/white"
-                android:textSize="17sp"/>
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/avchat_audio_wifi_unavailable"
@@ -153,7 +153,7 @@
                 android:singleLine="true"
                 android:text="@string/avchat_network_grade_1"
                 android:textColor="@color/white"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 android:visibility="invisible"/>
 
         </RelativeLayout>

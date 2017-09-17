@@ -1,2 +1,19 @@
-<RadioButton style="@style/tab_main_radio_style">
-</RadioButton>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:layout_weight="1"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <CheckBox
+        android:id="@+id/chk_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/about"
+        android:textColor="@color/white"
+        android:button="@null"
+        android:background="@drawable/radio_main_filter2_selector"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

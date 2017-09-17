@@ -38,6 +38,8 @@
     <string name="title_photo_zone">图片动态</string>
     <string name="title_voice_zone">声音动态</string>
     <string name="title_video_zone">视频动态</string>
+    <string name="title_pick_city">城市选择</string>
+    <string name="title_pick_time">时间选择</string>
 
     <string name="txt_me_login">点击登录</string>
     <string name="txt_me_account_balance">账户余额</string>

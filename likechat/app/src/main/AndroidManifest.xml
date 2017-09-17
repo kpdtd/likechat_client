@@ -218,14 +218,8 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".dialog.DatePickerActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Base.Theme.AppCompat.Light.Dialog">
-        </activity>
-        <activity
             android:name=".dialog.CityPickerActivity"
+            android:label="@string/title_pick_city"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

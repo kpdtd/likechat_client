@@ -44,7 +44,8 @@
 
     <LinearLayout
         android:id="@+id/lay_contact_us"
-        style="@style/edit_user_info_item_layout_style">
+        style="@style/edit_user_info_item_layout_style"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/txt_settings_contact_us"

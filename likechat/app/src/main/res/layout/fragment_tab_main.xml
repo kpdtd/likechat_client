@@ -8,56 +8,55 @@
 
     <LinearLayout
         style="@style/title_style"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <RadioGroup
             android:id="@+id/rgp_tag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="100dp"
             android:layout_weight="1"
-            android:layout_marginLeft="70dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+
             <RadioButton
                 android:id="@+id/rdo_all"
                 style="@style/tab_main_radio_style"
                 android:checked="true"
                 android:text="@string/rdo_main_all"/>
+
             <RadioButton
                 android:id="@+id/rdo_charm"
                 style="@style/tab_main_radio_style"
                 android:text="@string/rdo_main_charm"/>
+
             <RadioButton
                 android:id="@+id/rdo_sexy"
                 style="@style/tab_main_radio_style"
                 android:text="@string/rdo_main_sexy"/>
+
             <RadioButton
                 android:id="@+id/rdo_hot"
                 style="@style/tab_main_radio_style"
                 android:text="@string/rdo_main_hot"/>
+
             <RadioButton
                 android:id="@+id/rdo_gentle"
                 style="@style/tab_main_radio_style"
                 android:text="@string/rdo_main_gentle"/>
         </RadioGroup>
 
-        <ImageView
-            android:id="@+id/img_customer_service"
-            android:layout_width="@dimen/title_bar_height"
-            android:layout_height="@dimen/title_bar_height"
-            android:src="@mipmap/ic_customer_service"
-            android:scaleType="center"
-            android:clickable="true"
-            android:layout_marginRight="10dp"/>
     </LinearLayout>
 
     <com.audio.miliao.widget.GridViewWithHeaderAndFooter
         android:id="@+id/grid"
-        android:numColumns="2"
-        android:background="@color/transparent"
-        android:verticalSpacing="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:numColumns="2"
+        android:paddingTop="5dp"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="5dp">
 
     </com.audio.miliao.widget.GridViewWithHeaderAndFooter>
 

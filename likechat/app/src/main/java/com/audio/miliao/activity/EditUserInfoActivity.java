@@ -12,9 +12,8 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.audio.miliao.R;
-import com.audio.miliao.dialog.CityPickerActivity;
-import com.audio.miliao.dialog.DatePickerActivity;
 import com.audio.miliao.dialog.LoadingDialog;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
@@ -22,15 +21,23 @@ import com.audio.miliao.http.cmd.UpdateUserInfo;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.FileUtil;
-import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.StringUtil;
+import com.netease.nim.uikit.common.ui.widget.CircleImageView;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 import com.netease.nim.uikit.miliao.vo.ActorVo;
-import com.netease.nim.uikit.common.ui.widget.CircleImageView;
 import com.uikit.loader.entity.LoaderAppData;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import cn.qqtheme.framework.entity.City;
+import cn.qqtheme.framework.entity.County;
+import cn.qqtheme.framework.entity.Province;
+import cn.qqtheme.framework.picker.AddressPicker;
+import cn.qqtheme.framework.picker.DatePicker;
+import cn.qqtheme.framework.util.ConvertUtils;
 
 /**
  * 编辑用户信息
@@ -77,9 +84,13 @@ public class EditUserInfoActivity extends BaseActivity
      */
     private String mAvatarTempFilePath = "";
 
-    /** 用于显示个人信息 */
+    /**
+     * 用于显示个人信息
+     */
     private ActorPageVo m_actorPageVo;
-    /** 用于编辑个人信息 */
+    /**
+     * 用于编辑个人信息
+     */
     private ActorVo m_actorVo = new ActorVo();
 
     @Override
@@ -120,12 +131,12 @@ public class EditUserInfoActivity extends BaseActivity
             case REQ_INPUT_INTRO:
                 onInputIntro(data);
                 break;
-            case REQ_PICKER_DATE:
-                onPickDate(data);
-                break;
-            case REQ_PICKER_CITY:
-                onPickCity(data);
-                break;
+//            case REQ_PICKER_DATE:
+//                //onPickDate(data);
+//                break;
+//            case REQ_PICKER_CITY:
+//                onPickCity(data);
+//                break;
             case REQ_SELECT_AVATAR_FROM_ALBUM:
                 // 从相册选择图片作为头像
                 if (data != null)
@@ -202,12 +213,32 @@ public class EditUserInfoActivity extends BaseActivity
                             showSelectGenderDialog();
                             break;
                         case R.id.lay_birthday:
-                            Intent intentDatePicker = new Intent(EditUserInfoActivity.this, DatePickerActivity.class);
-                            startActivityForResult(intentDatePicker, REQ_PICKER_DATE);
+                            DatePicker picker = new DatePicker(EditUserInfoActivity.this, DatePicker.YEAR_MONTH_DAY);
+                            picker.setRangeStart(1900, 1, 1);
+                            picker.setRangeEnd(2017, 11, 11);
+                            picker.setCanceledOnTouchOutside(true);
+                            picker.setUseWeight(true);
+                            picker.setTopPadding(ConvertUtils.toPx(EditUserInfoActivity.this, 10));
+                            picker.setSelectedItem(1990, 1, 1);
+                            picker.setResetWhileWheel(false);
+                            picker.setCycleDisable(true);
+                            picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener()
+                            {
+                                @Override
+                                public void onDatePicked(String year, String month, String day)
+                                {
+                                    //theApp.showToast(year + "-" + month + "-" + day);
+                                    onPickDate(Integer.valueOf(year),
+                                            Integer.valueOf(month),
+                                            Integer.valueOf(day));
+                                }
+                            });
+                            picker.show();
                             break;
                         case R.id.lay_location:
-                            Intent intentCityPicker = new Intent(EditUserInfoActivity.this, CityPickerActivity.class);
-                            startActivityForResult(intentCityPicker, REQ_PICKER_CITY);
+//                            Intent intentCityPicker = new Intent(EditUserInfoActivity.this, CityPickerActivity.class);
+//                            startActivityForResult(intentCityPicker, REQ_PICKER_CITY);
+                            pickAddress();
                             break;
                         case R.id.lay_self_intro:
                             Intent intentInputIntro = new Intent(EditUserInfoActivity.this, InputActivity.class);
@@ -236,6 +267,34 @@ public class EditUserInfoActivity extends BaseActivity
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    private void pickAddress()
+    {
+        try
+        {
+            ArrayList<Province> data = new ArrayList<>();
+            String json = ConvertUtils.toString(getAssets().open("city2.json"));
+            data.addAll(JSON.parseArray(json, Province.class));
+            AddressPicker picker = new AddressPicker(this, data);
+            picker.setShadowVisible(true);
+            picker.setHideProvince(false);
+            picker.setHideCounty(true);
+            picker.setOnAddressPickListener(new AddressPicker.OnAddressPickListener()
+            {
+                @Override
+                public void onAddressPicked(Province province, City city, County county)
+                {
+                    //theApp.showToast("province : " + province + ", city: " + city + ", county: " + county);
+                    onPickCity(province.getName(), city.getName());
+                }
+            });
+            picker.show();
+        }
+        catch (Exception e)
+        {
+            //theApp.showToast(LogUtils.toStackTraceString(e));
         }
     }
 
@@ -296,13 +355,13 @@ public class EditUserInfoActivity extends BaseActivity
         }
     }
 
-    private void onPickDate(Intent data)
+    private void onPickDate(int nYear, int nMonth, int nDay)
     {
         try
         {
-            int nYear = data.getIntExtra("year", 0);
-            int nMonth = data.getIntExtra("month", 0);
-            int nDay = data.getIntExtra("day", 0);
+//            int nYear = data.getIntExtra("year", 0);
+//            int nMonth = data.getIntExtra("month", 0);
+//            int nDay = data.getIntExtra("day", 0);
             int nAge = getAgeByBirthday(nYear, nMonth, nDay);
             m_txtAge.setText(String.valueOf(nAge));
             String strAge = String.format("%4d-%02d-%02d", nYear, nMonth, nDay);
@@ -314,13 +373,13 @@ public class EditUserInfoActivity extends BaseActivity
         }
     }
 
-    private void onPickCity(Intent data)
+    private void onPickCity(String provice, String city)
     {
         try
         {
-            String provice = data.getStringExtra("provice");
-            String city = data.getStringExtra("city");
-            String district = data.getStringExtra("district");
+//            String provice = data.getStringExtra("provice");
+//            String city = data.getStringExtra("city");
+//            String district = data.getStringExtra("district");
             m_txtCity.setText(provice + "/" + city);
             m_actorVo.setCity(provice + "/" + city);
         }
