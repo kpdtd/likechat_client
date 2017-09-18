@@ -200,8 +200,8 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.audio.miliao.action_user_info" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.audio.miliao.action_user_info"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
         </activity>
@@ -218,12 +218,11 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".dialog.CityPickerActivity"
-            android:label="@string/title_pick_city"
+            android:name=".activity.BuyVipActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Base.Theme.AppCompat.Light.Dialog">
+            android:theme="@style/activity_transparent_style"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".wxapi.WXEntryActivity"

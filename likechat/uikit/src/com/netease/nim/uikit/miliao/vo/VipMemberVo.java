@@ -18,7 +18,6 @@ public class VipMemberVo extends GsonObj<VipMemberVo>
      * subname：赠送199个币
      */
 
-
     public Integer getIsvip()
     {
         return isvip;

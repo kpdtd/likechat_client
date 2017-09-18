@@ -135,7 +135,7 @@ public class EditUserInfoActivity extends BaseActivity
 //                //onPickDate(data);
 //                break;
 //            case REQ_PICKER_CITY:
-//                onPickCity(data);
+//                onPickAddress(data);
 //                break;
             case REQ_SELECT_AVATAR_FROM_ALBUM:
                 // 从相册选择图片作为头像
@@ -287,7 +287,7 @@ public class EditUserInfoActivity extends BaseActivity
                 public void onAddressPicked(Province province, City city, County county)
                 {
                     //theApp.showToast("province : " + province + ", city: " + city + ", county: " + county);
-                    onPickCity(province.getName(), city.getName());
+                    onPickAddress(province.getName(), city.getName());
                 }
             });
             picker.show();
@@ -373,7 +373,7 @@ public class EditUserInfoActivity extends BaseActivity
         }
     }
 
-    private void onPickCity(String provice, String city)
+    private void onPickAddress(String provice, String city)
     {
         try
         {

@@ -15,11 +15,13 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddAttention;
 import com.audio.miliao.http.cmd.CancelAttention;
 import com.audio.miliao.http.cmd.FetchActorPage;
+import com.audio.miliao.http.cmd.FetchVipMember;
+import com.audio.miliao.theApp;
 import com.audio.miliao.util.DebugUtil;
-import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.audio.miliao.util.MediaPlayerUtil;
 import com.audio.miliao.util.StringUtil;
 import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.netease.nim.uikit.miliao.util.UIUtil;
 import com.netease.nim.uikit.miliao.util.ViewsUtil;
 import com.netease.nim.uikit.miliao.vo.ActorPageVo;
@@ -143,6 +145,16 @@ public class UserInfoActivity extends BaseActivity
                         case R.id.img_back:
                             finish();
                             break;
+                        // 查看手机号
+                        case R.id.lay_mobile:
+                            // 查看QQ
+                        case R.id.lay_qq:
+                            // 查看微信
+                        case R.id.lay_wx:
+
+                            FetchVipMember fetchVipMember = new FetchVipMember(handler(), v.getId());
+                            fetchVipMember.send();
+                            break;
                         }
                     }
                     catch (Exception e)
@@ -158,6 +170,9 @@ public class UserInfoActivity extends BaseActivity
             findViewById(R.id.lay_voice_chat).setOnClickListener(clickListener);
             findViewById(R.id.lay_text_chat).setOnClickListener(clickListener);
             findViewById(R.id.lay_follow).setOnClickListener(clickListener);
+            findViewById(R.id.lay_mobile).setOnClickListener(clickListener);
+            findViewById(R.id.lay_qq).setOnClickListener(clickListener);
+            findViewById(R.id.lay_wx).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
@@ -484,6 +499,33 @@ public class UserInfoActivity extends BaseActivity
             {
                 updateFollowButtonState(false);
                 EventBus.getDefault().post(new CancelAttentionEvent(m_actorVo));
+            }
+            break;
+        case HttpUtil.RequestCode.FETCH_VIP_MEMBER:
+            FetchVipMember fetchVipMember = (FetchVipMember) msg.obj;
+            if (FetchVipMember.isSucceed(fetchVipMember))
+            {
+                if (fetchVipMember.rspVipMember != null & fetchVipMember.rspVipMember.getIsvip() == 1)
+                {
+                    theApp.showToast("已经是会员了");
+                    // 已经是vip会员
+                    int viewId = (int) fetchVipMember.rspCallBackTag;
+                    switch (viewId)
+                    {
+                    case R.id.lay_mobile:
+                        break;
+                    case R.id.lay_qq:
+                        break;
+                    case R.id.lay_wx:
+                        break;
+                    }
+                }
+                else
+                {
+                    // 还不是vip会员
+                    Intent intentMobile = new Intent(UserInfoActivity.this, BuyVipActivity.class);
+                    startActivity(intentMobile);
+                }
             }
             break;
         }

@@ -26,7 +26,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#fefefe">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,161 +62,22 @@
                     android:textSize="@dimen/txt_size_14_dp"/>
             </LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/lay_level_silver"
-                style="@style/vip_charge_layout_style">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@mipmap/vip_member_level_silver"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txt_name_level_silver"
-                        style="@style/vip_charge_text1_style"
-                        android:text="@string/txt_vip_member_level_silver"/>
-
-                    <TextView
-                        android:id="@+id/txt_subname_level_silver"
-                        style="@style/vip_charge_text2_style"
-                        android:text="@string/txt_vip_member_level_silver_give"/>
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/chk_level_silver"
-                    style="@style/vip_charge_price_style"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lay_level_gold"
-                style="@style/vip_charge_layout_style"
-                android:layout_marginTop="1px">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@mipmap/vip_member_level_gold"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txt_name_level_gold"
-                        style="@style/vip_charge_text1_style"
-                        android:text="@string/txt_vip_member_level_gold"/>
-
-                    <TextView
-                        android:id="@+id/txt_subname_level_gold"
-                        style="@style/vip_charge_text2_style"
-                        android:text="@string/txt_vip_member_level_gold_give"/>
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/chk_level_gold"
-                    style="@style/vip_charge_price_style"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lay_level_diamond"
-                style="@style/vip_charge_layout_style"
-                android:layout_marginTop="1px">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@mipmap/vip_member_level_diamond"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txt_name_level_diamond"
-                        style="@style/vip_charge_text1_style"
-                        android:text="@string/txt_vip_member_level_diamond"/>
-
-                    <TextView
-                        android:id="@+id/txt_subname_level_diamond"
-                        style="@style/vip_charge_text2_style"
-                        android:text="@string/txt_vip_member_level_diamond_give"/>
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/chk_level_diamond"
-                    style="@style/vip_charge_price_style"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lay_level_extreme"
-                style="@style/vip_charge_layout_style"
-                android:layout_marginTop="1px">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@mipmap/vip_member_level_extreme"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txt_name_level_extreme"
-                        style="@style/vip_charge_text1_style"
-                        android:text="@string/txt_vip_member_level_extreme"/>
-
-                    <TextView
-                        android:id="@+id/txt_subname_level_extreme"
-                        style="@style/vip_charge_text2_style"
-                        android:text="@string/txt_vip_member_level_extreme_give"/>
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/chk_level_extreme"
-                    style="@style/vip_charge_price_style"/>
-            </LinearLayout>
-
-            <RadioGroup
+            <include
+                layout="@layout/layout_vip_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"/>
 
-                <RadioButton
-                    android:id="@+id/rdo_alipay"
-                    style="@style/pay_radio_button_style"
-                    android:drawableLeft="@mipmap/ic_alipay"
-                    android:text="@string/txt_pay_alipay"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/activity_bg"/>
 
-                <RadioButton
-                    android:id="@+id/rdo_weixin"
-                    android:layout_marginTop="1px"
-                    style="@style/pay_radio_button_style"
-                    android:drawableLeft="@mipmap/ic_weixin"
-                    android:text="@string/txt_pay_weixin"/>
-            </RadioGroup>
+            <include layout="@layout/layout_pay_list"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/activity_bg"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -238,6 +100,11 @@
                     android:textColor="@color/text_white_selector"
                     android:textSize="@dimen/txt_size_16_dp"/>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/activity_bg"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
