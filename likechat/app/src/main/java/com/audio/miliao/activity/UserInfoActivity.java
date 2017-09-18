@@ -14,6 +14,7 @@ import com.audio.miliao.event.CancelAttentionEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddAttention;
 import com.audio.miliao.http.cmd.CancelAttention;
+import com.audio.miliao.http.cmd.FetchAccountBalance;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
 import com.audio.miliao.theApp;
@@ -109,19 +110,16 @@ public class UserInfoActivity extends BaseActivity
                             break;
                         // 嗨聊
                         case R.id.lay_voice_chat:
-//                            Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
-//                            intentVoice.putExtra("user", m_actorPage);
-//                            startActivity(intentVoice);
-                            if (m_actorVo != null)
-                            {
-                                //NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken());
-                                AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
-                            }
-                            else
-                            {
-                                //NimUIKit.startP2PSession(UserInfoActivity.this, String.valueOf(m_sessionId));
-                                AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
-                            }
+//                            if (m_actorVo != null)
+//                            {
+//                                AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+//                            }
+//                            else
+//                            {
+//                                AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+//                            }
+                            FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
+                            fetchAccountBalance.send();
                             break;
                         // 文字聊天
                         case R.id.lay_text_chat:
@@ -523,8 +521,31 @@ public class UserInfoActivity extends BaseActivity
                 else
                 {
                     // 还不是vip会员
-                    Intent intentMobile = new Intent(UserInfoActivity.this, BuyVipActivity.class);
+                    Intent intentMobile = new Intent(UserInfoActivity.this, SimpleVipActivity.class);
                     startActivity(intentMobile);
+                }
+            }
+            break;
+        case HttpUtil.RequestCode.FETCH_ACCOUNT_BALANCE:
+            FetchAccountBalance fetchAccountBalance = (FetchAccountBalance) msg.obj;
+            if (FetchAccountBalance.isSucceed(fetchAccountBalance))
+            {
+                int money = (fetchAccountBalance.rspAccountBalanceVo.getMoney() != null ? fetchAccountBalance.rspAccountBalanceVo.getMoney() : 0);
+                if (money <= 0)
+                {
+                    Intent intent = new Intent(UserInfoActivity.this, SimpleBalanceActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    if (m_actorVo != null)
+                    {
+                        AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+                    }
+                    else
+                    {
+                        AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+                    }
                 }
             }
             break;

@@ -21,9 +21,9 @@ import com.netease.nim.uikit.miliao.vo.VipMemberVo;
 import de.greenrobot.event.EventBus;
 
 /**
- * 购买会员
+ * 简单的购买会员
  */
-public class BuyVipActivity extends BaseActivity
+public class SimpleVipActivity extends BaseActivity
 {
     private CheckBox m_chkSilver;
     private TextView m_txtNameSilver;
@@ -47,7 +47,7 @@ public class BuyVipActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buy_vip);
+        setContentView(R.layout.activity_simple_vip);
 
         try
         {

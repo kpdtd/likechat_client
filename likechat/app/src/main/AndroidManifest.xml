@@ -76,9 +76,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.AccountBalanceActivity"
+            android:name=".activity.BalanceActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.SimpleBalanceActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/activity_transparent_style"
             android:screenOrientation="portrait">
         </activity>
         <activity
@@ -218,7 +225,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.BuyVipActivity"
+            android:name=".activity.SimpleVipActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:theme="@style/activity_transparent_style"

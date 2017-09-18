@@ -26,7 +26,7 @@ import de.greenrobot.event.EventBus;
 /**
  * 账户余额
  */
-public class AccountBalanceActivity extends BaseActivity
+public class BalanceActivity extends BaseActivity
 {
     private static final int MSG_ALIPAY = 1000;
 
@@ -47,7 +47,7 @@ public class AccountBalanceActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_balance);
+        setContentView(R.layout.activity_balance);
 
         initUI();
         //updateData();
@@ -148,7 +148,8 @@ public class AccountBalanceActivity extends BaseActivity
                 return;
             }
 
-            m_txtAccountBalance.setText(String.valueOf(m_accountBalanceVo.getMoney()));
+            int money = (m_accountBalanceVo.getMoney() != null ? m_accountBalanceVo.getMoney() : 0);
+            m_txtAccountBalance.setText(String.valueOf(money));
 
             List<View> goodsViews = new ArrayList<>();
             goodsViews.add(m_chk10);

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="221dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:background="@mipmap/login_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_contact_her"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="@string/txt_vip_chat_with_she"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_size_24_dp"/>
+
+            <LinearLayout
+                android:id="@+id/lay_charge_item1"
+                style="@style/simple_balance_item_style">
+
+                <TextView
+                    android:id="@+id/txt_charge_name1"
+                    style="@style/simple_balance_item_name_style"
+                    android:text="49金币"/>
+
+                <CheckBox
+                    android:id="@+id/txt_charge_value1"
+                    style="@style/simple_balance_item_value_style"
+                    android:text="49元"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/activity_bg"/>
+
+            <LinearLayout
+                android:id="@+id/lay_charge_item2"
+                style="@style/simple_balance_item_style">
+
+                <TextView
+                    android:id="@+id/txt_charge_name2"
+                    style="@style/simple_balance_item_name_style"
+                    android:text="99金币"/>
+
+                <CheckBox
+                    android:id="@+id/txt_charge_value2"
+                    style="@style/simple_balance_item_value_style"
+                    android:text="89元"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/activity_bg"/>
+
+            <LinearLayout
+                android:id="@+id/lay_charge_item3"
+                style="@style/simple_balance_item_style">
+
+                <TextView
+                    android:id="@+id/txt_charge_name3"
+                    style="@style/simple_balance_item_name_style"
+                    android:text="199金币"/>
+
+                <CheckBox
+                    android:id="@+id/txt_charge_value3"
+                    style="@style/simple_balance_item_value_style"
+                    android:text="169元"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/activity_bg"/>
+
+            <include layout="@layout/layout_pay_list"/>
+
+            <TextView
+                android:id="@+id/txt_pay_now"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_confirm_pay_selector"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/txt_vip_pay_confirm"
+                android:textColor="@color/text_white_selector"
+                android:textSize="@dimen/txt_size_14_dp"/>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
