@@ -28,6 +28,17 @@ public class ActorPageVo {
 	private String platformPrice;//平台费用，用于点击连线时显示的平台价格；
 	private String totalPrice;//总计费用
  	private String callTime;//通话时长
+ 	private String phone;//
+ 	private String qq;//
+ 	private String wechat;//
+ 	private String hight;//身高
+ 	private String weight;//体重
+ 	private String concept;//恋爱观
+ 	private String objective;//目的
+ 	
+ 	
+ 	
+ 	
 	
 	private Boolean isAttention;//是否已经关注，如果未登陆，点击关注应该进入登陆页面。如果已经登陆，当此属性为true，图标应显示红色
 	
@@ -194,6 +205,62 @@ public class ActorPageVo {
 
 	public void setTotalPrice(String totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getQq() {
+		return qq;
+	}
+
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+
+	public String getWechat() {
+		return wechat;
+	}
+
+	public void setWechat(String wechat) {
+		this.wechat = wechat;
+	}
+
+	public String getHight() {
+		return hight;
+	}
+
+	public void setHight(String hight) {
+		this.hight = hight;
+	}
+
+	public String getWeight() {
+		return weight;
+	}
+
+	public void setWeight(String weight) {
+		this.weight = weight;
+	}
+
+	public String getConcept() {
+		return concept;
+	}
+
+	public void setConcept(String concept) {
+		this.concept = concept;
+	}
+
+	public String getObjective() {
+		return objective;
+	}
+
+	public void setObjective(String objective) {
+		this.objective = objective;
 	}
 	
 }
