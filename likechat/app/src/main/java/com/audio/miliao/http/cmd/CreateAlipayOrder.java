@@ -5,7 +5,7 @@ import android.os.Handler;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.util.JSONUtil;
-import com.netease.nim.uikit.miliao.vo.PayInfoVo;
+import com.app.library.vo.PayInfoVo;
 
 import org.json.JSONObject;
 

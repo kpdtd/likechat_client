@@ -3,10 +3,10 @@ package com.audio.miliao.util;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.netease.nim.uikit.miliao.entity.GsonObj;
+import com.app.library.entity.GsonObj;
 import com.audio.miliao.theApp;
-import com.netease.nim.uikit.miliao.vo.ActorVo;
-import com.netease.nim.uikit.miliao.util.ViewsUtil;
+import com.app.library.vo.ActorVo;
+import com.app.library.util.ViewsUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

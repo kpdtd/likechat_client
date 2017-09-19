@@ -6,9 +6,9 @@ import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.util.EntityUtil;
-import com.netease.nim.uikit.miliao.vo.ActorVo;
-import com.netease.nim.uikit.miliao.vo.BannerVo;
-import com.netease.nim.uikit.miliao.vo.TagVo;
+import com.app.library.vo.ActorVo;
+import com.app.library.vo.BannerVo;
+import com.app.library.vo.TagVo;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

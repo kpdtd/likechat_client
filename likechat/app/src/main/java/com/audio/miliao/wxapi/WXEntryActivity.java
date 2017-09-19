@@ -13,7 +13,7 @@ import com.audio.miliao.http.cmd.WXFetchUserinfo;
 import com.audio.miliao.http.cmd.WXOauth;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.WXUtil;
-import com.netease.nim.uikit.miliao.vo.UserRegisterVo;
+import com.app.library.vo.UserRegisterVo;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;

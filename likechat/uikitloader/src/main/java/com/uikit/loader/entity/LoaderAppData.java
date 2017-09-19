@@ -1,7 +1,7 @@
 package com.uikit.loader.entity;
 
 
-import com.uikit.loader.util.PreferUtil;
+import com.app.library.util.PreferUtil;
 
 /**
  * 内存中使用的数据

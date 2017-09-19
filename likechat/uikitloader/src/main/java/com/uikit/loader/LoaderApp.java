@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import com.app.library.util.UIUtil;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nimlib.sdk.NIMClient;
@@ -23,7 +24,6 @@ import com.uikit.loader.avchat.AVChatProfile;
 import com.uikit.loader.avchat.receiver.PhoneCallStateObserver;
 import com.uikit.loader.entity.Account;
 import com.uikit.loader.session.SessionHelper;
-import com.uikit.loader.util.UIUtil;
 import com.uikit.loader.util.YXConfig;
 import com.uikit.loader.util.sys.SystemUtil;
 

@@ -15,7 +15,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.photoview.PhotoView;
 import com.audio.miliao.photoview.PhotoViewAttacher.OnViewTapListener;
 import com.audio.miliao.theApp;
-import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
+import com.app.library.util.ImageLoaderUtil;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 

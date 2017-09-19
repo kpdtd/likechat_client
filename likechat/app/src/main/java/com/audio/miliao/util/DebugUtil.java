@@ -4,8 +4,8 @@ import com.audio.miliao.entity.AppData;
 import com.audio.miliao.entity.CallHistory;
 import com.audio.miliao.entity.ChatMessage;
 import com.audio.miliao.entity.Zone;
-import com.netease.nim.uikit.miliao.vo.ActorPageVo;
-import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.app.library.vo.ActorPageVo;
+import com.app.library.vo.ActorVo;
 
 import org.json.JSONArray;
 

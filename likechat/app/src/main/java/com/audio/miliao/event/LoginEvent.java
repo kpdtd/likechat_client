@@ -1,6 +1,6 @@
 package com.audio.miliao.event;
 
-import com.netease.nim.uikit.miliao.vo.UserRegisterVo;
+import com.app.library.vo.UserRegisterVo;
 
 /**
  * EventBus发送的登录结果Event

@@ -14,12 +14,12 @@ import com.audio.miliao.adapter.ActorDynamicAdapter;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddDynamicPageView;
 import com.audio.miliao.http.cmd.FetchActorDynamicList;
-import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
+import com.app.library.util.ImageLoaderUtil;
 import com.audio.miliao.util.MediaPlayerUtil;
 import com.audio.miliao.util.StringUtil;
-import com.netease.nim.uikit.miliao.util.UIUtil;
-import com.netease.nim.uikit.miliao.vo.ActorDynamicVo;
-import com.netease.nim.uikit.miliao.vo.ActorPageVo;
+import com.app.library.util.UIUtil;
+import com.app.library.vo.ActorDynamicVo;
+import com.app.library.vo.ActorPageVo;
 
 import java.util.ArrayList;
 import java.util.List;

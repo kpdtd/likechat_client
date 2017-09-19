@@ -17,8 +17,8 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchHomeContent;
 import com.audio.miliao.widget.NoScrollViewPager;
-import com.netease.nim.uikit.event.QueryActorVoEvent;
-import com.netease.nim.uikit.event.QueryActorVoResultEvent;
+import com.app.library.event.QueryActorVoEvent;
+import com.app.library.event.QueryActorVoResultEvent;
 
 import java.util.ArrayList;
 import java.util.List;

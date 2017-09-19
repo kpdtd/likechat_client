@@ -4,7 +4,7 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.app.library.vo.ActorVo;
 
 import org.json.JSONObject;
 

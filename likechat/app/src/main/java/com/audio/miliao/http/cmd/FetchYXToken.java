@@ -4,7 +4,7 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.netease.nim.uikit.miliao.vo.YunxinTokenVo;
+import com.app.library.vo.YunxinTokenVo;
 
 import org.json.JSONObject;
 

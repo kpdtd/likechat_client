@@ -11,9 +11,9 @@ import android.widget.Toast;
 
 import com.netease.nim.uikit.common.ui.imageview.HeadImageView;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
-import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
-import com.netease.nim.uikit.miliao.util.ViewsUtil;
-import com.netease.nim.uikit.miliao.vo.ActorPageVo;
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.ViewsUtil;
+import com.app.library.vo.ActorPageVo;
 import com.uikit.loader.LoaderApp;
 import com.uikit.loader.R;
 import com.uikit.loader.avchat.widget.ToggleListener;

@@ -31,10 +31,9 @@ android {
 }
 
 dependencies {
+    compile project(path: ':applibrary')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
-    compile fileTree(dir: 'libs', include: '*.jar')
-    compile files('libs/eventbus-2.4.0.jar')
     //compile 'org.greenrobot:eventbus:3.0.0'
     compile 'org.greenrobot:greendao:3.2.2'
     // ****************网易云信 *****************

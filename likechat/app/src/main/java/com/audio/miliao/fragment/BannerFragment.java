@@ -14,9 +14,9 @@ import android.widget.RadioGroup;
 import com.audio.miliao.R;
 import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.theApp;
-import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
-import com.netease.nim.uikit.miliao.util.UIUtil;
-import com.netease.nim.uikit.miliao.vo.BannerVo;
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.UIUtil;
+import com.app.library.vo.BannerVo;
 
 import java.util.ArrayList;
 import java.util.List;

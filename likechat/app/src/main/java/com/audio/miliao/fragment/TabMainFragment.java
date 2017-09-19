@@ -21,9 +21,9 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorListByTag;
 import com.audio.miliao.util.Checker;
 import com.audio.miliao.widget.GridViewWithHeaderAndFooter;
-import com.netease.nim.uikit.miliao.util.UIUtil;
-import com.netease.nim.uikit.miliao.vo.ActorVo;
-import com.netease.nim.uikit.miliao.vo.TagVo;
+import com.app.library.util.UIUtil;
+import com.app.library.vo.ActorVo;
+import com.app.library.vo.TagVo;
 
 import java.util.ArrayList;
 import java.util.List;

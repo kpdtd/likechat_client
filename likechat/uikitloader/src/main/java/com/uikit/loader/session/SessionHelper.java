@@ -13,7 +13,7 @@ import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
 import com.netease.nim.uikit.common.ui.popupmenu.NIMPopupMenu;
 import com.netease.nim.uikit.common.ui.popupmenu.PopupMenuItem;
-import com.netease.nim.uikit.miliao.vo.ActorPageVo;
+import com.app.library.vo.ActorPageVo;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.SessionEventListener;
 import com.netease.nim.uikit.session.actions.BaseAction;

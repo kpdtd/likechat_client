@@ -8,7 +8,7 @@ import com.audio.miliao.adapter.FriendAdapter;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchMyFans;
 import com.audio.miliao.theApp;
-import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.app.library.vo.ActorVo;
 
 import java.util.ArrayList;
 import java.util.List;

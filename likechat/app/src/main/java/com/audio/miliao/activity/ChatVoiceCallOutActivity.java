@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import com.audio.miliao.R;
 import com.audio.miliao.util.EntityUtil;
-import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
-import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.vo.ActorVo;
 
 /**
  * 聊天——呼出

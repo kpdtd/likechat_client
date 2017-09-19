@@ -16,7 +16,7 @@ import com.audio.miliao.adapter.CallHistoryAdapter;
 import com.audio.miliao.entity.CallHistory;
 import com.audio.miliao.entity.ChatMessage;
 import com.audio.miliao.util.DebugUtil;
-import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.app.library.vo.ActorVo;
 
 import java.util.List;
 

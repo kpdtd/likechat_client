@@ -15,8 +15,8 @@ import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.AlipayUtil;
 import com.audio.miliao.util.WXUtil;
-import com.netease.nim.uikit.miliao.vo.GoodsVo;
-import com.netease.nim.uikit.miliao.vo.VipMemberVo;
+import com.app.library.vo.GoodsVo;
+import com.app.library.vo.VipMemberVo;
 
 import de.greenrobot.event.EventBus;
 

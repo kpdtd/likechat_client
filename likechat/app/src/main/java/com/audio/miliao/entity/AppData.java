@@ -1,9 +1,9 @@
 package com.audio.miliao.entity;
 
 import com.audio.miliao.util.PreferUtil;
-import com.netease.nim.uikit.miliao.vo.ActorPageVo;
-import com.netease.nim.uikit.miliao.vo.ActorVo;
-import com.netease.nim.uikit.miliao.vo.UserRegisterVo;
+import com.app.library.vo.ActorPageVo;
+import com.app.library.vo.ActorVo;
+import com.app.library.vo.UserRegisterVo;
 
 import org.json.JSONObject;
 

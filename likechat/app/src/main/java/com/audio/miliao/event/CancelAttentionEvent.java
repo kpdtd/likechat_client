@@ -1,6 +1,6 @@
 package com.audio.miliao.event;
 
-import com.netease.nim.uikit.miliao.vo.ActorVo;
+import com.app.library.vo.ActorVo;
 
 /**
  * EventBus发送的取消关注某人的消息

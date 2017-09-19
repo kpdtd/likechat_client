@@ -6,13 +6,14 @@ import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.app.library.util.PreferUtil;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.receiver.PhoneCallStateObserver;
 import com.audio.miliao.util.LogUtil;
 import com.audio.miliao.util.YunXinUtil;
-import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
-import com.netease.nim.uikit.miliao.util.UIUtil;
-import com.netease.nim.uikit.miliao.vo.ActorPageVo;
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.UIUtil;
+import com.app.library.vo.ActorPageVo;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
@@ -50,6 +51,7 @@ public class theApp extends Application
         super.onCreate();
 
         CONTEXT = this;
+        initUtil();
         LoaderApp.init(this);
 //        NIMClient.init(this, YunXinUtil.loginInfo(), YunXinUtil.options(this));
 //        // 初始化云信
@@ -86,6 +88,11 @@ public class theApp extends Application
             YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
         }
 
+    }
+
+    private void initUtil()
+    {
+        PreferUtil.init(CONTEXT);
         ImageLoaderUtil.init(CONTEXT);
     }
 

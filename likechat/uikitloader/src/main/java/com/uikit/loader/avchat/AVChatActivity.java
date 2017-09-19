@@ -11,12 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.netease.nim.uikit.event.QueryActorVoEvent;
-import com.netease.nim.uikit.event.QueryActorVoResultEvent;
-import com.netease.nim.uikit.event.VoiceChatChargeFailedEvent;
-import com.netease.nim.uikit.event.VoiceChatEstablishedEvent;
-import com.netease.nim.uikit.event.VoiceChatHangUpEvent;
-import com.netease.nim.uikit.miliao.vo.ActorPageVo;
+import com.app.library.event.QueryActorVoEvent;
+import com.app.library.event.QueryActorVoResultEvent;
+import com.app.library.event.VoiceChatChargeFailedEvent;
+import com.app.library.event.VoiceChatEstablishedEvent;
+import com.app.library.event.VoiceChatHangUpEvent;
+import com.app.library.vo.ActorPageVo;
 import com.netease.nimlib.sdk.avchat.model.AVChatNetworkStats;
 import com.netease.nimlib.sdk.avchat.model.AVChatSessionStats;
 import com.uikit.loader.R;
