@@ -145,11 +145,13 @@ public class UserInfoActivity extends BaseActivity
                             break;
                         // 查看手机号
                         case R.id.lay_mobile:
+                        case R.id.txt_show_mobile:
                             // 查看QQ
                         case R.id.lay_qq:
+                        case R.id.txt_show_qq:
                             // 查看微信
                         case R.id.lay_wx:
-
+                        case R.id.txt_show_wx:
                             FetchVipMember fetchVipMember = new FetchVipMember(handler(), v.getId());
                             fetchVipMember.send();
                             break;
@@ -171,6 +173,9 @@ public class UserInfoActivity extends BaseActivity
             findViewById(R.id.lay_mobile).setOnClickListener(clickListener);
             findViewById(R.id.lay_qq).setOnClickListener(clickListener);
             findViewById(R.id.lay_wx).setOnClickListener(clickListener);
+            findViewById(R.id.txt_show_mobile).setOnClickListener(clickListener);
+            findViewById(R.id.txt_show_qq).setOnClickListener(clickListener);
+            findViewById(R.id.txt_show_wx).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
@@ -414,6 +419,10 @@ public class UserInfoActivity extends BaseActivity
             TextView txtCallRate = (TextView) findViewById(R.id.txt_call_rate);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
             TextView txtVoiceSec = (TextView) findViewById(R.id.txt_voice_intro);
+            TextView txtHeight = (TextView) findViewById(R.id.txt_height);
+            TextView txtWeight = (TextView) findViewById(R.id.txt_weight);
+            TextView txtConcept = (TextView) findViewById(R.id.txt_concept);
+            TextView txtObjective = (TextView) findViewById(R.id.txt_objective);
 
             String icon = m_actorPage.getIcon();
             ImageLoaderUtil.displayListAvatarImage(imgAvatar, icon);
@@ -431,6 +440,10 @@ public class UserInfoActivity extends BaseActivity
             txtIntro.setText(m_actorPage.getIntroduction());
             txtCallRate.setText(m_actorPage.getPrice());
             txtTalkTime.setText(m_actorPage.getCallTime());
+            txtHeight.setText(m_actorPage.getHight());
+            txtWeight.setText(m_actorPage.getWeight());
+            txtConcept.setText(m_actorPage.getConcept());
+            txtObjective.setText(m_actorPage.getObjective());
             if (m_actorPage.getVoiceSec() != null && m_actorPage.getVoiceSec() > 0)
             {
                 findViewById(R.id.lay_voice).setVisibility(View.VISIBLE);
@@ -503,7 +516,9 @@ public class UserInfoActivity extends BaseActivity
             FetchVipMember fetchVipMember = (FetchVipMember) msg.obj;
             if (FetchVipMember.isSucceed(fetchVipMember))
             {
-                if (fetchVipMember.rspVipMember != null & fetchVipMember.rspVipMember.getIsvip() == 1)
+                // 0 非会员; 1 会员
+                int isVip = (fetchVipMember.rspVipMember.getIsvip() != null ? fetchVipMember.rspVipMember.getIsvip() : 0);
+                if (fetchVipMember.rspVipMember != null & isVip == 1)
                 {
                     theApp.showToast("已经是会员了");
                     // 已经是vip会员
@@ -511,10 +526,19 @@ public class UserInfoActivity extends BaseActivity
                     switch (viewId)
                     {
                     case R.id.lay_mobile:
+                    case R.id.txt_show_mobile:
+                        TextView txtShowMobile = (TextView) findViewById(R.id.txt_show_mobile);
+                        txtShowMobile.setText(m_actorPage.getPhone());
                         break;
                     case R.id.lay_qq:
+                    case R.id.txt_show_qq:
+                        TextView txtShowQQ = (TextView) findViewById(R.id.txt_show_qq);
+                        txtShowQQ.setText(m_actorPage.getQq());
                         break;
                     case R.id.lay_wx:
+                    case R.id.txt_show_wx:
+                        TextView txtShowWx = (TextView) findViewById(R.id.txt_show_wx);
+                        txtShowWx.setText(m_actorPage.getWechat());
                         break;
                     }
                 }

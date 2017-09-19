@@ -399,7 +399,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/lay_love"
+                android:id="@+id/lay_concept"
                 style="@style/me_lay_item_style"
                 android:layout_marginTop="1dp">
 
@@ -411,7 +411,7 @@
                     android:textSize="@dimen/txt_size_14_dp"/>
 
                 <TextView
-                    android:id="@+id/txt_love"
+                    android:id="@+id/txt_concept"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical|right"
@@ -422,7 +422,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/lay_friend"
+                android:id="@+id/lay_objective"
                 style="@style/me_lay_item_style"
                 android:layout_marginTop="1dp">
 
@@ -434,7 +434,7 @@
                     android:textSize="@dimen/txt_size_14_dp"/>
 
                 <TextView
-                    android:id="@+id/txt_friend"
+                    android:id="@+id/txt_objective"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical|right"
