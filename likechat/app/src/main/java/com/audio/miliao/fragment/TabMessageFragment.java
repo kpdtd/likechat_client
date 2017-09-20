@@ -94,8 +94,8 @@ public class TabMessageFragment extends BaseFragment
         try
         {
             m_listFragment = new ArrayList<>();
-            m_listFragment.add(new LikechatRecentContactsFragment());
-            m_listFragment.add(new LikechatCallHistoryFragment());
+            m_listFragment.add(new MessageListFragment());
+            m_listFragment.add(new CallHistoryListFragment());
             m_pager.setAdapter(new CustomFragmentPageAdapter(getChildFragmentManager(), m_listFragment));
         }
         catch (Exception e)

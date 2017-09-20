@@ -1,5 +1,6 @@
 package com.audio.miliao.activity;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -16,10 +17,6 @@ import com.audio.miliao.pay.alipay.PayResult;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.WXUtil;
-import com.audio.miliao.util.YunXinUtil;
-import com.uikit.loader.LoaderApp;
-import com.uikit.loader.entity.Account;
-import com.uikit.loader.entity.LoaderAppData;
 
 import java.util.Map;
 
@@ -145,22 +142,22 @@ public class LoginActivity extends BaseActivity
                             onQQLogin();
                             break;
                         case R.id.btn_yunxin_login:
-                            YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
+                            //YunXinUtil.login(AppData.getYunXinAccount(), AppData.getYunXinToken());
                             break;
                         case R.id.img_back:
                             finish();
                             break;
                         case R.id.btn_login_debug1:
-                            LoaderAppData.setYunXinAccount("liu1501134");
-                            LoaderAppData.setYunXinToken("e10adc3949ba59abbe56e057f20f883e");
-                            LoaderApp.setCurAccount(new Account("liu1501134", "e10adc3949ba59abbe56e057f20f883e"));
-                            YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
+                            AppData.setYunXinAccount("liu1501134");
+                            AppData.setYunXinToken("e10adc3949ba59abbe56e057f20f883e");
+                            theApp.setCurAccount(new Account("liu1501134", "e10adc3949ba59abbe56e057f20f883e"));
+                            //YunXinUtil.login(AppData.getYunXinAccount(), AppData.getYunXinToken());
                             break;
                         case R.id.btn_login_debug2:
-                            LoaderAppData.setYunXinAccount("18178619319");
-                            LoaderAppData.setYunXinToken("e10adc3949ba59abbe56e057f20f883e");
-                            LoaderApp.setCurAccount(new Account("18178619319", "e10adc3949ba59abbe56e057f20f883e"));
-                            YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
+                            AppData.setYunXinAccount("18178619319");
+                            AppData.setYunXinToken("e10adc3949ba59abbe56e057f20f883e");
+                            theApp.setCurAccount(new Account("18178619319", "e10adc3949ba59abbe56e057f20f883e"));
+                            //YunXinUtil.login(AppData.getYunXinAccount(), AppData.getYunXinToken());
                             break;
                         }
                     }
@@ -199,11 +196,11 @@ public class LoginActivity extends BaseActivity
         try
         {
             // 云信的account和token都是openId
-            LoaderAppData.setYunXinAccount(AppData.getUserInfo().getOpenId().toLowerCase());
-            LoaderAppData.setYunXinToken(AppData.getUserInfo().getOpenId());
-            LoaderApp.setCurAccount(new Account(LoaderAppData.getYunXinAccount(), LoaderAppData.getToken()));
+            AppData.setYunXinAccount(AppData.getUserInfo().getOpenId().toLowerCase());
+            AppData.setYunXinToken(AppData.getUserInfo().getOpenId());
+            theApp.setCurAccount(new Account(AppData.getYunXinAccount(), AppData.getYunXinToken()));
 
-            YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
+            //YunXinUtil.login(AppData.getYunXinAccount(), AppData.getYunXinToken());
 
             Intent intentMain = new Intent(this, MainActivity.class);
             startActivity(intentMain);

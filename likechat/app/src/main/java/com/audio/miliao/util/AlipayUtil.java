@@ -4,15 +4,15 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.alipay.sdk.app.PayTask;
+import com.app.library.vo.GoodsVo;
+import com.app.library.vo.PayInfoVo;
+import com.audio.miliao.entity.AppData;
 import com.audio.miliao.http.cmd.CreateAlipayOrder;
 import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.pay.alipay.AlipayReq;
 import com.audio.miliao.pay.alipay.Constant;
 import com.audio.miliao.pay.alipay.OrderInfoUtil2_0;
 import com.audio.miliao.pay.alipay.PayResult;
-import com.app.library.vo.GoodsVo;
-import com.app.library.vo.PayInfoVo;
-import com.uikit.loader.entity.LoaderAppData;
 
 import java.util.Map;
 
@@ -145,8 +145,8 @@ public class AlipayUtil
     private static PayInfoVo createPayInfoVo(String goodsType, int goodsId, Integer money)
     {
         PayInfoVo payInfoVo = new PayInfoVo();
-        payInfoVo.setActorId(LoaderAppData.getCurUserId());
-        payInfoVo.setOpenId(LoaderAppData.getOpenId());
+        payInfoVo.setActorId(AppData.getCurUserId());
+        payInfoVo.setOpenId(AppData.getOpenId());
         payInfoVo.setPayType("2");
         payInfoVo.setGoodsType(goodsType);
         payInfoVo.setGoodsId(goodsId);

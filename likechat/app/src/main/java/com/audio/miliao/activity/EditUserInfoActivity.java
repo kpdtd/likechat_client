@@ -13,8 +13,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.vo.ActorPageVo;
+import com.app.library.vo.ActorVo;
+import com.app.library.widget.CircleImageView;
 import com.audio.miliao.R;
 import com.audio.miliao.dialog.LoadingDialog;
+import com.audio.miliao.entity.AppData;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.UpdateUserInfo;
@@ -22,11 +27,6 @@ import com.audio.miliao.theApp;
 import com.audio.miliao.util.EntityUtil;
 import com.audio.miliao.util.FileUtil;
 import com.audio.miliao.util.StringUtil;
-import com.netease.nim.uikit.common.ui.widget.CircleImageView;
-import com.app.library.util.ImageLoaderUtil;
-import com.app.library.vo.ActorPageVo;
-import com.app.library.vo.ActorVo;
-import com.uikit.loader.entity.LoaderAppData;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -103,7 +103,7 @@ public class EditUserInfoActivity extends BaseActivity
         {
             initUI();
             //updateData();
-            FetchActorPage fetchActorPage = new FetchActorPage(handler(), LoaderAppData.getCurUserId(), null);
+            FetchActorPage fetchActorPage = new FetchActorPage(handler(), AppData.getCurUserId(), null);
             fetchActorPage.send();
         }
         catch (Exception e)

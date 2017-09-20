@@ -7,10 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.audio.miliao.R;
-import com.audio.miliao.util.EntityUtil;
 import com.app.library.util.ImageLoaderUtil;
 import com.app.library.vo.ActorVo;
+import com.audio.miliao.R;
+import com.audio.miliao.util.EntityUtil;
 
 import java.util.List;
 
@@ -80,7 +80,7 @@ public class ActorAdapter extends BaseAdapter
     {
         try
         {
-            ViewHolder holder = null;
+            ViewHolder holder;
 
             if (convertView != null)
             {
@@ -104,6 +104,7 @@ public class ActorAdapter extends BaseAdapter
             e.printStackTrace();
         }
 
+        //theApp.showToast(convertView == null ? "空" : "不空");
         return convertView;
     }
 

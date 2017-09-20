@@ -168,7 +168,6 @@ public class TabMainFragment extends BaseFragment
     {
         try
         {
-
             if (m_adapter == null)
             {
                 //View headerView = View.inflate(getActivity(), R.layout.list_header_main_banner, null);

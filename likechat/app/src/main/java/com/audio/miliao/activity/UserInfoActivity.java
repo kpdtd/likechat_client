@@ -8,6 +8,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.UIUtil;
+import com.app.library.util.ViewsUtil;
+import com.app.library.vo.ActorPageVo;
+import com.app.library.vo.ActorVo;
 import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.event.CancelAttentionEvent;
@@ -17,19 +22,9 @@ import com.audio.miliao.http.cmd.CancelAttention;
 import com.audio.miliao.http.cmd.FetchAccountBalance;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
-import com.audio.miliao.theApp;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.MediaPlayerUtil;
 import com.audio.miliao.util.StringUtil;
-import com.netease.nim.uikit.NimUIKit;
-import com.app.library.util.ImageLoaderUtil;
-import com.app.library.util.UIUtil;
-import com.app.library.util.ViewsUtil;
-import com.app.library.vo.ActorPageVo;
-import com.app.library.vo.ActorVo;
-import com.netease.nimlib.sdk.avchat.constant.AVChatType;
-import com.uikit.loader.avchat.AVChatActivity;
-import com.uikit.loader.entity.LoaderAppData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,14 +121,15 @@ public class UserInfoActivity extends BaseActivity
 //                            Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
 //                            intentText.putExtra("user", m_actorPage);
 //                            startActivity(intentText);
-                            if (m_actorVo != null)
-                            {
-                                NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken().toLowerCase());
-                            }
-                            else
-                            {
-                                NimUIKit.startP2PSession(UserInfoActivity.this, m_sessionId);
-                            }
+
+//                            if (m_actorVo != null)
+//                            {
+//                                NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken().toLowerCase());
+//                            }
+//                            else
+//                            {
+//                                NimUIKit.startP2PSession(UserInfoActivity.this, m_sessionId);
+//                            }
                             break;
                         // 关注
                         case R.id.lay_follow:
@@ -195,7 +191,7 @@ public class UserInfoActivity extends BaseActivity
             TextView textFollow = (TextView) findViewById(R.id.txt_user_info_follow);
             String text = textFollow.getText().toString();
 
-            int userId = LoaderAppData.getCurUserId();
+            int userId = AppData.getCurUserId();
             int actorId = m_actorPage.getId();
 
             if (text.equals(follow))
@@ -520,7 +516,7 @@ public class UserInfoActivity extends BaseActivity
                 int isVip = (fetchVipMember.rspVipMember.getIsvip() != null ? fetchVipMember.rspVipMember.getIsvip() : 0);
                 if (fetchVipMember.rspVipMember != null & isVip == 1)
                 {
-                    theApp.showToast("已经是会员了");
+                    //theApp.showToast("已经是会员了");
                     // 已经是vip会员
                     int viewId = (int) fetchVipMember.rspCallBackTag;
                     switch (viewId)
@@ -562,14 +558,14 @@ public class UserInfoActivity extends BaseActivity
                 }
                 else
                 {
-                    if (m_actorVo != null)
-                    {
-                        AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
-                    }
-                    else
-                    {
-                        AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
-                    }
+//                    if (m_actorVo != null)
+//                    {
+//                        AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+//                    }
+//                    else
+//                    {
+//                        AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+//                    }
                 }
             }
             break;

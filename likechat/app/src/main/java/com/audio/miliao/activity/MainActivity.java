@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.app.library.event.QueryActorVoEvent;
+import com.app.library.event.QueryActorVoResultEvent;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
 import com.audio.miliao.event.LogoutEvent;
@@ -17,8 +19,6 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchHomeContent;
 import com.audio.miliao.widget.NoScrollViewPager;
-import com.app.library.event.QueryActorVoEvent;
-import com.app.library.event.QueryActorVoResultEvent;
 
 import java.util.ArrayList;
 import java.util.List;

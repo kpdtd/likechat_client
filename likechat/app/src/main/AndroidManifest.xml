@@ -177,12 +177,6 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.P2PChatActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
             android:name=".activity.SettingsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"

@@ -97,7 +97,7 @@
             android:layout_marginRight="10dip"
             android:layout_marginTop="16dip"
             android:textColor="@color/color_aaaaaa_content_text"
-            android:textSize="@dimen/text_small_size_ten_sp"/>
+            android:textSize="12dp"/>
 
         <com.netease.nim.uikit.common.ui.drop.DropFake
             android:id="@+id/unread_number_tip"

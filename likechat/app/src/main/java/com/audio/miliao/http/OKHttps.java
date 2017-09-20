@@ -1,8 +1,8 @@
 package com.audio.miliao.http;
 
+import com.audio.miliao.entity.AppData;
 import com.audio.miliao.util.LogUtil;
 import com.audio.miliao.util.StringUtil;
-import com.uikit.loader.entity.LoaderAppData;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
 import com.zhy.http.okhttp.callback.Callback;
@@ -351,13 +351,13 @@ public class OKHttps
 //		{
 //			builder.addHeader("Authorization", "Bearer " + strToken);
 //		}
-		int userId = LoaderAppData.getCurUserId();
+		int userId = AppData.getCurUserId();
 		if (userId != -1)
 		{
 			builder.addHeader("userId", String.valueOf(userId));
 		}
 
-		String openId = LoaderAppData.getOpenId();
+		String openId = AppData.getOpenId();
 		if (StringUtil.isNotEmpty(openId))
 		{
 			builder.addHeader("openId", openId);

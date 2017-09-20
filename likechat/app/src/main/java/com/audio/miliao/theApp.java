@@ -1,42 +1,26 @@
 package com.audio.miliao;
 
+import android.accounts.Account;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
-import com.app.library.util.PreferUtil;
-import com.audio.miliao.entity.AppData;
-import com.audio.miliao.receiver.PhoneCallStateObserver;
-import com.audio.miliao.util.LogUtil;
-import com.audio.miliao.util.YunXinUtil;
 import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.PreferUtil;
 import com.app.library.util.UIUtil;
 import com.app.library.vo.ActorPageVo;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.avchat.AVChatManager;
-import com.netease.nimlib.sdk.avchat.constant.AVChatControlCommand;
-import com.netease.nimlib.sdk.avchat.model.AVChatAttachment;
-import com.netease.nimlib.sdk.avchat.model.AVChatData;
-import com.netease.nimlib.sdk.msg.MsgService;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
-import com.netease.nimlib.sdk.team.model.IMMessageFilter;
-import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
-import com.uikit.loader.LoaderApp;
-import com.uikit.loader.avchat.AVChatActivity;
-import com.uikit.loader.avchat.AVChatProfile;
-import com.uikit.loader.entity.LoaderAppData;
-import com.uikit.loader.util.sys.SystemUtil;
-
-import java.util.Map;
+import com.audio.miliao.entity.AppData;
 
 public class theApp extends Application
 {
     public static Context CONTEXT = null;
     public static Handler sm_handler = new Handler();
+
+    public static final Account TEST3 = new Account("liu1501134", "e10adc3949ba59abbe56e057f20f883e");
+    public static final Account TEST4 = new Account("18178619319", "e10adc3949ba59abbe56e057f20f883e");
+
+    private static Account mCurAccount = TEST3;
 
     @Override
     protected void attachBaseContext(Context newBase)
@@ -52,7 +36,7 @@ public class theApp extends Application
 
         CONTEXT = this;
         initUtil();
-        LoaderApp.init(this);
+        //LoaderApp.init(this);
 //        NIMClient.init(this, YunXinUtil.loginInfo(), YunXinUtil.options(this));
 //        // 初始化云信
 //        if (inMainProcess(this))
@@ -85,7 +69,7 @@ public class theApp extends Application
             //onYunXinLogin("18178619319", "e10adc3949ba59abbe56e057f20f883e");
 
             //onYunXinLogin(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
-            YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
+            //YunXinUtil.login(AppData.getYunXinAccount(), AppData.getYunXinToken());
         }
 
     }
@@ -96,75 +80,75 @@ public class theApp extends Application
         ImageLoaderUtil.init(CONTEXT);
     }
 
-    public boolean inMainProcess(Context context)
-    {
-        String packageName = context.getPackageName();
-        String processName = SystemUtil.getProcessName(context);
-        return packageName.equals(processName);
-    }
+//    public boolean inMainProcess(Context context)
+//    {
+//        String packageName = context.getPackageName();
+//        String processName = SystemUtil.getProcessName(context);
+//        return packageName.equals(processName);
+//    }
 
 
-    /**
-     * 通知消息过滤器（如果过滤则该消息不存储不上报）
-     */
-    private void registerIMMessageFilter()
-    {
-        NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter()
-        {
-            @Override
-            public boolean shouldIgnore(IMMessage message)
-            {
-                if (message.getAttachment() != null)
-                {
-                    if (message.getAttachment() instanceof UpdateTeamAttachment)
-                    {
-                        UpdateTeamAttachment attachment = (UpdateTeamAttachment) message.getAttachment();
-                        for (Map.Entry<TeamFieldEnum, Object> field : attachment.getUpdatedFields().entrySet())
-                        {
-                            if (field.getKey() == TeamFieldEnum.ICON)
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                    else if (message.getAttachment() instanceof AVChatAttachment)
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-    }
+//    /**
+//     * 通知消息过滤器（如果过滤则该消息不存储不上报）
+//     */
+//    private void registerIMMessageFilter()
+//    {
+//        NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter()
+//        {
+//            @Override
+//            public boolean shouldIgnore(IMMessage message)
+//            {
+//                if (message.getAttachment() != null)
+//                {
+//                    if (message.getAttachment() instanceof UpdateTeamAttachment)
+//                    {
+//                        UpdateTeamAttachment attachment = (UpdateTeamAttachment) message.getAttachment();
+//                        for (Map.Entry<TeamFieldEnum, Object> field : attachment.getUpdatedFields().entrySet())
+//                        {
+//                            if (field.getKey() == TeamFieldEnum.ICON)
+//                            {
+//                                return true;
+//                            }
+//                        }
+//                    }
+//                    else if (message.getAttachment() instanceof AVChatAttachment)
+//                    {
+//                        return true;
+//                    }
+//                }
+//                return false;
+//            }
+//        });
+//    }
 
-    /**
-     * 注册网络通话来电
-     *
-     * @param register
-     */
-    private void registerAVChatIncomingCallObserver(boolean register)
-    {
-        AVChatManager.getInstance().observeIncomingCall(new Observer<AVChatData>()
-        {
-            @Override
-            public void onEvent(AVChatData data)
-            {
-                String extra = data.getExtra();
-                Log.e("Extra", "Extra Message->" + extra);
-                if (PhoneCallStateObserver.getInstance().getPhoneCallState() != PhoneCallStateObserver.PhoneCallStateEnum.IDLE
-                        || AVChatProfile.getInstance().isAVChatting()
-                        || AVChatManager.getInstance().getCurrentChatId() != 0)
-                {
-                    LogUtil.i("Likechat", "reject incoming call data =" + data.toString() + " as local phone is not idle");
-                    AVChatManager.getInstance().sendControlCommand(data.getChatId(), AVChatControlCommand.BUSY, null);
-                    return;
-                }
-                // 有网络来电打开AVChatActivity
-                AVChatProfile.getInstance().setAVChatting(true);
-                AVChatActivity.launch(theApp.CONTEXT, data, AVChatActivity.FROM_BROADCASTRECEIVER);
-            }
-        }, register);
-    }
+//    /**
+//     * 注册网络通话来电
+//     *
+//     * @param register
+//     */
+////    private void registerAVChatIncomingCallObserver(boolean register)
+////    {
+////        AVChatManager.getInstance().observeIncomingCall(new Observer<AVChatData>()
+////        {
+////            @Override
+////            public void onEvent(AVChatData data)
+////            {
+////                String extra = data.getExtra();
+////                Log.e("Extra", "Extra Message->" + extra);
+////                if (PhoneCallStateObserver.getInstance().getPhoneCallState() != PhoneCallStateObserver.PhoneCallStateEnum.IDLE
+////                        || AVChatProfile.getInstance().isAVChatting()
+////                        || AVChatManager.getInstance().getCurrentChatId() != 0)
+////                {
+////                    LogUtil.i("Likechat", "reject incoming call data =" + data.toString() + " as local phone is not idle");
+////                    AVChatManager.getInstance().sendControlCommand(data.getChatId(), AVChatControlCommand.BUSY, null);
+////                    return;
+////                }
+////                // 有网络来电打开AVChatActivity
+////                AVChatProfile.getInstance().setAVChatting(true);
+////                AVChatActivity.launch(theApp.CONTEXT, data, AVChatActivity.FROM_BROADCASTRECEIVER);
+////            }
+////        }, register);
+////    }
 
     public static void saveCurUser()
     {
@@ -190,6 +174,15 @@ public class theApp extends Application
         {
             e.printStackTrace();
         }
+    }
+    public static Account getCurAccount()
+    {
+        return mCurAccount;
+    }
+
+    public static void setCurAccount(Account account)
+    {
+        mCurAccount = account;
     }
 
     public static void showToast(final String strToast)

@@ -1,9 +1,9 @@
 package com.audio.miliao.entity;
 
-import com.audio.miliao.util.PreferUtil;
 import com.app.library.vo.ActorPageVo;
 import com.app.library.vo.ActorVo;
 import com.app.library.vo.UserRegisterVo;
+import com.audio.miliao.util.PreferUtil;
 
 import org.json.JSONObject;
 
@@ -17,6 +17,42 @@ public class AppData
     {
         //ms_curUser = user;
         PreferUtil.setStringPreference(KEY_ACTOR, actor.toJson().toString());
+    }
+
+    /**
+     * 登录后返回的用户id
+     * @param userId
+     */
+    public static void setCurUserId(int userId)
+    {
+        PreferUtil.setIntPreference(KEY_USER_ID, userId);
+    }
+
+    /**
+     * 登录后返回的用户id
+     * @return
+     */
+    public static int getCurUserId()
+    {
+        return PreferUtil.getIntPreference(KEY_USER_ID, -1);
+    }
+
+    /**
+     * qq或者微信登录后返回的openid
+     * @param openId
+     */
+    public static void setOpenId(String openId)
+    {
+        PreferUtil.setStringPreference(KEY_OPEN_ID, openId);
+    }
+
+    /**
+     * qq或者微信登录后返回的openid
+     * @return
+     */
+    public static String getOpenId()
+    {
+        return PreferUtil.getStringPreference(KEY_OPEN_ID);
     }
 
     /**
@@ -88,6 +124,16 @@ public class AppData
         return false;
     }
 
+    public static void saveToken(String strToken)
+    {
+        PreferUtil.setStringPreference(KEY_TOKEN, strToken);
+    }
+
+    public static String getToken()
+    {
+        return PreferUtil.getStringPreference(KEY_TOKEN);
+    }
+
     /**
      * 获取是否已登录
      * @return
@@ -96,28 +142,28 @@ public class AppData
     {
         // Debug
         return true;
-        //return StringUtil.isNotEmpty(getCurUserId());
+        //return Checker.isNotEmpty(getCurUserId());
     }
 
-//    public static void setYunXinAccount(String account)
-//    {
-//        PreferUtil.setStringPreference(KEY_YUNXIN_ACCOUNT, account);
-//    }
-//
-//    public static String getYunXinAccount()
-//    {
-//        return PreferUtil.getStringPreference(KEY_YUNXIN_ACCOUNT);
-//    }
-//
-//    public static void setYunXinToken(String token)
-//    {
-//        PreferUtil.setStringPreference(KEY_YUNXIN_TOKEN, token);
-//    }
-//
-//    public static String getYunXinToken()
-//    {
-//        return PreferUtil.getStringPreference(KEY_YUNXIN_TOKEN);
-//    }
+    public static void setYunXinAccount(String account)
+    {
+        PreferUtil.setStringPreference(KEY_YUNXIN_ACCOUNT, account);
+    }
+
+    public static String getYunXinAccount()
+    {
+        return PreferUtil.getStringPreference(KEY_YUNXIN_ACCOUNT);
+    }
+
+    public static void setYunXinToken(String token)
+    {
+        PreferUtil.setStringPreference(KEY_YUNXIN_TOKEN, token);
+    }
+
+    public static String getYunXinToken()
+    {
+        return PreferUtil.getStringPreference(KEY_YUNXIN_TOKEN);
+    }
 
     public static void setRefreshToken(String refreshToken)
     {

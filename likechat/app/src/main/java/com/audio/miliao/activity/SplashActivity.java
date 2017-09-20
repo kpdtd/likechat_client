@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.audio.miliao.R;
+import com.audio.miliao.entity.AppData;
 import com.audio.miliao.handler.WeakHandler;
 import com.audio.miliao.util.Checker;
-import com.uikit.loader.entity.LoaderAppData;
 
 public class SplashActivity extends BaseActivity
 {
@@ -47,7 +47,7 @@ public class SplashActivity extends BaseActivity
             if (m_nCompleteTaskCount >= TASK_COUNT)
             {
                 //if (AppData.isLogin())
-                if (Checker.isNotEmpty(LoaderAppData.getYunXinAccount()))
+                if (Checker.isNotEmpty(AppData.getYunXinAccount()))
                 {
                     Intent intentMain = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intentMain);
