@@ -1,8 +1,8 @@
 package com.audio.miliao.http;
 
+import com.app.library.util.LogUtil;
+import com.app.library.util.StringUtil;
 import com.audio.miliao.entity.AppData;
-import com.audio.miliao.util.LogUtil;
-import com.audio.miliao.util.StringUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
 import com.zhy.http.okhttp.callback.Callback;

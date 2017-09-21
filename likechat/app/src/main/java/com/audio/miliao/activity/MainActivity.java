@@ -1,5 +1,6 @@
 package com.audio.miliao.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import com.app.library.event.QueryActorVoEvent;
 import com.app.library.event.QueryActorVoResultEvent;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
+import com.audio.miliao.entity.AppData;
 import com.audio.miliao.event.LogoutEvent;
 import com.audio.miliao.fragment.TabFindFragment;
 import com.audio.miliao.fragment.TabMainFragment;
@@ -18,6 +20,7 @@ import com.audio.miliao.fragment.TabMessageFragment;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchHomeContent;
+import com.audio.miliao.theApp;
 import com.audio.miliao.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -45,6 +48,22 @@ public class MainActivity extends BaseActivity
 
             FetchHomeContent fetchHomeContent = new FetchHomeContent(null, null);
             fetchHomeContent.send();
+
+            handler().postDelayed(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    int times = AppData.getAutoCallInTime(System.currentTimeMillis());
+                    theApp.showToast("times " + times);
+                    if (times < 2)
+                    {
+                        AppData.setAutoCallInTime(System.currentTimeMillis(), times + 1);
+                        Intent intent = new Intent(MainActivity.this, CallInActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            }, 10 * 1000);
         }
         catch (Exception e)
         {

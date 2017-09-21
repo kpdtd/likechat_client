@@ -8,10 +8,13 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.StringUtil;
+import com.app.library.util.UIUtil;
+import com.app.library.vo.ActorDynamicVo;
 import com.audio.miliao.R;
 import com.audio.miliao.activity.ImageBrowseActivity;
 import com.audio.miliao.activity.UserInfoActivity;
@@ -23,11 +26,7 @@ import com.audio.miliao.algorithm.SortByWatch;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddDynamicPageView;
 import com.audio.miliao.http.cmd.FetchFindList;
-import com.app.library.util.ImageLoaderUtil;
 import com.audio.miliao.util.MediaPlayerUtil;
-import com.audio.miliao.util.StringUtil;
-import com.app.library.util.UIUtil;
-import com.app.library.vo.ActorDynamicVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,42 +107,43 @@ public class TabFindFragment extends BaseFragment
                 }
             });
 
-            m_list.setOnScrollListener(new AbsListView.OnScrollListener()
-            {
-                @Override
-                public void onScrollStateChanged(AbsListView view, int scrollState)
-                {
-                    try
-                    {
-                        switch (scrollState)
-                        {
-                        //停止滚动
-                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                            m_adapter.setScrolling(false);
-                            m_adapter.notifyDataSetChanged();
-                            break;
-                        //滚动做出了抛的动作
-                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                            m_adapter.setScrolling(true);
-                            break;
-                        //正在滚动
-                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                            m_adapter.setScrolling(true);
-                            break;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-                {
-
-                }
-            });
+            m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
+//            m_list.setOnScrollListener(new AbsListView.OnScrollListener()
+//            {
+//                @Override
+//                public void onScrollStateChanged(AbsListView view, int scrollState)
+//                {
+//                    try
+//                    {
+//                        switch (scrollState)
+//                        {
+//                        //停止滚动
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+//                            m_adapter.setScrolling(false);
+//                            m_adapter.notifyDataSetChanged();
+//                            break;
+//                        //滚动做出了抛的动作
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+//                            m_adapter.setScrolling(true);
+//                            break;
+//                        //正在滚动
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+//                            m_adapter.setScrolling(true);
+//                            break;
+//                        }
+//                    }
+//                    catch (Exception e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+//                {
+//
+//                }
+//            });
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -230,7 +230,7 @@ public class TabFindFragment extends BaseFragment
 
                 m_adapter = new ActorDynamicAdapter(getActivity(), m_actorDynamicVos);
                 m_list.setAdapter(m_adapter);
-                m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
+                //m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
 
                 m_adapter.setOnClickListener(new ActorDynamicAdapter.OnClickListener()
                 {

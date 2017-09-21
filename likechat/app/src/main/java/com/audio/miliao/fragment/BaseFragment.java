@@ -4,8 +4,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 
+import com.app.library.util.LogUtil;
 import com.audio.miliao.handler.WeakHandler;
-import com.audio.miliao.util.LogUtil;
 
 public class BaseFragment extends Fragment implements WeakHandler.MessageHandler
 {

@@ -6,13 +6,13 @@ import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.PreferUtil;
 import com.audio.miliao.R;
 import com.audio.miliao.event.LogoutEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchCustomerService;
 import com.audio.miliao.theApp;
-import com.app.library.util.ImageLoaderUtil;
-import com.audio.miliao.util.PreferUtil;
 
 import de.greenrobot.event.EventBus;
 

@@ -5,21 +5,20 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.StringUtil;
+import com.app.library.util.UIUtil;
+import com.app.library.vo.ActorDynamicVo;
+import com.app.library.vo.ActorPageVo;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.ActorDynamicAdapter;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddDynamicPageView;
 import com.audio.miliao.http.cmd.FetchActorDynamicList;
-import com.app.library.util.ImageLoaderUtil;
 import com.audio.miliao.util.MediaPlayerUtil;
-import com.audio.miliao.util.StringUtil;
-import com.app.library.util.UIUtil;
-import com.app.library.vo.ActorDynamicVo;
-import com.app.library.vo.ActorPageVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,43 +85,43 @@ public class UserZoneActivity extends BaseActivity
             findViewById(R.id.img_back).setOnClickListener(clickListener);
 
             m_list = (ListView) findViewById(R.id.list);
-
-            m_list.setOnScrollListener(new AbsListView.OnScrollListener()
-            {
-                @Override
-                public void onScrollStateChanged(AbsListView view, int scrollState)
-                {
-                    try
-                    {
-                        switch (scrollState)
-                        {
-                        //停止滚动
-                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                            m_adapter.setScrolling(false);
-                            m_adapter.notifyDataSetChanged();
-                            break;
-                        //滚动做出了抛的动作
-                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                            m_adapter.setScrolling(true);
-                            break;
-                        //正在滚动
-                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                            m_adapter.setScrolling(true);
-                            break;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-                {
-
-                }
-            });
+            m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
+//            m_list.setOnScrollListener(new AbsListView.OnScrollListener()
+//            {
+//                @Override
+//                public void onScrollStateChanged(AbsListView view, int scrollState)
+//                {
+//                    try
+//                    {
+//                        switch (scrollState)
+//                        {
+//                        //停止滚动
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+//                            m_adapter.setScrolling(false);
+//                            m_adapter.notifyDataSetChanged();
+//                            break;
+//                        //滚动做出了抛的动作
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+//                            m_adapter.setScrolling(true);
+//                            break;
+//                        //正在滚动
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+//                            m_adapter.setScrolling(true);
+//                            break;
+//                        }
+//                    }
+//                    catch (Exception e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+//                {
+//
+//                }
+//            });
         }
         catch (Exception e)
         {
@@ -157,7 +156,7 @@ public class UserZoneActivity extends BaseActivity
                 m_list.addFooterView(m_footer);
                 m_adapter = new ActorDynamicAdapter(UserZoneActivity.this, m_actorDynamicVos);
                 m_list.setAdapter(m_adapter);
-                m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
+                //m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
 
                 m_adapter.setOnClickListener(new ActorDynamicAdapter.OnClickListener()
                 {

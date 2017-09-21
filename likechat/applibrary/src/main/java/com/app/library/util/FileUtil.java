@@ -169,41 +169,8 @@ public class FileUtil
 
 	public static String readFile(String fileName)
 	{
-		String content = "";
-		BufferedReader reader = null;
-		try
-		{
-			File file = new File(fileName);
-			InputStream inputStream = new FileInputStream(file);
-			// reader = new BufferedReader(new InputStreamReader(inputStream));
-			// String line;
-			// while ((line = reader.readLine()) != null)
-			// {
-			// content += line;
-			// }
-			int length = inputStream.available();
-			byte[] buf = new byte[length];
-			inputStream.read(buf);
-			// content = new String(AESUtil.getInstance().decryptBytes(buf,
-			// buf.length));
-			content = new String(buf);
-		}
-		catch (Exception e)
-		{
-		}
-		finally
-		{
-			try
-			{
-				if (reader != null)
-				{
-					reader.close();
-				}
-			}
-			catch (IOException e)
-			{
-			}
-		}
+		byte[] buf = getFileBytes(fileName);
+		String content = new String(buf);
 		return content;
 	}
 

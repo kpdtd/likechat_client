@@ -28,6 +28,9 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
+    <!-- 获取app是否运行在前台 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
     <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
     <!-- 云信相关内容放在uikitloader里面
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -77,6 +80,12 @@
         </activity>
         <activity
             android:name=".activity.BalanceActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.CallInActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">

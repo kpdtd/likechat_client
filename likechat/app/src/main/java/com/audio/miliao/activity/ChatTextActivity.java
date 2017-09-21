@@ -2,16 +2,20 @@ package com.audio.miliao.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.vo.ActorPageVo;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.ChatAdapter;
 import com.audio.miliao.entity.ChatMessage;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchAccountBalance;
+import com.audio.miliao.http.cmd.FetchVipMember;
 import com.audio.miliao.util.DebugUtil;
-import com.app.library.vo.ActorVo;
 
 import java.util.List;
 
@@ -20,7 +24,7 @@ import java.util.List;
  */
 public class ChatTextActivity extends BaseActivity
 {
-    private ActorVo m_actor;
+    private ActorPageVo m_actorPageVo;
     private ListView m_list;
     private ChatAdapter m_adapter;
 
@@ -31,7 +35,7 @@ public class ChatTextActivity extends BaseActivity
         setContentView(R.layout.activity_chat_text);
         try
         {
-            m_actor = (ActorVo) getIntent().getSerializableExtra("user");
+            m_actorPageVo = (ActorPageVo) getIntent().getSerializableExtra("user");
 
             initUI();
             updateData();
@@ -48,42 +52,43 @@ public class ChatTextActivity extends BaseActivity
         {
             m_list = (ListView) findViewById(R.id.list);
 
-            m_list.setOnScrollListener(new AbsListView.OnScrollListener()
-            {
-                @Override
-                public void onScrollStateChanged(AbsListView view, int scrollState)
-                {
-                    try
-                    {
-                        switch (scrollState)
-                        {
-                        //停止滚动
-                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                            m_adapter.setScrolling(false);
-                            m_adapter.notifyDataSetChanged();
-                            break;
-                        //滚动做出了抛的动作
-                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                            m_adapter.setScrolling(true);
-                            break;
-                        //正在滚动
-                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                            m_adapter.setScrolling(true);
-                            break;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-                {
-
-                }
-            });
+            m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
+//            m_list.setOnScrollListener(new AbsListView.OnScrollListener()
+//            {
+//                @Override
+//                public void onScrollStateChanged(AbsListView view, int scrollState)
+//                {
+//                    try
+//                    {
+//                        switch (scrollState)
+//                        {
+//                        //停止滚动
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+//                            m_adapter.setScrolling(false);
+//                            m_adapter.notifyDataSetChanged();
+//                            break;
+//                        //滚动做出了抛的动作
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+//                            m_adapter.setScrolling(true);
+//                            break;
+//                        //正在滚动
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+//                            m_adapter.setScrolling(true);
+//                            break;
+//                        }
+//                    }
+//                    catch (Exception e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+//                {
+//
+//                }
+//            });
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -99,13 +104,16 @@ public class ChatTextActivity extends BaseActivity
                             break;
                         case R.id.img_user_info:
                             Intent intentUserInfo = new Intent(ChatTextActivity.this, UserInfoActivity.class);
-                            intentUserInfo.putExtra("user", m_actor);
+                            intentUserInfo.putExtra("actor_page", m_actorPageVo);
                             startActivity(intentUserInfo);
                             break;
                         case R.id.img_phone:
-                            Intent intentCallout = new Intent(ChatTextActivity.this, ChatVoiceCallOutActivity.class);
-                            intentCallout.putExtra("user", m_actor);
-                            startActivity(intentCallout);
+                            FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
+                            fetchAccountBalance.send();
+                            break;
+                        case R.id.img_send:
+                            FetchVipMember fetchVipMember = new FetchVipMember(handler(), null);
+                            fetchVipMember.send();
                             break;
                         }
                     }
@@ -119,6 +127,7 @@ public class ChatTextActivity extends BaseActivity
             findViewById(R.id.img_back).setOnClickListener(clickListener);
             findViewById(R.id.img_user_info).setOnClickListener(clickListener);
             findViewById(R.id.img_phone).setOnClickListener(clickListener);
+            findViewById(R.id.img_send).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
@@ -130,13 +139,13 @@ public class ChatTextActivity extends BaseActivity
     {
         try
         {
-            if (m_actor == null)
+            if (m_actorPageVo == null)
             {
                 return;
             }
 
             TextView txtTitle = (TextView) findViewById(R.id.txt_title);
-            txtTitle.setText(m_actor.getNickname());
+            txtTitle.setText(m_actorPageVo.getNickname());
 
             List<ChatMessage> chatMessages = DebugUtil.getChatMessage();
             if (m_adapter == null)
@@ -153,6 +162,58 @@ public class ChatTextActivity extends BaseActivity
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_VIP_MEMBER:
+            FetchVipMember fetchVipMember = (FetchVipMember) msg.obj;
+            if (FetchVipMember.isSucceed(fetchVipMember))
+            {
+                // 0 非会员; 1 会员
+                int isVip = (fetchVipMember.rspVipMember.getIsvip() != null ? fetchVipMember.rspVipMember.getIsvip() : 0);
+                if (fetchVipMember.rspVipMember != null & isVip == 1)
+                {
+                    // 已经是vip会员
+                }
+                else
+                {
+                    // 还不是vip会员
+                    Intent intentMobile = new Intent(ChatTextActivity.this, SimpleVipActivity.class);
+                    startActivity(intentMobile);
+                }
+            }
+            break;
+        case HttpUtil.RequestCode.FETCH_ACCOUNT_BALANCE:
+            FetchAccountBalance fetchAccountBalance = (FetchAccountBalance) msg.obj;
+            if (FetchAccountBalance.isSucceed(fetchAccountBalance))
+            {
+                int money = (fetchAccountBalance.rspAccountBalanceVo.getMoney() != null ? fetchAccountBalance.rspAccountBalanceVo.getMoney() : 0);
+                if (money <= 0)
+                {
+                    Intent intent = new Intent(ChatTextActivity.this, SimpleBalanceActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+//                    if (m_actorVo != null)
+//                    {
+//                        AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPagerVo);
+//                    }
+//                    else
+//                    {
+//                        AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPagerVo);
+//                    }
+                    Intent intentCallout = new Intent(ChatTextActivity.this, ChatVoiceCallOutActivity.class);
+                    intentCallout.putExtra("actor_page", m_actorPageVo);
+                    startActivity(intentCallout);
+                }
+            }
+            break;
         }
     }
 }

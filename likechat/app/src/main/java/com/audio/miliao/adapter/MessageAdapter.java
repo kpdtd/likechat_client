@@ -7,10 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.StringUtil;
 import com.audio.miliao.R;
 import com.audio.miliao.entity.ChatMessage;
-import com.app.library.util.ImageLoaderUtil;
-import com.audio.miliao.util.StringUtil;
 
 import java.util.List;
 

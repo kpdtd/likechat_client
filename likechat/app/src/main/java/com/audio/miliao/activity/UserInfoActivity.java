@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.StringUtil;
 import com.app.library.util.UIUtil;
 import com.app.library.util.ViewsUtil;
 import com.app.library.vo.ActorPageVo;
@@ -24,7 +25,6 @@ import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.MediaPlayerUtil;
-import com.audio.miliao.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class UserInfoActivity extends BaseActivity
 {
     private String m_sessionId;
     private ActorVo m_actorVo;
-    private ActorPageVo m_actorPage;
+    private ActorPageVo m_actorPagerVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,6 +54,12 @@ public class UserInfoActivity extends BaseActivity
                 m_actorVo = (ActorVo) getIntent().getSerializableExtra("user");
                 FetchActorPage fetchActor = new FetchActorPage(handler(), m_actorVo.getId(), null);
                 fetchActor.send();
+            }
+            else if (getIntent().hasExtra("actor_page"))
+            {
+                m_actorPagerVo = (ActorPageVo) getIntent().getSerializableExtra("actor_page");
+                updateData();
+                updatePhoto();
             }
             else if (getIntent().hasExtra("sessionId"))
             {
@@ -89,7 +95,7 @@ public class UserInfoActivity extends BaseActivity
                         // 最新动态
                         case R.id.txt_latest_news:
                             Intent intentZone = new Intent(UserInfoActivity.this, UserZoneActivity.class);
-                            intentZone.putExtra("actor_page", m_actorPage);
+                            intentZone.putExtra("actor_page", m_actorPagerVo);
                             startActivity(intentZone);
                             break;
                         // 语音
@@ -100,27 +106,27 @@ public class UserInfoActivity extends BaseActivity
                             }
                             else
                             {
-                                MediaPlayerUtil.playVoice(m_actorPage.getVideoUrl(), null);
+                                MediaPlayerUtil.playVoice(m_actorPagerVo.getVideoUrl(), null);
                             }
                             break;
                         // 嗨聊
                         case R.id.lay_voice_chat:
 //                            if (m_actorVo != null)
 //                            {
-//                                AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+//                                AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPagerVo);
 //                            }
 //                            else
 //                            {
-//                                AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+//                                AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPagerVo);
 //                            }
                             FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
                             fetchAccountBalance.send();
                             break;
                         // 文字聊天
                         case R.id.lay_text_chat:
-//                            Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
-//                            intentText.putExtra("user", m_actorPage);
-//                            startActivity(intentText);
+                            Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
+                            intentText.putExtra("user", m_actorPagerVo);
+                            startActivity(intentText);
 
 //                            if (m_actorVo != null)
 //                            {
@@ -192,7 +198,7 @@ public class UserInfoActivity extends BaseActivity
             String text = textFollow.getText().toString();
 
             int userId = AppData.getCurUserId();
-            int actorId = m_actorPage.getId();
+            int actorId = m_actorPagerVo.getId();
 
             if (text.equals(follow))
             {
@@ -217,12 +223,12 @@ public class UserInfoActivity extends BaseActivity
     {
         try
         {
-            if (m_actorPage == null || UIUtil.isListEmpty(m_actorPage.getPicList()))
+            if (m_actorPagerVo == null || UIUtil.isListEmpty(m_actorPagerVo.getPicList()))
             {
                 return;
             }
 
-            final List<String> pootoUrlList = m_actorPage.getPicList();
+            final List<String> pootoUrlList = m_actorPagerVo.getPicList();
             View.OnClickListener clickListener = new View.OnClickListener()
             {
                 @Override
@@ -283,7 +289,7 @@ public class UserInfoActivity extends BaseActivity
     {
         try
         {
-            if (m_actorPage == null)
+            if (m_actorPagerVo == null)
             {
                 return;
             }
@@ -320,7 +326,7 @@ public class UserInfoActivity extends BaseActivity
             // 去掉当前用户
             for (int i = 0; i < actorPageVoList.size(); i++)
             {
-                if (actorPageVoList.get(i).getNickname().equals(m_actorPage.getNickname()))
+                if (actorPageVoList.get(i).getNickname().equals(m_actorPagerVo.getNickname()))
                 {
                     actorPageVoList.remove(i);
                     break;
@@ -400,7 +406,7 @@ public class UserInfoActivity extends BaseActivity
     {
         try
         {
-            if (m_actorPage == null)
+            if (m_actorPagerVo == null)
             {
                 return;
             }
@@ -420,39 +426,39 @@ public class UserInfoActivity extends BaseActivity
             TextView txtConcept = (TextView) findViewById(R.id.txt_concept);
             TextView txtObjective = (TextView) findViewById(R.id.txt_objective);
 
-            String icon = m_actorPage.getIcon();
+            String icon = m_actorPagerVo.getIcon();
             ImageLoaderUtil.displayListAvatarImage(imgAvatar, icon);
             //imgAvatar.setImageResource(m_user.avatar_res);
-            txtName.setText(m_actorPage.getNickname());
-            txtAge.setText(String.valueOf(m_actorPage.getAge()));
+            txtName.setText(m_actorPagerVo.getNickname());
+            txtAge.setText(String.valueOf(m_actorPagerVo.getAge()));
             String strId = getString(R.string.txt_user_info_like_chat_id);
-            txtId.setText(strId + m_actorPage.getId());
-            txtCity.setText(m_actorPage.getCity());
+            txtId.setText(strId + m_actorPagerVo.getId());
+            txtCity.setText(m_actorPagerVo.getCity());
             String strFansFollow = getString(R.string.txt_user_info_fans_count);
-            strFansFollow += m_actorPage.getFans() + "  ";
+            strFansFollow += m_actorPagerVo.getFans() + "  ";
             strFansFollow += getString(R.string.txt_user_info_follow_count);
-            strFansFollow += m_actorPage.getAttention();
+            strFansFollow += m_actorPagerVo.getAttention();
             txtFansFollow.setText(strFansFollow);
-            txtIntro.setText(m_actorPage.getIntroduction());
-            txtCallRate.setText(m_actorPage.getPrice());
-            txtTalkTime.setText(m_actorPage.getCallTime());
-            txtHeight.setText(m_actorPage.getHight());
-            txtWeight.setText(m_actorPage.getWeight());
-            txtConcept.setText(m_actorPage.getConcept());
-            txtObjective.setText(m_actorPage.getObjective());
-            if (m_actorPage.getVoiceSec() != null && m_actorPage.getVoiceSec() > 0)
+            txtIntro.setText(m_actorPagerVo.getIntroduction());
+            txtCallRate.setText(m_actorPagerVo.getPrice());
+            txtTalkTime.setText(m_actorPagerVo.getCallTime());
+            txtHeight.setText(m_actorPagerVo.getHight());
+            txtWeight.setText(m_actorPagerVo.getWeight());
+            txtConcept.setText(m_actorPagerVo.getConcept());
+            txtObjective.setText(m_actorPagerVo.getObjective());
+            if (m_actorPagerVo.getVoiceSec() != null && m_actorPagerVo.getVoiceSec() > 0)
             {
                 findViewById(R.id.lay_voice).setVisibility(View.VISIBLE);
-                txtVoiceSec.setText(formatVoiceSec(m_actorPage.getVoiceSec()));
+                txtVoiceSec.setText(formatVoiceSec(m_actorPagerVo.getVoiceSec()));
             }
             else
             {
                 findViewById(R.id.lay_voice).setVisibility(View.INVISIBLE);
             }
 
-            updateFollowButtonState(m_actorPage.getIsAttention());
+            updateFollowButtonState(m_actorPagerVo.getIsAttention());
 
-            ViewsUtil.setActorGenderDrawable(txtAge, m_actorPage.getSex(), true);
+            ViewsUtil.setActorGenderDrawable(txtAge, m_actorPagerVo.getSex(), true);
         }
         catch (Exception e)
         {
@@ -487,8 +493,8 @@ public class UserInfoActivity extends BaseActivity
             FetchActorPage fetchActorPage = (FetchActorPage) msg.obj;
             if (FetchActorPage.isSucceed(fetchActorPage))
             {
-                m_actorPage = fetchActorPage.rspActorPageVo;
-                m_actorPage.setId(fetchActorPage.reqActorId);
+                m_actorPagerVo = fetchActorPage.rspActorPageVo;
+                m_actorPagerVo.setId(fetchActorPage.reqActorId);
                 updateData();
                 updatePhoto();
             }
@@ -524,17 +530,17 @@ public class UserInfoActivity extends BaseActivity
                     case R.id.lay_mobile:
                     case R.id.txt_show_mobile:
                         TextView txtShowMobile = (TextView) findViewById(R.id.txt_show_mobile);
-                        txtShowMobile.setText(m_actorPage.getPhone());
+                        txtShowMobile.setText(m_actorPagerVo.getPhone());
                         break;
                     case R.id.lay_qq:
                     case R.id.txt_show_qq:
                         TextView txtShowQQ = (TextView) findViewById(R.id.txt_show_qq);
-                        txtShowQQ.setText(m_actorPage.getQq());
+                        txtShowQQ.setText(m_actorPagerVo.getQq());
                         break;
                     case R.id.lay_wx:
                     case R.id.txt_show_wx:
                         TextView txtShowWx = (TextView) findViewById(R.id.txt_show_wx);
-                        txtShowWx.setText(m_actorPage.getWechat());
+                        txtShowWx.setText(m_actorPagerVo.getWechat());
                         break;
                     }
                 }
@@ -560,11 +566,11 @@ public class UserInfoActivity extends BaseActivity
                 {
 //                    if (m_actorVo != null)
 //                    {
-//                        AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+//                        AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPagerVo);
 //                    }
 //                    else
 //                    {
-//                        AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+//                        AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPagerVo);
 //                    }
                 }
             }

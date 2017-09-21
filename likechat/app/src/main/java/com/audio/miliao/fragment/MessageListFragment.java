@@ -6,16 +6,16 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.app.library.util.ImageLoaderUtil;
+import com.app.library.vo.ActorVo;
 import com.audio.miliao.R;
 import com.audio.miliao.activity.ChatTextActivity;
 import com.audio.miliao.adapter.MessageAdapter;
 import com.audio.miliao.entity.ChatMessage;
 import com.audio.miliao.util.DebugUtil;
-import com.app.library.vo.ActorVo;
 
 import java.util.List;
 
@@ -66,42 +66,43 @@ public class MessageListFragment extends BaseFragment
                 }
             });
 
-            m_list.setOnScrollListener(new AbsListView.OnScrollListener()
-            {
-                @Override
-                public void onScrollStateChanged(AbsListView view, int scrollState)
-                {
-                    try
-                    {
-                        switch (scrollState)
-                        {
-                        //停止滚动
-                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                            m_adapter.setScrolling(false);
-                            m_adapter.notifyDataSetChanged();
-                            break;
-                        //滚动做出了抛的动作
-                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                            m_adapter.setScrolling(true);
-                            break;
-                        //正在滚动
-                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                            m_adapter.setScrolling(true);
-                            break;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-                {
-
-                }
-            });
+            m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
+//            m_list.setOnScrollListener(new AbsListView.OnScrollListener()
+//            {
+//                @Override
+//                public void onScrollStateChanged(AbsListView view, int scrollState)
+//                {
+//                    try
+//                    {
+//                        switch (scrollState)
+//                        {
+//                        //停止滚动
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+//                            m_adapter.setScrolling(false);
+//                            m_adapter.notifyDataSetChanged();
+//                            break;
+//                        //滚动做出了抛的动作
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+//                            m_adapter.setScrolling(true);
+//                            break;
+//                        //正在滚动
+//                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+//                            m_adapter.setScrolling(true);
+//                            break;
+//                        }
+//                    }
+//                    catch (Exception e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+//                {
+//
+//                }
+//            });
         }
         catch (Exception e)
         {

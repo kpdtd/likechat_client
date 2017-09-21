@@ -46,7 +46,7 @@ public class LogUtil
 
 	private static final boolean LOG_ENABLED = true;
 	private static final boolean WRITE_TO_FILE_ENABLED = false;
-	private static String log_tag = "";
+	private static String log_tag = "mmm_lll";
 
 	private static int LOG_LEVEL = 2;// show all level you can change it at any
 	// where

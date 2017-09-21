@@ -1,11 +1,15 @@
 package com.audio.miliao.entity;
 
+import com.app.library.util.DateUtil;
+import com.app.library.util.PreferUtil;
 import com.app.library.vo.ActorPageVo;
 import com.app.library.vo.ActorVo;
 import com.app.library.vo.UserRegisterVo;
-import com.audio.miliao.util.PreferUtil;
+import com.audio.miliao.util.JSONUtil;
 
 import org.json.JSONObject;
+
+import java.util.Date;
 
 /**
  * 内存中使用的数据
@@ -187,6 +191,45 @@ public class AppData
         return userInfo;
     }
 
+    public static void setAutoCallInTime(long timeMill, int time)
+    {
+        String strDate = DateUtil.parseDate(new Date(timeMill));
+        try
+        {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(strDate, time);
+
+            PreferUtil.setStringPreference(KEY_AUTO_CALL_IN, jsonObject.toString());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 返回当天显示呼叫的次数
+     * @param timeMill 当天的时间
+     * @return
+     */
+    public static int getAutoCallInTime(long timeMill)
+    {
+        String strDate = DateUtil.parseDate(new Date(timeMill));
+        try
+        {
+            String strAutoCallInTimes = PreferUtil.getStringPreference(KEY_AUTO_CALL_IN);
+            JSONObject jsonObject = new JSONObject(strAutoCallInTimes);
+            int times = JSONUtil.getInt(jsonObject, strDate);
+
+            return times;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 //    /**
 //     * 登录后返回的用户id
 //     * @param userId
@@ -235,4 +278,6 @@ public class AppData
 
     private static final String KEY_USER_ID = "key_user_id";
     private static final String KEY_OPEN_ID = "key_open_id";
+
+    private static final String KEY_AUTO_CALL_IN = "key_auto_cal_in";
 }

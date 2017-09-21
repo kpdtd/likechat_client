@@ -3,7 +3,7 @@ package com.audio.miliao.entity;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.audio.miliao.util.DbFieldUtil;
+import com.app.library.util.DbFieldUtil;
 import com.app.library.vo.ActorVo;
 
 import org.json.JSONObject;
