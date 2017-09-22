@@ -13,7 +13,7 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/avchat_mute_icon_disable"/>
+                <bitmap android:src="@mipmap/avchat_mute_icon_disable"/>
             </item>
         </layer-list>
     </item>
@@ -29,7 +29,7 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/avchat_mute_icon_pressed"/>
+                <bitmap android:src="@mipmap/avchat_mute_icon_pressed"/>
             </item>
         </layer-list>
     </item>
@@ -45,7 +45,7 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/avchat_mute_icon_checked"/>
+                <bitmap android:src="@mipmap/avchat_mute_icon_checked"/>
             </item>
         </layer-list>
     </item>
@@ -61,7 +61,7 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/avchat_mute_icon_normal"/>
+                <bitmap android:src="@mipmap/avchat_mute_icon_normal"/>
             </item>
         </layer-list>
     </item>

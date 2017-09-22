@@ -82,10 +82,10 @@ public class ImageLoaderUtil
                         .build();
 
                 m_optionsAvatar = new DisplayImageOptions.Builder()
-                        .showImageForEmptyUri(R.drawable.avatar_def)
+                        .showImageForEmptyUri(R.mipmap.avatar_def)
                         // 设置图片在下载期间显示的图片
-                        .showImageOnLoading(R.drawable.avatar_def)// 在ImageView加载过程中显示图片
-                        .showImageOnFail(R.drawable.avatar_def)
+                        .showImageOnLoading(R.mipmap.avatar_def)// 在ImageView加载过程中显示图片
+                        .showImageOnFail(R.mipmap.avatar_def)
                         .bitmapConfig(Bitmap.Config.RGB_565)
                         // 设置图片Uri为空或是错误的时候显示的图片
                         //.showStubImage(R.mipmap.ic_user)
@@ -98,9 +98,9 @@ public class ImageLoaderUtil
 
                 m_optionsListAvatar = new DisplayImageOptions.Builder()
                         // 设置图片在下载期间显示的图片
-                        .showImageOnLoading(R.drawable.avatar_def)// 在ImageView加载过程中显示图片
-                        .showImageOnFail(R.drawable.avatar_def)
-                        .showImageForEmptyUri(R.drawable.avatar_def)
+                        .showImageOnLoading(R.mipmap.avatar_def)// 在ImageView加载过程中显示图片
+                        .showImageOnFail(R.mipmap.avatar_def)
+                        .showImageForEmptyUri(R.mipmap.avatar_def)
                         .bitmapConfig(Bitmap.Config.RGB_565)
                         .cacheInMemory(true)
                         .cacheOnDisk(true)

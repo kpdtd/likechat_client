@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/img_avatar"
             android:layout_centerHorizontal="true"
-            android:drawableLeft="@drawable/ic_female_checked"
+            android:drawableLeft="@mipmap/ic_female_checked"
             android:layout_marginTop="5dp"
             android:drawablePadding="5dp"
             android:gravity="center"

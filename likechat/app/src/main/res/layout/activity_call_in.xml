@@ -9,15 +9,14 @@
         android:id="@+id/img_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/avatar_def"
-        android:scaleType="fitXY"/>
+        android:src="@mipmap/avatar_def"
+        android:scaleType="centerCrop"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/gradient_call_in_bg"
-        android:alpha="0.8"
-        android:scaleType="fitXY"/>
+        android:alpha="0.8"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -31,7 +30,7 @@
             android:id="@+id/img_avatar"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/avatar_def"/>
+            android:src="@mipmap/avatar_def"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,7 +63,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/txt_call_in_hang_up"
-            android:drawableTop="@drawable/ic_hang_up"
+            android:drawableTop="@mipmap/ic_hang_up"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_14_dp"/>
 
@@ -75,7 +74,7 @@
             android:gravity="center_horizontal"
             android:text="@string/txt_call_in_answer"
             android:layout_alignParentRight="true"
-            android:drawableTop="@drawable/ic_answer"
+            android:drawableTop="@mipmap/ic_answer"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_14_dp"/>
     </RelativeLayout>

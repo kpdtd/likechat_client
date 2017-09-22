@@ -79,7 +79,7 @@
                                 android:id="@+id/txt_age"
                                 style="@style/user_info_info_style"
                                 android:layout_marginLeft="5dp"
-                                android:drawableLeft="@drawable/ic_female_checked"
+                                android:drawableLeft="@mipmap/ic_female_checked"
                                 android:drawablePadding="3dp"
                                 android:text="24"/>
                         </LinearLayout>

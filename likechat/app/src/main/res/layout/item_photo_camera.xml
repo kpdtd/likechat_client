@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:drawablePadding="5dp"
-        android:drawableTop="@drawable/ic_photo_camera"
+        android:drawableTop="@mipmap/ic_photo_camera"
         android:gravity="center"
         android:text="@string/txt_photo_camera"
         android:textColor="#bfbfbf"

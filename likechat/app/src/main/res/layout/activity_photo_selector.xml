@@ -29,7 +29,7 @@
             android:layout_height="@dimen/title_bar_height"
             android:clickable="true"
             android:scaleType="center"
-            android:src="@drawable/ic_photo_ok"
+            android:src="@mipmap/ic_photo_ok"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 

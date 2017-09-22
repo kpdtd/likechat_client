@@ -32,14 +32,14 @@ public class ViewsUtil
             Context context = textView.getContext();
             if (gender == 2)
             {
-                int imgRes = (checked ? R.drawable.ic_female_checked : R.drawable.ic_female_normal);
+                int imgRes = (checked ? R.mipmap.ic_female_checked : R.mipmap.ic_female_normal);
                 Drawable female = context.getResources().getDrawable(imgRes);
                 int width = UIUtil.dip2px(context, 15);
                 UIUtil.setCompoundDrawables(textView, female, 0, width);
             }
             else
             {
-                int imgRes = (checked ? R.drawable.ic_male_checked : R.drawable.ic_male_normal);
+                int imgRes = (checked ? R.mipmap.ic_male_checked : R.mipmap.ic_male_normal);
                 Drawable male = context.getResources().getDrawable(imgRes);
                 int width = UIUtil.dip2px(context, 15);
                 UIUtil.setCompoundDrawables(textView, male, 0, width);

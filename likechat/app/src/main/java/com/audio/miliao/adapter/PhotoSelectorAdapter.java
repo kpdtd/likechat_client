@@ -203,7 +203,7 @@ public class PhotoSelectorAdapter extends BaseAdapter
                 }
 
                 boolean bSel = m_listSelect.contains(strPath);
-                int nChecked = bSel ? R.drawable.ic_photo_checked : R.drawable.ic_photo_normal;
+                int nChecked = bSel ? R.mipmap.ic_photo_checked : R.mipmap.ic_photo_normal;
                 holder.mask.setVisibility(bSel ? View.VISIBLE : View.GONE);
                 holder.check.setImageResource(nChecked);
                 holder.check.setTag(nPosition);

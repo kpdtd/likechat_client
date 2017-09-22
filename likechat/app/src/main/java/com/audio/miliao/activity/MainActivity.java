@@ -20,7 +20,6 @@ import com.audio.miliao.fragment.TabMessageFragment;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchHomeContent;
-import com.audio.miliao.theApp;
 import com.audio.miliao.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ public class MainActivity extends BaseActivity
                 public void run()
                 {
                     int times = AppData.getAutoCallInTime(System.currentTimeMillis());
-                    theApp.showToast("times " + times);
+                    //theApp.showToast("times " + times);
                     if (times < 2)
                     {
                         AppData.setAutoCallInTime(System.currentTimeMillis(), times + 1);

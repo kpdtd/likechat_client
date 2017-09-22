@@ -13,7 +13,7 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/ic_mute_checked" />
+                <bitmap android:src="@mipmap/ic_mute_checked" />
             </item>
         </layer-list>
     </item>
@@ -29,7 +29,7 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/ic_mute_checked" />
+                <bitmap android:src="@mipmap/ic_mute_checked" />
             </item>
         </layer-list>
     </item>
@@ -45,7 +45,7 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:src="@drawable/ic_mute_normal" />
+                <bitmap android:src="@mipmap/ic_mute_normal" />
             </item>
         </layer-list>
     </item>
