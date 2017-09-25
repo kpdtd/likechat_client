@@ -99,6 +99,8 @@ public class HttpUtil
         public static final int FETCH_ACTOR_DYNAMIC_LIST = 22;
         /** 获取客服信息 */
         public static final int FETCH_CUSTOM_SERVICE = 23;
+        /** 查看动态时扣费 */
+        public static final int CHARGE_DYNAMIC = 24;
     }
 
     /** 请求类型 */

@@ -50,6 +50,9 @@ public class MainActivity extends BaseActivity
             FetchHomeContent fetchHomeContent = new FetchHomeContent(null, null);
             fetchHomeContent.send();
 
+            FetchActorPage fetchActorPage = new FetchActorPage(handler(), AppData.getCurUserId(), null);
+            fetchActorPage.send();
+
             handler().postDelayed(new Runnable()
             {
                 @Override

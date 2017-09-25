@@ -123,8 +123,7 @@ public class LoginActivity extends BaseActivity
             FetchActorPage fetchActorPage = (FetchActorPage) msg.obj;
             if (FetchActorPage.isSucceed(fetchActorPage))
             {
-                AppData.setCurUser(fetchActorPage.rspActorPageVo);
-
+                //AppData.setCurUser(fetchActorPage.rspActorPageVo);
                 Intent intentMain = new Intent(this, MainActivity.class);
                 startActivity(intentMain);
                 finish();

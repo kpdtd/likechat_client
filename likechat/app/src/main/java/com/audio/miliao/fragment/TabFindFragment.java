@@ -17,6 +17,7 @@ import com.app.library.util.UIUtil;
 import com.app.library.vo.ActorDynamicVo;
 import com.audio.miliao.R;
 import com.audio.miliao.activity.ImageBrowseActivity;
+import com.audio.miliao.activity.SimpleBalanceActivity;
 import com.audio.miliao.activity.UserInfoActivity;
 import com.audio.miliao.activity.WatchVideoActivity;
 import com.audio.miliao.adapter.ActorDynamicAdapter;
@@ -25,6 +26,7 @@ import com.audio.miliao.algorithm.SortByFollow;
 import com.audio.miliao.algorithm.SortByWatch;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddDynamicPageView;
+import com.audio.miliao.http.cmd.ChargeDynamic;
 import com.audio.miliao.http.cmd.FetchFindList;
 import com.audio.miliao.util.MediaPlayerUtil;
 
@@ -275,23 +277,6 @@ public class TabFindFragment extends BaseFragment
                                             addDynamicPageView.send();
                                         }
                                     });
-//                                    mediaPlayer.reset();
-//                                    mediaPlayer.setDataSource(voiceUrl);
-//                                    //mediaPlayer.prepare();
-//                                    //mediaPlayer.start();
-//                                    mediaPlayer.prepareAsync();
-//                                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
-//                                    {
-//                                        @Override
-//                                        public void onPrepared(MediaPlayer mp)
-//                                        {
-//                                            // 装载完毕回调
-//                                            mediaPlayer.start();
-//
-//                                            AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
-//                                            addDynamicPageView.send();
-//                                        }
-//                                    });
                                 }
                             }
                             catch (Exception e)
@@ -307,13 +292,11 @@ public class TabFindFragment extends BaseFragment
                     {
                         if (UIUtil.isListNotEmpty(actorDynamicVo.getDynamicUrl()))
                         {
-                            String videoUrl = actorDynamicVo.getDynamicUrl().get(0);
-                            Intent intentText = new Intent(getActivity(), WatchVideoActivity.class);
-                            intentText.putExtra("url", videoUrl);
-                            startActivity(intentText);
-
-                            AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
-                            addDynamicPageView.send();
+                            if (actorDynamicVo.getPrice() > 0)
+                            {
+                                ChargeDynamic chargeDynamic = new ChargeDynamic(handler(), actorDynamicVo.getActorId(), actorDynamicVo.getPrice(), actorDynamicVo);
+                                chargeDynamic.send();
+                            }
                         }
                     }
 
@@ -387,6 +370,25 @@ public class TabFindFragment extends BaseFragment
             {
 //                m_actorDynamicVos.clear();
 //                updateData();
+            }
+            break;
+        case HttpUtil.RequestCode.CHARGE_DYNAMIC:
+            ChargeDynamic chargeDynamic = (ChargeDynamic) msg.obj;
+            if (ChargeDynamic.isSucceed(chargeDynamic))
+            {
+                ActorDynamicVo actorDynamicVo = (ActorDynamicVo) chargeDynamic.rspCallBackTag;
+
+                String videoUrl = actorDynamicVo.getDynamicUrl().get(0);
+                Intent intentText = new Intent(getActivity(), WatchVideoActivity.class);
+                intentText.putExtra("url", videoUrl);
+                startActivity(intentText);
+
+                AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
+                addDynamicPageView.send();
+            }
+            else
+            {
+                SimpleBalanceActivity.show(getActivity());
             }
             break;
         }

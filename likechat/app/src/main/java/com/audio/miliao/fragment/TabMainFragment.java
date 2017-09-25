@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -98,6 +99,26 @@ public class TabMainFragment extends BaseFragment
             });
 
             m_gridView.setOnScrollListener(ImageLoaderUtil.getPauseListener());
+            m_gridView.setOnScrollListener(new AbsListView.OnScrollListener()
+            {
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState)
+                {
+                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
+                    {
+                        if (view.getLastVisiblePosition() == view.getCount() - 1)
+                        {
+                            fetchHomeList();
+                        }
+                    }
+                }
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+                {
+
+                }
+            });
         }
         catch (Exception e)
         {
@@ -112,20 +133,20 @@ public class TabMainFragment extends BaseFragment
             if (m_adapter == null)
             {
                 //View headerView = View.inflate(getActivity(), R.layout.list_header_main_banner, null);
-                m_footer = View.inflate(getActivity(), R.layout.footer_load_more, null);
-                m_footer.findViewById(R.id.lay_footer).setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        v.findViewById(R.id.btn_click_load_more).setVisibility(View.GONE);
-                        v.findViewById(R.id.loading).setVisibility(View.VISIBLE);
-                        fetchHomeList();
-                    }
-                });
-
-                //m_gridView.addHeaderView(headerView);
-                m_gridView.addFooterView(m_footer);
+//                m_footer = View.inflate(getActivity(), R.layout.footer_load_more, null);
+//                m_footer.findViewById(R.id.lay_footer).setOnClickListener(new View.OnClickListener()
+//                {
+//                    @Override
+//                    public void onClick(View v)
+//                    {
+//                        v.findViewById(R.id.btn_click_load_more).setVisibility(View.GONE);
+//                        v.findViewById(R.id.loading).setVisibility(View.VISIBLE);
+//                        fetchHomeList();
+//                    }
+//                });
+//
+//                //m_gridView.addHeaderView(headerView);
+//                m_gridView.addFooterView(m_footer);
 
                 m_adapter = new ActorAdapter(getActivity(), m_actorVoList);
                 m_gridView.setAdapter(m_adapter);
