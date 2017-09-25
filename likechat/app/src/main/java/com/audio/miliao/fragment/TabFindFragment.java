@@ -16,8 +16,8 @@ import com.app.library.util.StringUtil;
 import com.app.library.util.UIUtil;
 import com.app.library.vo.ActorDynamicVo;
 import com.audio.miliao.R;
+import com.audio.miliao.activity.BalanceActivity;
 import com.audio.miliao.activity.ImageBrowseActivity;
-import com.audio.miliao.activity.SimpleBalanceActivity;
 import com.audio.miliao.activity.UserInfoActivity;
 import com.audio.miliao.activity.WatchVideoActivity;
 import com.audio.miliao.adapter.ActorDynamicAdapter;
@@ -388,7 +388,9 @@ public class TabFindFragment extends BaseFragment
             }
             else
             {
-                SimpleBalanceActivity.show(getActivity());
+                //SimpleBalanceActivity.show(getActivity());
+                Intent intentAccountBalance = new Intent(getActivity(), BalanceActivity.class);
+                startActivity(intentAccountBalance);
             }
             break;
         }

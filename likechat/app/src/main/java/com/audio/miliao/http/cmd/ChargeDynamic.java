@@ -27,12 +27,14 @@ public class ChargeDynamic extends BaseReqRsp
 	public ChargeDynamic(Handler handler, int actorId, int price, Object tag)
 	{
 		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.CHARGE_DYNAMIC, false, tag);
+		reqActorId = actorId;
+		reqPrice = price;
 	}
 
 	@Override
 	public String getReqUrl()
 	{
-		String url = getPrevBaseURL() + "find/callPay2";
+		String url = getPrevBaseURL() + "accounting/callPay2";
 
 		return url;
 	}
