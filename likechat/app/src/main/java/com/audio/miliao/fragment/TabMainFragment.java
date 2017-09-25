@@ -98,66 +98,6 @@ public class TabMainFragment extends BaseFragment
             });
 
             m_gridView.setOnScrollListener(ImageLoaderUtil.getPauseListener());
-//            m_gridView.setOnScrollListener(new AbsListView.OnScrollListener()
-//            {
-//                @Override
-//                public void onScrollStateChanged(AbsListView view, int scrollState)
-//                {
-//                    try
-//                    {
-//                        switch (scrollState)
-//                        {
-//                        //停止滚动
-//                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-//                            m_adapter.setScrolling(false);
-//                            m_adapter.notifyDataSetChanged();
-//                            break;
-//                        //滚动做出了抛的动作
-//                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-//                            m_adapter.setScrolling(true);
-//                            break;
-//                        //正在滚动
-//                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-//                            m_adapter.setScrolling(true);
-//                            break;
-//                        }
-//                    }
-//                    catch (Exception e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                @Override
-//                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-//                {
-//
-//                }
-//            });
-
-//            View.OnClickListener clickListener = new View.OnClickListener()
-//            {
-//                @Override
-//                public void onClick(View v)
-//                {
-//                    try
-//                    {
-//                        switch (v.getId())
-//                        {
-//                        case R.id.img_customer_service:
-//                            Intent intentCustomerService = new Intent(getActivity(), CustomerServiceActivity.class);
-//                            startActivity(intentCustomerService);
-//                            break;
-//                        }
-//                    }
-//                    catch (Exception e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            };
-
-            //root.findViewById(R.id.img_customer_service).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {

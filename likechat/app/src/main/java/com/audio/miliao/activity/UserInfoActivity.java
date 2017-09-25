@@ -23,6 +23,7 @@ import com.audio.miliao.http.cmd.CancelAttention;
 import com.audio.miliao.http.cmd.FetchAccountBalance;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
+import com.audio.miliao.util.Checker;
 import com.audio.miliao.util.DebugUtil;
 import com.audio.miliao.util.MediaPlayerUtil;
 
@@ -415,7 +416,7 @@ public class UserInfoActivity extends BaseActivity
             ImageView imgAvatar = (ImageView) findViewById(R.id.img_avatar);
             TextView txtName = (TextView) findViewById(R.id.txt_name);
             TextView txtAge = (TextView) findViewById(R.id.txt_age);
-            TextView txtId = (TextView) findViewById(R.id.txt_id);
+            //TextView txtId = (TextView) findViewById(R.id.txt_id);
             TextView txtCity = (TextView) findViewById(R.id.txt_city);
             TextView txtFansFollow = (TextView) findViewById(R.id.txt_fans_follow);
             TextView txtIntro = (TextView) findViewById(R.id.txt_intro);
@@ -432,9 +433,10 @@ public class UserInfoActivity extends BaseActivity
             //imgAvatar.setImageResource(m_user.avatar_res);
             txtName.setText(m_actorPagerVo.getNickname());
             txtAge.setText(String.valueOf(m_actorPagerVo.getAge()));
-            String strId = getString(R.string.txt_user_info_like_chat_id);
-            txtId.setText(strId + m_actorPagerVo.getId());
+            //String strId = getString(R.string.txt_user_info_like_chat_id);
+            //txtId.setText(strId + m_actorPagerVo.getId());
             txtCity.setText(m_actorPagerVo.getCity());
+            txtCity.setVisibility((Checker.isNotEmpty(m_actorPagerVo.getCity()) ? View.VISIBLE : View.GONE));
             String strFansFollow = getString(R.string.txt_user_info_fans_count);
             strFansFollow += m_actorPagerVo.getFans() + "  ";
             strFansFollow += getString(R.string.txt_user_info_follow_count);

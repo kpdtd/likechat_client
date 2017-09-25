@@ -74,20 +74,12 @@
                                 android:id="@+id/txt_name"
                                 style="@style/user_info_info_style"
                                 android:textSize="@dimen/txt_size_16_dp"/>
-
-                            <TextView
-                                android:id="@+id/txt_age"
-                                style="@style/user_info_info_style"
-                                android:layout_marginLeft="5dp"
-                                android:drawableLeft="@mipmap/ic_female_checked"
-                                android:drawablePadding="3dp"
-                                android:text="24"/>
                         </LinearLayout>
 
                         <TextView
-                            android:id="@+id/txt_id"
+                            android:id="@+id/txt_age"
                             style="@style/user_info_info_style"
-                            android:text="@string/txt_user_info_like_chat_id"/>
+                            android:drawablePadding="3dp"/>
 
                         <TextView
                             android:id="@+id/txt_city"

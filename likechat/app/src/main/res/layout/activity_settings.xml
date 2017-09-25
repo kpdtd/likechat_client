@@ -31,12 +31,6 @@
         android:text="@string/txt_settings_clear_cache"/>
 
     <TextView
-        android:id="@+id/txt_settings_help"
-        style="@style/settings_item_style"
-        android:layout_marginBottom="1px"
-        android:text="@string/txt_settings_help"/>
-
-    <TextView
         android:id="@+id/txt_settings_update"
         style="@style/settings_item_style"
         android:layout_marginBottom="10dp"

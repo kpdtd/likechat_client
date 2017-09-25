@@ -46,7 +46,7 @@
             android:layout_marginLeft="3dp"
             android:maxLines="2"
             android:textColor="#626262"
-            android:textSize="@dimen/txt_size_8_dp"/>
+            android:textSize="@dimen/txt_size_12_dp"/>
     </LinearLayout>
 
 

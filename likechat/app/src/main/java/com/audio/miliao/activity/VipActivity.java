@@ -180,8 +180,11 @@ public class VipActivity extends BaseActivity
             }
 
             m_txtVipLevel.setText(getString(R.string.txt_vip_member_level) + m_vipMemberVo.getGrade());
+            int isVip = (m_vipMemberVo.getIsvip() != null ? m_vipMemberVo.getIsvip() : 0);
+            int visibility = (isVip  == 1 ? View.VISIBLE : View.GONE);
             String str = String.format(getString(R.string.txt_vip_remain_time), m_vipMemberVo.getVipActiveTime());
             m_txtVipRemainTime.setText(str);
+            m_txtVipRemainTime.setVisibility(visibility);
 
             setGoodsInfo(m_txtNameSilver, m_txtSubnameSilver, m_chkSilver, m_vipMemberVo.getGoods().get(0));
             setGoodsInfo(m_txtNameGold, m_txtSubnameGold, m_chkGold, m_vipMemberVo.getGoods().get(1));

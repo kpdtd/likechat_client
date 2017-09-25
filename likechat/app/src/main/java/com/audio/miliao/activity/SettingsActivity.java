@@ -92,6 +92,9 @@ public class SettingsActivity extends BaseActivity
                         };
                         new Thread(runnable).start();
                         break;
+                    case R.id.txt_settings_update:
+                        theApp.showToast("已经是最新版本");
+                        break;
                     }
                 }
             };
@@ -99,6 +102,7 @@ public class SettingsActivity extends BaseActivity
             findViewById(R.id.img_back).setOnClickListener(clickListener);
             findViewById(R.id.txt_settings_clear_cache).setOnClickListener(clickListener);
             findViewById(R.id.txt_switch_account).setOnClickListener(clickListener);
+            findViewById(R.id.txt_settings_update).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
