@@ -124,9 +124,10 @@ public class UserInfoActivity extends BaseActivity
                             break;
                         // 文字聊天
                         case R.id.lay_text_chat:
-                            Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
-                            intentText.putExtra("user", m_actorPagerVo);
-                            startActivity(intentText);
+//                            Intent intentText = new Intent(UserInfoActivity.this, ChatTextActivity.class);
+//                            intentText.putExtra("user", m_actorPagerVo);
+//                            startActivity(intentText);
+                            ChatTextActivity.show(UserInfoActivity.this, m_actorPagerVo);
 
 //                            if (m_actorVo != null)
 //                            {
@@ -547,8 +548,11 @@ public class UserInfoActivity extends BaseActivity
                 else
                 {
                     // 还不是vip会员
-                    Intent intentMobile = new Intent(UserInfoActivity.this, SimpleVipActivity.class);
-                    startActivity(intentMobile);
+//                    Intent intentMobile = new Intent(UserInfoActivity.this, SimpleVipActivity.class);
+//                    startActivity(intentMobile);
+//                    // 设置关闭没有动画
+//                    overridePendingTransition(0, 0);
+                    SimpleVipActivity.show(UserInfoActivity.this);
                 }
             }
             break;
@@ -559,8 +563,11 @@ public class UserInfoActivity extends BaseActivity
                 int money = (fetchAccountBalance.rspAccountBalanceVo.getMoney() != null ? fetchAccountBalance.rspAccountBalanceVo.getMoney() : 0);
                 if (money <= 0)
                 {
-                    Intent intent = new Intent(UserInfoActivity.this, SimpleBalanceActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(UserInfoActivity.this, SimpleBalanceActivity.class);
+//                    startActivity(intent);
+//                    // 设置关闭没有动画
+//                    overridePendingTransition(0, 0);
+                    SimpleBalanceActivity.show(UserInfoActivity.this);
                 }
                 else
                 {
@@ -572,6 +579,7 @@ public class UserInfoActivity extends BaseActivity
 //                    {
 //                        AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPagerVo);
 //                    }
+                    ChatVoiceCallOutActivity.show(UserInfoActivity.this, m_actorPagerVo);
                 }
             }
             break;

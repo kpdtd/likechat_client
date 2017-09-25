@@ -1,6 +1,5 @@
 package com.audio.miliao.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -20,10 +19,13 @@ import com.audio.miliao.fragment.TabMessageFragment;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchHomeContent;
+import com.audio.miliao.http.cmd.FetchVipMember;
+import com.audio.miliao.util.Checker;
 import com.audio.miliao.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import de.greenrobot.event.EventBus;
 
@@ -57,9 +59,8 @@ public class MainActivity extends BaseActivity
                     //theApp.showToast("times " + times);
                     if (times < 2)
                     {
-                        AppData.setAutoCallInTime(System.currentTimeMillis(), times + 1);
-                        Intent intent = new Intent(MainActivity.this, CallInActivity.class);
-                        startActivity(intent);
+                        FetchVipMember fetchVipMember = new FetchVipMember(handler(), times);
+                        fetchVipMember.send();
                     }
                 }
             }, 10 * 1000);
@@ -188,6 +189,21 @@ public class MainActivity extends BaseActivity
             if (FetchActorPage.isSucceed(fetchActorPage))
             {
                 EventBus.getDefault().post(new QueryActorVoResultEvent(fetchActorPage.rspActorPageVo));
+            }
+            break;
+        case HttpUtil.RequestCode.FETCH_VIP_MEMBER:
+            FetchVipMember fetchVipMember = (FetchVipMember) msg.obj;
+            if (FetchVipMember.isSucceed(fetchVipMember))
+            {
+                TabMainFragment fragment = (TabMainFragment) m_listFragment.get(0);
+                if (fragment != null && Checker.isNotEmpty(fragment.getActorVoList()))
+                {
+                    int times = (int) fetchVipMember.rspCallBackTag;
+                    AppData.setAutoCallInTime(System.currentTimeMillis(), times + 1);
+                    Random rand = new Random(System.currentTimeMillis());
+                    int nIndex = rand.nextInt(fragment.getActorVoList().size());
+                    AutoCallInActivity.show(MainActivity.this, fragment.getActorVoList().get(nIndex));
+                }
             }
             break;
         }

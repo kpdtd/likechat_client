@@ -35,6 +35,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
+        <ImageView
+            style="@style/center_crop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/gradient_call_in_bg"
+            android:alpha="0.8"/>
+
         <com.app.library.widget.CircleImageView
             android:id="@+id/img_avatar"
             style="@style/center_crop"

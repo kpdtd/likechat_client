@@ -12,6 +12,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.event.LoginEvent;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.WXPayCreateOrder;
 import com.audio.miliao.pay.alipay.PayResult;
 import com.audio.miliao.theApp;
@@ -28,7 +29,7 @@ import de.greenrobot.event.EventBus;
  */
 public class LoginActivity extends BaseActivity
 {
-    private static final int CODE_ALIPAY_SDK_PAY_FLAG = 3;
+    private static final int CODE_ALIPAY_SDK_PAY_FLAG = 300;
 
     private EditText mEdittext;
     //private YXService mService;
@@ -117,6 +118,22 @@ public class LoginActivity extends BaseActivity
                 theApp.showToast("创建订单失败");
             }
             break;
+
+        case HttpUtil.RequestCode.FETCH_ACTOR_PAGE:
+            FetchActorPage fetchActorPage = (FetchActorPage) msg.obj;
+            if (FetchActorPage.isSucceed(fetchActorPage))
+            {
+                AppData.setCurUser(fetchActorPage.rspActorPageVo);
+
+                Intent intentMain = new Intent(this, MainActivity.class);
+                startActivity(intentMain);
+                finish();
+            }
+            else
+            {
+                theApp.showToast("获取账户信息失败");
+            }
+            break;
         }
     }
 
@@ -201,61 +218,12 @@ public class LoginActivity extends BaseActivity
             theApp.setCurAccount(new Account(AppData.getYunXinAccount(), AppData.getYunXinToken()));
 
             //YunXinUtil.login(AppData.getYunXinAccount(), AppData.getYunXinToken());
-
-            Intent intentMain = new Intent(this, MainActivity.class);
-            startActivity(intentMain);
-
-            finish();
+            FetchActorPage fetchActorPage = new FetchActorPage(handler(), AppData.getCurUserId(), null);
+            fetchActorPage.send();
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
     }
-
-//    private void onAlipay()
-//    {
-//        /**
-//         * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
-//         * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
-//         * 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
-//         *
-//         * orderInfo的获取必须来自服务端；
-//         */
-//        boolean rsa2 = (Constant.RSA2_PRIVATE.length() > 0);
-//        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constant.APP_ID, rsa2, null);
-//        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
-//
-//        String privateKey = rsa2 ? Constant.RSA2_PRIVATE : Constant.RSA_PRIVATE;
-//        String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
-//        final String orderInfo = orderParam + "&" + sign;
-//
-//        Runnable payRunnable = new Runnable()
-//        {
-//            @Override
-//            public void run()
-//            {
-//                // 使用沙箱环境
-//                //EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
-//                PayTask alipay = new PayTask(LoginActivity.this);
-//                Map<String, String> result = alipay.payV2(orderInfo, true);
-//                Log.i("msp", result.toString());
-//
-//                Message msg = new Message();
-//                msg.what = CODE_ALIPAY_SDK_PAY_FLAG;
-//                msg.obj = result;
-//                handler().sendMessage(msg);
-//            }
-//        };
-//
-//        Thread payThread = new Thread(payRunnable);
-//        payThread.start();
-//    }
-
-//    private void onWxPay()
-//    {
-//        theApp.showToast("获取订单中...");
-//        WXPayCreateOrder createOrder = new WXPayCreateOrder(handler(),  null);
-//        createOrder.send();
-//    }
 }

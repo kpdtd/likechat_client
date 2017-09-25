@@ -1,6 +1,5 @@
 package com.audio.miliao.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,9 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.app.library.util.ImageLoaderUtil;
-import com.app.library.vo.ActorVo;
 import com.audio.miliao.R;
-import com.audio.miliao.activity.ChatTextActivity;
 import com.audio.miliao.adapter.MessageAdapter;
 import com.audio.miliao.entity.ChatMessage;
 import com.audio.miliao.util.DebugUtil;
@@ -54,10 +51,10 @@ public class MessageListFragment extends BaseFragment
                 {
                     try
                     {
-                        Intent intentChat = new Intent(getActivity(), ChatTextActivity.class);
-                        ActorVo actor = (m_adapter.getItem(position) == null ? null : ((ChatMessage) m_adapter.getItem(position)).from);
-                        intentChat.putExtra("user", actor);
-                        startActivity(intentChat);
+//                        Intent intentChat = new Intent(getActivity(), ChatTextActivity.class);
+//                        ActorVo actor = (m_adapter.getItem(position) == null ? null : ((ChatMessage) m_adapter.getItem(position)).from);
+//                        intentChat.putExtra("user", actor);
+//                        startActivity(intentChat);
                     }
                     catch (Exception e)
                     {

@@ -85,7 +85,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.CallInActivity"
+            android:name=".activity.AutoCallInActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">

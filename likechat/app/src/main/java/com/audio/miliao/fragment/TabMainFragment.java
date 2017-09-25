@@ -206,6 +206,11 @@ public class TabMainFragment extends BaseFragment
         }
     }
 
+    public List<ActorVo> getActorVoList()
+    {
+        return m_actorVoList;
+    }
+
     private void updateTitleTag()
     {
         if (UIUtil.isListNotEmpty(m_tagVoList))

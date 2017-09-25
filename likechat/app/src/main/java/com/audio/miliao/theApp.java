@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
-import android.support.multidex.MultiDex;
 
 import com.app.library.util.ImageLoaderUtil;
 import com.app.library.util.PreferUtil;
@@ -22,12 +21,12 @@ public class theApp extends Application
 
     private static Account mCurAccount = TEST3;
 
-    @Override
-    protected void attachBaseContext(Context newBase)
-    {
-        super.attachBaseContext(newBase);
-        MultiDex.install(this);
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase)
+//    {
+//        super.attachBaseContext(newBase);
+//        MultiDex.install(this);
+//    }
 
     @Override
     public void onCreate()

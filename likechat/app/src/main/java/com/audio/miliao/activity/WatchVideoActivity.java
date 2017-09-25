@@ -40,7 +40,7 @@ public class WatchVideoActivity extends BaseActivity
 				try
 				{
 					final VideoView video = (VideoView) findViewById(R.id.video_anchor);
-					strUrl = "http://mvvideo2.meitudata.com/58eb6e45337ec9972.mp4";
+					//strUrl = "http://mvvideo2.meitudata.com/58eb6e45337ec9972.mp4";
 					Uri ur = Uri.parse(strUrl);
 					video.setVideoURI(ur);
 					video.setMediaController(new MediaController(this));

@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="221dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider"
-        android:background="@mipmap/login_bg">
+        android:layout_height="473dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/pay_dialog_bg"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,7 +100,15 @@
                 android:layout_height="1px"
                 android:background="@color/activity_bg"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
             <include layout="@layout/layout_pay_list"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
 
             <TextView
                 android:id="@+id/txt_pay_now"
@@ -106,8 +120,6 @@
                 android:text="@string/txt_vip_pay_confirm"
                 android:textColor="@color/text_white_selector"
                 android:textSize="@dimen/txt_size_14_dp"/>
-
-
         </LinearLayout>
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

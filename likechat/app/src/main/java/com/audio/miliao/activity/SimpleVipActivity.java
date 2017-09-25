@@ -1,5 +1,7 @@
 package com.audio.miliao.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
@@ -7,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.app.library.vo.GoodsVo;
+import com.app.library.vo.VipMemberVo;
 import com.audio.miliao.R;
 import com.audio.miliao.event.WXPayResultEvent;
 import com.audio.miliao.http.HttpUtil;
@@ -15,8 +19,6 @@ import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.AlipayUtil;
 import com.audio.miliao.util.WXUtil;
-import com.app.library.vo.GoodsVo;
-import com.app.library.vo.VipMemberVo;
 
 import de.greenrobot.event.EventBus;
 
@@ -25,6 +27,8 @@ import de.greenrobot.event.EventBus;
  */
 public class SimpleVipActivity extends BaseActivity
 {
+    private TextView m_txtContactHer;
+
     private CheckBox m_chkSilver;
     private TextView m_txtNameSilver;
     private TextView m_txtSubnameSilver;
@@ -42,6 +46,14 @@ public class SimpleVipActivity extends BaseActivity
     private RadioButton m_rdoWeixin;
 
     private VipMemberVo m_vipMemberVo;
+
+    public static void show(Activity activity)
+    {
+        Intent intentMobile = new Intent(activity, SimpleVipActivity.class);
+        activity.startActivity(intentMobile);
+        // 设置关闭没有动画
+        activity.overridePendingTransition(0, 0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,10 +83,19 @@ public class SimpleVipActivity extends BaseActivity
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        // 设置关闭没有动画
+        overridePendingTransition(0, 0);
+    }
+
     private void initUI()
     {
         try
         {
+            m_txtContactHer = (TextView) findViewById(R.id.txt_contact_her);
             m_chkSilver = (CheckBox) findViewById(R.id.chk_level_silver);
             m_txtNameSilver = (TextView) findViewById(R.id.txt_name_level_silver);
             m_txtSubnameSilver = (TextView) findViewById(R.id.txt_subname_level_silver);
@@ -92,6 +113,18 @@ public class SimpleVipActivity extends BaseActivity
             m_rdoAlipay = (RadioButton) findViewById(R.id.rdo_alipay);
             m_rdoWeixin = (RadioButton) findViewById(R.id.rdo_weixin);
             m_txtPayNow = (TextView) findViewById(R.id.txt_pay_now);
+
+            // 加粗
+            m_txtContactHer.getPaint().setFakeBoldText(true);
+
+            m_txtNameSilver.setTextColor(getResources().getColor(R.color.white));
+            m_txtSubnameSilver.setTextColor(getResources().getColor(R.color.white));
+            m_txtNameGold.setTextColor(getResources().getColor(R.color.white));
+            m_txtSubnameGold.setTextColor(getResources().getColor(R.color.white));
+            m_txtNameDiamond.setTextColor(getResources().getColor(R.color.white));
+            m_txtSubnameDiamond.setTextColor(getResources().getColor(R.color.white));
+            m_rdoAlipay.setTextColor(getResources().getColorStateList(R.color.text_white_selector));
+            m_rdoWeixin.setTextColor(getResources().getColorStateList(R.color.text_white_selector));
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -120,6 +153,8 @@ public class SimpleVipActivity extends BaseActivity
                             break;
                         case R.id.divider:
                             finish();
+                            // 设置关闭没有动画
+                            overridePendingTransition(0, 0);
                             break;
                         case R.id.txt_pay_now:
                             GoodsVo goodsVo = (GoodsVo) m_txtPayNow.getTag();
@@ -304,6 +339,10 @@ public class SimpleVipActivity extends BaseActivity
     private void onPaySucceed()
     {
         setPayEnabled(true);
+
+        finish();
+        // 设置关闭没有动画
+        overridePendingTransition(0, 0);
         theApp.showToast("支付成功");
     }
 

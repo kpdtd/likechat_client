@@ -1,5 +1,7 @@
 package com.audio.miliao.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.app.library.vo.AccountBalanceVo;
+import com.app.library.vo.GoodsVo;
 import com.audio.miliao.R;
 import com.audio.miliao.event.WXPayResultEvent;
 import com.audio.miliao.http.HttpUtil;
@@ -16,8 +20,6 @@ import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.AlipayUtil;
 import com.audio.miliao.util.WXUtil;
-import com.app.library.vo.AccountBalanceVo;
-import com.app.library.vo.GoodsVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ import de.greenrobot.event.EventBus;
  */
 public class SimpleBalanceActivity extends BaseActivity
 {
+    private TextView m_txtContactHer;
     private TextView m_txtChargeName1;
     private TextView m_txtChargeName2;
     private TextView m_txtChargeName3;
@@ -40,6 +43,14 @@ public class SimpleBalanceActivity extends BaseActivity
     private TextView m_txtPayNow;
 
     private AccountBalanceVo m_accountBalanceVo;
+
+    public static void show(Activity activity)
+    {
+        Intent intent = new Intent(activity, SimpleBalanceActivity.class);
+        activity.startActivity(intent);
+        // 打开activity没有动画，看起来像Dialog一样
+        activity.overridePendingTransition(0, 0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -62,10 +73,20 @@ public class SimpleBalanceActivity extends BaseActivity
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        // 设置关闭没有动画
+        overridePendingTransition(0, 0);
+    }
+
     private void initUI()
     {
         try
         {
+            m_txtContactHer = (TextView) findViewById(R.id.txt_contact_her);
+
             m_txtChargeName1 = (TextView) findViewById(R.id.txt_charge_name1);
             m_txtChargeName2 = (TextView) findViewById(R.id.txt_charge_name2);
             m_txtChargeName3 = (TextView) findViewById(R.id.txt_charge_name3);
@@ -75,6 +96,12 @@ public class SimpleBalanceActivity extends BaseActivity
             m_rdoAlipay = (RadioButton) findViewById(R.id.rdo_alipay);
             m_rdoWeixin = (RadioButton) findViewById(R.id.rdo_weixin);
             m_txtPayNow = (TextView) findViewById(R.id.txt_pay_now);
+
+            // 加粗
+            m_txtContactHer.getPaint().setFakeBoldText(true);
+
+            m_rdoAlipay.setTextColor(getResources().getColorStateList(R.color.text_white_selector));
+            m_rdoWeixin.setTextColor(getResources().getColorStateList(R.color.text_white_selector));
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -87,6 +114,8 @@ public class SimpleBalanceActivity extends BaseActivity
                         {
                         case R.id.divider:
                             finish();
+                            // 设置关闭没有动画
+                            overridePendingTransition(0, 0);
                             break;
                         case R.id.lay_charge_item1:
                         case R.id.txt_charge_value1:
@@ -281,8 +310,9 @@ public class SimpleBalanceActivity extends BaseActivity
     {
         setPayEnabled(true);
 
-        FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
-        fetchAccountBalance.send();
+        finish();
+        // 设置关闭没有动画
+        overridePendingTransition(0, 0);
         theApp.showToast("支付成功");
     }
 

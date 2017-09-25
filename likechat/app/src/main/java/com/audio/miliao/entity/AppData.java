@@ -24,6 +24,27 @@ public class AppData
     }
 
     /**
+     * 获取当前用户
+     * @return
+     */
+    public static ActorPageVo getCurUser()
+    {
+        //return ms_curUser;
+        try
+        {
+            JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_ACTOR));
+            ActorPageVo actor = ActorPageVo.parse(jsonObject.toString(), ActorPageVo.class);
+            return actor;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
      * 登录后返回的用户id
      * @param userId
      */
@@ -59,52 +80,32 @@ public class AppData
         return PreferUtil.getStringPreference(KEY_OPEN_ID);
     }
 
-    /**
-     * 获取当前用户
-     * @return
-     */
-    public static ActorPageVo getCurUser()
-    {
-        //return ms_curUser;
-        try
-        {
-            JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_ACTOR));
-            ActorPageVo actor = ActorPageVo.parse(jsonObject.toString(), ActorPageVo.class);
-            return actor;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-    public static void setCurActorPageVo(ActorPageVo actor)
-    {
-        //ms_curUser = user;
-        PreferUtil.setStringPreference(KEY_ACTOR_PAGE_VO, actor.toJson().toString());
-    }
-
-    /**
-     * 获取当前用户
-     * @return
-     */
-    public static ActorPageVo getCurActorPageVo()
-    {
-        //return ms_curUser;
-        try
-        {
-            JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_ACTOR_PAGE_VO));
-            ActorPageVo actor = ActorPageVo.parse(jsonObject.toString(), ActorPageVo.class);
-            return actor;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
+//    public static void setCurActorPageVo(ActorPageVo actor)
+//    {
+//        //ms_curUser = user;
+//        PreferUtil.setStringPreference(KEY_ACTOR_PAGE_VO, actor.toJson().toString());
+//    }
+//
+//    /**
+//     * 获取当前用户
+//     * @return
+//     */
+//    public static ActorPageVo getCurActorPageVo()
+//    {
+//        //return ms_curUser;
+//        try
+//        {
+//            JSONObject jsonObject = new JSONObject(PreferUtil.getStringPreference(KEY_ACTOR_PAGE_VO));
+//            ActorPageVo actor = ActorPageVo.parse(jsonObject.toString(), ActorPageVo.class);
+//            return actor;
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
 
     /**
      * 判断用户是否是当前用户
@@ -115,9 +116,9 @@ public class AppData
     {
         try
         {
-            if (actor != null && getCurUser() != null)
+            if (actor != null)
             {
-                return actor.getId().equals(getCurUser().getId());
+                return actor.getId().equals(getCurUserId());
             }
         }
         catch (Exception e)
