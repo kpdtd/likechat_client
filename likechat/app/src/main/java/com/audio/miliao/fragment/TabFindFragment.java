@@ -403,13 +403,6 @@ public class TabFindFragment extends BaseFragment
                 ActorDynamicVo actorDynamicVo = (ActorDynamicVo) chargeDynamic.rspCallBackTag;
 
                 watchVideo(actorDynamicVo);
-//                String videoUrl = actorDynamicVo.getDynamicUrl().get(0);
-//                Intent intentText = new Intent(getActivity(), WatchVideoActivity.class);
-//                intentText.putExtra("url", videoUrl);
-//                startActivity(intentText);
-//
-//                AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
-//                addDynamicPageView.send();
             }
             else
             {

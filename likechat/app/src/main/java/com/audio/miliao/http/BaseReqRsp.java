@@ -62,6 +62,14 @@ public abstract class BaseReqRsp
 		}
 	}
 
+	public interface ReqListener
+	{
+		void onSucceed(Object object);
+		void onError(int errorCode);
+	}
+
+	private ReqListener mReqListener;
+
 	/**
 	 * 服务前缀
 	 * @return
@@ -136,6 +144,12 @@ public abstract class BaseReqRsp
 		}
 	}
 
+	public void send(ReqListener listener)
+	{
+		mReqListener = listener;
+		send();
+	}
+
 	public void sendSync()
 	{
 		try
@@ -208,6 +222,18 @@ public abstract class BaseReqRsp
 			Message msg = callback_handler.obtainMessage(callback_notifyCode);
 			msg.obj = this;
 			msg.sendToTarget();
+		}
+
+		if (mReqListener != null)
+		{
+			if (rspResultCode == HttpUtil.Result.OK)
+			{
+				mReqListener.onSucceed(this);
+			}
+			else
+			{
+				mReqListener.onError(rspResultCode);
+			}
 		}
 	}
 }

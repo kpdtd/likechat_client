@@ -10,11 +10,9 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.app.library.util.ImageLoaderUtil;
-import com.app.library.util.UIUtil;
 import com.app.library.vo.ActorVo;
 import com.app.library.vo.TagVo;
 import com.audio.miliao.R;
@@ -57,12 +55,35 @@ public class TabMainFragment extends BaseFragment
         if (m_root == null)
         {
             m_root = inflater.inflate(R.layout.fragment_tab_main, container, false);
-            initUI(m_root);
-            updateData();
-            EventBus.getDefault().register(this);
         }
 
         return m_root;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        if (m_root != null)
+        {
+            initUI(m_root);
+        }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        try
+        {
+            EventBus.getDefault().register(this);
+            updateData();
+            updateTitleTag();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -174,7 +195,7 @@ public class TabMainFragment extends BaseFragment
 
     private void updateTitleTag()
     {
-        if (UIUtil.isListNotEmpty(m_tagVoList))
+        if (Checker.isNotEmpty(m_tagVoList))
         {
             mRadioGroupTag.removeAllViews();
 
@@ -201,16 +222,6 @@ public class TabMainFragment extends BaseFragment
                 }
             };
 
-//            for (TagVo tagVo : m_tagVoList)
-//            {
-//                RadioButton radio = (RadioButton) View.inflate(getContext(), R.layout.layout_tag, null);
-//
-//                radio.setText(tagVo.getTagName());
-//                radio.setTag(tagVo);
-//                radio.setOnClickListener(clickListener);
-//                mRadioGroupTag.addView(radio, params);
-//            }
-
             for (TagVo tagVo : m_tagVoList)
             {
                 View view = View.inflate(getContext(), R.layout.layout_tag, null);
@@ -224,15 +235,30 @@ public class TabMainFragment extends BaseFragment
                 mRadioGroupTag.addView(view, params);
             }
 
-            if (Checker.isNotEmpty(m_tagVoList))
-            {
-                checkView(mRadioGroupTag.getChildAt(0));
-            }
-
-            m_curTag = m_tagVoList.get(0).getIdentifying();
-            RadioButton radio = (RadioButton) mRadioGroupTag.getChildAt(0);
-            radio.setChecked(true);
+            int curTagIndex = getCurTagIndex();
+            View firstChild = mRadioGroupTag.getChildAt(curTagIndex);
+            checkView(firstChild);
+            m_curTag = m_tagVoList.get(curTagIndex).getIdentifying();
         }
+    }
+
+    private int getCurTagIndex()
+    {
+        if (Checker.isNotEmpty(m_tagVoList))
+        {
+            int index = 0;
+            for (TagVo tagVo : m_tagVoList)
+            {
+                if (tagVo.getIdentifying().equals(m_curTag))
+                {
+                    return index;
+                }
+
+                index++;
+            }
+        }
+
+        return 0;
     }
 
     private void checkView(View checkedBoxRoot)
