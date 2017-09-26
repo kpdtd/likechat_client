@@ -161,7 +161,7 @@ public class SimpleBalanceActivity extends BaseActivity
             findViewById(R.id.divider).setOnClickListener(clickListener);
             m_txtPayNow.setOnClickListener(clickListener);
 
-            setCheck(m_chkChargeValue3);
+            //setCheck(m_chkChargeValue3);
             m_rdoAlipay.performClick();
         }
         catch (Exception e)
