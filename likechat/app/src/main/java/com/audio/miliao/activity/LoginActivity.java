@@ -16,6 +16,7 @@ import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.WXPayCreateOrder;
 import com.audio.miliao.pay.alipay.PayResult;
 import com.audio.miliao.theApp;
+import com.audio.miliao.util.AppChecker;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.WXUtil;
 
@@ -79,63 +80,6 @@ public class LoginActivity extends BaseActivity
         //theApp.showToast("onActivityResult requestCode:" + requestCode + ";resultCode:" + resultCode);
     }
 
-    @Override
-    public void handleMessage(Message msg)
-    {
-        switch (msg.what)
-        {
-        case CODE_ALIPAY_SDK_PAY_FLAG:
-
-            @SuppressWarnings("unchecked")
-            PayResult payResult = new PayResult((Map<String, String>) msg.obj);
-            /**
-             * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
-             */
-            String resultInfo = payResult.getResult();// 同步返回需要验证的信息
-            String resultStatus = payResult.getResultStatus();
-            // 判断resultStatus 为9000则代表支付成功
-            if (TextUtils.equals(resultStatus, "9000"))
-            {
-                // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                //Toast.makeText(getApplicationContext(), "支付成功", Toast.LENGTH_SHORT).show();
-                theApp.showToast("支付成功");
-            }
-            else
-            {
-                // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                //Toast.makeText(getApplicationContext(), "支付失败", Toast.LENGTH_SHORT).show();
-                theApp.showToast("支付失败");
-            }
-            break;
-        case HttpUtil.RequestCode.WX_PAY_CREATE_ORDER:
-            WXPayCreateOrder createOrder = (WXPayCreateOrder) msg.obj;
-            if (WXPayCreateOrder.isSucceed(createOrder))
-            {
-                theApp.showToast("创建订单成功");
-            }
-            else
-            {
-                theApp.showToast("创建订单失败");
-            }
-            break;
-
-        case HttpUtil.RequestCode.FETCH_ACTOR_PAGE:
-            FetchActorPage fetchActorPage = (FetchActorPage) msg.obj;
-            if (FetchActorPage.isSucceed(fetchActorPage))
-            {
-                //AppData.setCurUser(fetchActorPage.rspActorPageVo);
-                Intent intentMain = new Intent(this, MainActivity.class);
-                startActivity(intentMain);
-                finish();
-            }
-            else
-            {
-                theApp.showToast("获取账户信息失败");
-            }
-            break;
-        }
-    }
-
     private void initUI()
     {
         try
@@ -152,9 +96,19 @@ public class LoginActivity extends BaseActivity
                         switch (v.getId())
                         {
                         case R.id.txt_weixin_login:
+                            if (!AppChecker.isWechatInstalled(getApplicationContext()))
+                            {
+                                theApp.showToast(getString(R.string.toast_wx_not_installed));
+                                return;
+                            }
                             onWXLogin();
                             break;
                         case R.id.txt_qq_login:
+                            if (!AppChecker.isQQInstalled(getApplicationContext()))
+                            {
+                                theApp.showToast(getString(R.string.toast_qq_not_installed));
+                                return;
+                            }
                             onQQLogin();
                             break;
                         case R.id.btn_yunxin_login:
@@ -223,6 +177,63 @@ public class LoginActivity extends BaseActivity
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case CODE_ALIPAY_SDK_PAY_FLAG:
+
+            @SuppressWarnings("unchecked")
+            PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+            /**
+             * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+             */
+            String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+            String resultStatus = payResult.getResultStatus();
+            // 判断resultStatus 为9000则代表支付成功
+            if (TextUtils.equals(resultStatus, "9000"))
+            {
+                // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                //Toast.makeText(getApplicationContext(), "支付成功", Toast.LENGTH_SHORT).show();
+                theApp.showToast("支付成功");
+            }
+            else
+            {
+                // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                //Toast.makeText(getApplicationContext(), "支付失败", Toast.LENGTH_SHORT).show();
+                theApp.showToast("支付失败");
+            }
+            break;
+        case HttpUtil.RequestCode.WX_PAY_CREATE_ORDER:
+            WXPayCreateOrder createOrder = (WXPayCreateOrder) msg.obj;
+            if (WXPayCreateOrder.isSucceed(createOrder))
+            {
+                theApp.showToast("创建订单成功");
+            }
+            else
+            {
+                theApp.showToast("创建订单失败");
+            }
+            break;
+
+        case HttpUtil.RequestCode.FETCH_ACTOR_PAGE:
+            FetchActorPage fetchActorPage = (FetchActorPage) msg.obj;
+            if (FetchActorPage.isSucceed(fetchActorPage))
+            {
+                //AppData.setCurUser(fetchActorPage.rspActorPageVo);
+                Intent intentMain = new Intent(this, MainActivity.class);
+                startActivity(intentMain);
+                finish();
+            }
+            else
+            {
+                theApp.showToast("获取账户信息失败");
+            }
+            break;
         }
     }
 }

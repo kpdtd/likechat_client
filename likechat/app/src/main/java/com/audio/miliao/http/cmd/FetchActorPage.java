@@ -114,7 +114,10 @@ public class FetchActorPage extends BaseReqRsp
 	{
 		if (rspResultCode == HttpUtil.Result.OK)
 		{
-			AppData.setCurUser(rspActorPageVo);
+			if (rspActorPageVo != null && reqActorId == AppData.getCurUserId())
+			{
+				AppData.setCurUser(rspActorPageVo);
+			}
 		}
 	}
 }

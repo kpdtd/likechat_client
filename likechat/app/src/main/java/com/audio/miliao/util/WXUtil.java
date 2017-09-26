@@ -64,6 +64,19 @@ public class WXUtil
         }
     }
 
+    /**
+     * 判断是否安装微信
+     * @return
+     */
+    public static boolean isWXAppInstalledAndSupported()
+    {
+        init();
+
+        boolean sIsWXAppInstalledAndSupported = api.isWXAppInstalled()
+                && api.isWXAppSupportAPI();
+        return sIsWXAppInstalledAndSupported;
+    }
+
     public static void login()
     {
         try

@@ -1,6 +1,10 @@
 package com.audio.miliao.util;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.alipay.sdk.app.PayTask;
@@ -21,6 +25,19 @@ import java.util.Map;
  */
 public class AlipayUtil
 {
+    /**
+     * 判断支付宝是否安装
+     * @param context
+     * @return
+     */
+    public static boolean checkAliPayInstalled(Context context)
+    {
+        Uri uri = Uri.parse("alipays://platformapi/startApp");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        ComponentName componentName = intent.resolveActivity(context.getPackageManager());
+        return componentName != null;
+    }
+
     /**
      *
      * @param goodsType 1-购买嗨币  2-购买会员

@@ -7,6 +7,8 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.app.library.vo.AccountBalanceVo;
+import com.app.library.vo.GoodsVo;
 import com.audio.miliao.R;
 import com.audio.miliao.event.WXPayResultEvent;
 import com.audio.miliao.http.HttpUtil;
@@ -14,9 +16,8 @@ import com.audio.miliao.http.cmd.FetchAccountBalance;
 import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.AlipayUtil;
+import com.audio.miliao.util.AppChecker;
 import com.audio.miliao.util.WXUtil;
-import com.app.library.vo.AccountBalanceVo;
-import com.app.library.vo.GoodsVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -238,6 +239,12 @@ public class BalanceActivity extends BaseActivity
     {
         try
         {
+            if (!AppChecker.isWechatInstalled(getApplicationContext()))
+            {
+                theApp.showToast(getString(R.string.toast_wx_not_installed));
+                return;
+            }
+
             m_txtPayNow.setEnabled(false);
             // 微信支付的返回结果需要通过eventbus异步返回，listener返回的结果不准确
             WXUtil.pay(goodsVo, null);
