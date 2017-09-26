@@ -297,6 +297,10 @@ public class TabFindFragment extends BaseFragment
                                 ChargeDynamic chargeDynamic = new ChargeDynamic(handler(), actorDynamicVo.getActorId(), actorDynamicVo.getPrice(), actorDynamicVo);
                                 chargeDynamic.send();
                             }
+                            else
+                            {
+                                watchVideo(actorDynamicVo);
+                            }
                         }
                     }
 
@@ -330,6 +334,26 @@ public class TabFindFragment extends BaseFragment
                     m_footer.findViewById(R.id.loading).setVisibility(View.GONE);
                 }
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void watchVideo(ActorDynamicVo actorDynamicVo)
+    {
+        try
+        {
+            //ActorDynamicVo actorDynamicVo = (ActorDynamicVo) chargeDynamic.rspCallBackTag;
+
+            String videoUrl = actorDynamicVo.getDynamicUrl().get(0);
+            Intent intentText = new Intent(getActivity(), WatchVideoActivity.class);
+            intentText.putExtra("url", videoUrl);
+            startActivity(intentText);
+
+            AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
+            addDynamicPageView.send();
         }
         catch (Exception e)
         {
@@ -378,13 +402,14 @@ public class TabFindFragment extends BaseFragment
             {
                 ActorDynamicVo actorDynamicVo = (ActorDynamicVo) chargeDynamic.rspCallBackTag;
 
-                String videoUrl = actorDynamicVo.getDynamicUrl().get(0);
-                Intent intentText = new Intent(getActivity(), WatchVideoActivity.class);
-                intentText.putExtra("url", videoUrl);
-                startActivity(intentText);
-
-                AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
-                addDynamicPageView.send();
+                watchVideo(actorDynamicVo);
+//                String videoUrl = actorDynamicVo.getDynamicUrl().get(0);
+//                Intent intentText = new Intent(getActivity(), WatchVideoActivity.class);
+//                intentText.putExtra("url", videoUrl);
+//                startActivity(intentText);
+//
+//                AddDynamicPageView addDynamicPageView = new AddDynamicPageView(null, actorDynamicVo.getId(), null);
+//                addDynamicPageView.send();
             }
             else
             {

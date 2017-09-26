@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.util.JSONUtil;
 
 import org.json.JSONObject;
 
@@ -70,6 +71,10 @@ public class ChargeDynamic extends BaseReqRsp
 			try
 			{
 				JSONObject jsonObject = new JSONObject(httpBody);
+				if (JSONUtil.getInt(jsonObject, "code") != 0)
+				{
+					rspResultCode = HttpUtil.Result.ERROR_UNKNOWN;
+				}
 			}
 			catch (Exception e)
 			{
