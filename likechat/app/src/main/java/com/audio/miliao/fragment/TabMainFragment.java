@@ -129,7 +129,7 @@ public class TabMainFragment extends BaseFragment
                     {
                         if (view.getLastVisiblePosition() == view.getCount() - 1)
                         {
-                            fetchHomeList();
+                            fetchActorList();
                         }
                     }
                 }
@@ -162,7 +162,7 @@ public class TabMainFragment extends BaseFragment
 //                    {
 //                        v.findViewById(R.id.btn_click_load_more).setVisibility(View.GONE);
 //                        v.findViewById(R.id.loading).setVisibility(View.VISIBLE);
-//                        fetchHomeList();
+//                        fetchActorList();
 //                    }
 //                });
 //
@@ -301,6 +301,13 @@ public class TabMainFragment extends BaseFragment
         }
     }
 
+    private void fetchActorList()
+    {
+        //看当前是哪个tag
+        FetchActorListByTag fetchActorListByTag = new FetchActorListByTag(handler(), m_curTag, null);
+        fetchActorListByTag.send();
+    }
+
     @Override
     public void handleMessage(Message msg)
     {
@@ -327,12 +334,5 @@ public class TabMainFragment extends BaseFragment
             m_curTag = fetchActorListByTag.reqTag;
             break;
         }
-    }
-
-    private void fetchHomeList()
-    {
-        //看当前是哪个tag
-        FetchActorListByTag fetchActorListByTag = new FetchActorListByTag(handler(), m_curTag, null);
-        fetchActorListByTag.send();
     }
 }

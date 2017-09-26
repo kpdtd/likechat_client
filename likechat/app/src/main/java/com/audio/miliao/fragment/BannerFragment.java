@@ -48,12 +48,34 @@ public class BannerFragment extends BaseFragment
         if (m_root == null)
         {
             m_root = inflater.inflate(R.layout.fragment_banner, container, false);
-            initUI(m_root);
-            updateData();
-            EventBus.getDefault().register(this);
         }
 
         return m_root;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        if (m_root != null)
+        {
+            initUI(m_root);
+        }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        try
+        {
+            updateData();
+            EventBus.getDefault().register(this);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
