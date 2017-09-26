@@ -137,9 +137,6 @@ public class ChatVoiceCallOutActivity extends BaseActivity
         try
         {
             m_mediaPlayer = MediaPlayer.create(this,R.raw.avchat_connecting);
-            //m_mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            //m_mediaPlayer.reset();
-            //m_mediaPlayer.prepareAsync();
             m_mediaPlayer.setLooping(true);
             m_mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
             {

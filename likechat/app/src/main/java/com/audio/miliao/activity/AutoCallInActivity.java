@@ -2,6 +2,7 @@ package com.audio.miliao.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ public class AutoCallInActivity extends BaseActivity
     private ActorVo mActorVo;
     private TextView m_txtName;
     private ImageView m_imgAvatar;
+    private MediaPlayer m_mediaPlayer;
 
     public static void show(Activity activity, ActorVo actorVo)
     {
@@ -42,6 +44,15 @@ public class AutoCallInActivity extends BaseActivity
 
             initUI();
             updateData();
+
+            new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    playNotify();
+                }
+            }).start();
         }
         catch (Exception e)
         {
@@ -55,6 +66,13 @@ public class AutoCallInActivity extends BaseActivity
 //        super.onBackPressed();
 //        // 设置关闭没有动画
 //        overridePendingTransition(0, 0);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        stopNotify();
     }
 
     private void initUI()
@@ -100,6 +118,45 @@ public class AutoCallInActivity extends BaseActivity
             {
                 m_txtName.setText(mActorVo.getNickname());
                 ImageLoaderUtil.displayListAvatarImage(m_imgAvatar, mActorVo.getIcon());
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void playNotify()
+    {
+        try
+        {
+            m_mediaPlayer = MediaPlayer.create(this,R.raw.auto_call_in);
+            m_mediaPlayer.setLooping(true);
+            m_mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+            {
+                @Override
+                public void onPrepared(MediaPlayer mp)
+                {
+                    // 装载完毕回调
+                    m_mediaPlayer.start();
+                }
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopNotify()
+    {
+        try
+        {
+            if (m_mediaPlayer != null && m_mediaPlayer.isPlaying())
+            {
+                m_mediaPlayer.stop();
+                m_mediaPlayer.release();
+                m_mediaPlayer = null;
             }
         }
         catch (Exception e)
