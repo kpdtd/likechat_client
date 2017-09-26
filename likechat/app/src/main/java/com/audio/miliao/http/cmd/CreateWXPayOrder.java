@@ -3,11 +3,10 @@ package com.audio.miliao.http.cmd;
 import android.os.Handler;
 import android.util.Log;
 
-import com.audio.miliao.http.BaseReqRsp;
-import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.theApp;
 import com.app.library.vo.WeChatUnifiedOrderReqVo;
 import com.app.library.vo.WeChatUnifiedOrderReturnVo;
+import com.audio.miliao.http.BaseReqRsp;
+import com.audio.miliao.http.HttpUtil;
 
 import org.json.JSONObject;
 
@@ -57,7 +56,7 @@ public class CreateWXPayOrder extends BaseReqRsp
     @Override
     public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
     {
-        theApp.showToast(httpStatusCode + ":" + httpBody);
+        //theApp.showToast(httpStatusCode + ":" + httpBody);
         switch (httpStatusCode)
         {
         case 429:
