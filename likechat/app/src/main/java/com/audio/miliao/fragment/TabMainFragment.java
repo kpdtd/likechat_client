@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
 
+import com.app.library.util.Checker;
 import com.app.library.util.ImageLoaderUtil;
 import com.app.library.vo.ActorVo;
 import com.app.library.vo.TagVo;
@@ -21,7 +22,7 @@ import com.audio.miliao.adapter.ActorAdapter;
 import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorListByTag;
-import com.app.library.util.Checker;
+import com.audio.miliao.http.cmd.FetchHomeContent;
 import com.audio.miliao.widget.GridViewWithHeaderAndFooter;
 
 import java.util.ArrayList;
@@ -45,8 +46,7 @@ public class TabMainFragment extends BaseFragment
     private RadioGroup mRadioGroupTag;
     private List<TagVo> m_tagVoList;
     private String m_curTag;
-    private View m_footer;
-
+    // private View m_footer;
 
     @Nullable
     @Override
@@ -67,6 +67,9 @@ public class TabMainFragment extends BaseFragment
         if (m_root != null)
         {
             initUI(m_root);
+
+            FetchHomeContent fetchHomeContent = new FetchHomeContent(null, null);
+            fetchHomeContent.send();
         }
     }
 
@@ -178,8 +181,8 @@ public class TabMainFragment extends BaseFragment
                 m_adapter.updateData(m_actorVoList);
                 m_adapter.notifyDataSetChanged();
 
-                m_footer.findViewById(R.id.btn_click_load_more).setVisibility(View.VISIBLE);
-                m_footer.findViewById(R.id.loading).setVisibility(View.GONE);
+//                m_footer.findViewById(R.id.btn_click_load_more).setVisibility(View.VISIBLE);
+//                m_footer.findViewById(R.id.loading).setVisibility(View.GONE);
             }
         }
         catch (Exception e)

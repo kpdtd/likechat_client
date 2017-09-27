@@ -20,9 +20,7 @@ import com.audio.miliao.fragment.TabMeFragment;
 import com.audio.miliao.fragment.TabMessageFragment;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
-import com.audio.miliao.http.cmd.FetchHomeContent;
 import com.audio.miliao.http.cmd.FetchVipMember;
-import com.audio.miliao.theApp;
 import com.audio.miliao.util.NotificationUtil;
 import com.audio.miliao.widget.NoScrollViewPager;
 
@@ -38,6 +36,7 @@ public class MainActivity extends BaseActivity
     private List<Fragment> m_listFragment;
     /** 切换各个界面 */
     private ViewPager m_pager;
+    private int m_initCheckedIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,21 +45,20 @@ public class MainActivity extends BaseActivity
         {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-            initUI();
-            initPager();
-            EventBus.getDefault().register(this);
 
             if (getIntent().hasExtra("come_from"))
             {
-                theApp.showToast(getIntent().getStringExtra("come_from"));
-            }
-            else
-            {
-                theApp.showToast("no come from");
+                //String strComeFrom = getIntent().getStringExtra("come_from");
+                m_initCheckedIndex = 2;
             }
 
-            FetchHomeContent fetchHomeContent = new FetchHomeContent(null, null);
-            fetchHomeContent.send();
+            initUI();
+            initPager();
+            setDefaultShow();
+            EventBus.getDefault().register(this);
+
+//            FetchHomeContent fetchHomeContent = new FetchHomeContent(null, null);
+//            fetchHomeContent.send();
 
             FetchActorPage fetchActorPage = new FetchActorPage(handler(), AppData.getCurUserId(), null);
             fetchActorPage.send();
@@ -73,7 +71,7 @@ public class MainActivity extends BaseActivity
                 public void run()
                 {
                     int times = AppData.getAutoCallInTime(System.currentTimeMillis());
-                    theApp.showToast("times " + times);
+                    //theApp.showToast("times " + times);
                     if (AppChecker.isRunningForeground(getApplicationContext()))
                     {
                         if (times < 2)
@@ -148,9 +146,6 @@ public class MainActivity extends BaseActivity
             findViewById(R.id.rdo_find).setOnClickListener(clickListener);
             findViewById(R.id.rdo_message).setOnClickListener(clickListener);
             findViewById(R.id.rdo_me).setOnClickListener(clickListener);
-
-            // 模拟首页按钮点击
-            findViewById(R.id.rdo_main).performClick();
         }
         catch (Exception e)
         {
@@ -176,6 +171,23 @@ public class MainActivity extends BaseActivity
         {
             e.printStackTrace();
         }
+    }
+
+    private void setDefaultShow()
+    {
+
+        if (m_initCheckedIndex == 0)
+        {
+            // 模拟首页按钮点击
+            findViewById(R.id.rdo_main).performClick();
+        }
+        else if(m_initCheckedIndex == 2)
+        {
+            // 模拟首页按钮点击
+            findViewById(R.id.rdo_message).performClick();
+        }
+
+        m_pager.setCurrentItem(m_initCheckedIndex, false);
     }
 
     /**

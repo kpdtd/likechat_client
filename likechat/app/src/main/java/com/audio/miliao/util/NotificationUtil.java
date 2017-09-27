@@ -68,12 +68,13 @@ public class NotificationUtil
         //点击该通知后要跳转的Activity
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.putExtra("come_from", "notification");
+        // 添加这个才能使得intent传参数
         notificationIntent.setData(Uri.parse("custom://"+System.currentTimeMillis()));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
         Notification.Builder builder = new Notification.Builder(context)
                 .setAutoCancel(true)
-                .setContentTitle("title") // 通知栏标题
-                .setContentText("content text") // 通知栏内容
+                .setContentTitle(context.getString(R.string.notification_title)) // 通知栏标题
+                .setContentText(context.getString(R.string.notification_content)) // 通知栏内容
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setWhen(System.currentTimeMillis());

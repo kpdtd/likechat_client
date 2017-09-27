@@ -173,5 +173,8 @@
     <string name="toast_qq_not_installed">请安装QQ</string>
     <string name="toast_wx_not_installed">请安装微信</string>
 
+    <string name="notification_title">她向您发送一条消息，点击查看</string>
+    <string name="notification_content">私密消息，阅后即焚</string>
+
     <string name="notice_update_user_info">正在提交数据，请稍后</string>
 </resources>

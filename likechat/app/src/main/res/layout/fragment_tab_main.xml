@@ -17,32 +17,6 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rdo_all"
-                style="@style/tab_main_radio_style"
-                android:checked="true"
-                android:text="@string/rdo_main_all"/>
-
-            <RadioButton
-                android:id="@+id/rdo_charm"
-                style="@style/tab_main_radio_style"
-                android:text="@string/rdo_main_charm"/>
-
-            <RadioButton
-                android:id="@+id/rdo_sexy"
-                style="@style/tab_main_radio_style"
-                android:text="@string/rdo_main_sexy"/>
-
-            <RadioButton
-                android:id="@+id/rdo_hot"
-                style="@style/tab_main_radio_style"
-                android:text="@string/rdo_main_hot"/>
-
-            <RadioButton
-                android:id="@+id/rdo_gentle"
-                style="@style/tab_main_radio_style"
-                android:text="@string/rdo_main_gentle"/>
         </RadioGroup>
 
     </LinearLayout>
