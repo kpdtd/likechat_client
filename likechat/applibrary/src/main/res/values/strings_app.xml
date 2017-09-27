@@ -21,6 +21,7 @@
     <string name="rdo_call_history">通话记录</string>
 
     <string name="title_me">我的信息</string>
+    <string name="title_message_list">私密消息</string>
     <string name="title_account_balance">账户余额</string>
     <string name="title_settings">软件设置</string>
     <string name="title_vip_center">会员中心</string>

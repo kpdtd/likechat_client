@@ -3,6 +3,8 @@ package com.app.library.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -174,5 +176,101 @@ public class DateUtil
 
         String log = String.format("%d-%d-%d %d:%d:%d", year, month, day, hour, minute, second);
         LogUtil.d(log);
+    }
+
+    /**
+     * 日期转换为字符串
+     *
+     * @param lDate
+     * @return
+     */
+    public static String formatDate(long lDate)
+    {
+        return formatDate(new Date(lDate));
+    }
+
+    /**
+     * 日期转换为字符串
+     *
+     * @param date
+     * @return
+     */
+    public static String formatDate(Date date)
+    {
+        try
+        {
+            SimpleDateFormat simpleDateFormat = getSimpleDateFormat(isToday(date));
+            String strDate = simpleDateFormat.format(date);
+            return strDate;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    private static SimpleDateFormat getSimpleDateFormat(boolean today)
+    {
+        try
+        {
+            SimpleDateFormat simpleDateFormat = null;
+            if (today)
+            {
+                simpleDateFormat = new SimpleDateFormat(
+                        "今天 HH:mm", Locale.getDefault());
+
+                return simpleDateFormat;
+            }
+            else
+            {
+                simpleDateFormat = new SimpleDateFormat(
+                        "MM月dd日 HH:mm", Locale.getDefault());
+
+                return simpleDateFormat;
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * 判断给定日期是否是今天内的日期
+     * @param date
+     * @return
+     */
+    private static boolean isToday(Date date)
+    {
+        try
+        {
+            Date today = new Date();
+            Calendar caledarToday = GregorianCalendar.getInstance(Locale.getDefault());
+            caledarToday.setTime(today);
+            int todayYear = caledarToday.get(Calendar.YEAR);
+            int todayMonth = caledarToday.get(Calendar.MONTH);
+            int todayDay = caledarToday.get(Calendar.DAY_OF_MONTH);
+
+            Calendar caledarDate = GregorianCalendar.getInstance(Locale.getDefault());
+            caledarDate.setTime(date);
+            int dateYear = caledarDate.get(Calendar.YEAR);
+            int dateMonth = caledarDate.get(Calendar.MONTH);
+            int dateDay = caledarDate.get(Calendar.DAY_OF_MONTH);
+
+            if (todayYear == dateYear && todayMonth == dateMonth && todayDay == dateDay)
+            {
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

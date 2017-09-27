@@ -1,6 +1,7 @@
 package com.audio.miliao.fragment;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,19 +9,27 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.app.library.util.DBUtil;
 import com.app.library.util.ImageLoaderUtil;
+import com.app.library.vo.MessageVo;
 import com.audio.miliao.R;
+import com.audio.miliao.activity.ChatTextActivity;
 import com.audio.miliao.adapter.MessageAdapter;
-import com.audio.miliao.entity.ChatMessage;
-import com.audio.miliao.util.DebugUtil;
+import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.FetchActorPage;
+import com.audio.miliao.http.cmd.FetchMessageList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageListFragment extends BaseFragment
 {
-    /** 界面中的root view */
+    /**
+     * 界面中的root view
+     */
     private View m_root;
     private ListView m_list;
+    private List<MessageVo> m_listMessageVo = new ArrayList<>();
     private MessageAdapter m_adapter;
 
     @Nullable
@@ -31,11 +40,23 @@ public class MessageListFragment extends BaseFragment
         {
             m_root = inflater.inflate(R.layout.fragment_message_list, container, false);
 
-            initUI(m_root);
-            updateData();
+            //updateData();
         }
 
         return m_root;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        if (m_root != null)
+        {
+            initUI(m_root);
+
+            FetchMessageList fetchMessageList = new FetchMessageList(handler(), null);
+            fetchMessageList.send();
+        }
     }
 
     private void initUI(final View root)
@@ -51,10 +72,9 @@ public class MessageListFragment extends BaseFragment
                 {
                     try
                     {
-//                        Intent intentChat = new Intent(getActivity(), ChatTextActivity.class);
-//                        ActorVo actor = (m_adapter.getItem(position) == null ? null : ((ChatMessage) m_adapter.getItem(position)).from);
-//                        intentChat.putExtra("user", actor);
-//                        startActivity(intentChat);
+                        MessageVo messageVo = (MessageVo) m_adapter.getItem(position);
+                        FetchActorPage fetchActorPage = new FetchActorPage(handler(), messageVo.getActorId(), null);
+                        fetchActorPage.send();
                     }
                     catch (Exception e)
                     {
@@ -64,42 +84,6 @@ public class MessageListFragment extends BaseFragment
             });
 
             m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
-//            m_list.setOnScrollListener(new AbsListView.OnScrollListener()
-//            {
-//                @Override
-//                public void onScrollStateChanged(AbsListView view, int scrollState)
-//                {
-//                    try
-//                    {
-//                        switch (scrollState)
-//                        {
-//                        //停止滚动
-//                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-//                            m_adapter.setScrolling(false);
-//                            m_adapter.notifyDataSetChanged();
-//                            break;
-//                        //滚动做出了抛的动作
-//                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-//                            m_adapter.setScrolling(true);
-//                            break;
-//                        //正在滚动
-//                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-//                            m_adapter.setScrolling(true);
-//                            break;
-//                        }
-//                    }
-//                    catch (Exception e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                @Override
-//                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-//                {
-//
-//                }
-//            });
         }
         catch (Exception e)
         {
@@ -111,21 +95,43 @@ public class MessageListFragment extends BaseFragment
     {
         try
         {
-            List<ChatMessage> chatMessages = DebugUtil.getChatMessage();
             if (m_adapter == null)
             {
-                m_adapter = new MessageAdapter(getActivity(), chatMessages);
+                m_adapter = new MessageAdapter(getActivity(), m_listMessageVo);
                 m_list.setAdapter(m_adapter);
             }
             else
             {
-                m_adapter.updateData(chatMessages);
+                m_adapter.updateData(m_listMessageVo);
                 m_adapter.notifyDataSetChanged();
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        switch (msg.what)
+        {
+        case HttpUtil.RequestCode.FETCH_ACTOR_PAGE:
+            FetchActorPage fetchActorPage = (FetchActorPage) msg.obj;
+            if (FetchActorPage.isSucceed(fetchActorPage))
+            {
+                ChatTextActivity.show(getActivity(), fetchActorPage.rspActorPageVo);
+            }
+            break;
+        case HttpUtil.RequestCode.FETCH_MESSAGE_LIST:
+            FetchMessageList fetchMessageList = (FetchMessageList) msg.obj;
+            if (FetchMessageList.isSucceed(fetchMessageList))
+            {
+                m_listMessageVo = DBUtil.queryAllMessageVo();
+                updateData();
+            }
+            break;
         }
     }
 }

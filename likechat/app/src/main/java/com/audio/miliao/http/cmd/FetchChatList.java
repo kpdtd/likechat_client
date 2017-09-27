@@ -2,6 +2,7 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
+import com.app.library.util.DBUtil;
 import com.app.library.vo.MessageVo;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
@@ -74,5 +75,12 @@ public class FetchChatList extends BaseReqRsp
 	@Override
 	public void onFinish()
 	{
+		if (rspResultCode == HttpUtil.Result.OK)
+		{
+			if (rspMessageVo != null)
+			{
+				DBUtil.save(rspMessageVo);
+			}
+		}
 	}
 }

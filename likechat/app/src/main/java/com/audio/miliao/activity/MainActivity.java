@@ -14,10 +14,10 @@ import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.event.LogoutEvent;
+import com.audio.miliao.fragment.MessageListFragment;
 import com.audio.miliao.fragment.TabFindFragment;
 import com.audio.miliao.fragment.TabMainFragment;
 import com.audio.miliao.fragment.TabMeFragment;
-import com.audio.miliao.fragment.TabMessageFragment;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
@@ -163,7 +163,8 @@ public class MainActivity extends BaseActivity
             m_listFragment = new ArrayList<>();
             m_listFragment.add(new TabMainFragment());
             m_listFragment.add(new TabFindFragment());
-            m_listFragment.add(new TabMessageFragment());
+            //m_listFragment.add(new TabMessageFragment());
+            m_listFragment.add(new MessageListFragment());
             m_listFragment.add(new TabMeFragment());
             m_pager.setAdapter(new CustomFragmentPageAdapter(getSupportFragmentManager(), m_listFragment));
         }

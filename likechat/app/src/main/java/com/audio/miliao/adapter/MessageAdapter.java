@@ -7,10 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.app.library.util.DateUtil;
 import com.app.library.util.ImageLoaderUtil;
-import com.app.library.util.StringUtil;
+import com.app.library.vo.MessageVo;
 import com.audio.miliao.R;
-import com.audio.miliao.entity.ChatMessage;
 
 import java.util.List;
 
@@ -20,17 +20,17 @@ import java.util.List;
 public class MessageAdapter extends BaseAdapter
 {
     private Activity m_parent;
-    private List<ChatMessage> m_listTextChatMessages;
+    private List<MessageVo> m_listTextChatMessages;
     /** 列表是否处于滑动状态 */
     private boolean m_bIsScrolling = false;
 
-    public MessageAdapter(Activity activity, List<ChatMessage> listTextChatMessages)
+    public MessageAdapter(Activity activity, List<MessageVo> listTextChatMessages)
     {
         m_parent = activity;
         m_listTextChatMessages = listTextChatMessages;
     }
 
-    public void updateData(List<ChatMessage> listTextChatMessages)
+    public void updateData(List<MessageVo> listTextChatMessages)
     {
         m_listTextChatMessages = listTextChatMessages;
     }
@@ -110,30 +110,13 @@ public class MessageAdapter extends BaseAdapter
     {
         try
         {
-            ChatMessage message = (ChatMessage) getItem(nPosition);
-            //holder.imgAvatar.setImageResource(R.mipmap.avatar1);
+            MessageVo message = (MessageVo) getItem(nPosition);
             if (message != null)
             {
-                holder.textDate.setText(StringUtil.formatDate(message.date));
-                holder.textSummary.setText(message.text);
-                if (message.from != null)
-                {
-                    holder.textName.setText(message.from.getNickname());
-
-                    if (!m_bIsScrolling)
-                    {
-                        ImageLoaderUtil.displayListAvatarImageFromAsset(holder.imgAvatar, message.from.getIcon());
-                    }
-                }
-                else
-                {
-                    holder.textName.setText("");
-
-                    if (!m_bIsScrolling)
-                    {
-                        holder.imgAvatar.setImageResource(R.mipmap.ic_system_message);
-                    }
-                }
+                holder.textName.setText(message.getNickName());
+                holder.textSummary.setText(message.getMessage());
+                holder.textDate.setText(DateUtil.formatDate(message.getMdate()));
+                ImageLoaderUtil.displayListAvatarImage(holder.imgAvatar, message.getIcon());
             }
         }
         catch (Exception e)

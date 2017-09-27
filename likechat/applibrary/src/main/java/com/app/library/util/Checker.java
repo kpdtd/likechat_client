@@ -1,5 +1,7 @@
 package com.app.library.util;
 
+import org.json.JSONArray;
+
 import java.util.Collection;
 import java.util.Map;
 
@@ -55,6 +57,16 @@ public class Checker
 
     public static <K, V> boolean isNotEmpty(Map<K, V> sourceMap)
     {
-        return (sourceMap == null || sourceMap.size() == 0);
+        return !isEmpty(sourceMap);
+    }
+
+    public static boolean isEmpty(JSONArray jsonArray)
+    {
+        return jsonArray == null || jsonArray.length() == 0;
+    }
+
+    public static boolean isNotEmpty(JSONArray jsonArray)
+    {
+        return !isEmpty(jsonArray);
     }
 }

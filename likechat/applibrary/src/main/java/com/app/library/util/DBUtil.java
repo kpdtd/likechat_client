@@ -1,156 +1,122 @@
 package com.app.library.util;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.app.library.greendao.GreenDaoDbUpgradeHelper;
+import com.app.library.vo.DaoMaster;
+import com.app.library.vo.DaoSession;
+import com.app.library.vo.MessageVo;
+import com.app.library.vo.MessageVoDao;
+
+import org.greenrobot.greendao.query.QueryBuilder;
+
+import java.util.List;
+
 /**
  * 操作工具类
  */
 public class DBUtil
 {
-//    private final static String dbName = "test_db";
-//    private static DaoMaster.DevOpenHelper openHelper;
-//    private static Context mContext;
-//
-//    private static void init()
-//    {
-//        mContext = theApp.CONTEXT;
-//        if (openHelper == null)
-//        {
-//            openHelper = new DaoMaster.DevOpenHelper(mContext, dbName, null);
-//        }
-//    }
-//
-//    /**
-//     * 获取可读数据库
-//     */
-//    private static SQLiteDatabase readableDatabase()
-//    {
-//        init();
-//        SQLiteDatabase db = openHelper.getReadableDatabase();
-//        return db;
-//    }
-//
-//    /**
-//     * 获取可写数据库
-//     */
-//    private static SQLiteDatabase writableDatabase()
-//    {
-//        init();
-//        SQLiteDatabase db = openHelper.getWritableDatabase();
-//        return db;
-//    }
-//
-//    public static<T> void insert(T obj, Class<T> cls)
-//    {
-//        DaoMaster daoMaster = new DaoMaster(writableDatabase());
-//        DaoSession daoSession = daoMaster.newSession();
-//        AbstractDao dao = daoSession.getDao(cls);
-//        dao.insert(obj);
-//    }
-//
-//    /**
-//     *
-//     * @param cls
-//     * @param key 主键
-//     * @param <T>
-//     * @return
-//     */
-//    public static <T> T query(Class<T> cls, Long key)
-//    {
-//        DaoMaster daoMaster = new DaoMaster(readableDatabase());
-//        DaoSession daoSession = daoMaster.newSession();
-//        AbstractDao dao = daoSession.getDao(cls);
-//        return (T)dao.load(key);
-//    }
-//
-//    public static<T> List<T> queryAll(Class<T> cls)
-//    {
-//        DaoMaster daoMaster = new DaoMaster(readableDatabase());
-//        DaoSession daoSession = daoMaster.newSession();
-//        AbstractDao dao = daoSession.getDao(cls);
-//        QueryBuilder<T> qb = dao.queryBuilder();
-//        List<T> list = qb.list();
-//        return list;
-//    }
-//
-//    /**
-//     * 插入一条记录
-//     *
-//     * @param test
-//     */
-//    public static void insertTest(Test test)
-//    {
-//        DaoMaster daoMaster = new DaoMaster(writableDatabase());
-//        DaoSession daoSession = daoMaster.newSession();
-//        TestDao userDao = daoSession.getTestDao();
-//        userDao.insert(test);
-//    }
-//
-//    /**
-//     * 插入用户集合
-//     *
-//     * @param tests
-//     */
-//    public static void insertTestList(List<Test> tests)
-//    {
-//        if (tests == null || tests.isEmpty())
-//        {
-//            return;
-//        }
-//        DaoMaster daoMaster = new DaoMaster(writableDatabase());
-//        DaoSession daoSession = daoMaster.newSession();
-//        TestDao userDao = daoSession.getTestDao();
-//        userDao.insertInTx(tests);
-//    }
-//
-//    /**
-//     * 删除一条记录
-//     *
-//     * @param test
-//     */
-//    public static void deleteTest(Test test)
-//    {
-//        DaoMaster daoMaster = new DaoMaster(writableDatabase());
-//        DaoSession daoSession = daoMaster.newSession();
-//        TestDao userDao = daoSession.getTestDao();
-//        userDao.delete(test);
-//    }
-//
-//    /**
-//     * 更新一条记录
-//     *
-//     * @param test
-//     */
-//    public static void updateTest(Test test)
-//    {
-//        DaoMaster daoMaster = new DaoMaster(writableDatabase());
-//        DaoSession daoSession = daoMaster.newSession();
-//        TestDao userDao = daoSession.getTestDao();
-//        userDao.update(test);
-//    }
-//
-//    /**
-//     * 查询用户列表
-//     */
-//    public static List<Test> queryTestList()
-//    {
-//        DaoMaster daoMaster = new DaoMaster(readableDatabase());
-//        DaoSession daoSession = daoMaster.newSession();
-//        TestDao userDao = daoSession.getTestDao();
-//        QueryBuilder<Test> qb = userDao.queryBuilder();
-//        List<Test> list = qb.list();
-//        return list;
-//    }
-//
-//    /**
-//     * 查询用户列表
-//     */
-//    public static List<Test> queryTestList(int age)
-//    {
-//        DaoMaster daoMaster = new DaoMaster(readableDatabase());
-//        DaoSession daoSession = daoMaster.newSession();
-//        TestDao userDao = daoSession.getTestDao();
-//        QueryBuilder<Test> qb = userDao.queryBuilder();
-//        qb.where(TestDao.Properties.Age.gt(age)).orderAsc(TestDao.Properties.Age);
-//        List<Test> list = qb.list();
-//        return list;
-//    }
+    private static DaoSession daoSession;
+
+    /**
+     * 配置数据库
+     */
+    public static void init(Context context)
+    {
+        if (daoSession == null)
+        {
+            //创建数据库shop.db"
+            DaoMaster.OpenHelper helper = new GreenDaoDbUpgradeHelper(context, "likechat.db", null);
+            //获取可写数据库
+            SQLiteDatabase db = helper.getWritableDatabase();
+            //获取数据库对象
+            DaoMaster daoMaster = new DaoMaster(db);
+            //获取Dao对象管理者
+            daoSession = daoMaster.newSession();
+        }
+    }
+
+    /**
+     * 插入单条
+     * @param messageVo
+     */
+    public static void save(MessageVo messageVo)
+    {
+        try
+        {
+            daoSession.getMessageVoDao().insertOrReplace(messageVo);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 插入多条
+     * @param messageVos
+     */
+    public static void save(List<MessageVo> messageVos)
+    {
+        try
+        {
+            daoSession.getMessageVoDao().insertOrReplaceInTx(messageVos);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static MessageVo queryMessageVo(long id)
+    {
+        try
+        {
+            return daoSession.getMessageVoDao().load(id);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static MessageVo queryMessageVoByActorId(int actorId)
+    {
+        try
+        {
+            return daoSession.getMessageVoDao().queryBuilder()
+                    .where(MessageVoDao.Properties.ActorId.eq(actorId))
+                    .unique();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * 获取所有数据，按date倒序排序
+     * @return
+     */
+    public static List<MessageVo> queryAllMessageVo()
+    {
+        try
+        {
+            QueryBuilder<MessageVo> qb = daoSession.getMessageVoDao().queryBuilder();
+            return qb.orderDesc(MessageVoDao.Properties.Mdate).list();
+            // return daoSession.getMessageVoDao().loadAll();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

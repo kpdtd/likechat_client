@@ -2,6 +2,8 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
+import com.app.library.util.Checker;
+import com.app.library.util.DBUtil;
 import com.app.library.vo.MessageVo;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
@@ -61,10 +63,13 @@ public class FetchMessageList extends BaseReqRsp
 				JSONObject jsonObject = new JSONObject(httpBody);
 				JSONArray jsonData = jsonObject.optJSONArray("data");
 				rspMessageList = new ArrayList<>();
-				for (int i = 0; i < jsonData.length(); i++)
+				if (Checker.isNotEmpty(jsonData))
 				{
-					MessageVo messageVo = MessageVo.parse(jsonData.optJSONObject(i), MessageVo.class);
-					rspMessageList.add(messageVo);
+					for (int i = 0; i < jsonData.length(); i++)
+					{
+						MessageVo messageVo = MessageVo.parse(jsonData.optJSONObject(i), MessageVo.class);
+						rspMessageList.add(messageVo);
+					}
 				}
 			}
 			catch (Exception e)
@@ -82,5 +87,12 @@ public class FetchMessageList extends BaseReqRsp
 	@Override
 	public void onFinish()
 	{
+		if (rspResultCode == HttpUtil.Result.OK)
+		{
+			if (Checker.isNotEmpty(rspMessageList))
+			{
+				DBUtil.save(rspMessageList);
+			}
+		}
 	}
 }

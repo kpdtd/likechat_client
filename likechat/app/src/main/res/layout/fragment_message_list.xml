@@ -6,6 +6,14 @@
     android:background="@color/activity_bg"
     android:orientation="vertical">
 
+    <RelativeLayout
+        style="@style/title_style">
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="@string/title_message_list"/>
+    </RelativeLayout>
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
