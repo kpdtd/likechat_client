@@ -5,7 +5,7 @@ import com.app.library.util.PreferUtil;
 import com.app.library.vo.ActorPageVo;
 import com.app.library.vo.ActorVo;
 import com.app.library.vo.UserRegisterVo;
-import com.audio.miliao.util.JSONUtil;
+import com.app.library.util.JSONUtil;
 
 import org.json.JSONObject;
 
@@ -222,7 +222,7 @@ public class AppData
             JSONObject jsonObject = new JSONObject(strAutoCallInTimes);
             int times = JSONUtil.getInt(jsonObject, strDate);
 
-            return times;
+            return times >= 0 ? times : 0;
         }
         catch (Exception e)
         {

@@ -19,7 +19,7 @@ import com.audio.miliao.http.cmd.FetchAccountBalance;
 import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.AlipayUtil;
-import com.audio.miliao.util.AppChecker;
+import com.app.library.util.AppChecker;
 import com.audio.miliao.util.WXUtil;
 
 import java.util.ArrayList;

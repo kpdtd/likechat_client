@@ -28,7 +28,7 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddDynamicPageView;
 import com.audio.miliao.http.cmd.ChargeDynamic;
 import com.audio.miliao.http.cmd.FetchFindList;
-import com.audio.miliao.util.MediaPlayerUtil;
+import com.app.library.util.MediaPlayerUtil;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,7 +16,7 @@ import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.WXPayCreateOrder;
 import com.audio.miliao.pay.alipay.PayResult;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.AppChecker;
+import com.app.library.util.AppChecker;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.WXUtil;
 

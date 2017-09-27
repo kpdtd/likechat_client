@@ -1,8 +1,11 @@
-package com.audio.miliao.util;
+package com.app.library.util;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,25 @@ import java.util.List;
  */
 public class AppChecker
 {
+    /**
+     * 判断应用是否在前台
+     * @param context
+     * @return
+     */
+    public static boolean isRunningForeground(Context context)
+    {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        String currentPackageName = cn.getPackageName();
+        if (!TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(context.getPackageName()))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
     /**
      * 微信是否已安装
      * @param context

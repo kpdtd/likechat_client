@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.app.library.event.QueryActorVoEvent;
 import com.app.library.event.QueryActorVoResultEvent;
+import com.app.library.util.AppChecker;
+import com.app.library.util.Checker;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
 import com.audio.miliao.entity.AppData;
@@ -20,7 +22,8 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchHomeContent;
 import com.audio.miliao.http.cmd.FetchVipMember;
-import com.audio.miliao.util.Checker;
+import com.audio.miliao.theApp;
+import com.audio.miliao.util.NotificationUtil;
 import com.audio.miliao.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -47,11 +50,22 @@ public class MainActivity extends BaseActivity
             initPager();
             EventBus.getDefault().register(this);
 
+            if (getIntent().hasExtra("come_from"))
+            {
+                theApp.showToast(getIntent().getStringExtra("come_from"));
+            }
+            else
+            {
+                theApp.showToast("no come from");
+            }
+
             FetchHomeContent fetchHomeContent = new FetchHomeContent(null, null);
             fetchHomeContent.send();
 
             FetchActorPage fetchActorPage = new FetchActorPage(handler(), AppData.getCurUserId(), null);
             fetchActorPage.send();
+
+            NotificationUtil.notify(this);
 
             handler().postDelayed(new Runnable()
             {
@@ -59,11 +73,14 @@ public class MainActivity extends BaseActivity
                 public void run()
                 {
                     int times = AppData.getAutoCallInTime(System.currentTimeMillis());
-                    //theApp.showToast("times " + times);
-                    if (times < 2)
+                    theApp.showToast("times " + times);
+                    if (AppChecker.isRunningForeground(getApplicationContext()))
                     {
-                        FetchVipMember fetchVipMember = new FetchVipMember(handler(), times);
-                        fetchVipMember.send();
+                        if (times < 2)
+                        {
+                            FetchVipMember fetchVipMember = new FetchVipMember(handler(), times);
+                            fetchVipMember.send();
+                        }
                     }
                 }
             }, 10 * 1000);

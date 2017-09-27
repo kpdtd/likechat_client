@@ -21,7 +21,7 @@ import com.audio.miliao.adapter.ActorAdapter;
 import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorListByTag;
-import com.audio.miliao.util.Checker;
+import com.app.library.util.Checker;
 import com.audio.miliao.widget.GridViewWithHeaderAndFooter;
 
 import java.util.ArrayList;

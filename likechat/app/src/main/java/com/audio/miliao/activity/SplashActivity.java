@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.handler.WeakHandler;
-import com.audio.miliao.util.Checker;
+import com.app.library.util.Checker;
 
 public class SplashActivity extends BaseActivity
 {

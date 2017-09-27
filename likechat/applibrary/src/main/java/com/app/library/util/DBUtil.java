@@ -1,4 +1,4 @@
-package com.audio.miliao.util;
+package com.app.library.util;
 
 /**
  * 操作工具类

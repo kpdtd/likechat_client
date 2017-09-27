@@ -23,9 +23,9 @@ import com.audio.miliao.http.cmd.CancelAttention;
 import com.audio.miliao.http.cmd.FetchAccountBalance;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
-import com.audio.miliao.util.Checker;
+import com.app.library.util.Checker;
 import com.audio.miliao.util.DebugUtil;
-import com.audio.miliao.util.MediaPlayerUtil;
+import com.app.library.util.MediaPlayerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
