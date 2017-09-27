@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+// greenDao
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 23
@@ -13,6 +15,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+
+    //greendao配置
+    greendao {
+        //版本号，升级时可配置
+        schemaVersion 1
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -28,6 +37,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:23.3.0'
     //compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'org.greenrobot:greendao:3.2.2' // add library
     compile files('libs/eventbus-2.4.0.jar')
     compile files('libs/gson-2.3.jar')
     compile files('libs/fastjson-1.1.34.android.jar')

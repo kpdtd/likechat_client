@@ -12,6 +12,7 @@ public class GsonObj<T> implements Serializable
     //public static final Gson gson = new Gson();
     public static final Gson gson = new GsonBuilder()
             //.setPrettyPrinting()
+            .setDateFormat("yyyy-MM-dd HH:mm:ss")
             .disableHtmlEscaping()
             .create();
 

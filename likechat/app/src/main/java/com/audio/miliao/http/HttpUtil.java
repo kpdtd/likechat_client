@@ -101,6 +101,10 @@ public class HttpUtil
         public static final int FETCH_CUSTOM_SERVICE = 23;
         /** 查看动态时扣费 */
         public static final int CHARGE_DYNAMIC = 24;
+        /** 获取消息界面的消息列表 */
+        public static final int FETCH_MESSAGE_LIST = 25;
+        /** 获取聊天界面的消息列表 */
+        public static final int FETCH_CHAT_LIST = 26;
     }
 
     /** 请求类型 */
