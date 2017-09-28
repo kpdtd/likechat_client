@@ -9,7 +9,7 @@ import com.audio.miliao.R;
 /**
  * 声音动态
  */
-public class VoiceZoneActivity extends BaseActivity
+public class VoiceZoneActivity extends HandleNotificationActivity
 {
 	public void onCreate(Bundle savedInstanceState)
 	{

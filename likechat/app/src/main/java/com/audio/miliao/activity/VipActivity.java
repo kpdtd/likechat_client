@@ -7,6 +7,7 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.app.library.util.AppChecker;
 import com.app.library.vo.GoodsVo;
 import com.app.library.vo.VipMemberVo;
 import com.app.library.vo.WeChatUnifiedOrderReqVo;
@@ -17,15 +18,12 @@ import com.audio.miliao.http.cmd.FetchVipMember;
 import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.AlipayUtil;
-import com.app.library.util.AppChecker;
 import com.audio.miliao.util.WXUtil;
-
-import de.greenrobot.event.EventBus;
 
 /**
  * 会员中心
  */
-public class VipActivity extends BaseActivity
+public class VipActivity extends HandleNotificationActivity
 {
     private CheckBox m_chkSilver;
     private TextView m_txtNameSilver;
@@ -68,14 +66,14 @@ public class VipActivity extends BaseActivity
             e.printStackTrace();
         }
 
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
     }
 
     private void initUI()
@@ -317,6 +315,9 @@ public class VipActivity extends BaseActivity
     {
         setPayEnabled(true);
         theApp.showToast("支付成功");
+
+        FetchVipMember fetchVipMember = new FetchVipMember(handler(), null);
+        fetchVipMember.send();
     }
 
     @Override

@@ -30,7 +30,7 @@ import de.greenrobot.event.EventBus;
 /**
  * 简单的账户余额
  */
-public class SimpleBalanceActivity extends BaseActivity
+public class SimpleBalanceActivity extends HandleNotificationActivity
 {
     private TextView m_txtContactHer;
     private TextView m_txtChargeName1;

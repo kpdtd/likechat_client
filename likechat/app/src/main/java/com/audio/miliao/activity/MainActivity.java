@@ -1,10 +1,12 @@
 package com.audio.miliao.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.RadioButton;
 
 import com.app.library.event.QueryActorVoEvent;
 import com.app.library.event.QueryActorVoResultEvent;
@@ -14,6 +16,7 @@ import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.event.LogoutEvent;
+import com.audio.miliao.event.ShowMessageListEvent;
 import com.audio.miliao.fragment.MessageListFragment;
 import com.audio.miliao.fragment.TabFindFragment;
 import com.audio.miliao.fragment.TabMainFragment;
@@ -21,22 +24,30 @@ import com.audio.miliao.fragment.TabMeFragment;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
-import com.audio.miliao.util.NotificationUtil;
+import com.audio.miliao.service.NotificationService;
 import com.audio.miliao.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.greenrobot.event.EventBus;
 
 public class MainActivity extends BaseActivity
 {
+    private static boolean isRunning = false;
+
     /** Fragment 列表 */
     private List<Fragment> m_listFragment;
     /** 切换各个界面 */
     private ViewPager m_pager;
+    private RadioButton m_rdoMain, m_rdoFind, m_rdoMessage, m_rdoMe;
+
+
     private int m_initCheckedIndex = 0;
+    private Timer m_timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,6 +56,7 @@ public class MainActivity extends BaseActivity
         {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
+            isRunning = true;
 
             if (getIntent().hasExtra("come_from"))
             {
@@ -63,7 +75,7 @@ public class MainActivity extends BaseActivity
             FetchActorPage fetchActorPage = new FetchActorPage(handler(), AppData.getCurUserId(), null);
             fetchActorPage.send();
 
-            NotificationUtil.notify(this);
+            //NotificationUtil.notify(this);
 
             handler().postDelayed(new Runnable()
             {
@@ -82,6 +94,31 @@ public class MainActivity extends BaseActivity
                     }
                 }
             }, 10 * 1000);
+
+            // 只要不在消息界面，隔几秒消息按钮就出现小圆点
+            TimerTask timerTask = new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    if (!m_rdoMessage.isChecked())
+                    {
+                        handler().post(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                m_rdoMessage.setActivated(true);
+                            }
+                        });
+                    }
+                }
+            };
+            m_timer = new Timer();
+            m_timer.schedule(timerTask, 2000, 2000);
+
+            Intent intent = new Intent(this, NotificationService.class);
+            startService(intent);
         }
         catch (Exception e)
         {
@@ -93,8 +130,16 @@ public class MainActivity extends BaseActivity
     protected void onDestroy()
     {
         super.onDestroy();
+        isRunning = false;
         EventBus.getDefault().unregister(this);
+        m_timer.cancel();
     }
+
+    public static boolean isRunning()
+    {
+        return isRunning;
+    }
+
 
     /**
      * 初始化控件
@@ -104,6 +149,10 @@ public class MainActivity extends BaseActivity
         try
         {
             m_pager = (NoScrollViewPager) findViewById(R.id.view_pager);
+            m_rdoMain = (RadioButton) findViewById(R.id.rdo_main);
+            m_rdoFind = (RadioButton) findViewById(R.id.rdo_find);
+            m_rdoMessage = (RadioButton) findViewById(R.id.rdo_message);
+            m_rdoMe = (RadioButton) findViewById(R.id.rdo_me);
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -118,17 +167,15 @@ public class MainActivity extends BaseActivity
                             case R.id.rdo_main:
                                 m_pager.setCurrentItem(0, false);
                                 break;
-
-                            // 车况
+                            // 发现
                             case R.id.rdo_find:
                                 m_pager.setCurrentItem(1, false);
                                 break;
-
-                            // 行程
+                            // 消息
                             case R.id.rdo_message:
                                 m_pager.setCurrentItem(2, false);
+                                v.setActivated(false);
                                 break;
-
                             // 我的
                             case R.id.rdo_me:
                                 m_pager.setCurrentItem(3, false);
@@ -142,10 +189,12 @@ public class MainActivity extends BaseActivity
                 }
             };
 
-            findViewById(R.id.rdo_main).setOnClickListener(clickListener);
-            findViewById(R.id.rdo_find).setOnClickListener(clickListener);
-            findViewById(R.id.rdo_message).setOnClickListener(clickListener);
-            findViewById(R.id.rdo_me).setOnClickListener(clickListener);
+            m_rdoMain.setOnClickListener(clickListener);
+            m_rdoFind.setOnClickListener(clickListener);
+            m_rdoMessage.setOnClickListener(clickListener);
+            m_rdoMe.setOnClickListener(clickListener);
+
+            m_rdoMessage.setActivated(true);
         }
         catch (Exception e)
         {
@@ -180,12 +229,12 @@ public class MainActivity extends BaseActivity
         if (m_initCheckedIndex == 0)
         {
             // 模拟首页按钮点击
-            findViewById(R.id.rdo_main).performClick();
+            m_rdoMain.performClick();
         }
         else if(m_initCheckedIndex == 2)
         {
             // 模拟首页按钮点击
-            findViewById(R.id.rdo_message).performClick();
+            m_rdoMessage.performClick();
         }
 
         m_pager.setCurrentItem(m_initCheckedIndex, false);
@@ -199,6 +248,17 @@ public class MainActivity extends BaseActivity
     public void onEventMainThread(LogoutEvent event)
     {
         finish();
+    }
+
+    /**
+     * EventBus 在主线程的响应事件
+     *
+     * @param event 点击通知显示消息列表
+     */
+    public void onEventMainThread(ShowMessageListEvent event)
+    {
+        m_initCheckedIndex = 2;
+        setDefaultShow();
     }
 
     /**

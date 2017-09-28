@@ -10,7 +10,7 @@ import com.audio.miliao.R;
 /**
  * 观看视频
  */
-public class WatchVideoActivity extends BaseActivity
+public class WatchVideoActivity extends HandleNotificationActivity
 {
 	public void onCreate(Bundle savedInstanceState)
 	{

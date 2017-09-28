@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 图片浏览
  */
-public class ImageBrowseActivity extends BaseActivity
+public class ImageBrowseActivity extends HandleNotificationActivity
 {
     private static final String STATE_POSITION = "STATE_POSITION";
     private HackyViewPager m_hViewPager = null;

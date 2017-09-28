@@ -9,8 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.app.library.util.DBUtil;
+import com.audio.miliao.util.DBUtil;
 import com.app.library.util.ImageLoaderUtil;
+import com.app.library.vo.MessageStateVo;
 import com.app.library.vo.MessageVo;
 import com.audio.miliao.R;
 import com.audio.miliao.activity.ChatTextActivity;
@@ -18,6 +19,7 @@ import com.audio.miliao.adapter.MessageAdapter;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchMessageList;
+import com.audio.miliao.theApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +75,19 @@ public class MessageListFragment extends BaseFragment
                     try
                     {
                         MessageVo messageVo = (MessageVo) m_adapter.getItem(position);
+                        MessageStateVo messageStateVo = DBUtil.queryMessageStateVoByMessageId(messageVo.getId());
+                        if (messageStateVo == null)
+                        {
+                            messageStateVo = new MessageStateVo();
+                            messageStateVo.setIsRead(true);
+                            messageStateVo.setMessageId(messageVo.getId());
+                        }
+                        else
+                        {
+                            messageStateVo.setIsRead(true);
+                        }
+                        DBUtil.insertOrReplace(messageStateVo);
+                        m_adapter.notifyDataSetChanged();
                         FetchActorPage fetchActorPage = new FetchActorPage(handler(), messageVo.getActorId(), null);
                         fetchActorPage.send();
                     }
@@ -119,9 +134,13 @@ public class MessageListFragment extends BaseFragment
         {
         case HttpUtil.RequestCode.FETCH_ACTOR_PAGE:
             FetchActorPage fetchActorPage = (FetchActorPage) msg.obj;
-            if (FetchActorPage.isSucceed(fetchActorPage))
+            if (FetchActorPage.isSucceed(fetchActorPage) && fetchActorPage.rspActorPageVo != null)
             {
                 ChatTextActivity.show(getActivity(), fetchActorPage.rspActorPageVo);
+            }
+            else
+            {
+                theApp.showToast("获取信息失败");
             }
             break;
         case HttpUtil.RequestCode.FETCH_MESSAGE_LIST:

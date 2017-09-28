@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.app.library.util.ImageLoaderUtil;
 import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
-import com.audio.miliao.entity.ChatMessage;
+import com.app.library.vo.ChatMsg;
 
 import java.util.List;
 
@@ -18,17 +20,17 @@ import java.util.List;
 public class ChatAdapter extends BaseAdapter
 {
     private Activity m_parent;
-    private List<ChatMessage> m_listTextChatMessages;
+    private List<ChatMsg> m_listTextChatMessages;
     /** 列表是否处于滑动状态 */
     private boolean m_bIsScrolling = false;
 
-    public ChatAdapter(Activity activity, List<ChatMessage> listTextChatMessages)
+    public ChatAdapter(Activity activity, List<ChatMsg> listTextChatMessages)
     {
         m_parent = activity;
         m_listTextChatMessages = listTextChatMessages;
     }
 
-    public void updateData(List<ChatMessage> listTextChatMessages)
+    public void updateData(List<ChatMsg> listTextChatMessages)
     {
         m_listTextChatMessages = listTextChatMessages;
     }
@@ -111,20 +113,22 @@ public class ChatAdapter extends BaseAdapter
     {
         try
         {
-            ChatMessage textChatMessage = (ChatMessage) getItem(nPosition);
-            if (textChatMessage != null)
+            ChatMsg chatMsg = (ChatMsg) getItem(nPosition);
+            if (chatMsg != null)
             {
-                if (AppData.isCurUser(textChatMessage.from))
+                if (AppData.isCurUser(chatMsg.getSenderId()))
                 {
                     holder.layMe.setVisibility(View.VISIBLE);
                     holder.layOthers.setVisibility(View.GONE);
-                    holder.textMe.setText(String.valueOf(textChatMessage.text));
+                    holder.textMe.setText(String.valueOf(chatMsg.getText()));
+                    ImageLoaderUtil.displayListAvatarImage(holder.imgMeAvatar, chatMsg.getSenderAvatar());
                 }
                 else
                 {
                     holder.layMe.setVisibility(View.GONE);
                     holder.layOthers.setVisibility(View.VISIBLE);
-                    holder.textOthers.setText(String.valueOf(textChatMessage.text));
+                    holder.textOthers.setText(String.valueOf(chatMsg.getText()));
+                    ImageLoaderUtil.displayListAvatarImage(holder.imgOthersAvatar, chatMsg.getSenderAvatar());
                 }
             }
         }
@@ -141,7 +145,9 @@ public class ChatAdapter extends BaseAdapter
             try
             {
                 textMe = (TextView) root.findViewById(R.id.txt_text_me);
+                imgMeAvatar = (ImageView) root.findViewById(R.id.img_me_avatar);
                 textOthers = (TextView) root.findViewById(R.id.txt_text_others);
+                imgOthersAvatar = (ImageView) root.findViewById(R.id.img_other_avatar);
                 layMe = root.findViewById(R.id.lay_me);
                 layOthers = root.findViewById(R.id.lay_others);
 
@@ -156,9 +162,12 @@ public class ChatAdapter extends BaseAdapter
 
         /** 我发送的聊天内容 */
         public TextView textMe;
+        public ImageView imgMeAvatar;
 
         /** 别人发送的聊天内容 */
         public TextView textOthers;
+        public ImageView imgOthersAvatar;
+
         /** 我发送的聊天内容的Container */
         public View layMe;
         /** 我发送的聊天内容的Container */

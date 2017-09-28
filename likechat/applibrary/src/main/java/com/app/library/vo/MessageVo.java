@@ -21,7 +21,7 @@ import java.util.List;
 @Entity
 public class MessageVo extends GsonObj<MessageVo>
 {
-    //不能用int
+    // 如果需要设置autoincrement = true,必须是Long,不能是int或者long
     @Id(autoincrement = true)
     private Long id;
     private Integer actorId;
@@ -34,8 +34,7 @@ public class MessageVo extends GsonObj<MessageVo>
 
     @Generated(hash = 2141508235)
     public MessageVo(Long id, Integer actorId, String nickName, String icon,
-                     String message, Date mdate, List<String> chat)
-    {
+            String message, Date mdate, List<String> chat) {
         this.id = id;
         this.actorId = actorId;
         this.nickName = nickName;
@@ -46,8 +45,7 @@ public class MessageVo extends GsonObj<MessageVo>
     }
 
     @Generated(hash = 855908687)
-    public MessageVo()
-    {
+    public MessageVo() {
     }
 
     public Long getId()
@@ -119,6 +117,5 @@ public class MessageVo extends GsonObj<MessageVo>
     {
         this.mdate = mdate;
     }
-
 
 }

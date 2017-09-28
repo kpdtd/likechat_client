@@ -37,7 +37,7 @@ import de.greenrobot.event.EventBus;
 /**
  * 用户信息
  */
-public class UserInfoActivity extends BaseActivity
+public class UserInfoActivity extends HandleNotificationActivity
 {
     private String m_sessionId;
     private ActorVo m_actorVo;

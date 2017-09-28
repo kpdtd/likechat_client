@@ -9,7 +9,7 @@ import com.audio.miliao.R;
 /**
  * 视频动态
  */
-public class VideoZoneActivity extends BaseActivity
+public class VideoZoneActivity extends HandleNotificationActivity
 {
 	public void onCreate(Bundle savedInstanceState)
 	{

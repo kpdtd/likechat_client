@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * 我的动态
  */
-public class UserZoneActivity extends BaseActivity
+public class UserZoneActivity extends HandleNotificationActivity
 {
     private ActorPageVo m_actorPage;
     private ListView m_list;

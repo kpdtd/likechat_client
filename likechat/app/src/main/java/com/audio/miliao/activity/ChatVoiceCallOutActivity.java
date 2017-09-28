@@ -16,7 +16,7 @@ import com.audio.miliao.R;
 /**
  * 聊天——呼出
  */
-public class ChatVoiceCallOutActivity extends BaseActivity
+public class ChatVoiceCallOutActivity extends HandleNotificationActivity
 {
     private ActorPageVo m_actorPageVo;
     private MediaPlayer m_mediaPlayer;

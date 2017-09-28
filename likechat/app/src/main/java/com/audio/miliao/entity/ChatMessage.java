@@ -14,7 +14,6 @@ import java.io.Serializable;
  * 聊天的消息<br/>
  * 可以根据发送者来确认消息的类型
  */
-
 public class ChatMessage implements Serializable
 {
     /** 消息id */

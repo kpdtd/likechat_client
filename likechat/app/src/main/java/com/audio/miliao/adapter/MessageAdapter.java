@@ -7,8 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.audio.miliao.util.DBUtil;
 import com.app.library.util.DateUtil;
 import com.app.library.util.ImageLoaderUtil;
+import com.app.library.vo.MessageStateVo;
 import com.app.library.vo.MessageVo;
 import com.audio.miliao.R;
 
@@ -116,6 +118,11 @@ public class MessageAdapter extends BaseAdapter
                 holder.textName.setText(message.getNickName());
                 holder.textSummary.setText(message.getMessage());
                 holder.textDate.setText(DateUtil.formatDate(message.getMdate()));
+                MessageStateVo messageStateVo = DBUtil.queryMessageStateVoByMessageId(message.getId());
+                //theApp.showToast(messageStateVo == null ? "null" : "not null");
+                int visibility = (messageStateVo == null ? View.VISIBLE
+                        : (messageStateVo.getIsRead() ? View.INVISIBLE : View.VISIBLE));
+                holder.viewUnread.setVisibility(visibility);
                 ImageLoaderUtil.displayListAvatarImage(holder.imgAvatar, message.getIcon());
             }
         }

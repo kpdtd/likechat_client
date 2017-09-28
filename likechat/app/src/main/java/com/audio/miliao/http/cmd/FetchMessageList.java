@@ -3,7 +3,7 @@ package com.audio.miliao.http.cmd;
 import android.os.Handler;
 
 import com.app.library.util.Checker;
-import com.app.library.util.DBUtil;
+import com.audio.miliao.util.DBUtil;
 import com.app.library.vo.MessageVo;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
@@ -91,7 +91,7 @@ public class FetchMessageList extends BaseReqRsp
 		{
 			if (Checker.isNotEmpty(rspMessageList))
 			{
-				DBUtil.save(rspMessageList);
+				DBUtil.insertOrReplace(rspMessageList);
 			}
 		}
 	}

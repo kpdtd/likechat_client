@@ -104,7 +104,7 @@ public class HttpUtil
         /** 获取消息界面的消息列表 */
         public static final int FETCH_MESSAGE_LIST = 25;
         /** 获取聊天界面的消息列表 */
-        public static final int FETCH_CHAT_LIST = 26;
+        public static final int FETCH_MESSAGE = 26;
     }
 
     /** 请求类型 */

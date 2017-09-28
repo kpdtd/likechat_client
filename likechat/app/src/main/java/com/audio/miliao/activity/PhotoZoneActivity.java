@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 图片动态
  */
-public class PhotoZoneActivity extends BaseActivity
+public class PhotoZoneActivity extends HandleNotificationActivity
 {
 	private List<ImageView> m_listThumbs;
 

@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.app.library.R;
-import com.audio.miliao.activity.MainActivity;
+import com.audio.miliao.activity.NotificationActivity;
 
 
 /**
@@ -66,10 +66,11 @@ public class NotificationUtil
 
         //设置通知的事件消息
         //点击该通知后要跳转的Activity
-        Intent notificationIntent = new Intent(context, MainActivity.class);
+        Intent notificationIntent = new Intent(context, NotificationActivity.class);
         notificationIntent.putExtra("come_from", "notification");
+        //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);// 关键的一步，设置启动模式
         // 添加这个才能使得intent传参数
-        notificationIntent.setData(Uri.parse("custom://"+System.currentTimeMillis()));
+        notificationIntent.setData(Uri.parse("custom://" + System.currentTimeMillis()));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
         Notification.Builder builder = new Notification.Builder(context)
                 .setAutoCancel(true)
@@ -79,6 +80,9 @@ public class NotificationUtil
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setWhen(System.currentTimeMillis());
         Notification notification = builder.build();
+
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
 
         //把Notification传递给 NotificationManager
         mNotificationManager.notify(0, notification);

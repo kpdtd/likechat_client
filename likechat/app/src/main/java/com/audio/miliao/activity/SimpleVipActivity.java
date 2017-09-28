@@ -26,7 +26,7 @@ import de.greenrobot.event.EventBus;
 /**
  * 简单的购买会员
  */
-public class SimpleVipActivity extends BaseActivity
+public class SimpleVipActivity extends HandleNotificationActivity
 {
     private TextView m_txtContactHer;
 

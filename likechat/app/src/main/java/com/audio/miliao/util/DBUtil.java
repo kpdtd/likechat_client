@@ -1,13 +1,17 @@
-package com.app.library.util;
+package com.audio.miliao.util;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.app.library.greendao.GreenDaoDbUpgradeHelper;
+import com.app.library.vo.ChatMsgDao;
 import com.app.library.vo.DaoMaster;
 import com.app.library.vo.DaoSession;
+import com.app.library.vo.MessageStateVo;
+import com.app.library.vo.MessageStateVoDao;
 import com.app.library.vo.MessageVo;
 import com.app.library.vo.MessageVoDao;
+import com.app.library.vo.ChatMsg;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -39,10 +43,10 @@ public class DBUtil
     }
 
     /**
-     * 插入单条
+     * 插入单条(id相同也插入)
      * @param messageVo
      */
-    public static void save(MessageVo messageVo)
+    public static void insertOrReplace(MessageVo messageVo)
     {
         try
         {
@@ -55,14 +59,42 @@ public class DBUtil
     }
 
     /**
-     * 插入多条
+     * 插入单条(id相同也插入)
+     * @param messageStateVo
+     */
+    public static void insertOrReplace(MessageStateVo messageStateVo)
+    {
+        try
+        {
+            daoSession.getMessageStateVoDao().insertOrReplace(messageStateVo);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 插入多条(id相同也插入)
      * @param messageVos
      */
-    public static void save(List<MessageVo> messageVos)
+    public static void insertOrReplace(List<MessageVo> messageVos)
     {
         try
         {
             daoSession.getMessageVoDao().insertOrReplaceInTx(messageVos);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertOrReplace(ChatMsg chatMsg)
+    {
+        try
+        {
+            daoSession.getChatMsgDao().insertOrReplace(chatMsg);
         }
         catch (Exception e)
         {
@@ -111,6 +143,40 @@ public class DBUtil
             QueryBuilder<MessageVo> qb = daoSession.getMessageVoDao().queryBuilder();
             return qb.orderDesc(MessageVoDao.Properties.Mdate).list();
             // return daoSession.getMessageVoDao().loadAll();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static MessageStateVo queryMessageStateVoByMessageId(long messageId)
+    {
+        try
+        {
+            return daoSession.getMessageStateVoDao()
+                    .queryBuilder()
+                    .where(MessageStateVoDao.Properties.MessageId.eq(messageId))
+                    .unique();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static List<ChatMsg> queryChatMessageListByActorId(int actorId)
+    {
+        try
+        {
+            return daoSession.getChatMsgDao()
+                    .queryBuilder()
+                    .where(ChatMsgDao.Properties.ActorId.eq(actorId))
+                    .list();
         }
         catch (Exception e)
         {

@@ -19,7 +19,7 @@ import de.greenrobot.event.EventBus;
 /**
  * 设置
  */
-public class SettingsActivity extends BaseActivity
+public class SettingsActivity extends HandleNotificationActivity
 {
     private TextView mTxtCustomInfo;
 

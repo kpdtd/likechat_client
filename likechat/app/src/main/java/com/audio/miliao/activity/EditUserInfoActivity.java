@@ -42,7 +42,7 @@ import cn.qqtheme.framework.util.ConvertUtils;
 /**
  * 编辑用户信息
  */
-public class EditUserInfoActivity extends BaseActivity
+public class EditUserInfoActivity extends HandleNotificationActivity
 {
     /**
      * 输入名称

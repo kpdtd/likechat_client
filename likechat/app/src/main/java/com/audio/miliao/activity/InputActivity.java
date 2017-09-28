@@ -14,7 +14,7 @@ import com.audio.miliao.R;
 /**
  * 编辑用户信息时输入界面
  */
-public class InputActivity extends BaseActivity
+public class InputActivity extends HandleNotificationActivity
 {
     /** 标题 */
     private String m_strTitle;

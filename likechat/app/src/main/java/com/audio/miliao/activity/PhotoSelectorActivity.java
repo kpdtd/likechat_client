@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 图片选择器
  */
-public class PhotoSelectorActivity extends BaseActivity
+public class PhotoSelectorActivity extends HandleNotificationActivity
 {
 	private List<String> m_listSelect = new ArrayList<>();
 	private GridView m_grid;

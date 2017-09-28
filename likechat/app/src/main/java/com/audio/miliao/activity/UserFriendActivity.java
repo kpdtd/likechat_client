@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 我的好友
  */
-public class UserFriendActivity extends BaseActivity
+public class UserFriendActivity extends HandleNotificationActivity
 {
     private RadioButton m_rdoFollow;
     private RadioButton m_rdoFans;

@@ -2,7 +2,7 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
-import com.app.library.util.DBUtil;
+import com.audio.miliao.util.DBUtil;
 import com.app.library.vo.MessageVo;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
@@ -15,17 +15,20 @@ import java.util.List;
 /**
  * 获取聊天界面的消息列表
  */
-public class FetchChatList extends BaseReqRsp
+public class FetchMessage extends BaseReqRsp
 {
+	public int reqActorId;
 	public MessageVo rspMessageVo;
+
 	/**
 	 * 获取聊天界面的消息列表
 	 * @param handler
 	 * @param tag
 	 */
-	public FetchChatList(Handler handler, Object tag)
+	public FetchMessage(Handler handler, int actorId, Object tag)
 	{
-		super(HttpUtil.Method.GET, handler, HttpUtil.RequestCode.FETCH_CHAT_LIST, false, tag);
+		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_MESSAGE, false, tag);
+		reqActorId = actorId;
 	}
 
 	@Override
@@ -39,6 +42,16 @@ public class FetchChatList extends BaseReqRsp
 	@Override
 	public String getReqBody()
 	{
+		try
+		{
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("actorId", reqActorId);
+			return jsonObject.toString();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		return "";
 	}
 
@@ -79,7 +92,7 @@ public class FetchChatList extends BaseReqRsp
 		{
 			if (rspMessageVo != null)
 			{
-				DBUtil.save(rspMessageVo);
+				DBUtil.insertOrReplace(rspMessageVo);
 			}
 		}
 	}

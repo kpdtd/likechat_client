@@ -16,7 +16,7 @@
             android:id="@+id/img_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/loading_dialog_progress" />
+            android:src="@mipmap/loading_dialog_progress" />
 
         <TextView
             android:id="@+id/txt_loading"
