@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.app.library.util.AppChecker;
 import com.app.library.vo.GoodsVo;
 import com.app.library.vo.VipMemberVo;
 import com.audio.miliao.R;
@@ -18,10 +19,7 @@ import com.audio.miliao.http.cmd.FetchVipMember;
 import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.AlipayUtil;
-import com.app.library.util.AppChecker;
 import com.audio.miliao.util.WXUtil;
-
-import de.greenrobot.event.EventBus;
 
 /**
  * 简单的购买会员
@@ -74,14 +72,14 @@ public class SimpleVipActivity extends HandleNotificationActivity
             e.printStackTrace();
         }
 
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
     }
 
     @Override

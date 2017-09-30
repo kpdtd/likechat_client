@@ -90,6 +90,7 @@ public class AutoCallInActivity extends BaseActivity
                     switch (v.getId())
                     {
                     case R.id.txt_hang_up:
+                    case R.id.img_close:
                         finish();
                         // 设置关闭没有动画
                         overridePendingTransition(0, 0);
@@ -103,6 +104,7 @@ public class AutoCallInActivity extends BaseActivity
 
             findViewById(R.id.txt_hang_up).setOnClickListener(clickListener);
             findViewById(R.id.txt_answer).setOnClickListener(clickListener);
+            findViewById(R.id.img_close).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {

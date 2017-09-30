@@ -12,6 +12,7 @@ import com.app.library.event.QueryActorVoEvent;
 import com.app.library.event.QueryActorVoResultEvent;
 import com.app.library.util.AppChecker;
 import com.app.library.util.Checker;
+import com.app.library.util.RandomUtil;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
 import com.audio.miliao.entity.AppData;
@@ -25,11 +26,11 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
 import com.audio.miliao.service.NotificationService;
+import com.audio.miliao.theApp;
 import com.audio.miliao.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -77,12 +78,15 @@ public class MainActivity extends BaseActivity
 
             //NotificationUtil.notify(this);
 
+            final int times = AppData.getAutoCallInTime(System.currentTimeMillis());
+            int interval = (times == 0 ? 10 : RandomUtil.nextInt(60, 300));
+            theApp.showToast("times " + times + " interval " + interval);
+
             handler().postDelayed(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    int times = AppData.getAutoCallInTime(System.currentTimeMillis());
                     //theApp.showToast("times " + times);
                     if (AppChecker.isRunningForeground(getApplicationContext()))
                     {
@@ -93,7 +97,7 @@ public class MainActivity extends BaseActivity
                         }
                     }
                 }
-            }, 10 * 1000);
+            }, interval * 1000);
 
             // 只要不在消息界面，隔几秒消息按钮就出现小圆点
             TimerTask timerTask = new TimerTask()
@@ -293,8 +297,9 @@ public class MainActivity extends BaseActivity
                 {
                     int times = (int) fetchVipMember.rspCallBackTag;
                     AppData.setAutoCallInTime(System.currentTimeMillis(), times + 1);
-                    Random rand = new Random(System.currentTimeMillis());
-                    int nIndex = rand.nextInt(fragment.getActorVoList().size());
+//                    Random rand = new Random(System.currentTimeMillis());
+//                    int nIndex = rand.nextInt(fragment.getActorVoList().size());
+                    int nIndex = RandomUtil.nextInt(fragment.getActorVoList().size());
                     AutoCallInActivity.show(MainActivity.this, fragment.getActorVoList().get(nIndex));
                 }
             }

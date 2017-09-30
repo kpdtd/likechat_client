@@ -139,7 +139,7 @@
             android:layout_margin="1.5dp"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_14_dp"
-            android:background="#d8000000"/>
+            android:background="#99000000"/>
 
     </FrameLayout>
 

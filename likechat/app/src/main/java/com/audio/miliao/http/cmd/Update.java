@@ -4,7 +4,6 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
-import com.audio.miliao.theApp;
 
 import org.json.JSONObject;
 
@@ -55,7 +54,7 @@ public class Update extends BaseReqRsp
     @Override
     public void parseHttpResponse(int httpStatusCode, List<KeyValuePair> headers, String httpBody)
     {
-        theApp.showToast("Login;" + httpStatusCode + ":" + httpBody);
+        //theApp.showToast("Login;" + httpStatusCode + ":" + httpBody);
         switch (httpStatusCode)
         {
         case 429:

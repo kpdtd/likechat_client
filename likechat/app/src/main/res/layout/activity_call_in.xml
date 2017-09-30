@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/txt_call_in_hang_up"
+            android:visibility="gone"
             android:drawableTop="@drawable/auto_call_in_hang_up_selector"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_14_dp"/>
@@ -61,10 +62,20 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/txt_call_in_answer"
-            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
             android:drawableTop="@drawable/auto_call_in_answer_selector"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_14_dp"/>
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:src="@drawable/btn_close_selector"
+        android:scaleType="centerInside"/>
 
 </RelativeLayout>

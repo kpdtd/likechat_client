@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.app.library.util.AppChecker;
 import com.app.library.vo.AccountBalanceVo;
 import com.app.library.vo.GoodsVo;
 import com.audio.miliao.R;
@@ -19,13 +20,10 @@ import com.audio.miliao.http.cmd.FetchAccountBalance;
 import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.AlipayUtil;
-import com.app.library.util.AppChecker;
 import com.audio.miliao.util.WXUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.greenrobot.event.EventBus;
 
 /**
  * 简单的账户余额
@@ -64,14 +62,14 @@ public class SimpleBalanceActivity extends HandleNotificationActivity
         FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
         fetchAccountBalance.send();
 
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
     }
 
     @Override
