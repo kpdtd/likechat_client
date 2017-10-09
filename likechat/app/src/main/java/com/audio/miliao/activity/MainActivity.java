@@ -1,6 +1,9 @@
 package com.audio.miliao.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -12,6 +15,7 @@ import com.app.library.event.QueryActorVoEvent;
 import com.app.library.event.QueryActorVoResultEvent;
 import com.app.library.util.AppChecker;
 import com.app.library.util.Checker;
+import com.app.library.util.DownloadUtil;
 import com.app.library.util.RandomUtil;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
@@ -23,10 +27,13 @@ import com.audio.miliao.fragment.TabFindFragment;
 import com.audio.miliao.fragment.TabMainFragment;
 import com.audio.miliao.fragment.TabMeFragment;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.http.cmd.CheckUpdate;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
 import com.audio.miliao.service.NotificationService;
 import com.audio.miliao.widget.NoScrollViewPager;
+import com.thin.downloadmanager.DownloadRequest;
+import com.thin.downloadmanager.DownloadStatusListenerV1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +81,10 @@ public class MainActivity extends BaseActivity
 
             FetchActorPage fetchActorPage = new FetchActorPage(handler(), AppData.getCurUserId(), null);
             fetchActorPage.send();
+
+            int versionCode = (getPackageInfo() != null ? getPackageInfo().versionCode : 1);
+            CheckUpdate checkUpdate = new CheckUpdate(handler(), versionCode, null);
+            checkUpdate.send();
 
             //NotificationUtil.notify(this);
 
@@ -243,6 +254,22 @@ public class MainActivity extends BaseActivity
         m_pager.setCurrentItem(m_initCheckedIndex, false);
     }
 
+    private PackageInfo getPackageInfo()
+    {
+        PackageManager manager = this.getPackageManager();
+        try
+        {
+            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+            return info;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     /**
      * EventBus 在主线程的响应事件
      *
@@ -302,6 +329,50 @@ public class MainActivity extends BaseActivity
                     int nIndex = RandomUtil.nextInt(fragment.getActorVoList().size());
                     AutoCallInActivity.show(MainActivity.this, fragment.getActorVoList().get(nIndex));
                 }
+            }
+            break;
+        case HttpUtil.RequestCode.CHECK_UPDATE:
+            CheckUpdate checkUpdate = (CheckUpdate) msg.obj;
+            if (CheckUpdate.isSucceed(checkUpdate) && checkUpdate.rspAppUpdate != null)
+            {
+                String url = checkUpdate.rspAppUpdate.getUrl();
+                String fileName = "miliao_" + checkUpdate.rspAppUpdate.getVersionCode() + ".apk";
+                //theApp.showToast(fileName);
+                DownloadUtil.startDoanload(url, fileName, new DownloadStatusListenerV1()
+                {
+                    @Override
+                    public void onDownloadComplete(DownloadRequest downloadRequest)
+                    {
+                        try
+                        {
+                            Uri destinationUri = downloadRequest.getDestinationURI();
+                            //theApp.showToast("download complete " + destinationUri);
+                            //LogUtil.d(destinationUri.toString());
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(Uri.parse("file://" + destinationUri.toString()),
+                                    "application/vnd.android.package-archive");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                        catch (Exception e)
+                        {
+                            //LogUtil.d(e.toString());
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage)
+                    {
+
+                    }
+
+                    @Override
+                    public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress)
+                    {
+
+                    }
+                });
             }
             break;
         }

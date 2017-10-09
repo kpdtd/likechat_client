@@ -1,15 +1,16 @@
 package com.audio.miliao.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.audio.miliao.util.DBUtil;
 import com.app.library.util.ImageLoaderUtil;
 import com.app.library.vo.MessageStateVo;
 import com.app.library.vo.MessageVo;
@@ -20,6 +21,7 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchMessageList;
 import com.audio.miliao.theApp;
+import com.audio.miliao.util.DBUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +97,31 @@ public class MessageListFragment extends BaseFragment
                     {
                         e.printStackTrace();
                     }
+                }
+            });
+
+            m_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
+            {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle(R.string.title_delete_message);
+                    builder.setMessage(R.string.txt_delete_message);
+                    builder.setPositiveButton(R.string.btn_positive, new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
+                        {
+                            MessageVo messageVo = (MessageVo) m_adapter.getItem(position);
+                            DBUtil.deleteChatMessage(messageVo.getId());
+                            m_listMessageVo = DBUtil.queryAllMessageVo();
+                            updateData();
+                        }
+                    });
+                    builder.setNegativeButton(R.string.btn_negative, null);
+                    builder.show();
+                    return true;
                 }
             });
 

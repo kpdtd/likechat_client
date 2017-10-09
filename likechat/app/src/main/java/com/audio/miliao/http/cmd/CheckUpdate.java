@@ -2,6 +2,7 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
+import com.app.library.vo.AppUpdateVo;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 
@@ -13,19 +14,21 @@ import java.util.List;
 /**
  * 软件更新
  */
-public class Update extends BaseReqRsp
+public class CheckUpdate extends BaseReqRsp
 {
-    String reqVersion;
+    public int reqVersionCode;
+    public AppUpdateVo rspAppUpdate;
+
     /**
      * 软件更新
      *
      * @param handler
      * @param tag
      */
-    public Update(Handler handler, String version, Object tag)
+    public CheckUpdate(Handler handler, int versionCode, Object tag)
     {
-        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.UPDATE, false, tag);
-        reqVersion = version;
+        super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.CHECK_UPDATE, false, tag);
+        reqVersionCode = versionCode;
     }
 
     @Override
@@ -42,7 +45,7 @@ public class Update extends BaseReqRsp
         JSONObject jsonObject = new JSONObject();
         try
         {
-            jsonObject.put("version", reqVersion);
+            jsonObject.put("versionCode", reqVersionCode);
         }
         catch (Exception e)
         {
@@ -65,6 +68,12 @@ public class Update extends BaseReqRsp
             rspResultCode = HttpUtil.Result.OK;
             try
             {
+                JSONObject jsonObject = new JSONObject(httpBody);
+                JSONObject jsonData = jsonObject.optJSONObject("data");
+                if (jsonData != null)
+                {
+                    rspAppUpdate = AppUpdateVo.parse(jsonData, AppUpdateVo.class);
+                }
             }
             catch (Exception e)
             {

@@ -184,4 +184,28 @@ public class DBUtil
 
         return null;
     }
+
+    public static void deleteChatMessage(MessageVo messageVo)
+    {
+        try
+        {
+            daoSession.getMessageVoDao().delete(messageVo);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteChatMessage(Long messageId)
+    {
+        try
+        {
+            daoSession.getMessageVoDao().deleteByKey(messageId);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

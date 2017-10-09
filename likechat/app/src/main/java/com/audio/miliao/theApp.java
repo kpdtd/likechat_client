@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.app.library.util.DownloadUtil;
 import com.audio.miliao.util.DBUtil;
 import com.app.library.util.ImageLoaderUtil;
 import com.app.library.util.PreferUtil;
@@ -79,6 +80,7 @@ public class theApp extends Application
         PreferUtil.init(CONTEXT);
         ImageLoaderUtil.init(CONTEXT);
         DBUtil.init(CONTEXT);
+        DownloadUtil.init(CONTEXT);
     }
 
 //    public boolean inMainProcess(Context context)

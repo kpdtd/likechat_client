@@ -78,7 +78,7 @@ public class HttpUtil
         /** 获取我的粉丝（关注我的） */
         public static final int FETCH_MY_FANS = 12;
         /** 软件更新 */
-        public static final int UPDATE = 13;
+        public static final int CHECK_UPDATE = 13;
         /** 微信创建订单 */
         public static final int WX_PAY_CREATE_ORDER = 14;
         /** 获取账户信息 */

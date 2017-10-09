@@ -29,7 +29,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <!-- 获取app是否运行在前台 -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
     <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
     <!-- 云信相关内容放在uikitloader里面
@@ -94,8 +94,8 @@
             android:name=".activity.SimpleBalanceActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
-            android:theme="@style/activity_transparent_style"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/activity_transparent_style">
         </activity>
         <activity
             android:name=".activity.ChatTextActivity"
@@ -237,8 +237,8 @@
             android:name=".activity.SimpleVipActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
-            android:theme="@style/activity_transparent_style"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/activity_transparent_style">
         </activity>
         <activity
             android:name=".wxapi.WXEntryActivity"
