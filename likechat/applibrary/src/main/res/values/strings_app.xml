@@ -45,9 +45,12 @@
     <string name="title_pick_city">城市选择</string>
     <string name="title_pick_time">时间选择</string>
     <string name="title_delete_message">确定删除吗？</string>
+    <string name="title_new_version">有新版本</string>
 
     <string name="btn_positive">确定</string>
     <string name="btn_negative">取消</string>
+    <string name="btn_download">下载</string>
+    <string name="btn_not_download">不下载</string>
 
     <string name="txt_delete_message">确定删除吗？</string>
     <string name="txt_me_login">点击登录</string>

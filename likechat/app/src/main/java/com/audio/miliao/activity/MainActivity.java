@@ -1,5 +1,6 @@
 package com.audio.miliao.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -17,6 +19,7 @@ import com.app.library.util.AppChecker;
 import com.app.library.util.Checker;
 import com.app.library.util.DownloadUtil;
 import com.app.library.util.RandomUtil;
+import com.app.library.vo.AppUpdateVo;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
 import com.audio.miliao.entity.AppData;
@@ -302,6 +305,48 @@ public class MainActivity extends BaseActivity
         fetchActorPage.send();
     }
 
+    public void downloadApk(AppUpdateVo appUpdateVo)
+    {
+        String url = appUpdateVo.getUrl();
+        String fileName = "miliao_" + appUpdateVo.getVersionCode() + ".apk";
+        //theApp.showToast(fileName);
+        DownloadUtil.startDoanload(url, fileName, new DownloadStatusListenerV1()
+        {
+            @Override
+            public void onDownloadComplete(DownloadRequest downloadRequest)
+            {
+                try
+                {
+                    Uri destinationUri = downloadRequest.getDestinationURI();
+                    //theApp.showToast("download complete " + destinationUri);
+                    //LogUtil.d(destinationUri.toString());
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse("file://" + destinationUri.toString()),
+                            "application/vnd.android.package-archive");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+                catch (Exception e)
+                {
+                    //LogUtil.d(e.toString());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage)
+            {
+
+            }
+
+            @Override
+            public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress)
+            {
+
+            }
+        });
+    }
+
     @Override
     public void handleMessage(Message msg)
     {
@@ -332,47 +377,29 @@ public class MainActivity extends BaseActivity
             }
             break;
         case HttpUtil.RequestCode.CHECK_UPDATE:
-            CheckUpdate checkUpdate = (CheckUpdate) msg.obj;
+            final CheckUpdate checkUpdate = (CheckUpdate) msg.obj;
             if (CheckUpdate.isSucceed(checkUpdate) && checkUpdate.rspAppUpdate != null)
             {
-                String url = checkUpdate.rspAppUpdate.getUrl();
-                String fileName = "miliao_" + checkUpdate.rspAppUpdate.getVersionCode() + ".apk";
-                //theApp.showToast(fileName);
-                DownloadUtil.startDoanload(url, fileName, new DownloadStatusListenerV1()
+                if (!checkUpdate.rspAppUpdate.getIsForce())
                 {
-                    @Override
-                    public void onDownloadComplete(DownloadRequest downloadRequest)
+                    downloadApk(checkUpdate.rspAppUpdate);
+                }
+                else
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle(R.string.title_new_version);
+                    builder.setMessage(checkUpdate.rspAppUpdate.getDesc());
+                    builder.setPositiveButton(R.string.btn_download, new DialogInterface.OnClickListener()
                     {
-                        try
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
                         {
-                            Uri destinationUri = downloadRequest.getDestinationURI();
-                            //theApp.showToast("download complete " + destinationUri);
-                            //LogUtil.d(destinationUri.toString());
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setDataAndType(Uri.parse("file://" + destinationUri.toString()),
-                                    "application/vnd.android.package-archive");
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                            downloadApk(checkUpdate.rspAppUpdate);
                         }
-                        catch (Exception e)
-                        {
-                            //LogUtil.d(e.toString());
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage)
-                    {
-
-                    }
-
-                    @Override
-                    public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress)
-                    {
-
-                    }
-                });
+                    });
+                    builder.setNegativeButton(R.string.btn_not_download, null);
+                    builder.show();
+                }
             }
             break;
         }
