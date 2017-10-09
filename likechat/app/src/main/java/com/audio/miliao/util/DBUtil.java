@@ -142,7 +142,6 @@ public class DBUtil
         {
             QueryBuilder<MessageVo> qb = daoSession.getMessageVoDao().queryBuilder();
             return qb.orderDesc(MessageVoDao.Properties.Mdate).list();
-            // return daoSession.getMessageVoDao().loadAll();
         }
         catch (Exception e)
         {

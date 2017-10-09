@@ -26,7 +26,6 @@ import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
 import com.audio.miliao.service.NotificationService;
-import com.audio.miliao.theApp;
 import com.audio.miliao.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -80,7 +79,7 @@ public class MainActivity extends BaseActivity
 
             final int times = AppData.getAutoCallInTime(System.currentTimeMillis());
             int interval = (times == 0 ? 10 : RandomUtil.nextInt(60, 300));
-            theApp.showToast("times " + times + " interval " + interval);
+            //theApp.showToast("times " + times + " interval " + interval);
 
             handler().postDelayed(new Runnable()
             {
@@ -290,15 +289,16 @@ public class MainActivity extends BaseActivity
             break;
         case HttpUtil.RequestCode.FETCH_VIP_MEMBER:
             FetchVipMember fetchVipMember = (FetchVipMember) msg.obj;
-            if (FetchVipMember.isSucceed(fetchVipMember))
+            if (FetchVipMember.isSucceed(fetchVipMember)
+                    && fetchVipMember.rspVipMember != null
+                    && fetchVipMember.rspVipMember.getIsvip() == 0)
             {
+                // 非VIP用户，弹出加的呼入请求界面
                 TabMainFragment fragment = (TabMainFragment) m_listFragment.get(0);
                 if (fragment != null && Checker.isNotEmpty(fragment.getActorVoList()))
                 {
                     int times = (int) fetchVipMember.rspCallBackTag;
                     AppData.setAutoCallInTime(System.currentTimeMillis(), times + 1);
-//                    Random rand = new Random(System.currentTimeMillis());
-//                    int nIndex = rand.nextInt(fragment.getActorVoList().size());
                     int nIndex = RandomUtil.nextInt(fragment.getActorVoList().size());
                     AutoCallInActivity.show(MainActivity.this, fragment.getActorVoList().get(nIndex));
                 }
