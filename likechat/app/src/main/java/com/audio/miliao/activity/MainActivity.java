@@ -125,6 +125,12 @@ public class MainActivity extends BaseActivity
                             @Override
                             public void run()
                             {
+//                                int result=new java.util.Random().nextInt(10) + 1;// 返回[0,10)集合中的整数，注意不包括10
+//                                try {
+//                                    Thread.sleep(result * 1000);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
                                 m_rdoMessage.setActivated(true);
                             }
                         });
@@ -132,7 +138,7 @@ public class MainActivity extends BaseActivity
                 }
             };
             m_timer = new Timer();
-            m_timer.schedule(timerTask, 2000, 2000);
+            m_timer.schedule(timerTask, 2000, 16000);
 
             Intent intent = new Intent(this, NotificationService.class);
             startService(intent);
