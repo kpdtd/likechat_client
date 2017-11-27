@@ -108,6 +108,11 @@ public class ActorAdapter extends BaseAdapter
         return convertView;
     }
 
+    /**
+     * 主播列表显示信息
+     * @param nPosition
+     * @param holder
+     */
     private void setItemInfo(final int nPosition, final ViewHolder holder)
     {
         try
@@ -116,7 +121,8 @@ public class ActorAdapter extends BaseAdapter
             if (actor != null)
             {
                 holder.name.setText(actor.getNickname());
-                holder.intro.setText(actor.getSignature());
+                String signature = actor.getSignature() == null ? "" : actor.getSignature().length() > 13 ? actor.getSignature().substring(0, 13) + "..." : actor.getSignature();
+                holder.intro.setText(signature);//签名：增加常超截取
                 //holder.gender.setText((actor.getSex() == 1 ? "男" : "女"));
                 //EntityUtil.setActorGenderText(holder.gender, actor.getSex());
                 //if (!m_bIsScrolling)
