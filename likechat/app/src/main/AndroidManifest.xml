@@ -91,6 +91,13 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".activity.AutoSayHelloActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/activity_transparent_style">
+        </activity>
+        <activity
             android:name=".activity.SimpleBalanceActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"

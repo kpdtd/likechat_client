@@ -158,6 +158,8 @@
     <string name="txt_user_info_show_mobile">查看手机</string>
     <string name="txt_user_info_show_qq">查看QQ</string>
     <string name="txt_user_info_show_wx">查看微信</string>
+    <string name="txt_auto_say_hello">一键打招呼</string>
+    <string name="txt_auto_say_hello_tip">同时向100位女性用户打招呼，让她们都认识你</string>
 
     <string name="img_loader_io_error">加载图片输入输出错误!</string>
     <string name="img_loader_decoding_error">加载图片解码错误!</string>

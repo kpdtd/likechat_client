@@ -380,7 +380,7 @@ public class MainActivity extends BaseActivity
             final CheckUpdate checkUpdate = (CheckUpdate) msg.obj;
             if (CheckUpdate.isSucceed(checkUpdate) && checkUpdate.rspAppUpdate != null)
             {
-                if (!checkUpdate.rspAppUpdate.getIsForce())
+                if (checkUpdate.rspAppUpdate.getIsForce())
                 {
                     downloadApk(checkUpdate.rspAppUpdate);
                 }

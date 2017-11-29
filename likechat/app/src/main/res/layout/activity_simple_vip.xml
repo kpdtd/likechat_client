@@ -59,7 +59,7 @@
                 android:id="@+id/txt_pay_now"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/btn_confirm_pay_selector"
+                android:background="@drawable/btn_confirm_pay_selector_items"
                 android:clickable="true"
                 android:gravity="center"
                 android:text="@string/txt_vip_pay_confirm"
