@@ -13,11 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 每当用户重新启动APP时
- * 在首页都会弹出打招呼弹窗
- * 除非用户已经发过一次红包（不再弹）
+ * 支付红包界面
  */
-public class AutoSayHelloActivity extends BaseActivity
+public class PayRedPacketActivity extends BaseActivity
 {
     private ImageView m_imgAvatar1;
     private ImageView m_imgAvatar2;
@@ -27,7 +25,7 @@ public class AutoSayHelloActivity extends BaseActivity
 
     public static void show(Activity activity, String[] avatarUrls)
     {
-        Intent intent = new Intent(activity, AutoSayHelloActivity.class);
+        Intent intent = new Intent(activity, PayRedPacketActivity.class);
         intent.putExtra("avatar_urls", avatarUrls);
         activity.startActivity(intent);
         // 打开activity没有动画，看起来像Dialog一样
@@ -83,15 +81,22 @@ public class AutoSayHelloActivity extends BaseActivity
                 {
                     switch (v.getId())
                     {
-                    case R.id.btn_pay_red_packet:
-                        String[] avatarUrl = m_listAvatarUrl.toArray(new String[m_listAvatarUrl.size()]);
-                        PayRedPacketActivity.show(AutoSayHelloActivity.this, avatarUrl);
+                    case R.id.txt_hang_up:
+                    case R.id.img_close:
+                        finish();
+                        // 设置关闭没有动画
+                        overridePendingTransition(0, 0);
+                        break;
+                    case R.id.txt_answer:
+                        SimpleBalanceActivity.show(PayRedPacketActivity.this);
                         break;
                     }
                 }
             };
 
-            findViewById(R.id.btn_pay_red_packet).setOnClickListener(clickListener);
+            findViewById(R.id.txt_hang_up).setOnClickListener(clickListener);
+            findViewById(R.id.txt_answer).setOnClickListener(clickListener);
+            findViewById(R.id.img_close).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {

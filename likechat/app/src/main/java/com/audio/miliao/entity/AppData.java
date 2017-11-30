@@ -223,41 +223,23 @@ public class AppData
         return 0;
     }
 
-//    /**
-//     * 登录后返回的用户id
-//     * @param userId
-//     */
-//    public static void setCurUserId(int userId)
-//    {
-//        PreferUtil.setIntPreference(KEY_USER_ID, userId);
-//    }
-//
-//    /**
-//     * 登录后返回的用户id
-//     * @return
-//     */
-//    public static int getCurUserId()
-//    {
-//        return PreferUtil.getIntPreference(KEY_USER_ID, -1);
-//    }
-//
-//    /**
-//     * qq或者微信登录后返回的openid
-//     * @param openId
-//     */
-//    public static void setOpenId(String openId)
-//    {
-//        PreferUtil.setStringPreference(KEY_OPEN_ID, openId);
-//    }
-//
-//    /**
-//     * qq或者微信登录后返回的openid
-//     * @return
-//     */
-//    public static String getOpenId()
-//    {
-//        return PreferUtil.getStringPreference(KEY_OPEN_ID);
-//    }
+    /**
+     * 保存一键打招呼中发红包的时间
+     * @param time
+     */
+    public static void setPayRedPacketTime(long time)
+    {
+        PreferUtil.setLongPreference(KEY_PAY_RED_PACKET_TIME, time);
+    }
+
+    /**
+     * 获取一键打招呼中红包的时间
+     * @return
+     */
+    public static long getPayRedPacketTime()
+    {
+        return PreferUtil.getLongPreference(KEY_PAY_RED_PACKET_TIME, 0);
+    }
 
     private final static String KEY_YUNXIN_ACCOUNT = "key_yunxin_account";
     private final static String KEY_YUNXIN_TOKEN = "key_yunxin_token";
@@ -273,4 +255,7 @@ public class AppData
     private static final String KEY_OPEN_ID = "key_open_id";
 
     private static final String KEY_AUTO_CALL_IN = "key_auto_cal_in";
+
+    // 在一键打招呼中发红包的时间，没有发红包返回0
+    private static final String KEY_PAY_RED_PACKET_TIME = "key_pay_red_packet_time";
 }

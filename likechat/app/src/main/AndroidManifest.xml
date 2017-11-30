@@ -155,6 +155,12 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".activity.PayRedPacketActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".activity.PhotoZoneActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"

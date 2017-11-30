@@ -23,17 +23,27 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <com.app.library.widget.CircleImageView
-                    android:id="@+id/img_anchor1"
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1">
 
-                <com.app.library.widget.CircleImageView
-                    android:id="@+id/img_anchor2"
+                    <com.app.library.widget.CircleImageView
+                        android:id="@+id/img_anchor1"
+                        style="@style/auto_say_hello_avatar"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1">
+
+                    <com.app.library.widget.CircleImageView
+                        android:id="@+id/img_anchor2"
+                        style="@style/auto_say_hello_avatar"/>
+
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -42,17 +52,27 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <com.app.library.widget.CircleImageView
-                    android:id="@+id/img_anchor3"
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1">
 
-                <com.app.library.widget.CircleImageView
-                    android:id="@+id/img_anchor4"
+                    <com.app.library.widget.CircleImageView
+                        android:id="@+id/img_anchor3"
+                        style="@style/auto_say_hello_avatar"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1">
+
+                    <com.app.library.widget.CircleImageView
+                        android:id="@+id/img_anchor4"
+                        style="@style/auto_say_hello_avatar"/>
+
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -66,23 +86,27 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="vertical">
+
                 <TextView
+                    android:id="@+id/btn_pay_red_packet"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_auto_say_hello_selector_items"
+                    android:clickable="true"
+                    android:gravity="center"
                     android:text="@string/txt_auto_say_hello"
                     android:textColor="#FFF"
-                    android:gravity="center"
-                    android:textSize="@dimen/txt_size_18_dp"
-                    android:background="@drawable/btn_auto_say_hello_selector_items"/>
+                    android:textSize="@dimen/txt_size_18_dp"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#f9348c"
-                    android:textSize="@dimen/txt_size_12_dp"
                     android:gravity="center"
-                    android:text="@string/txt_auto_say_hello_tip"/>
+                    android:text="@string/txt_auto_say_hello_tip"
+                    android:textColor="#f9348c"
+                    android:textSize="@dimen/txt_size_12_dp"/>
             </LinearLayout>
         </RelativeLayout>
 

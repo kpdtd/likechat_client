@@ -112,6 +112,28 @@ public class MainActivity extends BaseActivity
                 }
             }, interval * 1000);
 
+            handler().postDelayed(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    TabMainFragment fragment = (TabMainFragment) m_listFragment.get(0);
+                    if (fragment != null && Checker.isNotEmpty(fragment.getActorVoList()))
+                    {
+                        List<String> listAvatarUrl = new ArrayList<>();
+                        int max = fragment.getActorVoList().size();
+                        Integer[] randoms = RandomUtil.nextInts(0, max, 6);
+                        for (int i = 0; i < 6; i++)
+                        {
+                            listAvatarUrl.add(fragment.getActorVoList().get(randoms[i]).getIcon());
+                        }
+
+                        String[] avatarUrls = listAvatarUrl.toArray(new String[6]);
+                        AutoSayHelloActivity.show(MainActivity.this, avatarUrls);
+                    }
+                }
+            }, 1000);
+
             // 只要不在消息界面，隔几秒消息按钮就出现小圆点
             TimerTask timerTask = new TimerTask()
             {
