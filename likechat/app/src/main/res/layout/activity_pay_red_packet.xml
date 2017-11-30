@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/red_packet"
+        android:orientation="vertical"
+        android:paddingTop="250dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="@string/txt_auto_say_hello_tip"
+            android:textColor="#dcbc83"
+            android:textSize="@dimen/txt_size_12_dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.app.library.widget.CircleImageView
+                    android:id="@+id/img_anchor1"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.app.library.widget.CircleImageView
+                    android:id="@+id/img_anchor2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.app.library.widget.CircleImageView
+                    android:id="@+id/img_anchor3"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.app.library.widget.CircleImageView
+                    android:id="@+id/img_anchor4"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.app.library.widget.CircleImageView
+                    android:id="@+id/img_anchor5"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.app.library.widget.CircleImageView
+                    android:id="@+id/img_anchor6"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <RadioButton
+                android:id="@+id/rdo_alipay"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:button="@null"
+                android:drawableLeft="@mipmap/ic_alipay"
+                android:drawableRight="@drawable/radio_pay_red_packet_selector_items"
+                android:text="@string/txt_pay_alipay"
+                android:textColor="#dcbc83"
+                android:textSize="@dimen/txt_size_12_dp"/>
+
+            <RadioButton
+                android:id="@+id/rdo_weixin"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:button="@null"
+                android:drawableLeft="@mipmap/ic_weixin"
+                android:drawableRight="@drawable/radio_pay_red_packet_selector_items"
+                android:text="@string/txt_pay_weixin"
+                android:textColor="#dcbc83"
+                android:textSize="@dimen/txt_size_12_dp"/>
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/btn_pay_red_packet_selector_items"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/txt_pay_red_packet"
+            android:textColor="#b79352"
+            android:textSize="@dimen/txt_size_16_dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/txt_pay_red_packet_tip"
+            android:textColor="#dcbc83"
+            android:textSize="@dimen/txt_size_12_dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="true">
+        <shape android:shape="oval">
+            <!-- 宽度 -->
+            <size
+                android:height="15dp"
+                android:width="15dp" />
+
+            <!-- 背景色 -->
+            <solid android:color="#dcbc83" />
+        </shape>
+    </item>
+    <item android:state_checked="false">
+        <shape android:shape="oval">
+            <!-- 宽度 -->
+            <size
+                android:height="15dp"
+                android:width="15dp" />
+
+            <!-- 背景色 -->
+            <solid android:color="#d0cecf" />
+        </shape>
+    </item>
+
+</selector>

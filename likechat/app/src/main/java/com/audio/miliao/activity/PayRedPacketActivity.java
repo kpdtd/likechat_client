@@ -21,6 +21,8 @@ public class PayRedPacketActivity extends BaseActivity
     private ImageView m_imgAvatar2;
     private ImageView m_imgAvatar3;
     private ImageView m_imgAvatar4;
+    private ImageView m_imgAvatar5;
+    private ImageView m_imgAvatar6;
     private List<String> m_listAvatarUrl;
 
     public static void show(Activity activity, String[] avatarUrls)
@@ -36,7 +38,7 @@ public class PayRedPacketActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_auto_say_hello);
+        setContentView(R.layout.activity_pay_red_packet);
         try
         {
             String[] avatarUrls = (String[]) getIntent().getSerializableExtra("avatar_urls");
@@ -54,9 +56,9 @@ public class PayRedPacketActivity extends BaseActivity
     @Override
     public void onBackPressed()
     {
-        super.onBackPressed();
-        // 设置关闭没有动画
-        overridePendingTransition(0, 0);
+//        super.onBackPressed();
+//        // 设置关闭没有动画
+//        overridePendingTransition(0, 0);
     }
 
     @Override
@@ -73,6 +75,8 @@ public class PayRedPacketActivity extends BaseActivity
             m_imgAvatar2 = (ImageView) findViewById(R.id.img_anchor2);
             m_imgAvatar3 = (ImageView) findViewById(R.id.img_anchor3);
             m_imgAvatar4 = (ImageView) findViewById(R.id.img_anchor4);
+            m_imgAvatar5 = (ImageView) findViewById(R.id.img_anchor5);
+            m_imgAvatar6 = (ImageView) findViewById(R.id.img_anchor6);
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -81,21 +85,15 @@ public class PayRedPacketActivity extends BaseActivity
                 {
                     switch (v.getId())
                     {
-                    case R.id.txt_hang_up:
                     case R.id.img_close:
                         finish();
                         // 设置关闭没有动画
                         overridePendingTransition(0, 0);
                         break;
-                    case R.id.txt_answer:
-                        SimpleBalanceActivity.show(PayRedPacketActivity.this);
-                        break;
                     }
                 }
             };
 
-            findViewById(R.id.txt_hang_up).setOnClickListener(clickListener);
-            findViewById(R.id.txt_answer).setOnClickListener(clickListener);
             findViewById(R.id.img_close).setOnClickListener(clickListener);
         }
         catch (Exception e)
@@ -112,6 +110,8 @@ public class PayRedPacketActivity extends BaseActivity
             ImageLoaderUtil.displayListAvatarImage(m_imgAvatar2, getAvatarUrl(1));
             ImageLoaderUtil.displayListAvatarImage(m_imgAvatar3, getAvatarUrl(2));
             ImageLoaderUtil.displayListAvatarImage(m_imgAvatar4, getAvatarUrl(3));
+            ImageLoaderUtil.displayListAvatarImage(m_imgAvatar5, getAvatarUrl(4));
+            ImageLoaderUtil.displayListAvatarImage(m_imgAvatar6, getAvatarUrl(5));
         }
         catch (Exception e)
         {
