@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 
 import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.UIUtil;
 import com.audio.miliao.R;
 
 import java.util.Arrays;
@@ -46,6 +48,8 @@ public class PayRedPacketActivity extends BaseActivity
 
             initUI();
             updateData();
+
+            findViewById(R.id.rdo_alipay).performClick();
         }
         catch (Exception e)
         {
@@ -90,11 +94,27 @@ public class PayRedPacketActivity extends BaseActivity
                         // 设置关闭没有动画
                         overridePendingTransition(0, 0);
                         break;
+                    case R.id.btn_pay_red_packet:
+                        RadioGroup group = (RadioGroup) findViewById(R.id.rgp_pay_red_packet);
+                        if (group.getCheckedRadioButtonId() == R.id.rdo_alipay)
+                        {
+                            // 支付宝支付
+                            //AlipayUtil.pay(PayRedPacketActivity.this);
+                            UIUtil.showToastShort(PayRedPacketActivity.this, "支付宝支付");
+                        }
+                        else
+                        {
+                            // 微信支付
+//                            WXUtil.pay();
+                            UIUtil.showToastShort(PayRedPacketActivity.this, "微信支付");
+                        }
+                        break;
                     }
                 }
             };
 
             findViewById(R.id.img_close).setOnClickListener(clickListener);
+            findViewById(R.id.btn_pay_red_packet).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
