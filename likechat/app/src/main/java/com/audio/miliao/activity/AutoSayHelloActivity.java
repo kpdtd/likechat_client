@@ -86,11 +86,10 @@ public class AutoSayHelloActivity extends HandleNotificationActivity
                     case R.id.btn_pay_red_packet:
                         String[] avatarUrl = m_listAvatarUrl.toArray(new String[m_listAvatarUrl.size()]);
                         PayRedPacketActivity.show(AutoSayHelloActivity.this, avatarUrl);
+                        finishWithoutTransition();
                         break;
                     case R.id.lay_root:
-                        finish();
-                        // 设置关闭没有动画
-                        overridePendingTransition(0, 0);
+                        finishWithoutTransition();
                         break;
                     }
                 }
@@ -128,5 +127,15 @@ public class AutoSayHelloActivity extends HandleNotificationActivity
         }
 
         return m_listAvatarUrl.get(index);
+    }
+
+    /**
+     * 没有关闭动画
+     */
+    private void finishWithoutTransition()
+    {
+        finish();
+        // 设置关闭没有动画
+        overridePendingTransition(0, 0);
     }
 }

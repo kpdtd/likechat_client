@@ -302,7 +302,7 @@ public class SimpleVipActivity extends HandleNotificationActivity
 
             m_txtPayNow.setEnabled(false);
             // 微信支付的返回结果需要通过eventbus异步返回，listener返回的结果不准确
-            WXUtil.pay(goodsVo, null);
+            WXUtil.pay(goodsVo);
         }
         catch (Exception e)
         {

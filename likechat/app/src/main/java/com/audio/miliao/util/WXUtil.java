@@ -8,7 +8,6 @@ import com.app.library.vo.WeChatUnifiedOrderReqVo;
 import com.app.library.vo.WeChatUnifiedOrderReturnVo;
 import com.audio.miliao.event.WXPayResultEvent;
 import com.audio.miliao.http.cmd.CreateWXPayOrder;
-import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -125,10 +124,9 @@ public class WXUtil
      * 支付
      *
      * @param goodsVo 商品信息
-     * @param payListener 支付监听
      * @return
      */
-    public static void pay(final GoodsVo goodsVo, final PayListener payListener)
+    public static void pay(final GoodsVo goodsVo)
     {
         Runnable runnable = new Runnable()
         {
@@ -145,17 +143,17 @@ public class WXUtil
                     {
                         PayReq payReq = WXUtil.genWxPayReq(createOrder.rspOrderResult);
                         WXUtil.api().sendReq(payReq);
-                        if (payListener != null)
-                        {
-                            payListener.onSucceed();
-                        }
+//                        if (payListener != null)
+//                        {
+//                            payListener.onSucceed();
+//                        }
                     }
                     else
                     {
-                        if (payListener != null)
-                        {
-                            payListener.onFailed("");
-                        }
+//                        if (payListener != null)
+//                        {
+//                            payListener.onFailed("");
+//                        }
 
                         EventBus.getDefault().postSticky(new WXPayResultEvent(1));
                     }
@@ -163,10 +161,10 @@ public class WXUtil
                 catch (Exception e)
                 {
                     e.printStackTrace();
-                    if (payListener != null)
-                    {
-                        payListener.onFailed("");
-                    }
+//                    if (payListener != null)
+//                    {
+//                        payListener.onFailed("");
+//                    }
                     EventBus.getDefault().postSticky(new WXPayResultEvent(2));
                 }
             }

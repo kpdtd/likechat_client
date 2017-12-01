@@ -100,9 +100,7 @@ public class PayRedPacketActivity extends HandleNotificationActivity
                     switch (v.getId())
                     {
                     case R.id.img_close:
-                        finish();
-                        // 设置关闭没有动画
-                        overridePendingTransition(0, 0);
+                        finishWithoutTransition();
                         break;
                     case R.id.btn_pay_red_packet:
                         RadioGroup group = (RadioGroup) findViewById(R.id.rgp_pay_red_packet);
@@ -134,7 +132,7 @@ public class PayRedPacketActivity extends HandleNotificationActivity
 
                             // 微信支付
                             // 微信支付的返回结果需要通过eventbus异步返回，listener返回的结果不准确
-                            WXUtil.pay(m_goodsVo, null);
+                            WXUtil.pay(m_goodsVo);
                         }
                         break;
                     }
@@ -216,6 +214,14 @@ public class PayRedPacketActivity extends HandleNotificationActivity
     private void onPaySucceed()
     {
         theApp.showToast("支付成功");
+        finishWithoutTransition();
+    }
+
+    /**
+     * 没有关闭动画
+     */
+    private void finishWithoutTransition()
+    {
         finish();
         // 设置关闭没有动画
         overridePendingTransition(0, 0);

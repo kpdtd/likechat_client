@@ -3,15 +3,19 @@ package com.audio.miliao;
 import android.accounts.Account;
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 
 import com.app.library.util.DownloadUtil;
-import com.audio.miliao.util.DBUtil;
 import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.LogUtil;
 import com.app.library.util.PreferUtil;
 import com.app.library.util.UIUtil;
 import com.app.library.vo.ActorPageVo;
 import com.audio.miliao.entity.AppData;
+import com.audio.miliao.util.DBUtil;
+
+import java.util.UUID;
 
 public class theApp extends Application
 {
@@ -23,13 +27,6 @@ public class theApp extends Application
 
     private static Account mCurAccount = TEST3;
 
-//    @Override
-//    protected void attachBaseContext(Context newBase)
-//    {
-//        super.attachBaseContext(newBase);
-//        MultiDex.install(this);
-//    }
-
     @Override
     public void onCreate()
     {
@@ -37,42 +34,13 @@ public class theApp extends Application
 
         CONTEXT = this;
         initUtil();
-        //LoaderApp.init(this);
-//        NIMClient.init(this, YunXinUtil.loginInfo(), YunXinUtil.options(this));
-//        // 初始化云信
-//        if (inMainProcess(this))
-//        {
-//            //YunXinUtil.init();
-//            NimUIKit.init(this);
-//
-//            // 会话窗口的定制初始化。
-//            SessionHelper.init();
-//
-//            // 注册通知消息过滤器
-//            registerIMMessageFilter();
-//
-//            // 初始化消息提醒
-//            NIMClient.toggleNotification(true);
-//
-//            // 注册网络通话来电
-//            registerAVChatIncomingCallObserver(true);
-//        }
 
         if (AppData.isLogin())
         {
             saveCurUser();
-
-            // Debug
-//            LoaderAppData.setCurUserId(30);
-//            LoaderAppData.setOpenId("8A59375AF608856146CDC7CD48FE2319");
-
-            //onYunXinLogin("liu1501134", "e10adc3949ba59abbe56e057f20f883e");
-            //onYunXinLogin("18178619319", "e10adc3949ba59abbe56e057f20f883e");
-
-            //onYunXinLogin(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
-            //YunXinUtil.login(AppData.getYunXinAccount(), AppData.getYunXinToken());
         }
 
+        LogUtil.d("psuedoId:" + getUniqueID());
     }
 
     private void initUtil()
@@ -82,76 +50,6 @@ public class theApp extends Application
         DBUtil.init(CONTEXT);
         DownloadUtil.init(CONTEXT);
     }
-
-//    public boolean inMainProcess(Context context)
-//    {
-//        String packageName = context.getPackageName();
-//        String processName = SystemUtil.getProcessName(context);
-//        return packageName.equals(processName);
-//    }
-
-
-//    /**
-//     * 通知消息过滤器（如果过滤则该消息不存储不上报）
-//     */
-//    private void registerIMMessageFilter()
-//    {
-//        NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter()
-//        {
-//            @Override
-//            public boolean shouldIgnore(IMMessage message)
-//            {
-//                if (message.getAttachment() != null)
-//                {
-//                    if (message.getAttachment() instanceof UpdateTeamAttachment)
-//                    {
-//                        UpdateTeamAttachment attachment = (UpdateTeamAttachment) message.getAttachment();
-//                        for (Map.Entry<TeamFieldEnum, Object> field : attachment.getUpdatedFields().entrySet())
-//                        {
-//                            if (field.getKey() == TeamFieldEnum.ICON)
-//                            {
-//                                return true;
-//                            }
-//                        }
-//                    }
-//                    else if (message.getAttachment() instanceof AVChatAttachment)
-//                    {
-//                        return true;
-//                    }
-//                }
-//                return false;
-//            }
-//        });
-//    }
-
-//    /**
-//     * 注册网络通话来电
-//     *
-//     * @param register
-//     */
-////    private void registerAVChatIncomingCallObserver(boolean register)
-////    {
-////        AVChatManager.getInstance().observeIncomingCall(new Observer<AVChatData>()
-////        {
-////            @Override
-////            public void onEvent(AVChatData data)
-////            {
-////                String extra = data.getExtra();
-////                Log.e("Extra", "Extra Message->" + extra);
-////                if (PhoneCallStateObserver.getInstance().getPhoneCallState() != PhoneCallStateObserver.PhoneCallStateEnum.IDLE
-////                        || AVChatProfile.getInstance().isAVChatting()
-////                        || AVChatManager.getInstance().getCurrentChatId() != 0)
-////                {
-////                    LogUtil.i("Likechat", "reject incoming call data =" + data.toString() + " as local phone is not idle");
-////                    AVChatManager.getInstance().sendControlCommand(data.getChatId(), AVChatControlCommand.BUSY, null);
-////                    return;
-////                }
-////                // 有网络来电打开AVChatActivity
-////                AVChatProfile.getInstance().setAVChatting(true);
-////                AVChatActivity.launch(theApp.CONTEXT, data, AVChatActivity.FROM_BROADCASTRECEIVER);
-////            }
-////        }, register);
-////    }
 
     public static void saveCurUser()
     {
@@ -198,5 +96,43 @@ public class theApp extends Application
                 UIUtil.showToastLong(CONTEXT, strToast);
             }
         });
+    }
+
+    /**
+     * 获得独一无二的伪 ID
+     * @return
+     */
+    public static String getUniqueID()
+    {
+        String serial;
+        String m_szDevIDShort = "35" +
+                Build.BOARD.length() % 10 // 主板
+                + Build.BRAND.length() % 10  // android系统定制商
+                + Build.CPU_ABI.length() % 10  // cpu指令集
+                + Build.DEVICE.length() % 10 // 设备参数
+                + Build.DISPLAY.length() % 10 // 显示屏参数
+                + Build.HOST.length() % 10
+                + Build.ID.length() % 10 // 修订版本列表
+                + Build.MANUFACTURER.length() % 10 // 硬件制造商
+                + Build.MODEL.length() % 10 // 版本
+                + Build.PRODUCT.length() % 10 // 手机制造商
+                + Build.TAGS.length() % 10 // 描述build的标签
+                + Build.TYPE.length() % 10 // builder类型
+                + Build.USER.length() % 10; //13 位
+
+        try
+        {
+            // API >=9 通过“Build.SERIAL”这个属性来保证ID的独一无二
+            serial = Build.SERIAL;
+        }
+        catch (Exception exception)
+        {
+            //serial需要一个初始化
+            serial = "serial"; // 随便一个初始化
+        }
+
+        LogUtil.d("devId:" + m_szDevIDShort);
+        //使用硬件信息拼凑出来的15位号码
+        return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
     }
 }
