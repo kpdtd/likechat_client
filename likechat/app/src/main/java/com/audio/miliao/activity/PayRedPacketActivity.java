@@ -7,9 +7,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import com.app.library.util.AppChecker;
+import com.app.library.util.Checker;
 import com.app.library.util.ImageLoaderUtil;
-import com.app.library.util.UIUtil;
+import com.app.library.vo.GoodsVo;
 import com.audio.miliao.R;
+import com.audio.miliao.event.WXPayResultEvent;
+import com.audio.miliao.http.BaseReqRsp;
+import com.audio.miliao.http.cmd.FetchGoods;
+import com.audio.miliao.listener.PayListener;
+import com.audio.miliao.theApp;
+import com.audio.miliao.util.AlipayUtil;
+import com.audio.miliao.util.WXUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +26,7 @@ import java.util.List;
 /**
  * 支付红包界面
  */
-public class PayRedPacketActivity extends BaseActivity
+public class PayRedPacketActivity extends HandleNotificationActivity
 {
     private ImageView m_imgAvatar1;
     private ImageView m_imgAvatar2;
@@ -26,6 +35,7 @@ public class PayRedPacketActivity extends BaseActivity
     private ImageView m_imgAvatar5;
     private ImageView m_imgAvatar6;
     private List<String> m_listAvatarUrl;
+    private GoodsVo m_goodsVo;
 
     public static void show(Activity activity, String[] avatarUrls)
     {
@@ -99,14 +109,32 @@ public class PayRedPacketActivity extends BaseActivity
                         if (group.getCheckedRadioButtonId() == R.id.rdo_alipay)
                         {
                             // 支付宝支付
-                            //AlipayUtil.pay(PayRedPacketActivity.this);
-                            UIUtil.showToastShort(PayRedPacketActivity.this, "支付宝支付");
+                            AlipayUtil.pay(PayRedPacketActivity.this, "3", m_goodsVo.getId(), m_goodsVo, new PayListener()
+                            {
+                                @Override
+                                public void onSucceed()
+                                {
+                                    onPaySucceed();
+                                }
+
+                                @Override
+                                public void onFailed(String error)
+                                {
+                                    theApp.showToast("支付失败");
+                                }
+                            });
                         }
                         else
                         {
+                            if (!AppChecker.isWechatInstalled(getApplicationContext()))
+                            {
+                                theApp.showToast(getString(R.string.toast_wx_not_installed));
+                                return;
+                            }
+
                             // 微信支付
-//                            WXUtil.pay();
-                            UIUtil.showToastShort(PayRedPacketActivity.this, "微信支付");
+                            // 微信支付的返回结果需要通过eventbus异步返回，listener返回的结果不准确
+                            WXUtil.pay(m_goodsVo, null);
                         }
                         break;
                     }
@@ -115,6 +143,28 @@ public class PayRedPacketActivity extends BaseActivity
 
             findViewById(R.id.img_close).setOnClickListener(clickListener);
             findViewById(R.id.btn_pay_red_packet).setOnClickListener(clickListener);
+
+            FetchGoods fetchGoods = new FetchGoods(null, FetchGoods.RED_PACKET, null);
+            fetchGoods.send(new BaseReqRsp.ReqListener()
+            {
+                @Override
+                public void onSucceed(Object baseReqRsp)
+                {
+                    FetchGoods fetchGoods1 = (FetchGoods) baseReqRsp;
+                    if (Checker.isNotEmpty(fetchGoods1.rspGoodsVoList))
+                    {
+                        m_goodsVo = fetchGoods1.rspGoodsVoList.get(0);
+                    }
+                }
+
+                @Override
+                public void onError(int errorCode)
+                {
+                    m_goodsVo = new GoodsVo();
+                    m_goodsVo.setId(0);
+                    m_goodsVo.setRealPrice(50 * 100);
+                }
+            });
         }
         catch (Exception e)
         {
@@ -147,5 +197,27 @@ public class PayRedPacketActivity extends BaseActivity
         }
 
         return m_listAvatarUrl.get(index);
+    }
+
+    public void onEventMainThread(final WXPayResultEvent event)
+    {
+        switch (event.getPayResult())
+        {
+        // 支付成功
+        case 0:
+            onPaySucceed();
+            break;
+        default:
+            theApp.showToast("支付失败");
+            break;
+        }
+    }
+
+    private void onPaySucceed()
+    {
+        theApp.showToast("支付成功");
+        finish();
+        // 设置关闭没有动画
+        overridePendingTransition(0, 0);
     }
 }

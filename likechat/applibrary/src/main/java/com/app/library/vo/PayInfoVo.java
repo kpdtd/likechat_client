@@ -26,7 +26,7 @@ public class PayInfoVo extends GsonObj<PayInfoVo>
     private Integer actorId;//用户id（主播和用户同一张表。）
     private String openId;//用户的oponId
     private String payType;//支付类型 1- 微信  2-支付宝。（请准确填入）
-    private String goodsType;//1-购买嗨币  2-购买会员（请准确填入）
+    private String goodsType;//1-购买嗨币  2-购买会员（请准确填入） 3-红包
     private Integer goodsId;//商品id：
     private Integer money;//实际支付金额
     private String outTradeNo;//（构造函数中有生成的算法，可参考）商户网站唯一订单号-24【yyyyMMddHHmmss+10位随机数】 我方生成的订单号,同一个订单多次请求记为重复订单；

@@ -40,7 +40,7 @@ public class AlipayUtil
 
     /**
      *
-     * @param goodsType 1-购买嗨币  2-购买会员
+     * @param goodsType 1-购买嗨币  2-购买会员  3-红包
      * @param goodsId 商品号：如果type=1是嗨币，即金额*10（1：10）
      *                如果type=2 则给出商品号或商品id。
      * @param goodsVo 商品信息
@@ -153,7 +153,7 @@ public class AlipayUtil
 
     /**
      *
-     * @param goodsType 1-购买嗨币  2-购买会员
+     * @param goodsType 1-购买嗨币  2-购买会员  3-红包
      * @param goodsId 商品号：如果type=1是嗨币，即金额*10（1：10）
      *                  如果type=2 则给出商品号或商品id。商品号是协商定义出来，商品不变，商品号不变。
      * @param money 钱(分)

@@ -64,7 +64,7 @@ public abstract class BaseReqRsp
 
 	public interface ReqListener
 	{
-		void onSucceed(Object object);
+		void onSucceed(Object baseReqRsp);
 		void onError(int errorCode);
 	}
 

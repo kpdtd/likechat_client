@@ -17,7 +17,7 @@ import java.util.List;
  * 在首页都会弹出打招呼弹窗
  * 除非用户已经发过一次红包（不再弹）
  */
-public class AutoSayHelloActivity extends BaseActivity
+public class AutoSayHelloActivity extends HandleNotificationActivity
 {
     private ImageView m_imgAvatar1;
     private ImageView m_imgAvatar2;
@@ -87,11 +87,17 @@ public class AutoSayHelloActivity extends BaseActivity
                         String[] avatarUrl = m_listAvatarUrl.toArray(new String[m_listAvatarUrl.size()]);
                         PayRedPacketActivity.show(AutoSayHelloActivity.this, avatarUrl);
                         break;
+                    case R.id.lay_root:
+                        finish();
+                        // 设置关闭没有动画
+                        overridePendingTransition(0, 0);
+                        break;
                     }
                 }
             };
 
             findViewById(R.id.btn_pay_red_packet).setOnClickListener(clickListener);
+            findViewById(R.id.lay_root).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
