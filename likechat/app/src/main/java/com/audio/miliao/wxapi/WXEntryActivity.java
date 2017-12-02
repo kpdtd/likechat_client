@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import com.audio.miliao.R;
 import com.audio.miliao.activity.BaseActivity;
-import com.audio.miliao.http.cmd.Login;
+import com.audio.miliao.http.cmd.RegisterAndLogin;
 import com.audio.miliao.http.cmd.WXFetchUserinfo;
 import com.audio.miliao.http.cmd.WXOauth;
 import com.audio.miliao.theApp;
@@ -116,9 +116,9 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler
                             registerVo.setProvince(fetchUserinfo.rspProvince);
                             registerVo.setSex((fetchUserinfo.rspGender == 1 ? "男" : "女"));
                             registerVo.setSignature("");
-                            Login login = new Login(null, registerVo, null);
-                            login.sendSync();
-                            if (Login.isSucceed(login))
+                            RegisterAndLogin registerAndLogin = new RegisterAndLogin(null, registerVo, null);
+                            registerAndLogin.sendSync();
+                            if (RegisterAndLogin.isSucceed(registerAndLogin))
                             {
                                 setResult(RESULT_OK);
                                 finish();

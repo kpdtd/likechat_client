@@ -26,7 +26,7 @@ import de.greenrobot.event.EventBus;
  * <p>
  * 3、如果失败应该提示用户重新登录.
  */
-public class Login extends BaseReqRsp
+public class RegisterAndLogin extends BaseReqRsp
 {
     public UserRegisterVo reqUserRegisterVo;
     public int rspUserId;
@@ -38,7 +38,7 @@ public class Login extends BaseReqRsp
      * @param userRegisterVo
      * @param tag
      */
-    public Login(Handler handler, UserRegisterVo userRegisterVo, Object tag)
+    public RegisterAndLogin(Handler handler, UserRegisterVo userRegisterVo, Object tag)
     {
         super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.LOGIN, false, tag);
         this.reqUserRegisterVo = userRegisterVo;

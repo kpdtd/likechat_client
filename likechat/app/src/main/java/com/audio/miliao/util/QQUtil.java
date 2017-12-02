@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.app.library.util.JSONUtil;
-import com.audio.miliao.http.cmd.Login;
+import com.audio.miliao.http.cmd.RegisterAndLogin;
 import com.audio.miliao.theApp;
 import com.app.library.vo.UserRegisterVo;
 import com.tencent.connect.UserInfo;
@@ -66,8 +66,8 @@ public class QQUtil
                                 userInfo.setSex(JSONUtil.getString(jsonUserInfo, "gender"));
                                 userInfo.setSignature("");
 
-                                Login login = new Login(null, userInfo, null);
-                                login.send();
+                                RegisterAndLogin registerAndLogin = new RegisterAndLogin(null, userInfo, null);
+                                registerAndLogin.send();
                             }
                             catch (Exception e)
                             {
