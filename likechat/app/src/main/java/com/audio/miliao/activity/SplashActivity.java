@@ -18,14 +18,18 @@ public class SplashActivity extends BaseActivity
     /** 完成任务数量 */
     private int m_nCompleteTaskCount = 0;
     /** 任务一：等待1秒 */
-    private int TASK_COUNT = 2;
+    private int TASK_COUNT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        autoRegisterAndLogin();
+        if (Checker.isEmpty(AppData.getOpenId()))
+        {
+            TASK_COUNT = 2;
+            autoRegisterAndLogin();
+        }
 
         m_handler.postDelayed(new Runnable()
         {
@@ -52,17 +56,19 @@ public class SplashActivity extends BaseActivity
             if (m_nCompleteTaskCount >= TASK_COUNT)
             {
                 //if (AppData.isLogin())
-                if (Checker.isNotEmpty(AppData.getYunXinAccount()))
-                {
-                    Intent intentMain = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intentMain);
-                }
-                else
-                {
-                    Intent intentLogin = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intentLogin);
-                }
+//                if (Checker.isNotEmpty(AppData.getYunXinAccount()))
+//                {
+//                    Intent intentMain = new Intent(SplashActivity.this, MainActivity.class);
+//                    startActivity(intentMain);
+//                }
+//                else
+//                {
+//                    Intent intentLogin = new Intent(SplashActivity.this, LoginActivity.class);
+//                    startActivity(intentLogin);
+//                }
 
+                Intent intentMain = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intentMain);
                 finish();
             }
         }
@@ -80,6 +86,11 @@ public class SplashActivity extends BaseActivity
         String openId = theApp.getUniqueID();
         UserRegisterVo userInfoVo = new UserRegisterVo();
         userInfoVo.setOpenId(openId);
+        userInfoVo.setCity("");
+        userInfoVo.setIcon("");
+        userInfoVo.setNickname("");
+        userInfoVo.setProvince("");
+        userInfoVo.setSex("");
         userInfoVo.setLogin_type("auto");
         RegisterAndLogin registerAndLogin = new RegisterAndLogin(null, userInfoVo, null);
         registerAndLogin.send(new BaseReqRsp.ReqListener()

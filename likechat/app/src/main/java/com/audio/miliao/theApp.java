@@ -15,8 +15,6 @@ import com.app.library.vo.ActorPageVo;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.util.DBUtil;
 
-import java.util.UUID;
-
 public class theApp extends Application
 {
     public static Context CONTEXT = null;
@@ -133,6 +131,7 @@ public class theApp extends Application
 
         LogUtil.d("devId:" + m_szDevIDShort);
         //使用硬件信息拼凑出来的15位号码
-        return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
+//        return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
+        return serial;
     }
 }
