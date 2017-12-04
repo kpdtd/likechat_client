@@ -68,8 +68,11 @@ public class TabMainFragment extends BaseFragment
         {
             initUI(m_root);
 
-            FetchHomeContent fetchHomeContent = new FetchHomeContent(null, null);
-            fetchHomeContent.send();
+            if (Checker.isEmpty(m_actorVoList))
+            {
+                FetchHomeContent fetchHomeContent = new FetchHomeContent(null, null);
+                fetchHomeContent.send();
+            }
         }
     }
 

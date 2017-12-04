@@ -7,12 +7,21 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 /**
- * Viewpager 跟 Fragment 结合使用的 adapter
+ * Viewpager 跟 Fragment 结合使用的 adapter<br/>
+ * 当切换到第三个fragment时，第一个fragment会destory<br/>
+ * 所以在每个fragment的oncreate需要判断数据是否为空
  */
 public class CustomFragmentPageAdapter extends FragmentPagerAdapter
 {
     private List<Fragment> m_listFragment;
 
+    /**
+     * Viewpager 跟 Fragment 结合使用的 adapter<br/>
+     * 当切换到第三个fragment时，第一个fragment会destory<br/>
+     * 所以在每个fragment的oncreate需要判断数据是否为空
+     * @param fm
+     * @param listFragment
+     */
     public CustomFragmentPageAdapter(FragmentManager fm, List<Fragment> listFragment)
     {
         super(fm);

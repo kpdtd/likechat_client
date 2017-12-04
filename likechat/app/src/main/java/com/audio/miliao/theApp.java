@@ -3,6 +3,8 @@ package com.audio.miliao;
 import android.accounts.Account;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 
@@ -14,6 +16,8 @@ import com.app.library.util.UIUtil;
 import com.app.library.vo.ActorPageVo;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.util.DBUtil;
+
+import java.util.UUID;
 
 public class theApp extends Application
 {
@@ -131,7 +135,26 @@ public class theApp extends Application
 
         LogUtil.d("devId:" + m_szDevIDShort);
         //使用硬件信息拼凑出来的15位号码
-//        return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
-        return serial;
+        String strUUID = new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
+        strUUID = strUUID.replaceAll("-", "");
+        return strUUID;
+        //return serial;
+    }
+
+    public static String getApplicationMetaValue(String name)
+    {
+        String value= "";
+        try
+        {
+            ApplicationInfo appInfo = CONTEXT.getPackageManager()
+                    .getApplicationInfo(CONTEXT.getPackageName(),
+                            PackageManager.GET_META_DATA);
+            value = appInfo.metaData.getString(name);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return value;
     }
 }

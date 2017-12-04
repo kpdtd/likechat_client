@@ -67,6 +67,10 @@
             android:name="com.netease.nim.appKey"
             android:value="fa0f2219206b8a2e1be41fb9382cd0f4"/>
 
+        <meta-data
+            android:name="LIKECHAT_CHANNEL"
+            android:value="${LIKECHAT_CHANNEL_VALUE}" />
+
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="orientation|keyboardHidden"

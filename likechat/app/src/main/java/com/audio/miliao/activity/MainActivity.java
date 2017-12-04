@@ -35,6 +35,7 @@ import com.audio.miliao.http.cmd.CheckUpdate;
 import com.audio.miliao.http.cmd.FetchActorPage;
 import com.audio.miliao.http.cmd.FetchVipMember;
 import com.audio.miliao.service.NotificationService;
+import com.audio.miliao.theApp;
 import com.audio.miliao.widget.NoScrollViewPager;
 import com.thin.downloadmanager.DownloadRequest;
 import com.thin.downloadmanager.DownloadStatusListenerV1;
@@ -150,6 +151,8 @@ public class MainActivity extends BaseActivity
 
             Intent intent = new Intent(this, NotificationService.class);
             startService(intent);
+
+            theApp.showToast("LIKECHAT_CHANNEL:" + theApp.getApplicationMetaValue("LIKECHAT_CHANNEL"));
         }
         catch (Exception e)
         {

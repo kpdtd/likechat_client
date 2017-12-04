@@ -17,7 +17,10 @@ public class SplashActivity extends BaseActivity
     private WeakHandler m_handler = new WeakHandler(SplashActivity.this);
     /** 完成任务数量 */
     private int m_nCompleteTaskCount = 0;
-    /** 任务一：等待1秒 */
+    /**
+     * 任务一：等待1秒<br/>
+     * 任务二：客户端生成openID自动注册登录(可选)
+     * */
     private int TASK_COUNT = 1;
 
     @Override

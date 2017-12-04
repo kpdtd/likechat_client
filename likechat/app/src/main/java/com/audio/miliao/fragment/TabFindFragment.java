@@ -96,11 +96,12 @@ public class TabFindFragment extends BaseFragment
                     try
                     {
                         // 返回值应该不是ChatMessage, 应该是Zone
-                        /*
+                        /**
                         Intent intentChat = new Intent(getActivity(), ChatTextActivity.class);
                         User user = (m_adapter.getItem(position) == null ? null : ((ChatMessage) m_adapter.getItem(position)).from);
                         intentChat.putExtra("user", user);
-                        startActivity(intentChat);*/
+                        startActivity(intentChat);
+                         */
                     }
                     catch (Exception e)
                     {
@@ -110,42 +111,6 @@ public class TabFindFragment extends BaseFragment
             });
 
             m_list.setOnScrollListener(ImageLoaderUtil.getPauseListener());
-//            m_list.setOnScrollListener(new AbsListView.OnScrollListener()
-//            {
-//                @Override
-//                public void onScrollStateChanged(AbsListView view, int scrollState)
-//                {
-//                    try
-//                    {
-//                        switch (scrollState)
-//                        {
-//                        //停止滚动
-//                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-//                            m_adapter.setScrolling(false);
-//                            m_adapter.notifyDataSetChanged();
-//                            break;
-//                        //滚动做出了抛的动作
-//                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-//                            m_adapter.setScrolling(true);
-//                            break;
-//                        //正在滚动
-//                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-//                            m_adapter.setScrolling(true);
-//                            break;
-//                        }
-//                    }
-//                    catch (Exception e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                @Override
-//                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-//                {
-//
-//                }
-//            });
 
             View.OnClickListener clickListener = new View.OnClickListener()
             {
@@ -313,7 +278,7 @@ public class TabFindFragment extends BaseFragment
                     public void onAvatarClick(ActorDynamicVo actorDynamicVo)
                     {
                         Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                        intent.putExtra("sessionId", String.valueOf(actorDynamicVo.getActorId()));
+                        intent.putExtra("actor_id", actorDynamicVo.getActorId());
                         startActivity(intent);
                     }
                 });

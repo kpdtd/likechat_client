@@ -68,6 +68,12 @@ public class UserInfoActivity extends HandleNotificationActivity
                 FetchActorPage fetchActor = new FetchActorPage(handler(), m_sessionId, null);
                 fetchActor.send();
             }
+            else if (getIntent().hasExtra("actor_id"))
+            {
+                int actorId = getIntent().getIntExtra("actor_id", -1);
+                FetchActorPage fetchActor = new FetchActorPage(handler(), actorId, null);
+                fetchActor.send();
+            }
 
             initUI();
             //updateData();
