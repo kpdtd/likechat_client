@@ -17,10 +17,20 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'miliao'
+            keyPassword 'likechat_2017'
+            storeFile file('/miliao_android.keystore')
+            storePassword 'likechat_2017'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', "proguard.cfg"
+            signingConfig signingConfigs.release
         }
     }
 
