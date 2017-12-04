@@ -41,8 +41,6 @@ public class theApp extends Application
         {
             saveCurUser();
         }
-
-        LogUtil.d("psuedoId:" + getUniqueID());
     }
 
     private void initUtil()
@@ -133,10 +131,10 @@ public class theApp extends Application
             serial = "serial"; // 随便一个初始化
         }
 
-        LogUtil.d("devId:" + m_szDevIDShort);
         //使用硬件信息拼凑出来的15位号码
         String strUUID = new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
         strUUID = strUUID.replaceAll("-", "");
+        LogUtil.d("uniqueId:" + strUUID);
         return strUUID;
         //return serial;
     }

@@ -2,6 +2,7 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
+import com.app.library.util.LogUtil;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.event.LoginEvent;
 import com.audio.miliao.http.BaseReqRsp;
@@ -55,7 +56,9 @@ public class RegisterAndLogin extends BaseReqRsp
     @Override
     public String getReqBody()
     {
-        return reqUserRegisterVo.toJsonString();
+        String body = reqUserRegisterVo.toJsonString();
+        LogUtil.d("loginAndRegister body:" + body);
+        return body;
     }
 
     @Override

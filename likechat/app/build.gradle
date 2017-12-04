@@ -19,16 +19,18 @@ android {
 
     signingConfigs {
         release {
-            keyAlias 'miliao'
-            keyPassword 'likechat_2017'
+            keyAlias 'miliao_android'
+            keyPassword 'miliao_2017'
             storeFile file('/miliao_android.keystore')
-            storePassword 'likechat_2017'
+            storePassword 'miliao_2017'
         }
     }
 
     buildTypes {
         release {
+            // 混淆
             minifyEnabled true
+            // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', "proguard.cfg"
             signingConfig signingConfigs.release
         }
