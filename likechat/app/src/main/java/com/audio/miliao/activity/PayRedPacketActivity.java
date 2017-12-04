@@ -12,6 +12,8 @@ import com.app.library.util.Checker;
 import com.app.library.util.ImageLoaderUtil;
 import com.app.library.vo.GoodsVo;
 import com.audio.miliao.R;
+import com.audio.miliao.entity.AppData;
+import com.audio.miliao.event.AutoSayHelloEvent;
 import com.audio.miliao.event.WXPayResultEvent;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.cmd.FetchGoods;
@@ -22,6 +24,8 @@ import com.audio.miliao.util.WXUtil;
 
 import java.util.Arrays;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 支付红包界面
@@ -213,6 +217,7 @@ public class PayRedPacketActivity extends HandleNotificationActivity
 
     private void onPaySucceed()
     {
+        AppData.setPayRedPacketTime(System.currentTimeMillis());
         theApp.showToast("支付成功");
         finishWithoutTransition();
     }
@@ -225,5 +230,6 @@ public class PayRedPacketActivity extends HandleNotificationActivity
         finish();
         // 设置关闭没有动画
         overridePendingTransition(0, 0);
+        EventBus.getDefault().post(new AutoSayHelloEvent());
     }
 }

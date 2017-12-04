@@ -8,9 +8,12 @@ import android.widget.ImageView;
 
 import com.app.library.util.ImageLoaderUtil;
 import com.audio.miliao.R;
+import com.audio.miliao.event.AutoSayHelloEvent;
 
 import java.util.Arrays;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 每当用户重新启动APP时
@@ -59,6 +62,7 @@ public class AutoSayHelloActivity extends HandleNotificationActivity
         super.onBackPressed();
         // 设置关闭没有动画
         overridePendingTransition(0, 0);
+        EventBus.getDefault().post(new AutoSayHelloEvent());
     }
 
     @Override
@@ -90,6 +94,7 @@ public class AutoSayHelloActivity extends HandleNotificationActivity
                         break;
                     case R.id.lay_root:
                         finishWithoutTransition();
+                        EventBus.getDefault().post(new AutoSayHelloEvent());
                         break;
                     }
                 }

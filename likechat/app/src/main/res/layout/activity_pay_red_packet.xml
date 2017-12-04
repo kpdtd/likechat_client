@@ -153,14 +153,14 @@
 
     <ImageView
         android:id="@+id/img_close"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/btn_close_selector"
-        android:scaleType="centerInside"
-        android:clickable="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/btn_close_selector"/>
 
 </RelativeLayout>

@@ -23,6 +23,7 @@ import com.app.library.vo.AppUpdateVo;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.CustomFragmentPageAdapter;
 import com.audio.miliao.entity.AppData;
+import com.audio.miliao.event.AutoSayHelloEvent;
 import com.audio.miliao.event.LogoutEvent;
 import com.audio.miliao.event.ShowMessageListEvent;
 import com.audio.miliao.fragment.MessageListFragment;
@@ -85,54 +86,45 @@ public class MainActivity extends BaseActivity
             FetchActorPage fetchActorPage = new FetchActorPage(handler(), AppData.getCurUserId(), null);
             fetchActorPage.send();
 
+            // 检测更新
             int versionCode = (getPackageInfo() != null ? getPackageInfo().versionCode : 1);
             CheckUpdate checkUpdate = new CheckUpdate(handler(), versionCode, null);
             checkUpdate.send();
 
             //NotificationUtil.notify(this);
 
-            final int times = AppData.getAutoCallInTime(System.currentTimeMillis());
-            int interval = (times == 0 ? 10 : RandomUtil.nextInt(60, 300));
-            //theApp.showToast("times " + times + " interval " + interval);
-
-            handler().postDelayed(new Runnable()
+            // 是否已经支付过红包
+            if (AppData.getPayRedPacketTime() == 0)
             {
-                @Override
-                public void run()
+                // 没有发过红包，则每次打开app都弹出打招呼发红包的界面
+                handler().postDelayed(new Runnable()
                 {
-                    //theApp.showToast("times " + times);
-                    if (AppChecker.isRunningForeground(getApplicationContext()))
+                    @Override
+                    public void run()
                     {
-                        if (times < 2)
+                        TabMainFragment fragment = (TabMainFragment) m_listFragment.get(0);
+                        if (fragment != null && Checker.isNotEmpty(fragment.getActorVoList()))
                         {
-                            FetchVipMember fetchVipMember = new FetchVipMember(handler(), times);
-                            fetchVipMember.send();
+                            List<String> listAvatarUrl = new ArrayList<>();
+                            int max = fragment.getActorVoList().size();
+                            Integer[] randoms = RandomUtil.nextInts(0, max, 6);
+                            for (int i = 0; i < 6; i++)
+                            {
+                                listAvatarUrl.add(fragment.getActorVoList().get(randoms[i]).getIcon());
+                            }
+
+                            String[] avatarUrls = listAvatarUrl.toArray(new String[6]);
+                            AutoSayHelloActivity.show(MainActivity.this, avatarUrls);
                         }
                     }
-                }
-            }, interval * 1000);
-
-            handler().postDelayed(new Runnable()
+                }, 1000);
+            }
+            else
             {
-                @Override
-                public void run()
-                {
-                    TabMainFragment fragment = (TabMainFragment) m_listFragment.get(0);
-                    if (fragment != null && Checker.isNotEmpty(fragment.getActorVoList()))
-                    {
-                        List<String> listAvatarUrl = new ArrayList<>();
-                        int max = fragment.getActorVoList().size();
-                        Integer[] randoms = RandomUtil.nextInts(0, max, 6);
-                        for (int i = 0; i < 6; i++)
-                        {
-                            listAvatarUrl.add(fragment.getActorVoList().get(randoms[i]).getIcon());
-                        }
-
-                        String[] avatarUrls = listAvatarUrl.toArray(new String[6]);
-                        AutoSayHelloActivity.show(MainActivity.this, avatarUrls);
-                    }
-                }
-            }, 1000);
+                // 发过红包了，就弹出自动呼入界面
+                AutoSayHelloEvent autoSayHelloEvent = null;
+                onEventMainThread(autoSayHelloEvent);
+            }
 
             // 只要不在消息界面，隔几秒消息按钮就出现小圆点
             TimerTask timerTask = new TimerTask()
@@ -147,12 +139,6 @@ public class MainActivity extends BaseActivity
                             @Override
                             public void run()
                             {
-//                                int result=new java.util.Random().nextInt(10) + 1;// 返回[0,10)集合中的整数，注意不包括10
-//                                try {
-//                                    Thread.sleep(result * 1000);
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
                                 m_rdoMessage.setActivated(true);
                             }
                         });
@@ -178,6 +164,38 @@ public class MainActivity extends BaseActivity
         isRunning = false;
         EventBus.getDefault().unregister(this);
         m_timer.cancel();
+    }
+
+    /**
+     * EventBus 在主线程的响应事件
+     *
+     * @param event 自动弹出打招呼任务结束
+     */
+    public void onEventMainThread(AutoSayHelloEvent event)
+    {
+        // 打开app后首先弹出打招呼的界面
+        // 发红包后再打开自动呼入界面
+
+        final int times = AppData.getAutoCallInTime(System.currentTimeMillis());
+        int interval = (times == 0 ? 10 : RandomUtil.nextInt(60, 300));
+        //theApp.showToast("times " + times + " interval " + interval);
+
+        handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                //theApp.showToast("times " + times);
+                if (AppChecker.isRunningForeground(getApplicationContext()))
+                {
+                    if (times < 2)
+                    {
+                        FetchVipMember fetchVipMember = new FetchVipMember(handler(), times);
+                        fetchVipMember.send();
+                    }
+                }
+            }
+        }, interval * 1000);
     }
 
     public static boolean isRunning()
