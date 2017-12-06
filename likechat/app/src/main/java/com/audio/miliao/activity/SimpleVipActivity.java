@@ -13,6 +13,7 @@ import com.app.library.util.AppChecker;
 import com.app.library.vo.GoodsVo;
 import com.app.library.vo.VipMemberVo;
 import com.audio.miliao.R;
+import com.audio.miliao.event.BuyVipResultEvent;
 import com.audio.miliao.event.WXPayResultEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchVipMember;
@@ -20,6 +21,8 @@ import com.audio.miliao.listener.PayListener;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.AlipayUtil;
 import com.audio.miliao.util.WXUtil;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 简单的购买会员
@@ -344,6 +347,8 @@ public class SimpleVipActivity extends HandleNotificationActivity
     private void onPaySucceed()
     {
         setPayEnabled(true);
+
+        EventBus.getDefault().post(new BuyVipResultEvent(0));
 
         finish();
         // 设置关闭没有动画

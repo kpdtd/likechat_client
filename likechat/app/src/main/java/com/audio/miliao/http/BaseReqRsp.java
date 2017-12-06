@@ -68,6 +68,12 @@ public abstract class BaseReqRsp
 		void onError(int errorCode);
 	}
 
+	public static abstract class ReqListenerImpl implements ReqListener
+	{
+		@Override
+		public void onError(int errorCode) {}
+	}
+
 	private ReqListener mReqListener;
 
 	/**

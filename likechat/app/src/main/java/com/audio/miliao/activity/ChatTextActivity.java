@@ -17,6 +17,8 @@ import com.app.library.vo.MessageVo;
 import com.audio.miliao.R;
 import com.audio.miliao.adapter.ChatAdapter;
 import com.audio.miliao.entity.AppData;
+import com.audio.miliao.event.BuyVipResultEvent;
+import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchAccountBalance;
 import com.audio.miliao.http.cmd.FetchMessage;
@@ -36,6 +38,7 @@ public class ChatTextActivity extends BaseActivity
     private ChatAdapter m_adapter;
     private EditText m_edtMessage;
     private MessageVo m_messageVo;
+    private boolean m_isVip = false;
 
     private List<ChatMsg> m_chatMessages = new ArrayList<>();
 
@@ -55,15 +58,30 @@ public class ChatTextActivity extends BaseActivity
         {
             m_actorPageVo = (ActorPageVo) getIntent().getSerializableExtra("actor_page_vo");
             m_messageVo = DBUtil.queryMessageVoByActorId(m_actorPageVo.getId());
-
-            initUI();
-
             m_chatMessages = DBUtil.queryChatMessageListByActorId(m_actorPageVo.getId());
 
+            initUI();
             updateData();
 
-            FetchMessage fetchMessage = new FetchMessage(handler(), m_actorPageVo.getId(), null);
-            fetchMessage.send();
+            checkVip(new BaseReqRsp.ReqListenerImpl()
+            {
+                @Override
+                public void onSucceed(Object baseReqRsp)
+                {
+                    FetchVipMember fetchVipMember = (FetchVipMember) baseReqRsp;
+                    m_isVip = fetchVipMember.isVip();
+                    if (!m_isVip)
+                    {
+                        // 如果用户没有发送过消息，进入聊天后就不主动取消息
+                        // 发送过消息后，进入聊天就主动获取
+                        if (Checker.isNotEmpty(m_chatMessages))
+                        {
+                            FetchMessage fetchMessage = new FetchMessage(handler(), m_actorPageVo.getId(), null);
+                            fetchMessage.send();
+                        }
+                    }
+                }
+            });
         }
         catch (Exception e)
         {
@@ -102,8 +120,38 @@ public class ChatTextActivity extends BaseActivity
                             fetchAccountBalance.send();
                             break;
                         case R.id.img_send:
-                            FetchVipMember fetchVipMember = new FetchVipMember(handler(), null);
-                            fetchVipMember.send();
+                            // 发送消息时先获取当前用户是否VIP
+//                            FetchVipMember fetchVipMember = new FetchVipMember(handler(), "send_message");
+//                            fetchVipMember.send();
+                            checkVip(new BaseReqRsp.ReqListenerImpl()
+                            {
+                                @Override
+                                public void onSucceed(Object baseReqRsp)
+                                {
+                                    FetchVipMember fetchVipMember = (FetchVipMember) baseReqRsp;
+                                    m_isVip = fetchVipMember.isVip();
+                                    if (m_isVip)
+                                    {
+                                        // 已经是vip会员
+                                        sendMessage();
+                                    }
+                                    else
+                                    {
+                                        // 还不是会员可以免费发一条信息
+                                        // 发送第二条时就需要弹出购买会员的界面
+                                        if (Checker.isEmpty(m_chatMessages))
+                                        {
+                                            sendMessage();
+                                            fetchMessage();
+                                        }
+                                        else
+                                        {
+                                            // 还不是vip会员
+                                            SimpleVipActivity.show(ChatTextActivity.this);
+                                        }
+                                    }
+                                }
+                            });
                             break;
                         }
                     }
@@ -205,6 +253,56 @@ public class ChatTextActivity extends BaseActivity
         new Thread(runnable).start();
     }
 
+    /**
+     * 购买VIP结果
+     * @param event
+     */
+    public void onEventMainThread(final BuyVipResultEvent event)
+    {
+        if (event.getPayResult() == 0)
+        {
+            m_isVip = true;
+        }
+    }
+
+    private void checkVip(BaseReqRsp.ReqListener listener)
+    {
+        // 发送消息时先获取当前用户是否VIP
+        FetchVipMember fetchVipMember = new FetchVipMember(null, null);
+        fetchVipMember.send(listener);
+    }
+
+    private void fetchMessage()
+    {
+        FetchMessage fetchMessage = new FetchMessage(handler(), m_actorPageVo.getId(), null);
+        fetchMessage.send();
+    }
+
+    private void sendMessage()
+    {
+        String strText = m_edtMessage.getText().toString();
+        if (Checker.isNotEmpty(strText))
+        {
+            ChatMsg chatMsg = new ChatMsg();
+            chatMsg.setText(strText);
+            chatMsg.setActorId(m_actorPageVo.getId());
+            chatMsg.setSenderId(AppData.getCurUserId());
+            chatMsg.setSenderAvatar(AppData.getCurUser().getIcon());
+            m_chatMessages.add(chatMsg);
+            DBUtil.insertOrReplace(chatMsg);
+
+            handler().post(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    updateData();
+                    m_edtMessage.setText("");
+                }
+            });
+        }
+    }
+
     @Override
     public void handleMessage(Message msg)
     {
@@ -212,32 +310,30 @@ public class ChatTextActivity extends BaseActivity
         {
         case HttpUtil.RequestCode.FETCH_VIP_MEMBER:
             FetchVipMember fetchVipMember = (FetchVipMember) msg.obj;
-            if (FetchVipMember.isSucceed(fetchVipMember))
+            String callTag = (String) fetchVipMember.rspCallBackTag;
+            if (FetchVipMember.isSucceed(fetchVipMember) && callTag.equals("send_message"))
             {
                 // 0 非会员; 1 会员
-                int isVip = (fetchVipMember.rspVipMember.getIsvip() != null ? fetchVipMember.rspVipMember.getIsvip() : 0);
-                if (fetchVipMember.rspVipMember != null & isVip == 1)
+//                int isVip = (fetchVipMember.rspVipMember.getIsvip() != null ? fetchVipMember.rspVipMember.getIsvip() : 0);
+//                if (fetchVipMember.rspVipMember != null & isVip == 1)
+                m_isVip = fetchVipMember.isVip();
+                if (m_isVip)
                 {
                     // 已经是vip会员
-                    String strText = m_edtMessage.getText().toString();
-                    if (Checker.isNotEmpty(strText))
-                    {
-                        ChatMsg chatMsg = new ChatMsg();
-                        chatMsg.setText(strText);
-                        chatMsg.setActorId(m_actorPageVo.getId());
-                        chatMsg.setSenderId(AppData.getCurUserId());
-                        chatMsg.setSenderAvatar(AppData.getCurUser().getIcon());
-                        m_chatMessages.add(chatMsg);
-                        DBUtil.insertOrReplace(chatMsg);
-                        updateData();
-
-                        m_edtMessage.setText("");
-                    }
+                    sendMessage();
                 }
                 else
                 {
-                    // 还不是vip会员
-                    SimpleVipActivity.show(ChatTextActivity.this);
+                    if (Checker.isEmpty(m_chatMessages))
+                    {
+                        sendMessage();
+                        fetchMessage();
+                    }
+                    else
+                    {
+                        // 还不是vip会员
+                        SimpleVipActivity.show(ChatTextActivity.this);
+                    }
                 }
             }
             break;
