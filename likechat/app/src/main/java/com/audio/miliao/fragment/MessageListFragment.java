@@ -57,7 +57,15 @@ public class MessageListFragment extends BaseFragment
         if (m_root != null)
         {
             initUI(m_root);
+        }
+    }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (m_root != null)
+        {
             FetchMessageList fetchMessageList = new FetchMessageList(handler(), null);
             fetchMessageList.send();
         }
@@ -174,7 +182,7 @@ public class MessageListFragment extends BaseFragment
             FetchMessageList fetchMessageList = (FetchMessageList) msg.obj;
             if (FetchMessageList.isSucceed(fetchMessageList))
             {
-                m_listMessageVo = DBUtil.queryAllMessageVoGroupByActorId();
+                m_listMessageVo = DBUtil.queryAllMessageVo();
                 updateData();
             }
             break;

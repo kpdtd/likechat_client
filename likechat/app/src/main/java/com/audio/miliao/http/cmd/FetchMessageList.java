@@ -3,10 +3,11 @@ package com.audio.miliao.http.cmd;
 import android.os.Handler;
 
 import com.app.library.util.Checker;
-import com.audio.miliao.util.DBUtil;
+import com.app.library.util.LogUtil;
 import com.app.library.vo.MessageVo;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.util.DBUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -65,6 +66,7 @@ public class FetchMessageList extends BaseReqRsp
 				rspMessageList = new ArrayList<>();
 				if (Checker.isNotEmpty(jsonData))
 				{
+					LogUtil.d("messageVo list:" + jsonData);
 					for (int i = 0; i < jsonData.length(); i++)
 					{
 						MessageVo messageVo = MessageVo.parse(jsonData.optJSONObject(i), MessageVo.class);

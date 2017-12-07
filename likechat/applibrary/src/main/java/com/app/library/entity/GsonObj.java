@@ -24,8 +24,8 @@ public class GsonObj<T> implements Serializable
         }
         catch (Exception e)
         {
-            return null;
         }
+        return null;
     }
 
     public static <T> T parse(JSONObject jsonObject, Class<T> cls)
@@ -37,8 +37,8 @@ public class GsonObj<T> implements Serializable
         catch (Exception e)
         {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public String toJsonString()
