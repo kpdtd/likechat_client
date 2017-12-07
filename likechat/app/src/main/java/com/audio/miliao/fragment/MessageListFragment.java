@@ -114,7 +114,7 @@ public class MessageListFragment extends BaseFragment
                         public void onClick(DialogInterface dialogInterface, int i)
                         {
                             MessageVo messageVo = (MessageVo) m_adapter.getItem(position);
-                            DBUtil.deleteChatMessage(messageVo.getId());
+                            DBUtil.deleteMessageVo(messageVo.getId());
                             m_listMessageVo = DBUtil.queryAllMessageVo();
                             updateData();
                         }
@@ -174,7 +174,7 @@ public class MessageListFragment extends BaseFragment
             FetchMessageList fetchMessageList = (FetchMessageList) msg.obj;
             if (FetchMessageList.isSucceed(fetchMessageList))
             {
-                m_listMessageVo = DBUtil.queryAllMessageVo();
+                m_listMessageVo = DBUtil.queryAllMessageVoGroupByActorId();
                 updateData();
             }
             break;

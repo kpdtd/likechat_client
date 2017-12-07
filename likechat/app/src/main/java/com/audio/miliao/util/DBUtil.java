@@ -151,6 +151,25 @@ public class DBUtil
         return null;
     }
 
+    /**
+     * 返回所有的MessageVo，包含相同actorID的只返回一个，按date倒序排序
+     * @return
+     */
+    public static List<MessageVo> queryAllMessageVoGroupByActorId()
+    {
+        try
+        {
+            QueryBuilder<MessageVo> qb = daoSession.getMessageVoDao().queryBuilder();
+            return qb.distinct().orderDesc(MessageVoDao.Properties.Mdate).list();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static MessageStateVo queryMessageStateVoByMessageId(long messageId)
     {
         try
@@ -185,7 +204,7 @@ public class DBUtil
         return null;
     }
 
-    public static void deleteChatMessage(MessageVo messageVo)
+    public static void deleteMessageVo(MessageVo messageVo)
     {
         try
         {
@@ -197,7 +216,7 @@ public class DBUtil
         }
     }
 
-    public static void deleteChatMessage(Long messageId)
+    public static void deleteMessageVo(Long messageId)
     {
         try
         {

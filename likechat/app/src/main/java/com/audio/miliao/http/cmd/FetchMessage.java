@@ -92,6 +92,11 @@ public class FetchMessage extends BaseReqRsp
 		{
 			if (rspMessageVo != null)
 			{
+				MessageVo messageVo = DBUtil.queryMessageVoByActorId(reqActorId);
+				if (messageVo != null)
+				{
+					DBUtil.deleteMessageVo(messageVo);
+				}
 				DBUtil.insertOrReplace(rspMessageVo);
 			}
 		}

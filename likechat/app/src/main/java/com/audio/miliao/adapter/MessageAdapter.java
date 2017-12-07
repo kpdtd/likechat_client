@@ -108,7 +108,7 @@ public class MessageAdapter extends BaseAdapter
             MessageVo message = (MessageVo) getItem(nPosition);
             if (message != null)
             {
-                holder.textName.setText(message.getNickName() + ":" + message.getId());
+                holder.textName.setText(message.getNickName() + ":" + message.getId() + ":" + message.getActorId());
                 holder.textSummary.setText(message.getMessage());
                 holder.textDate.setText(DateUtil.formatDate(message.getMdate()));
                 MessageStateVo messageStateVo = DBUtil.queryMessageStateVoByMessageId(message.getId());

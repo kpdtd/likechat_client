@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.app.library.util.Checker;
 import com.app.library.util.ImageLoaderUtil;
+import com.app.library.util.RandomUtil;
 import com.app.library.vo.ActorPageVo;
 import com.app.library.vo.ChatMsg;
 import com.app.library.vo.MessageVo;
@@ -205,11 +206,10 @@ public class ChatTextActivity extends BaseActivity
     }
 
     /**
-     * 间隔固定时间显示一条信息
+     * 间隔6-12时间显示一条信息
      *
-     * @param interval
      */
-    private void updateData(final long interval)
+    private void updateDataRandom()
     {
         Runnable runnable = new Runnable()
         {
@@ -220,6 +220,11 @@ public class ChatTextActivity extends BaseActivity
                 {
                     try
                     {
+
+                        int random = RandomUtil.nextInt(6, 13);
+                        //theApp.showToast("random:" + random);
+                        Thread.sleep(random * 1000);
+
                         for (String message : m_messageVo.getChat())
                         {
                             ChatMsg chatMessage = new ChatMsg();
@@ -239,7 +244,9 @@ public class ChatTextActivity extends BaseActivity
                                 }
                             });
 
-                            Thread.sleep(interval);
+                            random = RandomUtil.nextInt(6, 13);
+                            //theApp.showToast("random:" + random);
+                            Thread.sleep(random * 1000);
                         }
                     }
                     catch (Exception e)
@@ -368,7 +375,7 @@ public class ChatTextActivity extends BaseActivity
                 if (fetchMessage.rspMessageVo != null)
                 {
                     m_messageVo = fetchMessage.rspMessageVo;
-                    updateData(2000);
+                    updateDataRandom();
                 }
             }
             break;
