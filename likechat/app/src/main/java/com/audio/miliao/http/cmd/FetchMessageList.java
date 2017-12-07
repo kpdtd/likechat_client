@@ -4,6 +4,8 @@ import android.os.Handler;
 
 import com.app.library.util.Checker;
 import com.app.library.util.LogUtil;
+import com.app.library.vo.ChatMsg;
+import com.app.library.vo.MessageStateVo;
 import com.app.library.vo.MessageVo;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
@@ -93,8 +95,48 @@ public class FetchMessageList extends BaseReqRsp
 		{
 			if (Checker.isNotEmpty(rspMessageList))
 			{
-				DBUtil.insertOrReplace(rspMessageList);
+				List<MessageStateVo> messageStateVos = new ArrayList<>();
+				for (MessageVo messageVo : rspMessageList)
+				{
+					MessageStateVo messageStateVo = new MessageStateVo();
+					messageStateVo.setId(messageVo.getId());
+					messageStateVo.setMessageId(messageVo.getId());
+					messageStateVo.setIsRead(false);
+
+					messageStateVos.add(messageStateVo);
+				}
+
+				DBUtil.insertOrReplaceMessageVos(rspMessageList);
+				DBUtil.insertOrReplaceChatMsgs(createChatMsgs(rspMessageList));
+				DBUtil.insertOrReplaceMessageStateVos(messageStateVos);
 			}
 		}
+	}
+
+	/**
+	 * 根据messageVo生产ChatMsg<br/>
+	 * getMessageList接口返回的MessageVo中只有message有值，chat没有值
+	 * @param messageVos
+	 * @return
+	 */
+	private List<ChatMsg> createChatMsgs(List<MessageVo> messageVos)
+	{
+		List<ChatMsg> chatMsgs = new ArrayList<>();
+
+		if (Checker.isNotEmpty(messageVos))
+		{
+			for (MessageVo messageVo : messageVos)
+			{
+				ChatMsg chatMsg = new ChatMsg();
+				chatMsg.setText(messageVo.getMessage());
+				chatMsg.setActorId(messageVo.getActorId());
+				chatMsg.setSenderId(messageVo.getActorId());
+				chatMsg.setSenderAvatar(messageVo.getIcon());
+
+				chatMsgs.add(chatMsg);
+			}
+		}
+
+		return chatMsgs;
 	}
 }

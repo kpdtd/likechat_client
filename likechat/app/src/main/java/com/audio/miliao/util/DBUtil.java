@@ -78,11 +78,43 @@ public class DBUtil
      * 插入多条(id相同也插入)
      * @param messageVos
      */
-    public static void insertOrReplace(List<MessageVo> messageVos)
+    public static void insertOrReplaceMessageVos(List<MessageVo> messageVos)
     {
         try
         {
             daoSession.getMessageVoDao().insertOrReplaceInTx(messageVos);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 插入多条(id相同也插入)
+     * @param messageStateVos
+     */
+    public static void insertOrReplaceMessageStateVos(List<MessageStateVo> messageStateVos)
+    {
+        try
+        {
+            daoSession.getMessageStateVoDao().insertOrReplaceInTx(messageStateVos);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 插入多条(id相同也插入)
+     * @param chatMsgs
+     */
+    public static void insertOrReplaceChatMsgs(List<ChatMsg> chatMsgs)
+    {
+        try
+        {
+            daoSession.getChatMsgDao().insertOrReplaceInTx(chatMsgs);
         }
         catch (Exception e)
         {

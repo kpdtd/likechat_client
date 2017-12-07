@@ -90,6 +90,7 @@ public class MessageListFragment extends BaseFragment
                         {
                             messageStateVo = new MessageStateVo();
                             messageStateVo.setIsRead(true);
+                            messageStateVo.setId(messageVo.getId());
                             messageStateVo.setMessageId(messageVo.getId());
                         }
                         else

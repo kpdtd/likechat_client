@@ -75,7 +75,7 @@ public class ChatTextActivity extends BaseActivity
                     {
                         // 如果用户没有发送过消息，进入聊天后就不主动取消息
                         // 发送过消息后，进入聊天就主动获取
-                        if (Checker.isNotEmpty(m_chatMessages))
+                        if (getSendMsgCount() > 1)
                         {
                             FetchMessage fetchMessage = new FetchMessage(handler(), m_actorPageVo.getId(), null);
                             fetchMessage.send();
@@ -140,7 +140,7 @@ public class ChatTextActivity extends BaseActivity
                                     {
                                         // 还不是会员可以免费发一条信息
                                         // 发送第二条时就需要弹出购买会员的界面
-                                        if (Checker.isEmpty(m_chatMessages))
+                                        if (getSendMsgCount() < 1)
                                         {
                                             sendMessage();
                                             fetchMessage();
@@ -172,6 +172,24 @@ public class ChatTextActivity extends BaseActivity
         {
             e.printStackTrace();
         }
+    }
+
+    private int getSendMsgCount()
+    {
+        if (Checker.isNotEmpty(m_chatMessages))
+        {
+            int count = 0;
+            for (ChatMsg chatMsg : m_chatMessages)
+            {
+                if (AppData.isCurUser(chatMsg.getSenderId()))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+        return 0;
     }
 
     private void updateData()
