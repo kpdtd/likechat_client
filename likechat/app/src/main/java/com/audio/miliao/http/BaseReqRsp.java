@@ -3,6 +3,8 @@ package com.audio.miliao.http;
 import android.os.Handler;
 import android.os.Message;
 
+import com.audio.miliao.theApp;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,8 @@ public abstract class BaseReqRsp
 	// private static final long serialVersionUID = -5310653172761581155L;
 
 	public String reqContentType;
+	/** 渠道号 */
+	public String reqChannel;
 	public int reqConnTimeout;
 	public int reqSoTimeout;
 	public String reqHttpMethod;
@@ -180,6 +184,7 @@ public abstract class BaseReqRsp
 		this.rspCallBackTag = tag;
 
 		this.reqContentType = "application/json";
+		this.reqChannel = theApp.getApplicationMetaValue("LIKECHAT_CHANNEL");
 		// this.reqContentType = "application/x-www-form-urlencoded";
 		// this.reqConnTimeout = 30;
 		// this.reqSoTimeout = 30;

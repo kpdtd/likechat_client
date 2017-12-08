@@ -346,6 +346,7 @@ public class OKHttps
 	{
 		builder.addHeader("Accept", "application/json");
 		builder.addHeader("Content-Type", req.reqContentType);
+		builder.addHeader("channel", req.reqChannel);
 //		String strToken = AppData.getToken();
 //		if (StringUtil.isNotEmpty(strToken))
 //		{

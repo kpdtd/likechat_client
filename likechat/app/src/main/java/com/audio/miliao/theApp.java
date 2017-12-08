@@ -145,8 +145,7 @@ public class theApp extends Application
         try
         {
             ApplicationInfo appInfo = CONTEXT.getPackageManager()
-                    .getApplicationInfo(CONTEXT.getPackageName(),
-                            PackageManager.GET_META_DATA);
+                    .getApplicationInfo(CONTEXT.getPackageName(), PackageManager.GET_META_DATA);
             value = appInfo.metaData.getString(name);
         }
         catch (Exception e)
