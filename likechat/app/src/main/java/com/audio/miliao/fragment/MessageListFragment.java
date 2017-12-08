@@ -57,7 +57,15 @@ public class MessageListFragment extends BaseFragment
         if (m_root != null)
         {
             initUI(m_root);
+        }
+    }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (m_root != null)
+        {
             FetchMessageList fetchMessageList = new FetchMessageList(handler(), null);
             fetchMessageList.send();
         }
@@ -82,6 +90,7 @@ public class MessageListFragment extends BaseFragment
                         {
                             messageStateVo = new MessageStateVo();
                             messageStateVo.setIsRead(true);
+                            messageStateVo.setId(messageVo.getId());
                             messageStateVo.setMessageId(messageVo.getId());
                         }
                         else
@@ -114,7 +123,7 @@ public class MessageListFragment extends BaseFragment
                         public void onClick(DialogInterface dialogInterface, int i)
                         {
                             MessageVo messageVo = (MessageVo) m_adapter.getItem(position);
-                            DBUtil.deleteChatMessage(messageVo.getId());
+                            DBUtil.deleteMessageVo(messageVo.getId());
                             m_listMessageVo = DBUtil.queryAllMessageVo();
                             updateData();
                         }

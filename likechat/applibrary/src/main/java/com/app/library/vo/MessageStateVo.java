@@ -3,8 +3,8 @@ package com.app.library.vo;
 import com.app.library.entity.GsonObj;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * 记录Message已读未读
@@ -14,7 +14,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class MessageStateVo extends GsonObj<MessageStateVo>
 {
     // 如果需要设置autoincrement = true,必须是Long,不能是int或者long
-    @Id(autoincrement = true)
+    @Id()
     private Long id;
     private Long messageId;
     private boolean isRead;

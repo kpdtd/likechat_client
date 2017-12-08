@@ -10,7 +10,6 @@ import android.os.Handler;
 
 import com.app.library.util.DownloadUtil;
 import com.app.library.util.ImageLoaderUtil;
-import com.app.library.util.LogUtil;
 import com.app.library.util.PreferUtil;
 import com.app.library.util.UIUtil;
 import com.app.library.vo.ActorPageVo;
@@ -134,9 +133,9 @@ public class theApp extends Application
         //使用硬件信息拼凑出来的15位号码
         String strUUID = new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
         strUUID = strUUID.replaceAll("-", "");
-        LogUtil.d("uniqueId:" + strUUID);
-        return strUUID;
-        //return serial;
+        //LogUtil.d("uniqueId:" + strUUID);
+        return serial;
+//        return strUUID;
     }
 
     public static String getApplicationMetaValue(String name)

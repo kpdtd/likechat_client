@@ -13,9 +13,7 @@ public class VipMemberVo extends GsonObj<VipMemberVo>
     private List<GoodsVo> goods;//字段示例见下方
 
     /**
-     * GOODS字段示例
-     * name：黄金会员（3个月有效期）
-     * subname：赠送199个币
+     * 是否是vip会员：0-否  1-是
      */
 
     public Integer getIsvip()
@@ -28,6 +26,10 @@ public class VipMemberVo extends GsonObj<VipMemberVo>
         this.isvip = isvip;
     }
 
+    /**
+     * 会员等级
+     * @return （ 白银会员   黄金会员   钻石会员）其中一项
+     */
     public String getGrade()
     {
         return grade;

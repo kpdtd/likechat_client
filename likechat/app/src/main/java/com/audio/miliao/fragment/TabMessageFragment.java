@@ -77,7 +77,6 @@ public class TabMessageFragment extends BaseFragment
 
             root.findViewById(R.id.rdo_msg_news).setOnClickListener(clickListener);
             root.findViewById(R.id.rdo_call_history).setOnClickListener(clickListener);
-
             root.findViewById(R.id.rdo_msg_news).performClick();
         }
         catch (Exception e)

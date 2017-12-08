@@ -23,8 +23,6 @@ public class MessageAdapter extends BaseAdapter
 {
     private Activity m_parent;
     private List<MessageVo> m_listTextChatMessages;
-    /** 列表是否处于滑动状态 */
-    private boolean m_bIsScrolling = false;
 
     public MessageAdapter(Activity activity, List<MessageVo> listTextChatMessages)
     {
@@ -35,11 +33,6 @@ public class MessageAdapter extends BaseAdapter
     public void updateData(List<MessageVo> listTextChatMessages)
     {
         m_listTextChatMessages = listTextChatMessages;
-    }
-
-    public void setScrolling(boolean bIsScrolling)
-    {
-        m_bIsScrolling = bIsScrolling;
     }
 
     @Override

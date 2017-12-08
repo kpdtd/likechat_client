@@ -18,8 +18,18 @@ public class FetchVipMember extends BaseReqRsp
 {
 	public VipMemberVo rspVipMember;
 
+	public boolean isVip()
+	{
+		if (rspVipMember != null && rspVipMember.getIsvip() == 1)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
-	 * 获取首页所有内容接口
+	 * 获取Vip 相关信息
 	 * @param handler
 	 * @param tag
 	 */

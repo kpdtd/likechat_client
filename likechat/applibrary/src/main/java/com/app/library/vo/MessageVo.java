@@ -22,7 +22,7 @@ import java.util.List;
 public class MessageVo extends GsonObj<MessageVo>
 {
     // 如果需要设置autoincrement = true,必须是Long,不能是int或者long
-    @Id(autoincrement = true)
+    @Id()
     private Long id;
     private Integer actorId;
     private String nickName;

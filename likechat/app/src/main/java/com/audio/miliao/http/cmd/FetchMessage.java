@@ -2,13 +2,15 @@ package com.audio.miliao.http.cmd;
 
 import android.os.Handler;
 
-import com.audio.miliao.util.DBUtil;
+import com.app.library.util.Checker;
 import com.app.library.vo.MessageVo;
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.util.DBUtil;
 
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -71,7 +73,30 @@ public class FetchMessage extends BaseReqRsp
 			{
 				JSONObject jsonObject = new JSONObject(httpBody);
 				JSONObject jsonData = jsonObject.optJSONObject("data");
-				rspMessageVo = MessageVo.parse(jsonData, MessageVo.class);
+				if (jsonData != null)
+				{
+					rspMessageVo = MessageVo.parse(jsonData, MessageVo.class);
+					if (rspMessageVo != null)
+					{
+						if (rspMessageVo.getActorId() == null)
+						{
+							rspMessageVo = null;
+							return;
+						}
+
+						if (rspMessageVo.getMessage() == null
+								&& Checker.isNotEmpty(rspMessageVo.getChat()))
+						{
+							int size = rspMessageVo.getChat().size();
+							rspMessageVo.setMessage(rspMessageVo.getChat().get(size - 1));
+						}
+
+						if (rspMessageVo.getMdate() == null)
+						{
+							rspMessageVo.setMdate(new Date(System.currentTimeMillis()));
+						}
+					}
+				}
 			}
 			catch (Exception e)
 			{
