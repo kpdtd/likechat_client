@@ -134,8 +134,8 @@ public class theApp extends Application
         String strUUID = new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
         strUUID = strUUID.replaceAll("-", "");
         //LogUtil.d("uniqueId:" + strUUID);
-        return serial;
-//        return strUUID;
+//        return serial;
+        return strUUID;
     }
 
     public static String getApplicationMetaValue(String name)
