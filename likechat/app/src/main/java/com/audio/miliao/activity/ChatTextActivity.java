@@ -75,7 +75,7 @@ public class ChatTextActivity extends BaseActivity
                     {
                         // 如果用户没有发送过消息，进入聊天后就不主动取消息
                         // 发送过消息后，进入聊天就主动获取
-                        if (getSendMsgCount() > 1)
+                        if (getSendMsgCount() > 0)
                         {
                             FetchMessage fetchMessage = new FetchMessage(handler(), m_actorPageVo.getId(), null);
                             fetchMessage.send();
