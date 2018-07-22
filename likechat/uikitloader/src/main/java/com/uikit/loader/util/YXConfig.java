@@ -19,41 +19,41 @@ import com.uikit.loader.entity.LoaderAppData;
 public class YXConfig
 {
     // 这是likechat的appkey
-    //public static final String APP_KEY = "fa0f2219206b8a2e1be41fb9382cd0f4";
+    public static final String APP_KEY = "fa0f2219206b8a2e1be41fb9382cd0f4";
     // 这是云信Demo的appkay
-    public static final String APP_KEY = "45c6af3c98409b18a84451215d0bdd6e";
+    //public static final String APP_KEY = "45c6af3c98409b18a84451215d0bdd6e";
     //public static YXService mService;
 
-    /**
-     * 只能在主线程运行
-     */
-    private static void init()
-    {
-        try
-        {
-            // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
-            //NIMClient.init(LoaderApp.CONTEXT, loginInfo(), options(LoaderApp.CONTEXT));
-
-            // 初始化UIKit模块
-            //NimUIKit.init(LoaderApp.CONTEXT);
-
-            // 会话窗口的定制: 示例代码可详见demo源码中的SessionHelper类。
-            // 1.注册自定义消息附件解析器（可选）
-            // 2.注册各种扩展消息类型的显示ViewHolder（可选）
-            // 3.设置会话中点击事件响应处理（一般需要）
-            //SessionHelper.init();
-
-            // 通讯录列表定制：示例代码可详见demo源码中的ContactHelper类。
-            // 1.定制通讯录列表中点击事响应处理（一般需要，UIKit 提供默认实现为点击进入聊天界面)
-            //ContactHelper.init();
-
-            //mService = new YXService(LoaderApp.CONTEXT);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+//    /**
+//     * 只能在主线程运行
+//     */
+//    private static void init()
+//    {
+//        try
+//        {
+//            // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
+//            //NIMClient.init(LoaderApp.CONTEXT, loginInfo(), options(LoaderApp.CONTEXT));
+//
+//            // 初始化UIKit模块
+//            //NimUIKit.init(LoaderApp.CONTEXT);
+//
+//            // 会话窗口的定制: 示例代码可详见demo源码中的SessionHelper类。
+//            // 1.注册自定义消息附件解析器（可选）
+//            // 2.注册各种扩展消息类型的显示ViewHolder（可选）
+//            // 3.设置会话中点击事件响应处理（一般需要）
+//            //SessionHelper.init();
+//
+//            // 通讯录列表定制：示例代码可详见demo源码中的ContactHelper类。
+//            // 1.定制通讯录列表中点击事响应处理（一般需要，UIKit 提供默认实现为点击进入聊天界面)
+//            //ContactHelper.init();
+//
+//            //mService = new YXService(LoaderApp.CONTEXT);
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
 
     // 如果返回值为 null，则全部使用默认参数。
     public static SDKOptions options(Context context)

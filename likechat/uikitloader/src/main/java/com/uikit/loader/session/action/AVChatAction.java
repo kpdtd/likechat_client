@@ -39,6 +39,6 @@ public class AVChatAction extends BaseAction
 
     public void startAudioVideoCall(AVChatType avChatType)
     {
-        AVChatActivity.launch(getActivity(), getAccount(), avChatType.getValue(), AVChatActivity.FROM_INTERNAL);
+        AVChatActivity.launch(getActivity(), getAccount(), avChatType.getValue(), AVChatActivity.FROM_INTERNAL, null);
     }
 }

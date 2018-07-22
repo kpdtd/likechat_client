@@ -76,9 +76,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.AccountBalanceActivity"
+            android:name=".activity.BalanceActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.SimpleBalanceActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/activity_transparent_style"
             android:screenOrientation="portrait">
         </activity>
         <activity
@@ -200,8 +207,8 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.audio.miliao.action_user_info" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.audio.miliao.action_user_info"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
         </activity>
@@ -218,18 +225,11 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".dialog.DatePickerActivity"
+            android:name=".activity.SimpleVipActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Base.Theme.AppCompat.Light.Dialog">
-        </activity>
-        <activity
-            android:name=".dialog.CityPickerActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Base.Theme.AppCompat.Light.Dialog">
+            android:theme="@style/activity_transparent_style"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".wxapi.WXEntryActivity"

@@ -35,8 +35,6 @@ public class ActorPageVo extends GsonObj<ActorPageVo>
 
 	private Boolean isAttention;//是否已经关注，如果未登陆，点击关注应该进入登陆页面。如果已经登陆，当此属性为true，图标应显示红色
 
-
-
 	private String videoUrl;//音频地址
 	private List<String> picList;//主播相册地址列表
 

@@ -11,8 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.netease.nim.uikit.event.QueryActorVoEvent;
+import com.netease.nim.uikit.event.QueryActorVoResultEvent;
+import com.netease.nim.uikit.event.VoiceChatChargeFailedEvent;
 import com.netease.nim.uikit.event.VoiceChatEstablishedEvent;
 import com.netease.nim.uikit.event.VoiceChatHangUpEvent;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
+import com.netease.nimlib.sdk.avchat.model.AVChatNetworkStats;
+import com.netease.nimlib.sdk.avchat.model.AVChatSessionStats;
 import com.uikit.loader.R;
 import com.uikit.loader.avchat.receiver.PhoneCallStateObserver;
 import com.uikit.loader.constant.CallStateEnum;
@@ -88,7 +94,9 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
     // notification
     private AVChatNotification notifier;
 
-    public static void launch(Context context, String account, int callType, int source)
+    private ActorPageVo mActorPageVo;
+
+    public static void launch(Context context, String account, int callType, int source, ActorPageVo actorPageVo)
     {
         needFinish = false;
         Intent intent = new Intent();
@@ -97,6 +105,7 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
         intent.putExtra(KEY_IN_CALLING, false);
         intent.putExtra(KEY_CALL_TYPE, callType);
         intent.putExtra(KEY_SOURCE, source);
+        intent.putExtra("actor_page_vo", actorPageVo);
         context.startActivity(intent);
     }
 
@@ -137,6 +146,17 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
             return;
         }
 
+        if (getIntent().hasExtra("actor_page_vo"))
+        {
+            mActorPageVo = (ActorPageVo) getIntent().getSerializableExtra("actor_page_vo");
+        }
+        else
+        {
+            // 向app获取ActorPageVo信息
+            EventBus.getDefault().post(new QueryActorVoEvent(avChatData.getAccount()));
+        }
+
+        avChatUI.setActorPageVo(mActorPageVo);
         registerNetCallObserver(true);
         if (mIsInComingCall)
         {
@@ -152,6 +172,8 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
         isCallEstablished = false;
         //放到所有UI的基类里面注册，所有的UI实现onKickOut接口
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, true);
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -185,11 +207,37 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
     protected void onDestroy()
     {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
+
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, false);
         AVChatProfile.getInstance().setAVChatting(false);
         registerNetCallObserver(false);
         cancelCallingNotifier();
         needFinish = true;
+
+        AVChatSoundPlayer.instance().stop();
+        avChatUI.closeSessions(AVChatExitCode.HANGUP);
+    }
+
+    /**
+     * 语音扣费失败
+     *
+     * @param event
+     */
+    public void onEventMainThread(VoiceChatChargeFailedEvent event)
+    {
+        avChatUI.onHangUp();
+    }
+
+    /**
+     * 获取到ActorPageVo信息
+     *
+     * @param event
+     */
+    public void onEventMainThread(QueryActorVoResultEvent event)
+    {
+        mActorPageVo = event.getActorPageVo();
+        avChatUI.setActorPageVo(mActorPageVo);
     }
 
     /**
@@ -619,15 +667,27 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
     }
 
     @Override
-    public void onJoinedChannel(int code, String audioFile, String videoFile)
+    public boolean onVideoFrameFilter(AVChatVideoFrame avChatVideoFrame, boolean b)
     {
-        handleWithConnectServerResult(code);
+        return false;
     }
+
+//    @Override
+//    public void onJoinedChannel(int code, String audioFile, String videoFile)
+//    {
+//        handleWithConnectServerResult(code);
+//    }
 
     @Override
     public void onLeaveChannel()
     {
 
+    }
+
+    @Override
+    public void onJoinedChannel(int code, String audioFile, String videoFile, int elapsed)
+    {
+        handleWithConnectServerResult(code);
     }
 
     @Override
@@ -657,10 +717,16 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
     }
 
     @Override
-    public void onNetworkQuality(String s, int i)
+    public void onNetworkQuality(String s, int i, AVChatNetworkStats avChatNetworkStats)
     {
 
     }
+
+//    @Override
+//    public void onNetworkQuality(String s, int i)
+//    {
+//
+//    }
 
     @Override
     public void onCallEstablished()
@@ -681,7 +747,7 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
         isCallEstablished = true;
 
         // 语音通话接通
-        EventBus.getDefault().post(new VoiceChatEstablishedEvent());
+        EventBus.getDefault().post(new VoiceChatEstablishedEvent(mIsInComingCall));
     }
 
     @Override
@@ -702,11 +768,11 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
 
     }
 
-    @Override
-    public boolean onVideoFrameFilter(AVChatVideoFrame avChatVideoFrame)
-    {
-        return true;
-    }
+//    @Override
+//    public boolean onVideoFrameFilter(AVChatVideoFrame avChatVideoFrame)
+//    {
+//        return true;
+//    }
 
     @Override
     public boolean onAudioFrameFilter(AVChatAudioFrame avChatAudioFrame)
@@ -728,6 +794,18 @@ public class AVChatActivity extends Activity implements AVChatUI.AVChatListener,
 
     @Override
     public void onAudioMixingEvent(int i)
+    {
+
+    }
+
+    @Override
+    public void onSessionStats(AVChatSessionStats avChatSessionStats)
+    {
+
+    }
+
+    @Override
+    public void onLiveEvent(int i)
     {
 
     }

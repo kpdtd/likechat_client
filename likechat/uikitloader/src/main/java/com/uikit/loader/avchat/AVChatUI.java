@@ -11,12 +11,9 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Toast;
 
-import com.uikit.loader.R;
-import com.uikit.loader.avchat.widget.MultiSelectDialog;
-import com.uikit.loader.constant.CallStateEnum;
-import com.uikit.loader.LoaderApp;
 import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
 import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 import com.netease.nim.uikit.permission.BaseMPermission;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.avchat.AVChatCallback;
@@ -29,6 +26,10 @@ import com.netease.nimlib.sdk.avchat.constant.AVChatUserRole;
 import com.netease.nimlib.sdk.avchat.model.AVChatData;
 import com.netease.nimlib.sdk.avchat.model.AVChatNotifyOption;
 import com.netease.nimlib.sdk.avchat.model.AVChatParameters;
+import com.uikit.loader.LoaderApp;
+import com.uikit.loader.R;
+import com.uikit.loader.avchat.widget.MultiSelectDialog;
+import com.uikit.loader.constant.CallStateEnum;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -326,11 +327,11 @@ public class AVChatUI implements AVChatUIListener
 
                 if (code == ResponseCode.RES_FORBIDDEN)
                 {
-                    Toast.makeText(context, R.string.avchat_no_permission, Toast.LENGTH_SHORT).show();
+                    LoaderApp.showToast(R.string.avchat_no_permission);
                 }
                 else
                 {
-                    Toast.makeText(context, R.string.avchat_call_failed, Toast.LENGTH_SHORT).show();
+                    LoaderApp.showToast(R.string.avchat_call_failed);
                 }
                 LoaderApp.showToast("avChat call failed code->" + code);
                 closeSessions(-1);
@@ -354,6 +355,11 @@ public class AVChatUI implements AVChatUIListener
         {
             onCallStateChange(CallStateEnum.OUTGOING_VIDEO_CALLING);
         }
+    }
+
+    public void setActorPageVo(ActorPageVo actorPageVo)
+    {
+        avChatAudio.setActorPageVo(actorPageVo);
     }
 
     /**
@@ -939,7 +945,8 @@ public class AVChatUI implements AVChatUIListener
     @Override
     public void switchCamera()
     {
-        AVChatManager.getInstance().switchCamera(); // 切换摄像头（主要用于前置和后置摄像头切换）
+        // AVChatManager.getInstance().switchCamera(); // 切换摄像头（主要用于前置和后置摄像头切换）
+        //AVChatManager.getInstance().setupVideoCapturer()
     }
 
     @Override

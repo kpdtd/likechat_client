@@ -9,20 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.audio.miliao.R;
-import com.audio.miliao.activity.CustomerServiceActivity;
 import com.audio.miliao.activity.UserInfoActivity;
 import com.audio.miliao.adapter.ActorAdapter;
 import com.audio.miliao.event.FetchHomeContentEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchActorListByTag;
+import com.audio.miliao.util.Checker;
+import com.audio.miliao.widget.GridViewWithHeaderAndFooter;
 import com.netease.nim.uikit.miliao.util.UIUtil;
 import com.netease.nim.uikit.miliao.vo.ActorVo;
 import com.netease.nim.uikit.miliao.vo.TagVo;
-import com.audio.miliao.widget.GridViewWithHeaderAndFooter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,6 @@ public class TabMainFragment extends BaseFragment
     private List<TagVo> m_tagVoList;
     private String m_curTag;
     private View m_footer;
-
 
 
     @Nullable
@@ -134,29 +134,29 @@ public class TabMainFragment extends BaseFragment
                 }
             });
 
-            View.OnClickListener clickListener = new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    try
-                    {
-                        switch (v.getId())
-                        {
-                        case R.id.img_customer_service:
-                            Intent intentCustomerService = new Intent(getActivity(), CustomerServiceActivity.class);
-                            startActivity(intentCustomerService);
-                            break;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            };
+//            View.OnClickListener clickListener = new View.OnClickListener()
+//            {
+//                @Override
+//                public void onClick(View v)
+//                {
+//                    try
+//                    {
+//                        switch (v.getId())
+//                        {
+//                        case R.id.img_customer_service:
+//                            Intent intentCustomerService = new Intent(getActivity(), CustomerServiceActivity.class);
+//                            startActivity(intentCustomerService);
+//                            break;
+//                        }
+//                    }
+//                    catch (Exception e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            };
 
-            root.findViewById(R.id.img_customer_service).setOnClickListener(clickListener);
+            //root.findViewById(R.id.img_customer_service).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
@@ -171,7 +171,7 @@ public class TabMainFragment extends BaseFragment
 
             if (m_adapter == null)
             {
-                View headerView = View.inflate(getActivity(), R.layout.list_header_main_banner, null);
+                //View headerView = View.inflate(getActivity(), R.layout.list_header_main_banner, null);
                 m_footer = View.inflate(getActivity(), R.layout.footer_load_more, null);
                 m_footer.findViewById(R.id.lay_footer).setOnClickListener(new View.OnClickListener()
                 {
@@ -184,7 +184,7 @@ public class TabMainFragment extends BaseFragment
                     }
                 });
 
-                m_gridView.addHeaderView(headerView);
+                //m_gridView.addHeaderView(headerView);
                 m_gridView.addFooterView(m_footer);
 
                 m_adapter = new ActorAdapter(getActivity(), m_actorVoList);
@@ -200,8 +200,6 @@ public class TabMainFragment extends BaseFragment
                 m_footer.findViewById(R.id.loading).setVisibility(View.GONE);
             }
         }
-
-
         catch (Exception e)
         {
             e.printStackTrace();
@@ -214,8 +212,8 @@ public class TabMainFragment extends BaseFragment
         {
             mRadioGroupTag.removeAllViews();
 
-            int width = UIUtil.dip2px(getContext(), 30);
-            RadioGroup.LayoutParams params =  new RadioGroup.LayoutParams(
+            //int width = UIUtil.dip2px(getContext(), 30);
+            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.WRAP_CONTENT,
                     RadioGroup.LayoutParams.WRAP_CONTENT,
                     1.0f);
@@ -225,7 +223,8 @@ public class TabMainFragment extends BaseFragment
                 @Override
                 public void onClick(View v)
                 {
-                    m_actorVoList=new ArrayList<>();
+                    checkView(v);
+                    m_actorVoList = new ArrayList<>();
                     TagVo tagVo = (TagVo) v.getTag();
                     if (tagVo != null)
                     {
@@ -236,19 +235,61 @@ public class TabMainFragment extends BaseFragment
                 }
             };
 
+//            for (TagVo tagVo : m_tagVoList)
+//            {
+//                RadioButton radio = (RadioButton) View.inflate(getContext(), R.layout.layout_tag, null);
+//
+//                radio.setText(tagVo.getTagName());
+//                radio.setTag(tagVo);
+//                radio.setOnClickListener(clickListener);
+//                mRadioGroupTag.addView(radio, params);
+//            }
+
             for (TagVo tagVo : m_tagVoList)
             {
-                RadioButton radio = (RadioButton) View.inflate(getContext(), R.layout.layout_tag, null);
+                View view = View.inflate(getContext(), R.layout.layout_tag, null);
+                CheckBox checkBox = (CheckBox) view.findViewById(R.id.chk_tag);
 
-                radio.setText(tagVo.getTagName());
-                radio.setTag(tagVo);
-                radio.setOnClickListener(clickListener);
-                mRadioGroupTag.addView(radio, params);
+                checkBox.setText(tagVo.getTagName());
+                checkBox.setTag(tagVo);
+                //view.setOnClickListener(clickListener);
+                checkBox.setOnClickListener(clickListener);
+
+                mRadioGroupTag.addView(view, params);
+            }
+
+            if (Checker.isNotEmpty(m_tagVoList))
+            {
+                checkView(mRadioGroupTag.getChildAt(0));
             }
 
             m_curTag = m_tagVoList.get(0).getIdentifying();
             RadioButton radio = (RadioButton) mRadioGroupTag.getChildAt(0);
             radio.setChecked(true);
+        }
+    }
+
+    private void checkView(View checkedBoxRoot)
+    {
+        try
+        {
+            int nCount;
+            if (mRadioGroupTag != null && (nCount = mRadioGroupTag.getChildCount()) > 0)
+            {
+                for (int i = 0; i < nCount; i++)
+                {
+                    View child = mRadioGroupTag.getChildAt(i);
+                    CheckBox checkBox = (CheckBox) child.findViewById(R.id.chk_tag);
+                    checkBox.setChecked(false);
+                }
+
+                CheckBox checkedBox = (CheckBox) checkedBoxRoot.findViewById(R.id.chk_tag);
+                checkedBox.setChecked(true);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -283,7 +324,7 @@ public class TabMainFragment extends BaseFragment
             else
             {
                 if (m_curTag != null &&
-                    !m_curTag.equals(fetchActorListByTag.reqTag))
+                        !m_curTag.equals(fetchActorListByTag.reqTag))
                 {
                     // 查看另外的tag，获取失败，显示空白界面
                     m_actorVoList.clear();

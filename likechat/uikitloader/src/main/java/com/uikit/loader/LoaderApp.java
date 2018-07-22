@@ -165,6 +165,19 @@ public class LoaderApp extends Application
 
     public static Handler sm_handler = new Handler();
 
+    public static void showToast(final int strToastRes)
+    {
+        sm_handler.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                String strToast = CONTEXT.getString(strToastRes);
+                UIUtil.showToastLong(CONTEXT, strToast);
+            }
+        });
+    }
+
     public static void showToast(final String strToast)
     {
         sm_handler.post(new Runnable()

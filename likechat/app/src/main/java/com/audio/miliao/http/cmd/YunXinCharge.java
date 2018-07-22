@@ -86,8 +86,15 @@ public class YunXinCharge extends BaseReqRsp
             {
                 JSONObject json = new JSONObject(httpBody);
                 JSONObject jsonData = json.optJSONObject("data");
-                rspRecordId = JSONUtil.getLong(jsonData, "recordId");
-                rspBalance = JSONUtil.getLong(jsonData, "balance");
+                if (jsonData != null)
+                {
+                    rspRecordId = JSONUtil.getLong(jsonData, "recordId");
+                    rspBalance = JSONUtil.getLong(jsonData, "balance");
+                }
+                else
+                {
+                    rspResultCode = HttpUtil.Result.ERROR_UNKNOWN;
+                }
             }
             catch (Exception e)
             {

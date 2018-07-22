@@ -4,29 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.alipay.sdk.app.PayTask;
 import com.audio.miliao.R;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.event.LoginEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.WXPayCreateOrder;
-import com.audio.miliao.pay.alipay.Constant;
-import com.audio.miliao.pay.alipay.OrderInfoUtil2_0;
 import com.audio.miliao.pay.alipay.PayResult;
 import com.audio.miliao.theApp;
 import com.audio.miliao.util.QQUtil;
 import com.audio.miliao.util.WXUtil;
-import com.netease.nim.uikit.NimUIKit;
-import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.audio.miliao.util.YunXinUtil;
 import com.uikit.loader.LoaderApp;
 import com.uikit.loader.entity.Account;
 import com.uikit.loader.entity.LoaderAppData;
-import com.uikit.loader.service.YXService;
 
 import java.util.Map;
 
@@ -41,7 +34,7 @@ public class LoginActivity extends BaseActivity
     private static final int CODE_ALIPAY_SDK_PAY_FLAG = 3;
 
     private EditText mEdittext;
-    private YXService mService;
+    //private YXService mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,7 +44,7 @@ public class LoginActivity extends BaseActivity
 
         initUI();
 
-        mService = new YXService(this);
+        //mService = new YXService(this);
         EventBus.getDefault().register(this);
     }
 
@@ -85,7 +78,7 @@ public class LoginActivity extends BaseActivity
     {
         super.onActivityResult(requestCode, resultCode, data);
         QQUtil.onActivityResult(requestCode, resultCode, data);
-        theApp.showToast("onActivityResult requestCode:" + requestCode + ";resultCode:" + resultCode);
+        //theApp.showToast("onActivityResult requestCode:" + requestCode + ";resultCode:" + resultCode);
     }
 
     @Override
@@ -152,22 +145,22 @@ public class LoginActivity extends BaseActivity
                             onQQLogin();
                             break;
                         case R.id.btn_yunxin_login:
-                            onYunXinLogin();
+                            YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
                             break;
                         case R.id.img_back:
                             finish();
                             break;
                         case R.id.btn_login_debug1:
-                            AppData.setYunXinAccount("liu1501134");
-                            AppData.setYunXinToken("e10adc3949ba59abbe56e057f20f883e");
+                            LoaderAppData.setYunXinAccount("liu1501134");
+                            LoaderAppData.setYunXinToken("e10adc3949ba59abbe56e057f20f883e");
                             LoaderApp.setCurAccount(new Account("liu1501134", "e10adc3949ba59abbe56e057f20f883e"));
-                            onYunXinLogin();
+                            YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
                             break;
                         case R.id.btn_login_debug2:
-                            AppData.setYunXinAccount("18178619319");
-                            AppData.setYunXinToken("e10adc3949ba59abbe56e057f20f883e");
+                            LoaderAppData.setYunXinAccount("18178619319");
+                            LoaderAppData.setYunXinToken("e10adc3949ba59abbe56e057f20f883e");
                             LoaderApp.setCurAccount(new Account("18178619319", "e10adc3949ba59abbe56e057f20f883e"));
-                            onYunXinLogin();
+                            YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
                             break;
                         }
                     }
@@ -201,46 +194,16 @@ public class LoginActivity extends BaseActivity
         QQUtil.login(this);
     }
 
-    private void onYunXinLogin()
-    {
-        mService.login(LoaderApp.getCurAccount(), new RequestCallback<LoginInfo>()
-        {
-            @Override
-            public void onSuccess(LoginInfo loginInfo)
-            {
-                theApp.showToast("YunXin onSuccess");
-                // 可以在此保存LoginInfo到本地，下次启动APP做自动登录用
-                NimUIKit.setAccount(loginInfo.getAccount());
-                LoaderAppData.setYunXinAccount(loginInfo.getAccount());
-                LoaderAppData.setYunXinToken(loginInfo.getToken());
-
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-
-                finish();
-            }
-
-            @Override
-            public void onFailed(int i)
-            {
-                theApp.showToast("YunXin onFailed");
-            }
-
-            @Override
-            public void onException(Throwable throwable)
-            {
-                theApp.showToast("YunXin onException");
-            }
-        });
-    }
-
     private void onLoginSucceed()
     {
         try
         {
             // 云信的account和token都是openId
-            LoaderAppData.setYunXinAccount(AppData.getUserInfo().getOpenId());
+            LoaderAppData.setYunXinAccount(AppData.getUserInfo().getOpenId().toLowerCase());
             LoaderAppData.setYunXinToken(AppData.getUserInfo().getOpenId());
+            LoaderApp.setCurAccount(new Account(LoaderAppData.getYunXinAccount(), LoaderAppData.getToken()));
+
+            YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
 
             Intent intentMain = new Intent(this, MainActivity.class);
             startActivity(intentMain);
@@ -253,50 +216,49 @@ public class LoginActivity extends BaseActivity
         }
     }
 
-    private void onAlipay()
-    {
+//    private void onAlipay()
+//    {
+//        /**
+//         * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
+//         * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
+//         * 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
+//         *
+//         * orderInfo的获取必须来自服务端；
+//         */
+//        boolean rsa2 = (Constant.RSA2_PRIVATE.length() > 0);
+//        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constant.APP_ID, rsa2, null);
+//        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+//
+//        String privateKey = rsa2 ? Constant.RSA2_PRIVATE : Constant.RSA_PRIVATE;
+//        String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
+//        final String orderInfo = orderParam + "&" + sign;
+//
+//        Runnable payRunnable = new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                // 使用沙箱环境
+//                //EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+//                PayTask alipay = new PayTask(LoginActivity.this);
+//                Map<String, String> result = alipay.payV2(orderInfo, true);
+//                Log.i("msp", result.toString());
+//
+//                Message msg = new Message();
+//                msg.what = CODE_ALIPAY_SDK_PAY_FLAG;
+//                msg.obj = result;
+//                handler().sendMessage(msg);
+//            }
+//        };
+//
+//        Thread payThread = new Thread(payRunnable);
+//        payThread.start();
+//    }
 
-        /**
-         * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
-         * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
-         * 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
-         *
-         * orderInfo的获取必须来自服务端；
-         */
-        boolean rsa2 = (Constant.RSA2_PRIVATE.length() > 0);
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constant.APP_ID, rsa2, null);
-        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
-
-        String privateKey = rsa2 ? Constant.RSA2_PRIVATE : Constant.RSA_PRIVATE;
-        String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
-        final String orderInfo = orderParam + "&" + sign;
-
-        Runnable payRunnable = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                // 使用沙箱环境
-                //EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
-                PayTask alipay = new PayTask(LoginActivity.this);
-                Map<String, String> result = alipay.payV2(orderInfo, true);
-                Log.i("msp", result.toString());
-
-                Message msg = new Message();
-                msg.what = CODE_ALIPAY_SDK_PAY_FLAG;
-                msg.obj = result;
-                handler().sendMessage(msg);
-            }
-        };
-
-        Thread payThread = new Thread(payRunnable);
-        payThread.start();
-    }
-
-    private void onWxPay()
-    {
-        theApp.showToast("获取订单中...");
-        WXPayCreateOrder createOrder = new WXPayCreateOrder(handler(),  null);
-        createOrder.send();
-    }
+//    private void onWxPay()
+//    {
+//        theApp.showToast("获取订单中...");
+//        WXPayCreateOrder createOrder = new WXPayCreateOrder(handler(),  null);
+//        createOrder.send();
+//    }
 }

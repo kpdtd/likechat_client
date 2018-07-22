@@ -1,0 +1,25 @@
+<RadioGroup
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RadioButton
+        android:id="@+id/rdo_alipay"
+        style="@style/pay_radio_button_style"
+        android:drawableLeft="@mipmap/ic_alipay"
+        android:text="@string/txt_pay_alipay"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/activity_bg"/>
+
+    <RadioButton
+        android:id="@+id/rdo_weixin"
+        style="@style/pay_radio_button_style"
+        android:layout_marginTop="1px"
+        android:drawableLeft="@mipmap/ic_weixin"
+        android:text="@string/txt_pay_weixin"/>
+
+</RadioGroup>

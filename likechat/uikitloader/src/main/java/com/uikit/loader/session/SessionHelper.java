@@ -13,6 +13,7 @@ import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
 import com.netease.nim.uikit.common.ui.popupmenu.NIMPopupMenu;
 import com.netease.nim.uikit.common.ui.popupmenu.PopupMenuItem;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.SessionEventListener;
 import com.netease.nim.uikit.session.actions.BaseAction;
@@ -179,7 +180,12 @@ public class SessionHelper
                 {
                     //initPopuptWindow(context, view, sessionId, SessionTypeEnum.P2P);
                     //action.onClick();
-                    AVChatActivity.launch(context, sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                    ActorPageVo actorPageVo = null;
+                    if (view.getTag() != null && view.getTag() instanceof ActorPageVo)
+                    {
+                        actorPageVo = (ActorPageVo) view.getTag();
+                    }
+                    AVChatActivity.launch(context, sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, actorPageVo);
                 }
             };
             cloudMsgButton.iconId = R.drawable.nim_ic_messge_history;

@@ -14,11 +14,15 @@ import com.audio.miliao.event.CancelAttentionEvent;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.AddAttention;
 import com.audio.miliao.http.cmd.CancelAttention;
+import com.audio.miliao.http.cmd.FetchAccountBalance;
 import com.audio.miliao.http.cmd.FetchActorPage;
+import com.audio.miliao.http.cmd.FetchVipMember;
+import com.audio.miliao.theApp;
 import com.audio.miliao.util.DebugUtil;
-import com.audio.miliao.util.ImageLoaderUtil;
+import com.audio.miliao.util.MediaPlayerUtil;
 import com.audio.miliao.util.StringUtil;
 import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.netease.nim.uikit.miliao.util.UIUtil;
 import com.netease.nim.uikit.miliao.util.ViewsUtil;
 import com.netease.nim.uikit.miliao.vo.ActorPageVo;
@@ -39,7 +43,7 @@ import de.greenrobot.event.EventBus;
  */
 public class UserInfoActivity extends BaseActivity
 {
-    private int m_actorVoId;
+    private String m_sessionId;
     private ActorVo m_actorVo;
     private ActorPageVo m_actorPage;
 
@@ -53,15 +57,15 @@ public class UserInfoActivity extends BaseActivity
             if (getIntent().hasExtra("user"))
             {
                 m_actorVo = (ActorVo) getIntent().getSerializableExtra("user");
-                m_actorVoId = m_actorVo.getId();
+                FetchActorPage fetchActor = new FetchActorPage(handler(), m_actorVo.getId(), null);
+                fetchActor.send();
             }
             else if (getIntent().hasExtra("sessionId"))
             {
-                String sessionId = getIntent().getStringExtra("sessionId");
-                m_actorVoId = Integer.valueOf(sessionId);
+                m_sessionId = getIntent().getStringExtra("sessionId");
+                FetchActorPage fetchActor = new FetchActorPage(handler(), m_sessionId, null);
+                fetchActor.send();
             }
-            FetchActorPage fetchActor = new FetchActorPage(handler(), m_actorVoId, null);
-            fetchActor.send();
 
             initUI();
             //updateData();
@@ -93,22 +97,29 @@ public class UserInfoActivity extends BaseActivity
                             intentZone.putExtra("actor_page", m_actorPage);
                             startActivity(intentZone);
                             break;
-
-                        // 嗨聊
-                        case R.id.lay_voice_chat:
-//                            Intent intentVoice = new Intent(UserInfoActivity.this, ChatVoiceCallOutActivity.class);
-//                            intentVoice.putExtra("user", m_actorPage);
-//                            startActivity(intentVoice);
-                            if (m_actorVo != null)
+                        // 语音
+                        case R.id.lay_voice:
+                            if (MediaPlayerUtil.isPlaying())
                             {
-                                //NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken());
-                                AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                                MediaPlayerUtil.stopVoice();
                             }
                             else
                             {
-                                //NimUIKit.startP2PSession(UserInfoActivity.this, String.valueOf(m_actorVoId));
-                                AVChatActivity.launch(UserInfoActivity.this, String.valueOf(m_actorVoId), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                                MediaPlayerUtil.playVoice(m_actorPage.getVideoUrl(), null);
                             }
+                            break;
+                        // 嗨聊
+                        case R.id.lay_voice_chat:
+//                            if (m_actorVo != null)
+//                            {
+//                                AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+//                            }
+//                            else
+//                            {
+//                                AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+//                            }
+                            FetchAccountBalance fetchAccountBalance = new FetchAccountBalance(handler(), null);
+                            fetchAccountBalance.send();
                             break;
                         // 文字聊天
                         case R.id.lay_text_chat:
@@ -117,11 +128,11 @@ public class UserInfoActivity extends BaseActivity
 //                            startActivity(intentText);
                             if (m_actorVo != null)
                             {
-                                NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken());
+                                NimUIKit.startP2PSession(UserInfoActivity.this, m_actorVo.getToken().toLowerCase());
                             }
                             else
                             {
-                                NimUIKit.startP2PSession(UserInfoActivity.this, String.valueOf(m_actorVoId));
+                                NimUIKit.startP2PSession(UserInfoActivity.this, m_sessionId);
                             }
                             break;
                         // 关注
@@ -131,6 +142,16 @@ public class UserInfoActivity extends BaseActivity
                         // 关注
                         case R.id.img_back:
                             finish();
+                            break;
+                        // 查看手机号
+                        case R.id.lay_mobile:
+                            // 查看QQ
+                        case R.id.lay_qq:
+                            // 查看微信
+                        case R.id.lay_wx:
+
+                            FetchVipMember fetchVipMember = new FetchVipMember(handler(), v.getId());
+                            fetchVipMember.send();
                             break;
                         }
                     }
@@ -143,9 +164,13 @@ public class UserInfoActivity extends BaseActivity
 
             findViewById(R.id.txt_latest_news).setOnClickListener(clickListener);
             findViewById(R.id.img_back).setOnClickListener(clickListener);
+            findViewById(R.id.lay_voice).setOnClickListener(clickListener);
             findViewById(R.id.lay_voice_chat).setOnClickListener(clickListener);
             findViewById(R.id.lay_text_chat).setOnClickListener(clickListener);
             findViewById(R.id.lay_follow).setOnClickListener(clickListener);
+            findViewById(R.id.lay_mobile).setOnClickListener(clickListener);
+            findViewById(R.id.lay_qq).setOnClickListener(clickListener);
+            findViewById(R.id.lay_wx).setOnClickListener(clickListener);
         }
         catch (Exception e)
         {
@@ -166,7 +191,7 @@ public class UserInfoActivity extends BaseActivity
             String text = textFollow.getText().toString();
 
             int userId = LoaderAppData.getCurUserId();
-            int actorId = m_actorVoId;
+            int actorId = m_actorPage.getId();
 
             if (text.equals(follow))
             {
@@ -388,7 +413,7 @@ public class UserInfoActivity extends BaseActivity
             TextView txtIntro = (TextView) findViewById(R.id.txt_intro);
             TextView txtCallRate = (TextView) findViewById(R.id.txt_call_rate);
             TextView txtTalkTime = (TextView) findViewById(R.id.txt_talk_time);
-
+            TextView txtVoiceSec = (TextView) findViewById(R.id.txt_voice_intro);
 
             String icon = m_actorPage.getIcon();
             ImageLoaderUtil.displayListAvatarImage(imgAvatar, icon);
@@ -396,7 +421,7 @@ public class UserInfoActivity extends BaseActivity
             txtName.setText(m_actorPage.getNickname());
             txtAge.setText(String.valueOf(m_actorPage.getAge()));
             String strId = getString(R.string.txt_user_info_like_chat_id);
-            txtId.setText(strId + m_actorVoId);
+            txtId.setText(strId + m_actorPage.getId());
             txtCity.setText(m_actorPage.getCity());
             String strFansFollow = getString(R.string.txt_user_info_fans_count);
             strFansFollow += m_actorPage.getFans() + "  ";
@@ -406,6 +431,15 @@ public class UserInfoActivity extends BaseActivity
             txtIntro.setText(m_actorPage.getIntroduction());
             txtCallRate.setText(m_actorPage.getPrice());
             txtTalkTime.setText(m_actorPage.getCallTime());
+            if (m_actorPage.getVoiceSec() != null && m_actorPage.getVoiceSec() > 0)
+            {
+                findViewById(R.id.lay_voice).setVisibility(View.VISIBLE);
+                txtVoiceSec.setText(formatVoiceSec(m_actorPage.getVoiceSec()));
+            }
+            else
+            {
+                findViewById(R.id.lay_voice).setVisibility(View.INVISIBLE);
+            }
 
             updateFollowButtonState(m_actorPage.getIsAttention());
 
@@ -415,6 +449,24 @@ public class UserInfoActivity extends BaseActivity
         {
             e.printStackTrace();
         }
+    }
+
+    private String formatVoiceSec(int voiceSec)
+    {
+        if (voiceSec > 0 && voiceSec < 60)
+        {
+            return voiceSec + "″";
+        }
+        else if (voiceSec > 60 && voiceSec < 3600)
+        {
+            return String.valueOf(voiceSec / 60) + "'" + String.valueOf(voiceSec % 60) + "″";
+        }
+        else if (voiceSec > 3600 && voiceSec < 24 * 3600)
+        {
+            return String.valueOf(voiceSec / 3600) + "h";
+        }
+
+        return "60'+";
     }
 
     @Override
@@ -445,6 +497,56 @@ public class UserInfoActivity extends BaseActivity
             {
                 updateFollowButtonState(false);
                 EventBus.getDefault().post(new CancelAttentionEvent(m_actorVo));
+            }
+            break;
+        case HttpUtil.RequestCode.FETCH_VIP_MEMBER:
+            FetchVipMember fetchVipMember = (FetchVipMember) msg.obj;
+            if (FetchVipMember.isSucceed(fetchVipMember))
+            {
+                if (fetchVipMember.rspVipMember != null & fetchVipMember.rspVipMember.getIsvip() == 1)
+                {
+                    theApp.showToast("已经是会员了");
+                    // 已经是vip会员
+                    int viewId = (int) fetchVipMember.rspCallBackTag;
+                    switch (viewId)
+                    {
+                    case R.id.lay_mobile:
+                        break;
+                    case R.id.lay_qq:
+                        break;
+                    case R.id.lay_wx:
+                        break;
+                    }
+                }
+                else
+                {
+                    // 还不是vip会员
+                    Intent intentMobile = new Intent(UserInfoActivity.this, SimpleVipActivity.class);
+                    startActivity(intentMobile);
+                }
+            }
+            break;
+        case HttpUtil.RequestCode.FETCH_ACCOUNT_BALANCE:
+            FetchAccountBalance fetchAccountBalance = (FetchAccountBalance) msg.obj;
+            if (FetchAccountBalance.isSucceed(fetchAccountBalance))
+            {
+                int money = (fetchAccountBalance.rspAccountBalanceVo.getMoney() != null ? fetchAccountBalance.rspAccountBalanceVo.getMoney() : 0);
+                if (money <= 0)
+                {
+                    Intent intent = new Intent(UserInfoActivity.this, SimpleBalanceActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    if (m_actorVo != null)
+                    {
+                        AVChatActivity.launch(UserInfoActivity.this, m_actorVo.getToken(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+                    }
+                    else
+                    {
+                        AVChatActivity.launch(UserInfoActivity.this, m_sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL, m_actorPage);
+                    }
+                }
             }
             break;
         }

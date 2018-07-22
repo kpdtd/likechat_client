@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.audio.miliao.activity.BaseActivity;
-import com.audio.miliao.theApp;
+import com.audio.miliao.event.WXPayResultEvent;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+
+import de.greenrobot.event.EventBus;
 
 
 /**
@@ -35,22 +37,17 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private void handleIntent(Intent intent)
     {
         SendAuth.Resp resp = new SendAuth.Resp(intent.getExtras());
-        theApp.showToast("handleIntent : " + resp.errCode);
-        if (resp.errCode == BaseResp.ErrCode.ERR_OK)
-        {
-            finish();
-        }
-        else if (resp.errCode == BaseResp.ErrCode.ERR_AUTH_DENIED ||
-                resp.errCode == BaseResp.ErrCode.ERR_USER_CANCEL)
-        {
-            //finish();
-        }
+        EventBus.getDefault().postSticky(new WXPayResultEvent(resp.errCode));
+//        if (resp.errCode == BaseResp.ErrCode.ERR_OK)
+//        {
+//            // 支付成功了
+//            finish();
+//        }
+//        else
+//        {
+//        }
 
-        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX)
-        {
-            theApp.showToast("onPayFinish,errCode=" + resp.errCode);
-            finish();
-        }
+        finish();
     }
 
     @Override

@@ -9,14 +9,12 @@ import android.util.Log;
 import com.audio.miliao.entity.AppData;
 import com.audio.miliao.receiver.PhoneCallStateObserver;
 import com.audio.miliao.util.LogUtil;
+import com.audio.miliao.util.YunXinUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.netease.nim.uikit.miliao.util.UIUtil;
 import com.netease.nim.uikit.miliao.vo.ActorPageVo;
-import com.netease.nim.uikit.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.auth.AuthService;
-import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
 import com.netease.nimlib.sdk.avchat.constant.AVChatControlCommand;
 import com.netease.nimlib.sdk.avchat.model.AVChatAttachment;
@@ -83,53 +81,12 @@ public class theApp extends Application
 
             //onYunXinLogin("liu1501134", "e10adc3949ba59abbe56e057f20f883e");
             //onYunXinLogin("18178619319", "e10adc3949ba59abbe56e057f20f883e");
-            onYunXinLogin(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
+
+            //onYunXinLogin(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
+            YunXinUtil.login(LoaderAppData.getYunXinAccount(), LoaderAppData.getYunXinToken());
         }
-    }
 
-    // Debug
-    private static void onYunXinLogin(String username, String token)
-    {
-        try
-        {
-            // String strToken = MD5.getStringMD5("123456");
-            String strAccount = username;
-            String strToken = token;
-            String APP_KEY = "45c6af3c98409b18a84451215d0bdd6e";
-            LoginInfo info = new LoginInfo(strAccount, strToken, APP_KEY); // config...
-            RequestCallback<LoginInfo> callback =
-                    new RequestCallback<LoginInfo>()
-                    {
-                        @Override
-                        public void onSuccess(LoginInfo loginInfo)
-                        {
-                            theApp.showToast("onSuccess");
-
-                            // 可以在此保存LoginInfo到本地，下次启动APP做自动登录用
-                            NimUIKit.setAccount(loginInfo.getAccount());
-                            AppData.setYunXinAccount(loginInfo.getAccount());
-                            AppData.setYunXinToken(loginInfo.getToken());
-                        }
-
-                        @Override
-                        public void onFailed(int i)
-                        {
-                            theApp.showToast("onFailed " + i);
-                        }
-
-                        @Override
-                        public void onException(Throwable throwable)
-                        {
-                            theApp.showToast("onException " + throwable.toString());
-                        }
-                    };
-            NIMClient.getService(AuthService.class).login(info).setCallback(callback);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            theApp.showToast("Exception " + e.toString());
-        }
+        ImageLoaderUtil.init(CONTEXT);
     }
 
     public boolean inMainProcess(Context context)

@@ -6,9 +6,9 @@
 
 
     <LinearLayout
+        android:id="@+id/lay_price"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="#fffbfc"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -40,6 +40,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#ece8e9"/>
@@ -47,7 +48,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fffbfc"
         android:padding="10dp"
         android:gravity="center_vertical">
 

@@ -12,6 +12,9 @@ import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.OnlineStateChangeListener;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.cache.FriendDataCache;
+import com.netease.nim.uikit.event.QueryActorVoEvent;
+import com.netease.nim.uikit.event.QueryActorVoResultEvent;
+import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 import com.netease.nim.uikit.model.ToolBarOptions;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
@@ -28,6 +31,8 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import java.util.List;
 import java.util.Set;
 
+import de.greenrobot.event.EventBus;
+
 
 /**
  * 点对点聊天界面
@@ -38,6 +43,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
 
     private boolean isResume = false;
     private TextView mTitleTv;
+    private ActorPageVo mActorPageVo;
 
     public static void start(Context context, String contactId, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
@@ -63,6 +69,9 @@ public class P2PMessageActivity extends BaseMessageActivity {
         displayOnlineState();
         registerObservers(true);
         registerOnlineStateChangeListener(true);
+        EventBus.getDefault().register(this);
+
+        EventBus.getDefault().post(new QueryActorVoEvent(sessionId));
     }
 
     @Override
@@ -70,6 +79,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
         super.onDestroy();
         registerObservers(false);
         registerOnlineStateChangeListener(false);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -82,6 +92,18 @@ public class P2PMessageActivity extends BaseMessageActivity {
     protected void onStop() {
         super.onStop();
         isResume = false;
+    }
+
+    /**
+     * EventBus 在主线程的响应事件
+     *
+     * @param event uikit发来的请求查询ActorVo的事件
+     */
+    public void onEventMainThread(QueryActorVoResultEvent event)
+    {
+        mActorPageVo = event.getActorPageVo();
+
+        updateData();
     }
 
     private void initUI()
@@ -101,6 +123,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
                 {
                     if (getCustomization() != null && getCustomization().buttons != null)
                     {
+                        v.setTag(mActorPageVo);
                         getCustomization().buttons.get(0).onClick(P2PMessageActivity.this, v, sessionId);
                     }
                 }
@@ -116,7 +139,6 @@ public class P2PMessageActivity extends BaseMessageActivity {
                     {
                         e.printStackTrace();
                     }
-                    //EventBus.getDefault().post("action_user_info");
                 }
             }
         };
@@ -279,5 +301,15 @@ public class P2PMessageActivity extends BaseMessageActivity {
     protected void initToolBar() {
         ToolBarOptions options = new ToolBarOptions();
         setToolBar(R.id.toolbar, options);
+    }
+
+    private void updateData()
+    {
+        if (mActorPageVo == null)
+        {
+            return;
+        }
+
+        setTitle(mActorPageVo.getNickname());
     }
 }

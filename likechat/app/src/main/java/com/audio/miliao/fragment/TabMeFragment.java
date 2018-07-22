@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.audio.miliao.R;
-import com.audio.miliao.activity.AccountBalanceActivity;
+import com.audio.miliao.activity.BalanceActivity;
 import com.audio.miliao.activity.EditUserInfoActivity;
 import com.audio.miliao.activity.LoginActivity;
 import com.audio.miliao.activity.SettingsActivity;
@@ -23,7 +23,7 @@ import com.audio.miliao.entity.AppData;
 import com.audio.miliao.http.HttpUtil;
 import com.audio.miliao.http.cmd.FetchMineInfo;
 import com.audio.miliao.theApp;
-import com.audio.miliao.util.ImageLoaderUtil;
+import com.netease.nim.uikit.miliao.util.ImageLoaderUtil;
 import com.netease.nim.uikit.miliao.vo.ActorVo;
 import com.netease.nim.uikit.miliao.util.ViewsUtil;
 
@@ -106,7 +106,7 @@ public class TabMeFragment extends BaseFragment
                             }
                             break;
                         case R.id.txt_me_account_balance:
-                            Intent intentAccountBalance = new Intent(getActivity(), AccountBalanceActivity.class);
+                            Intent intentAccountBalance = new Intent(getActivity(), BalanceActivity.class);
                             startActivity(intentAccountBalance);
                             break;
                         case R.id.txt_me_friend:

@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.audio.miliao.http.BaseReqRsp;
 import com.audio.miliao.http.HttpUtil;
+import com.audio.miliao.util.Checker;
 import com.netease.nim.uikit.miliao.vo.ActorPageVo;
 
 import org.json.JSONObject;
@@ -17,6 +18,7 @@ import java.util.List;
 public class FetchActorPage extends BaseReqRsp
 {
 	public int reqActorId;
+	public String reqYunxinId;
 	public ActorPageVo rspActorPageVo;
 
 	/**
@@ -30,6 +32,19 @@ public class FetchActorPage extends BaseReqRsp
 		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR_PAGE, false, tag);
 
 		reqActorId = actorId;
+	}
+
+	/**
+	 * 获取主播详情
+	 * @param handler
+	 * @param yunxinId 云信Id
+	 * @param tag
+	 */
+	public FetchActorPage(Handler handler, String yunxinId, Object tag)
+	{
+		super(HttpUtil.Method.POST, handler, HttpUtil.RequestCode.FETCH_ACTOR_PAGE, false, tag);
+
+		reqYunxinId = yunxinId;
 	}
 
 	@Override
@@ -46,7 +61,15 @@ public class FetchActorPage extends BaseReqRsp
 		JSONObject jsonObject = new JSONObject();
 		try
 		{
-			jsonObject.put("id", reqActorId);
+			// 主播id和云信id二者传一个就行
+			if (reqActorId > 0)
+			{
+				jsonObject.put("id", reqActorId);
+			}
+			else if (Checker.isNotEmpty(reqYunxinId))
+			{
+				jsonObject.put("accid", reqYunxinId);
+			}
 		}
 		catch (Exception e)
 		{

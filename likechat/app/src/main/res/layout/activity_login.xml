@@ -44,31 +44,36 @@
                 android:id="@+id/txt_weixin_login"
                 style="@style/login_button_style"
                 android:layout_marginTop="20dp"
-                android:drawableLeft="@mipmap/ic_login_weixin"
                 android:background="@drawable/shape_round_corner_weixin_login"
+                android:drawableLeft="@mipmap/ic_login_weixin"
                 android:text="@string/txt_login_weixin"/>
 
             <Button
                 android:id="@+id/btn_yunxin_login"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:text="YunXin Login"/>
+                android:text="YunXin Login"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btn_login_debug1"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:text="liu1501134登录"/>
+                android:text="liu1501134登录"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btn_login_debug2"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:text="18178619319登录"/>
+                android:text="18178619319登录"
+                android:visibility="gone"/>
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
                 <EditText
                     android:id="@+id/txt_view"
                     android:layout_width="match_parent"

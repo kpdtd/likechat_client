@@ -38,6 +38,8 @@
     <string name="title_photo_zone">图片动态</string>
     <string name="title_voice_zone">声音动态</string>
     <string name="title_video_zone">视频动态</string>
+    <string name="title_pick_city">城市选择</string>
+    <string name="title_pick_time">时间选择</string>
 
     <string name="txt_me_login">点击登录</string>
     <string name="txt_me_account_balance">账户余额</string>
@@ -59,9 +61,9 @@
     <string name="txt_call_in_state_on_the_phone">通话中…</string>
     <string name="txt_call_in_hang_up">挂断</string>
     <string name="txt_call_in_answer">接听</string>
-    <string name="txt_call_out_bill_1">1.5嗨币\n通话资费（每分钟）</string>
-    <string name="txt_call_out_bill_2">0.3嗨币\n平台维护费（每分钟）</string>
-    <string name="txt_call_out_bill_3">1.8嗨币\n合计</string>
+    <string name="txt_call_out_bill_1">\n通话资费（每分钟）</string>
+    <string name="txt_call_out_bill_2">\n平台维护费（每分钟）</string>
+    <string name="txt_call_out_bill_3">\n合计</string>
     <string name="txt_call_out_ont_the_phone1">系统将呼叫对方建立通话连接</string>
     <string name="txt_call_out_ont_the_phone2">正在等待对方…</string>
     <string name="txt_edit_user_info_save">保存</string>
@@ -98,6 +100,9 @@
     <string name="txt_vip_alipay">支付宝支付</string>
     <string name="txt_vip_weixin">微信支付</string>
     <string name="txt_vip_pay">立即充值</string>
+    <string name="txt_vip_pay_confirm">确认充值</string>
+    <string name="txt_vip_contact_her">立即和她联系</string>
+    <string name="txt_vip_chat_with_she">和她亲密私聊</string>
     <string name="txt_vip_member_interest">会员特权</string>
     <string name="txt_vip_get_gold">获得金币</string>
     <string name="txt_vip_direct_message">私信聊天</string>
@@ -131,6 +136,16 @@
     <string name="txt_zone_text_add">请输入动态内容(选填)</string>
     <string name="txt_photo_selector">照片选择</string>
     <string name="txt_photo_camera">拍摄照片</string>
+    <string name="txt_user_info_mobile">手机号：</string>
+    <string name="txt_user_info_qq">QQ：</string>
+    <string name="txt_user_info_wx">微信号：</string>
+    <string name="txt_user_info_height">身高</string>
+    <string name="txt_user_info_weight">体重</string>
+    <string name="txt_user_info_love">恋爱观点</string>
+    <string name="txt_user_info_friend">交友目的</string>
+    <string name="txt_user_info_show_mobile">查看手机</string>
+    <string name="txt_user_info_show_qq">查看QQ</string>
+    <string name="txt_user_info_show_wx">查看微信</string>
 
     <string name="img_loader_io_error">加载图片输入输出错误!</string>
     <string name="img_loader_decoding_error">加载图片解码错误!</string>

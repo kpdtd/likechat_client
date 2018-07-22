@@ -99,25 +99,25 @@ public class AppData
         //return StringUtil.isNotEmpty(getCurUserId());
     }
 
-    public static void setYunXinAccount(String account)
-    {
-        PreferUtil.setStringPreference(KEY_YUNXIN_ACCOUNT, account);
-    }
-
-    public static String getYunXinAccount()
-    {
-        return PreferUtil.getStringPreference(KEY_YUNXIN_ACCOUNT);
-    }
-
-    public static void setYunXinToken(String token)
-    {
-        PreferUtil.setStringPreference(KEY_YUNXIN_TOKEN, token);
-    }
-
-    public static String getYunXinToken()
-    {
-        return PreferUtil.getStringPreference(KEY_YUNXIN_TOKEN);
-    }
+//    public static void setYunXinAccount(String account)
+//    {
+//        PreferUtil.setStringPreference(KEY_YUNXIN_ACCOUNT, account);
+//    }
+//
+//    public static String getYunXinAccount()
+//    {
+//        return PreferUtil.getStringPreference(KEY_YUNXIN_ACCOUNT);
+//    }
+//
+//    public static void setYunXinToken(String token)
+//    {
+//        PreferUtil.setStringPreference(KEY_YUNXIN_TOKEN, token);
+//    }
+//
+//    public static String getYunXinToken()
+//    {
+//        return PreferUtil.getStringPreference(KEY_YUNXIN_TOKEN);
+//    }
 
     public static void setRefreshToken(String refreshToken)
     {

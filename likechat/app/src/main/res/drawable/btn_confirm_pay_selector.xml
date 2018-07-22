@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_enabled="false">
+        <shape>
+            <!-- 背景色 -->
+            <solid android:color="#f50572"/>
+
+            <!-- 边框 -->
+            <!--<stroke
+                android:width="1px"
+                android:color="#181818"/>-->
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape>
+            <!-- 背景色 -->
+            <solid android:color="#910544"/>
+
+            <!-- 边框 -->
+            <!--<stroke
+                android:width="1px"
+                android:color="#181818"/>-->
+        </shape>
+    </item>
+
+</selector>
